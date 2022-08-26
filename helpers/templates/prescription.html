@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Prescription :Javix</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+		body { font-family:'Arial'; background-color: #FFF0F5; }
+		.divBorder { display:block; border:1px solid #dadada;padding:10pt;border-radius:5pt; }
+		.headData { font-size:14pt; font-weight:660; color:#6789FA; }
+		.label { font-size:10pt; color:#6789FA; font-weight: bold;}
+		.labelHead { font-size:10pt; }
+		.labelData { font-size:12pt; font-weight:660;}
+		.lxSize { padding-left:8px;padding-top:3px;padding-top:3px;;padding-right:8px;font-size:16pt; font-weight:660; display:inline-block; border:0px solid #dadada; border-radius:5px;}
+		.lxlabel { font-size:14pt; font-weight:550; padding-bottom:8px; }
+		.green { color:green; }
+		.amber { color:orange; }
+		.red {color:red; }
+		.gray { color:#101010;}
+		.screenTable tr td { border-bottom:1px solid #99b599;}
+		.center {
+		  display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		  width: 30%;
+		}
+		hr.new5 {
+  border: 5px solid black;
+  border-radius: 5px;
+}
+		@media print {
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+}
+		
+		</style>
+		
+    </head>
+    <body>
+    	<div style="text-align: center;">PortaClinic By JaviX Life</div>
+    	<img class="center" width=200px height=100px src=http://139.59.59.31:3001/profile/arogya.jpg>
+		<h4><center>Prescription</center></h4>
+		{{#each prescription}}
+			
+			<div class='divBorder'>
+			
+			 <table border=0 width='100%' cellpadding=8px cellspacing=0px>
+				<tr>
+					<td colspan=3>
+						{{#each this.citizens}}
+						<div class='headData'>{{this.firstName}}&nbsp;{{this.lastName}}</div>
+						 
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class='label'>Gender</div>
+						<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
+					</td>
+					   {{/each}}
+					   
+					<td>
+						
+					</td>
+					  
+					   
+					<td>
+						<div class='label'>Javix ID</div>
+						<div class='labelData'>{{this.citizenId}}</div>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>
+						<div class='label'>Case Id</div>
+						<div class='labelData'>{{this.caseId}}</div>
+					</td>
+					<td>
+
+					</td>
+					{{#each this.screeners}}
+					<td>
+						<div class='label'>Screener Name</div>
+						<div class='labelData'>{{this.firstName}}&nbsp;{{this.lastName}}</div>
+					</td>
+					{{/each}}
+					<td>
+						<div class='label'>Date</div>
+						<div class='labelData'>{{this.createdAt}}</div>
+					</td>
+					<td>
+						<div class='label'>Prescription Id</div>
+						<div class='labelData'>{{this.prescriptionId}}</div>
+					</td>
+					
+				</tr>
+				
+					<tr> <td>
+						<div class='label'>Cause</div>
+						<div class='labelData'>{{this.cause}}</div>
+					</td>
+
+
+					</tr> 
+						
+					<tr> <td>
+						<div class='label'>Citizen's DOB</div>
+						<div class='labelData'>{{this.dob}}</div>
+					</td>
+					
+
+					</tr> 
+					{{#each this.doctors}}
+					<tr>
+					<td>
+						<div class='label'>Doctor Name</div>
+						<div class='labelData'>Dr. {{this.firstName}}&nbsp;{{this.lastName}}</div>
+					</td>
+					{{/each}}
+					
+				</tr>
+				
+				
+			 </table>
+			</div>
+			
+
+			<div class='divBorder'>
+				<!-- <table border=0 width='100%' cellpadding=8px cellspacing=0px> -->
+					<!-- <tr>
+			<td><div class='label'>Medicine</div></td>
+			<td><div class='label'>Medicine Type</div></td>
+					<td><div class='label'>Days</div></td>
+					<td><div class='label'>Time</div></td>
+					<td><div class='label'>Quantity</div></td>
+					<td><div class='label'>Meal Type</div></td>
+
+
+					</tr> -->
+					<ul>
+					{{#each this.allmedicines}}
+					<!-- <tr>
+						<td>
+						<div class='labelData'>{{this.medicine}}</div>
+					</td>
+					<td>
+						
+						<div class='labelData'>{{this.medicine_type}}</div>
+					</td>
+					<td>
+						
+						<div class='labelData'>{{this.days}}</div>
+					</td>
+					<td>
+						
+						<div class='labelData'>{{this.time}}</div>
+					</td>
+					<td>
+						
+						<div class='labelData'>{{this.quantity}}</div>
+					</td>
+					<td>
+						
+						<div class='labelData'>{{this.mealtype}}</div>
+					</td>
+				</tr> -->
+				 <li>{{this.preparation}} &nbsp; {{this.medicine}} &nbsp; {{this.strength}} &nbsp; {{this.dose}} &nbsp; {{this.route}} &nbsp; {{this.direction}} &nbsp; {{this.frequency}} &nbsp; {{this.duaration}} &nbsp; {{this.quantity}} &nbsp; </li>
+				{{/each}}
+			</ul>
+				<!-- </table> -->
+		</div>
+		
+
+		<div class='divBorder'>
+				<table border=0 width='100%' cellpadding=8px cellspacing=0px>
+					
+					<tr>
+						{{#each this.doctors}}
+						<td><div class='label'>Doctors Signature </div></td>
+						<td>
+						<img src={{this.signature}} width=200px height=100px>
+					</td>
+					<tr>
+						<td>
+						<div class='label'>Doctor Experience</div>
+						<div class='labelData'>{{this.experience}}</div>
+					</td>
+					<td>
+						<div class='label'>Doctor Registration No.</div>
+						<div class='labelData'> {{this.medicalRegNo}}</div>
+					</td>
+					</tr>
+					{{/each}}
+				</tr>
+
+				
+
+				</table>
+		</div>
+		<hr class="new5">
+		<div class="pagebreak"> </div>
+		<div class='divBorder'>
+				<table border=0 width='100%' cellpadding=8px cellspacing=0px>
+					
+					<tr>
+						<td><div class='label'>Tests </div></td>
+						<td>
+						<div class='labelData'>{{this.tests}}</div>
+					</td>
+				</tr>
+
+				<tr>
+						<td><div class='label'>Comments / Suggestions </div></td>
+						<td>
+						<div class='labelData'>{{this.comments}}</div>
+					</td>
+				</tr>
+				
+
+				</table>
+		</div>
+		{{/each}}
+		<div style='height:10px'>&nbsp;</div>
+		<footer>Disclaimer: The Report is only for general health screening and wellness awareness. These tests are not specific to the individual health conditions. Please correlate clinically.</footer>
+		
+    </body>
+	
+</html>

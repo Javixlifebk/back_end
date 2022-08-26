@@ -1,0 +1,4 @@
+
+> Javix-Backend@1.0.0 start /home/javix/Javix-BackEnd
+> node ./bin/www
+

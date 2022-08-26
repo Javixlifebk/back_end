@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Patient History Report :Javix</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+		body { font-family:'Arial'; background-color: #FFF0F5; }
+		.divBorder { display:block; border:1px solid #dadada;padding:10pt;border-radius:5pt; }
+		.headData { font-size:14pt; font-weight:660; color:#6789FA; }
+		.label { font-size:10pt; color:#6789FA; font-weight: bold;}
+		.labelHead { font-size:10pt; }
+		.labelData { font-size:12pt; font-weight:660;}
+		.lxSize { padding-left:8px;padding-top:3px;padding-top:3px;;padding-right:8px;font-size:16pt; font-weight:660; display:inline-block; border:0px solid #dadada; border-radius:5px;}
+		.lxlabel { font-size:14pt; font-weight:550; padding-bottom:8px; }
+		.green { color:green; }
+		.amber { color:orange; }
+		.red {color:red; }
+		.gray { color:#101010; }
+		.screenTable tr td { border-bottom:1px solid #99b599;}
+				.center {
+		  display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		  width: 30%;
+		}
+		
+		</style>
+		
+    </head>
+    <body>
+    	<div style="text-align: center;">PortaClinic By JaviX Life</div>
+		<img class="center" width=200px height=100px src=http://139.59.59.31:3001/profile/javixlogo.png>		
+		{{#each history}}
+			<h4><center>{{@key}} History</center></h4>
+			<div class='divBorder'>
+			
+			 <table border=0 width='100%' cellpadding=8px cellspacing=0px>
+				{{#each this}}
+				<tr>
+					<td><div class='label'>{{@key}}</div></td>
+					<td><div class='labelData'>{{this}}</div></td>
+				</tr>
+				{{/each}}
+				
+				
+				
+			 </table>
+			</div>
+			{{/each}}
+		<div style='height:10px'>&nbsp;</div>
+    </body>
+	
+</html>
