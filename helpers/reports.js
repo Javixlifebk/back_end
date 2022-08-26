@@ -43,7 +43,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://139.59.59.31:3001/api/ngo/screenerById',
+					  url: 'http://159.65.148.197:3001/api/ngo/screenerById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 

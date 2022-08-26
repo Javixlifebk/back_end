@@ -254,7 +254,7 @@ exports.login = [
 					
 	
 	var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/login/getjavixid',
+					  url: 'http://159.65.148.197:3001/api/login/getjavixid',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 

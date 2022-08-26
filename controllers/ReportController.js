@@ -220,7 +220,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/ngo/screenerById',
+					  url: 'http://159.65.148.197:3001/api/ngo/screenerById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -266,7 +266,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -289,7 +289,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/ngo/ngoById',
+					  url: 'http://159.65.148.197:3001/api/ngo/ngoById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -335,7 +335,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -359,7 +359,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/doctor/doctorById',
+					  url: 'http://159.65.148.197:3001/api/doctor/doctorById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -405,7 +405,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -429,7 +429,7 @@ if(req.body.roleId==='4'){
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/pharmacy/pharmacyById',
+					  url: 'http://159.65.148.197:3001/api/pharmacy/pharmacyById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -475,7 +475,7 @@ if(req.body.roleId==='4'){
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -499,7 +499,7 @@ if(req.body.roleId==='6'){
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/citizenById',
+					  url: 'http://159.65.148.197:3001/api/citizen/citizenById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -545,7 +545,7 @@ if(req.body.roleId==='6'){
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -593,7 +593,7 @@ exports.createCaseReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/screening/getCaseDetails',
+					  url: 'http://159.65.148.197:3001/api/screening/getCaseDetails',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -605,7 +605,7 @@ exports.createCaseReport = [
 
 
 					   var options1 = { method: 'get',
-					  url: 'http://localhost:3001/api/labtest/getHemoglobinList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getHemoglobinList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -613,7 +613,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getEyeTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getEyeTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -621,7 +621,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getVisualExamList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -629,7 +629,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getBloodGlucoseTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getBloodGlucoseTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -637,7 +637,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options5 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getLipidPanelTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getLipidPanelTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -645,7 +645,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options6 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getDrugTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getDrugTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -653,7 +653,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options7 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getLabTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getLabTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -661,7 +661,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options8 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getSickleCell',
+					  url: 'http://159.65.148.197:3001/api/labtest/getSickleCell',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -669,7 +669,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options9 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getThalassemia',
+					  url: 'http://159.65.148.197:3001/api/labtest/getThalassemia',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -677,7 +677,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options10 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getLungTest',
+					  url: 'http://159.65.148.197:3001/api/labtest/getLungTest',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -685,7 +685,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options11 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getHeartTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getHeartTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -693,7 +693,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options12 = { method: 'POST',
-					  url: 'http://localhost:3001/api/labtest/getUrineTestList',
+					  url: 'http://159.65.148.197:3001/api/labtest/getUrineTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -701,7 +701,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options13 = { method: 'POST',
-					  url: 'http://localhost:3001/api/screening/SymptomsList',
+					  url: 'http://159.65.148.197:3001/api/screening/SymptomsList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1001,7 +1001,7 @@ exports.createCaseReport = [
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
-					        	val.filename="http://localhost:3001/reports/"+temp1[temp1.length-1];
+					        	val.filename="http://159.65.148.197:3001/reports/"+temp1[temp1.length-1];
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
@@ -1080,7 +1080,7 @@ exports.createMedicalHistoryReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/getHistoryAllergy',
+					  url: 'http://159.65.148.197:3001/api/citizen/getHistoryAllergy',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1092,7 +1092,7 @@ exports.createMedicalHistoryReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/getHistoryMedical',
+					  url: 'http://159.65.148.197:3001/api/citizen/getHistoryMedical',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1100,7 +1100,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/getHistoryWomen',
+					  url: 'http://159.65.148.197:3001/api/citizen/getHistoryWomen',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1108,7 +1108,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/getHistoryFamily',
+					  url: 'http://159.65.148.197:3001/api/citizen/getHistoryFamily',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1116,7 +1116,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://localhost:3001/api/citizen/getHistoryPersonal',
+					  url: 'http://159.65.148.197:3001/api/citizen/getHistoryPersonal',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1340,7 +1340,7 @@ exports.createMedicalHistoryReport = [
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1389,7 +1389,7 @@ exports.createPrescriptionReport = [
 						console.log(html);
 
 					var options = { method: 'POST',
-					  url: 'http://localhost:3001/api/doctor/prescriptionlist',
+					  url: 'http://159.65.148.197:3001/api/doctor/prescriptionlist',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1470,7 +1470,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://localhost:3001/reports/"+temp[temp.length-1];
+					        val.filename="http://159.65.148.197:3001/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
