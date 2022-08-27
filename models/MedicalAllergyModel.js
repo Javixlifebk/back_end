@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
+// mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var MedicalAllergySchema = new mongoose.Schema({
 	allergydate: {type: Date, required: true, default: Date.now()},

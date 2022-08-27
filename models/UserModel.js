@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
+// mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var UserSchema = new mongoose.Schema({
 	userName: {type: String, required: true},
