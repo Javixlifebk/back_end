@@ -644,6 +644,7 @@ exports.updateScreenerMapAuth = [
 										 'parentId':1,
 										 'issubscreener':1,
 										'createdAt':1,
+										'ismapped':1
 		 
 									}
 									}
@@ -697,6 +698,7 @@ exports.updateScreenerMapAuth = [
 										 'parentId':1,
 										 'issubscreener':1,
 										'createdAt':1,
+										'ismapped':1
 		 
 									}
 									}
@@ -749,6 +751,7 @@ exports.updateScreenerMapAuth = [
 										 'parentId':1,
 										 'issubscreener':1,
 										'createdAt':1,
+										'ismapped':1
 		 
 									}
 									}
