@@ -55,13 +55,13 @@ const upload1 = multer({
 
 
 // DB connection
-var MONGODB_URL = process.env.MONGODB_URL;
+var MONGODB_URL = 'mongodb://127.0.0.1:27017/javix';
 var mongoose = require("mongoose");
 
-mongoose.set('useNewUrlParser', true);
+// mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.set();
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true}).then(() => {
 	//don't show the log when it is test
 	if(process.env.NODE_ENV !== "test") {
 		console.log("Connected to %s", MONGODB_URL);

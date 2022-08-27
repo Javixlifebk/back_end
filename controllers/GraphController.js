@@ -34,33 +34,33 @@ exports.listGraph = [
 			var graph=[];
 
 
-			ScreenerModel.Screener.find({}).count()
+			ScreenerModel.Screener.find({}).countDocuments()
 			.then(screeners => {
 					graph.push({'Screeners': screeners});
-					DoctorModel.Doctor.find({}).count()
+					DoctorModel.Doctor.find({}).countDocuments()
 					.then(doctors => {
 					
 					graph.push({'Doctors': doctors});
 
-					NGOModel.NGO.find({}).count()
+					NGOModel.NGO.find({}).countDocuments()
 					.then(ngos => {
 					graph.push({'NGO': ngos});
 					
-					PrescriptionModel.Prescription.find({}).count()
+					PrescriptionModel.Prescription.find({}).countDocuments()
 					.then(prescription => {
 					graph.push({'Prescription': prescription});
 
-					CitizenModel.Citizen.find({}).count()
+					CitizenModel.Citizen.find({}).countDocuments()
 					.then(citizens => {
 					graph.push({'Citizen': citizens});
-					PharmacyModel.Pharmacy.find({}).count()
+					PharmacyModel.Pharmacy.find({}).countDocuments()
 					.then(pharmacies => {
 					graph.push({'Pharmacy': pharmacies});
-					ScreeningCaseModel.ScreeningCase.find({}).count()
+					ScreeningCaseModel.ScreeningCase.find({}).countDocuments()
 			        .then(cases => {
                   	graph.push({'Screening': cases});
 
-					ScreeningCaseModel.ScreeningCase.find({status:'2'}).count()
+					ScreeningCaseModel.ScreeningCase.find({status:'2'}).countDocuments()
 					.then(nonprescription => {
 					graph.push({'NonPrescription': nonprescription})
 					ScreenerModel.Screener.aggregate([

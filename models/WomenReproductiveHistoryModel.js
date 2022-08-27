@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var WomenReproductiveHistorySchema = new mongoose.Schema({
 	ageoffirstperiod: {type: Number, required: false},
 	pregnancies: {type: Number, required: false},
