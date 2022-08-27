@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var EyeTestSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
 	leyetest: {type: String, required: true},

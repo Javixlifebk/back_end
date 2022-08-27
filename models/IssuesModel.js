@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var IssueSchema = new mongoose.Schema({
 	issueNo:{type: String, required: true},
 	userId: {type: String, required: true},

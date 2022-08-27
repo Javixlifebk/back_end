@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var SocioEconomicSurveySchema = new mongoose.Schema({
 	socioeconomicsurveyId:{type: String, required: true},
 	citizenId:{type: Array, required: true},

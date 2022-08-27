@@ -1,5 +1,9 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var tmp_out1Schema = new mongoose.Schema(
+
   {
     status: { type: String, required: true },
     severity_bp: { type: String, required: true },

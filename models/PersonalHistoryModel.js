@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var PersonalHistorySchema = new mongoose.Schema({
 	bornraised: {type: String, required: false},
 	birthproblem: {type: String, required: false},

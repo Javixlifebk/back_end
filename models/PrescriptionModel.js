@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 /*  Collection Name : Prescription */
 var PrescriptionSchema = new mongoose.Schema({
 	prescriptionId: {type: String, required: true},

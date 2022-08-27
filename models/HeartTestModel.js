@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var HeartTestSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
 	url: {type: String, required: true},

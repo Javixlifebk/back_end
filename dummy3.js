@@ -1,6 +1,9 @@
 const GeneralSurvey = require("./models/GeneralSurveyModel");
 var MONGODB_URL ="mongodb://127.0.0.1:27017/javix";
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 	const _generate=()=>{
 		
 		var CURDATE=new Date();

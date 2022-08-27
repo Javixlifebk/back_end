@@ -1,6 +1,8 @@
 var mongoose = require("mongoose");
 //var autoIncrement = require('mongoose-auto-increment');
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 var LungFunctionSchema = new mongoose.Schema({
 	status: {type: Number, required: true , default: 1},

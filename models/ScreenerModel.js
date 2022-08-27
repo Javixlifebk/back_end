@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 /*  Collection Name : Screener */
 var ScreenerSchema = new mongoose.Schema({
 	screenerId: {type: String, required: true},

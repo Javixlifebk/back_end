@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var FamilyHistorySchema = new mongoose.Schema({
 	fatherlivingage: {type: Number, required: false},
 	fatherlivinghealth: {type: String, required: false},

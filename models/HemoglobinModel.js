@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var HemoglobinSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
 	hemoglobin: {type: String, required: true},

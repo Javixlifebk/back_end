@@ -1,4 +1,7 @@
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var ActionSchema = new mongoose.Schema({
 	itemId:{type: String, required: true},
 	roleId:{type: Number, required: true,default: 0},
