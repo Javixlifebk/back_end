@@ -64,7 +64,7 @@ var mongoose = require("mongoose");
 		
 	}
 
-	mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+	mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false }).then(() => {
 	
 		console.log("Connected to %s", MONGODB_URL);
 		console.log("App is running ... \n");

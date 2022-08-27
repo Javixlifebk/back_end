@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify:false}).then(() => {
 	//don't show the log when it is test
 	if(process.env.NODE_ENV !== "test") {
 		console.log("Connected to %s", MONGODB_URL);
