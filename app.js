@@ -55,8 +55,8 @@ const upload1 = multer({
 
 
 // DB connection
-var MONGODB_URL = 'mongodb://admin24x7:24x7admin@#123@127.0.0.1:27017/javix';
-// mongodb://adminuser:123456@localhost:2017/mydb
+var MONGODB_URL ='mongodb://127.0.0.1:27017/javix';
+
 var mongoose = require("mongoose");
 
 // mongoose.set('useNewUrlParser', true);
