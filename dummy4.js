@@ -1,5 +1,5 @@
 const HealthSurvey = require("./models/HealthSurveyModel");
-var MONGODB_URL ="mongodb://127.0.0.1:27017/javix";
+var MONGODB_URL ="mongodb://admin24x7:24x7admin@#123@127.0.0.1:27017/javix";
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
@@ -81,7 +81,7 @@ mongoose.set('useCreateIndex', true);
 		
 	}
 
-	mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+	mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify:false}).then(() => {
 	
 		console.log("Connected to %s", MONGODB_URL);
 		console.log("App is running ... \n");

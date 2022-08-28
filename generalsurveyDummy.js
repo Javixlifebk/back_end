@@ -1,5 +1,5 @@
 const GeneralSurvey = require("./models/GeneralSurveyModel");
-var MONGODB_URL ="mongodb://127.0.0.1:27017/javix";
+var MONGODB_URL ="mongodb://admin24x7:24x7admin@#123@127.0.0.1:27017/javix";
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
