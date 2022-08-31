@@ -206,20 +206,11 @@ exports.tmp_out0List = [
           errors.array()
         );
       } else {
-        //    var condition={};
-        //    if(req.body.familyId!='' && req.body.familyId!=undefined && req.body.familyId!=null){
-        // 	   condition['familyId']=req.body.familyId;
-        //    }
-        //    if(req.body.citizenId!='' && req.body.citizenId!=undefined && req.body.citizenId!=null){
-        // 	   condition['citizenId']=req.body.citizenId;
-        //    }
-        //    if(req.body.screenerId!='' && req.body.screenerId!=undefined && req.body.screenerId!=null){
-        // 	   condition['screenerId']=req.body.screenerId;
-        //    }
+     
 
         tmp_out0Model
           .aggregate([
-            //    {'$match':condition},
+              //  {'$match':{issubscreener:0}},
             { $sort: { createdAt: -1 } },
             {
               $lookup: {
@@ -229,8 +220,79 @@ exports.tmp_out0List = [
                 as: "citizens",
               },
             },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "eyetests",
+                foreignField: "citizenId",
+                as: "eyetests",
+              },
+            },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizendetails",
+                foreignField: "citizenId",
+                as: "citizendetails",
+              },
+            },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "hemoglobins",
+                foreignField: "citizenId",
+                as: "hemoglobins",
+              },
+            },
+            {
+              $lookup: {
+                localField: "screenerId",
+                from: "screeners",
+                foreignField: "screenerId",
+                as: "screeners",
+              },
+            },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "bloodglucosetests",
+                foreignField: "caseId",
+                as: "bloodglucosetests",
+              },
+            },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "urinetests",
+                foreignField: "caseId",
+                as: "urinetests",
+              },
+            },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "lungfunctions",
+                foreignField: "caseId",
+                as: "lungfunctions",
+              },
+            },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "lipidpaneltests",
+                foreignField: "caseId",
+                as: "lipidpaneltests",
+              },
+            },
+            { $unwind: "$citizendetails" },
+            { $unwind: "$lungfunctions" },
+            { $unwind: "$hemoglobins" },
             { $unwind: "$citizens" },
-            //    {'$limit':100},
+            { $unwind: "$eyetests" },
+            { $unwind: "$lipidpaneltests" },
+            { $unwind: "$bloodglucosetests" },
+            { $unwind: "$urinetests" },
+           {$unwind:"$screeners"},
             {
               $project: {
                 status: 1,
@@ -257,14 +319,102 @@ exports.tmp_out0List = [
                 respiratory_rate: 1,
                 temperature: 1,
                 referDocId: 1,
-                FirstName: "$citizens.firstName",
-                LastName: "$citizens.lastName",
+                'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+                'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
+                Email: "$citizens.email",
+                aadhaar:'$citizens.aadhaar',
+                address: '$citizendetails.address',
+                Gender: "$citizens.sex",
+                // Address: "$citizen.address",
+                ScreenerId: "$citizens.screenerId",
+                leye:"$eyetests.leyetest",
+                reye:"$eyetests.reyetest",
+                hemoglobins:"$hemoglobins.hemoglobin",
+                unit:"$bloodglucosetests.bloodglucose",
+                type:"$bloodglucosetests.type",
+                leukocytes:"$urinetests.leukocytes", 
+                nitrite:"$urinetests.nitrite",
+                urobilinogen:"$urinetests.urobilinogen", 
+                protein:"$urinetests.protein",
+                blood:"$urinetests.blood",
+                specificGravity:"$urinetests.specificGravity",
+                ketone:"$urinetests.ketone",
+                bilirubin:"$urinetests.bilirubin",
+                glucose:"$urinetests.glucose",
+                fvc_predicted:"$lungfunctions.fvc_predicted",
+                fvc_actual:"$lungfunctions.fvc_actual",
+                fev1_predicted:"$lungfunctions.fev1_predicted",
+                fev1_actual:"$lungfunctions.fev1_actual",
+                fvc1_predicted:"$lungfunctions.fvc1_predicted",
+                fvc1_actual:"$lungfunctions.fvc1_actual",
+                pef_predicted:"$lungfunctions.pef_predicted",
+                pef_actual:"$lungfunctions.pef_actual",
+                fvc_predicted_percent:"$lungfunctions.fvc_predicted_percent",
+                fev1_predicted_percent:"$lungfunctions.fev1_predicted_percent",
+                fvc1_predicted_percent:"$lungfunctions.fvc1_predicted_percent",
+                pef_predicted_percent:"$lungfunctions.pef_predicted_percent",
+                cholesterol:"$lipidpaneltests.cholesterol",
+                hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
+                triglycerides:"$lipidpaneltests.triglycerides",
+                ldl:"$lipidpaneltests.ldl",
+                tcl_hdl:"$lipidpaneltests.tcl_hdl",
+                ldl_hdl:"$lipidpaneltests.ldl_hdl",
+                non_hdl:"$lipidpaneltests.non_hdl",
+                glucose:"$lipidpaneltests.glucose",
+                type:"$lipidpaneltests.type",
+  
+  
+                caseId:1,
                 createdAt: {
-                  $dateToString: {
-                    format: "%d-%m-%Y",
-                    date: "$createdAt",
+                    $dateToString: {
+                      format: "%d-%m-%Y",
+                      date: "$createdAt",
+                    },
                   },
+                  DOB: {
+                    $dateToString: {
+                      format: "%d-%m-%Y",
+                      date: "$citizendetails.dateOfBirth",
+                    },
+                  },
+                  "issubscreenertype": {
+                    "$switch": {
+                      "branches": [
+                        { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
+                        { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
+                       
+                      ],
+                      "default": "none"
+                    },
+                  },
+                  'issubscreener':"$screeners.issubscreener",
+                  // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+                // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
+                height:1,
+                weight: 1,
+                bmi:1,
+                bpsys:1,
+                bpdia:1,
+                spo2:1,
+                pulse:1,
+                temperature:1,
+                arm:1,
+                Mobile: "$citizens.mobile",
+                // createdAt: 1,
+                severity_bp: 1,
+                severity_bmi: 1,
+                severity_spo2: 1,
+                severity_pulse: 1,
+                severity_temperature: 1,
+                severity_respiratory_rate: 1,
+                severity: 1,
+                Age: { $round:{
+                  $divide: [
+                    { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                    365 * 24 * 60 * 60 * 1000,
+                  ],
                 },
+        },
               },
             },
           ])
@@ -308,7 +458,7 @@ exports.tmp_out1List = [
 
         tmp_out1Model
           .aggregate([
-            //    {'$match':condition},
+                {'$match':{issubscreener:1}},
             { $sort: { createdAt: -1 } },
             {
               $lookup: {
@@ -318,12 +468,37 @@ exports.tmp_out1List = [
                 as: "citizens",
               },
             },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizendetails",
+                foreignField: "citizenId",
+                as: "citizendetails",
+              },
+            },
+            {
+              $lookup: {
+                localField: "screenerId",
+                from: "screeners",
+                foreignField: "screenerId",
+                as: "screeners",
+              },
+            },
             { $unwind: "$citizens" },
+            { $unwind: "$screeners" },
+            { $unwind: "$citizendetails" },
             //    {'$limit':100},
             {
               $project: {
                 status: 1,
+                'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+                'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
                 severity_bp: 1,
+                Email: "$citizens.email",
+                aadhaar:'$citizens.aadhaar',
+                Mobile:'$citizens.mobile',
+                address: '$citizendetails.address',
+                Gender: "$citizens.sex",
                 severity_spo2: 1,
                 severity_temperature: 1,
                 severity_pulse: 1,
@@ -344,6 +519,12 @@ exports.tmp_out1List = [
                 caseId:1,
                 pulse: 1,
                 respiratory_rate:1,
+                Age: { $round:{
+                  $divide: [
+                    { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                    365 * 24 * 60 * 60 * 1000,
+                  ],
+                },},
                 temperature:1,
                 referDocId: 1,
                 FirstName: "$citizens.firstName",
@@ -353,6 +534,12 @@ exports.tmp_out1List = [
                   $dateToString: {
                     format: "%d-%m-%Y",
                     date: "$createdAt",
+                  },
+                },
+                DOB: {
+                  $dateToString: {
+                    format: "%d-%m-%Y",
+                    date: "$citizendetails.dateOfBirth",
                   },
                 },
               },

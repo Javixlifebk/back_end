@@ -104,7 +104,16 @@ exports.screenerList=[
 								 'email':1,
 								 'ngoId':1,
 								 'parentId':1,
-								 'issubscreener':1,
+								 'issubscreener':{
+									"$switch": {
+									  "branches": [
+										{ "case": { "$eq": ["$issubscreener", 0] }, "then": "Sanyojika" },
+										{ "case": { "$eq": ["$issubscreener", 1] }, "then": "Sevika" },
+									   
+									  ],
+									  "default": "none"
+									},
+								  },
 								// "issubscreener": {
 								// 	"$cond": [
 								// 	   { "$eq": [ "$issubscreener", "0" ] }, 

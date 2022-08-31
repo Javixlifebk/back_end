@@ -1,5 +1,5 @@
 const Screening = require("./models/ScreeningCase");
-var MONGODB_URL ="mongodb://admin24x7:24x7admin@#123@127.0.0.1:27017/javix";
+var MONGODB_URL ="mongodb://127.0.0.1:27017/javix";
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
@@ -10,8 +10,6 @@ mongoose.set('useCreateIndex', true);
                 CURDATE.setDate(CURDATE.getDate()-1);
                 var LASTDATE=new Date((CURDATE.getYear()+1900)+"-"+(CURDATE.getMonth()+1)+"-"+CURDATE.getDate()); 
  
- 
- 
  Screening.ScreeningCase.aggregate(
         [
         {$match:{severity_bp:2,severity_bmi:2}},
@@ -20,7 +18,7 @@ mongoose.set('useCreateIndex', true);
          'foreignField':'citizenId',
          'as':'citizen'  } },
          {$lookup:
-                 {  'localField':'screenerId', 
+                 { 'localField':'screenerId', 
                  'from':'screeners', 
                  'foreignField':'screenerId', 
                  'as':'screeners'  } },
@@ -30,8 +28,16 @@ mongoose.set('useCreateIndex', true);
           'foreignField':'citizenId',
            'as':'citizens'  } },
           {$unwind:"$citizen"},{$unwind:"$citizens"},{$unwind:"$screeners"},
-           {$project:{"citizenId":1,"FirstName":"$citizens.firstName","LastName":"$citizens.lastName","Email":"$citizens.email","Gender":"$citizens.sex","Address":"$citizen.address",
-           "ScreenerId":"$citizens.screenerId","ScreenerFirstName":"$screeners.firstName","ScreenerLastName":"$screeners.lastName","Mobile":"$citizens.mobile",
+           {$project:{"citizenId":1,
+           "FirstName":"$citizens.firstName",
+           "LastName":"$citizens.lastName",
+           "Email":"$citizens.email",
+           "Gender":"$citizens.sex",
+           "Address":"$citizen.address",
+           "ScreenerId":"$citizens.screenerId",
+           "ScreenerFirstName":"$screeners.firstName",
+           "ScreenerLastName":"$screeners.lastName",
+           "Mobile":"$citizens.mobile",
            Age:{$divide: [{$subtract: [ new Date(), "$citizen.dateOfBirth" ] },(365 * 24*60*60*1000)] }}},
            {$match:{Age: { $gte: 40 }}},
            {$out:"lipidcritical"}]).then(recs => {
