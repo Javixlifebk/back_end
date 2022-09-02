@@ -569,7 +569,7 @@ exports.citizenRefers=[
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
-								 'mobile':1,
+								 'mobile': {$ifNull: [ "$mobile", "none"]},
 								 'email':1,
 								 'pstatus':1,
 								 'isInstant':1,
