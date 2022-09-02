@@ -557,16 +557,16 @@ exports.citizenRefers=[
                                                                 'localField':'screenerId',
                                                                 'from':'screeners',
                                                                 'foreignField':'screenerId',
-                                                                'as':'screener'
+                                                                'as':'screeners'
                                                          }
                                                         },
 							{'$unwind':'$info'},
-							// {'$unwind':'$info'},
+							 {'$unwind':'$screeners'},
 							{'$project':{
-								 
+								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
-								 'firstName':1,
-								 'lastName':1,
+								//  'firstName':1,
+								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
 								 'mobile':1,
@@ -588,19 +588,20 @@ exports.citizenRefers=[
                     ]}
                 }
             },
-								 'info.dateOfBirth':1,
-								 'info.dateOfOnBoarding':1,
-								 'info.bloodGroup':1,
-								 'info.country':1,
-								 'info.state':1,
-								 'info.district':1,
-								 'info.address':1,
+							DOB:'$info.dateOfBirth',
+							'info.dateOfOnBoarding':1,
+							bloodGroup:'$info.bloodGroup',
+							country:'$info.country',
+							state:'$info.state',
+							district:'$info.district',
+							address:'$info.address',
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								'screener.firstName':1,
-								'screener.lastName':1,
+								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]}
+								// 'screener.firstName':1,
+								// 'screener.lastName':1,
 							
 								 
 								}
