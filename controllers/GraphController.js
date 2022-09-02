@@ -13,6 +13,8 @@ const apiResponse = require("../helpers/apiResponse");
 const utility = require("../helpers/utility");
 const jwt = require("jsonwebtoken");
 const { constants } = require("../helpers/constants");
+const tmp_out0 = require("../models/tmp_out0Model");
+const tmp_out1 = require("../models/tmp_out1Model");
 
 exports.listGraph = [
     
@@ -50,12 +52,20 @@ exports.listGraph = [
 					.then(prescription => {
 					graph.push({'Prescription': prescription});
 
+					tmp_out0.find({issubscreener:0}).countDocuments()
+					.then(sanyojika => {
+					graph.push({'Sanyojika': sanyojika});
+					tmp_out1.find({issubscreener:1}).countDocuments()
+					.then(sevika => {
+					graph.push({'Sevika': sevika});
+
 					CitizenModel.Citizen.find({}).countDocuments()
 					.then(citizens => {
 					graph.push({'Citizen': citizens});
 					PharmacyModel.Pharmacy.find({}).countDocuments()
 					.then(pharmacies => {
 					graph.push({'Pharmacy': pharmacies});
+					
 					ScreeningCaseModel.ScreeningCase.find({}).countDocuments()
 			        .then(cases => {
                   	graph.push({'Screening': cases});
@@ -96,7 +106,8 @@ exports.listGraph = [
 				});
 					
 				});
-
+			});
+		});
 				});
 					
 				});

@@ -17,6 +17,7 @@ var ScreeningCaseSchema = new mongoose.Schema({
 	bpdia: {type: String, required: false},
 	spo2: {type: String, required: false},
 	pulse: {type: String, required: false},
+	issubscreener:{type: String},
 	respiratory_rate: {type: String, required: false},
 	temperature: {type: String, required: false},
     referDocId: {type: String, required: false},
@@ -148,7 +149,8 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
     backneckpain: {type: String},
     diarrhea: {type: String},
     hypertension: {type: String},
-	caseId:{type:String,required:true}
+	caseId:{type:String,required:true},
+	issubscreener:{type:String}
 }, {timestamps: true});
 
 module.exports.ScreeningCaseDetails = mongoose.model("ScreeningCaseDetails", ScreeningCaseDetailsSchema);

@@ -212,6 +212,7 @@ exports.tmp_out0List = [
           .aggregate([
                 {'$match':{issubscreener:0}},
             { $sort: { createdAt: -1 } },
+            {$limit:500},
             {
               $lookup: {
                 localField: "citizenId",

@@ -803,6 +803,7 @@ console.log(vtemp);
                                                          }
                                                         },
 							{'$unwind':'$info'},
+							{'$unwind':'$screener'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -824,6 +825,7 @@ console.log(vtemp);
 								 'info.dateOfOnBoarding':1,
 								 'info.bloodGroup':1,
 								 'info.country':1,
+								 issubscreener:'$screener.issubscreener',
 								 'info.state':1,
 								 'info.district':1,
 								 'info.address':1,

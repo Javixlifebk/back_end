@@ -1,5 +1,6 @@
 /* ./services/screener */
 const ScreenerModel = require("../../models/ScreenerModel");
+const tmp_out0Model = require("../../models/tmp_out0Model");
 
 const { body,query,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -195,116 +196,7 @@ exports.screenerList=[
 	}
 
 ];
-// exports.screenerListByStatus=[
-// 	body("email").isLength({ min: 1 }).trim().withMessage("Email must be specified.")
-// 		.isEmail().withMessage("Email must be a valid email address."),
-	
-// 	body("status").isLength({ min: 1,max:1 }).trim().withMessage("Fill Status 0 to 9.").isNumeric().withMessage("status 0-9"),
-		
-// 	sanitizeBody("email").escape(),
-// 	sanitizeBody("status").escape(),
-// 	sanitizeBody("searchterm").escape(),
-// 	sanitizeBody("ngoId").escape(),
-//     (req, res) => { 
-			
-// 		try {
-// 			const errors = validationResult(req);
-// 			if (!errors.isEmpty()) {
-// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 			}else {
-// 					var _istatus=parseInt(req.body.status);
-// 					var term="";
-// 					var setfield={"ngoId":{'$ne':-1}};
-// 					if(req.body.roleId!=null && req.body.ngoId!=undefined && req.body.ngoId!=""){
-// 						role=parseInt(req.body.ngoId);
-// 						setfield["ngoId"]={"$eq":role};
-// 					}
-// 					if(req.body.searchterm!=null){
-// 						term="(?i)"+req.body.searchterm;
-// 					}
-// 					console.log(setfield);
-					
-// 					ScreenerModel.Screener.aggregate([
-// 							{'$match':{'$and':[{'status':_istatus},setfield,{'ngoId':{'$ne':6}}]}},
-// 							{'$limit':1000},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'screenerdetails',
-// 								'foreignField':'screenerId',
-// 								'as':'info'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'screeningcases',
-// 								'foreignField':'screenerId',
-// 								'as':'cases'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'generalsurveys',
-// 								'foreignField':'screenerId',
-// 								'as':'generalsurveys'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'healthsurveys',
-// 								'foreignField':'screenerId',
-// 								'as':'healthsurveys'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'socioeconomicsurveys',
-// 								'foreignField':'screenerId',
-// 								'as':'socioeconomicsurveys'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'screenerId',
-// 								'from':'citizens',
-// 								'foreignField':'screenerId',
-// 								'as':'citizens'	
-// 							 }
-// 							},
-// 							{'$unwind':'$info'},
-// 							{'$project':{
-								 
-// 								 'email':1,
-// 								 'isConfirmed':1,
-// 								 'status':1,
-// 								 'ngoId':1,
-// 								 'userId':1,
-// 								 'info.firstName':1,
-// 								 'info.lastName':1,
-// 								 'info.isBlocked':1,
-// 								 'info.isExpired':1,
-// 								 'info.ismapped':1,
-// 								 'info.phoneNo':1,
-// 								 'info.phoneNo1':1
-// 								}
-// 							},
-// 							{'$match':{'$or':[{'info.lastName':{'$regex':term}},{'email':{'$regex':term}},{'info.phoneNo':{'$regex':term}},{'info.firstName':{'$regex':term}}]}},
-// 						]
-// 				).then(users => {
-					
-					
-// 					if (users) {
-// 							return apiResponse.successResponseWithData(res,"Found", users);
-// 					}
-// 					else return apiResponse.ErrorResponse(res,"Not Found");
-					
-// 				});
-// 			}
-// 		} catch (err) {
-			
-// 			return apiResponse.ErrorResponse(res,"EXp:"+err);
-// 		}
-// 	}
 
-// ];
 
 exports.updatescreenerList = [
    
@@ -782,5 +674,44 @@ exports.updateScreenerMapAuth = [
 				}
 			}
 		
+		
+		];
+		exports.screenerCount=[
+
+
+	
+			(req, res) => { 
+					
+				try {
+					const errors = validationResult(req);
+					if (!errors.isEmpty()) {
+						return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+					}else {
+		
+		
+						tmp_out0Model
+          .aggregate( [
+							{$match:{issubscreener:0}},
+						
+									{'$group':{
+										'_id' : "$severity",
+										'count': { '$sum': 1 }
+									}
+		  }
+							] ).then(users => {
+							
+							let user=users[0];
+							if (user) {
+									return apiResponse.successResponseWithData(res,"Found", users);
+							}
+							else return apiResponse.ErrorResponse(res,"Not Found");
+							
+						});
+					}
+				} catch (err) {
+					
+					return apiResponse.ErrorResponse(res,"EXp:"+err);
+				}
+			}
 		
 		];
