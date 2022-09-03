@@ -423,7 +423,7 @@ exports.tmp_out0List = [
             let user = users[0];
             if (user) {
               return apiResponse.successResponseWithData(res, "Found", users);
-            } else return apiResponse.successResponseWithData(res, "Not Found");
+            } else return apiResponse.ErrorResponse(res, "Not Found");
           });
       }
     } catch (err) {
