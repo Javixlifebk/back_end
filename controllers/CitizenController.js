@@ -569,6 +569,7 @@ exports.citizenRefers=[
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
+								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
 								 'mobile': {$ifNull: [ "$mobile", "Unspecified"]},
 								 'email':1,
 								 'pstatus':1,
@@ -599,7 +600,7 @@ exports.citizenRefers=[
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':{$ifNull: [ "$info.photo", "Unspecified"]},
-								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]}
+								
 								// 'screener.firstName':1,
 								// 'screener.lastName':1,
 							
