@@ -569,7 +569,7 @@ exports.citizenRefers=[
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
-								 'mobile': {$ifNull: [ "$mobile", "none"]},
+								 'mobile': {$ifNull: [ "$mobile", "Unspecified"]},
 								 'email':1,
 								 'pstatus':1,
 								 'isInstant':1,
@@ -589,7 +589,7 @@ exports.citizenRefers=[
                 }
             },
 							DOB:'$info.dateOfBirth',
-							'info.dateOfOnBoarding':1,
+							'info.dateOfOnBoarding':{$ifNull: [ "$info.dateOfOnBoarding", "Unspecified"]},
 							bloodGroup:'$info.bloodGroup',
 							country:'$info.country',
 							state:'$info.state',
@@ -598,7 +598,7 @@ exports.citizenRefers=[
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
-								 'info.photo':1,
+								 'info.photo':{$ifNull: [ "$info.photo", "Unspecified"]},
 								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]}
 								// 'screener.firstName':1,
 								// 'screener.lastName':1,
