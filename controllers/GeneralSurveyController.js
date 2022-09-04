@@ -208,20 +208,12 @@ exports.tmp_out0List = [
       } else {
      
 
-        tmp_out0
+        tmp_out0Model
           .aggregate([
                 // {'$match':{issubscreener:0}},
             { $sort: { createdAt: -1 } },
             {$limit:50},
-            {
-              $lookup: {
-                localField: "caseId",
-                from: "lipidpaneltests",
-                foreignField: "caseId",
-                as: "lipidpaneltests",
-              },
-            },
-             { $unwind: "$lipidpaneltests" },
+            
             {
               $lookup: {
                 localField: "citizenId",
