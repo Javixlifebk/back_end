@@ -280,15 +280,15 @@ exports.tmp_out0List = [
             //     as: "lungfunctions",
             //   },
             // },
-            //  {
-            //   $lookup: {
-            //     localField: "caseId",
-            //     from: "lipidpaneltests",
-            //     foreignField: "caseId",
-            //     as: "lipidpaneltests",
-            //   },
-            // },
-            //  { $unwind: "$lipidpaneltests" },
+             {
+              $lookup: {
+                localField: "caseId",
+                from: "lipidpaneltests",
+                foreignField: "caseId",
+                as: "lipidpaneltests",
+              },
+            },
+             { $unwind: "$lipidpaneltests" },
            
             // { $unwind: "$lungfunctions" },
             // { $unwind: "$hemoglobins" },
