@@ -213,7 +213,6 @@ exports.tmp_out0List = [
                 // {'$match':{issubscreener:0}},
             { $sort: { createdAt: -1 } },
             {$limit:50},
-            
             {
               $lookup: {
                 localField: "citizenId",
@@ -281,7 +280,15 @@ exports.tmp_out0List = [
             //     as: "lungfunctions",
             //   },
             // },
-             
+             {
+              $lookup: {
+                localField: "caseId",
+                from: "lipidpaneltests",
+                foreignField: "caseId",
+                as: "lipidpaneltests",
+              },
+            },
+             { $unwind: "$lipidpaneltests" },
            
             // { $unwind: "$lungfunctions" },
             // { $unwind: "$hemoglobins" },
