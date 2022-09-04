@@ -215,6 +215,15 @@ exports.tmp_out0List = [
             {$limit:50},
             {
               $lookup: {
+                localField: "caseId",
+                from: "lipidpaneltests",
+                foreignField: "caseId",
+                as: "lipidpaneltests",
+              },
+            },
+             { $unwind: "$lipidpaneltests" },
+            {
+              $lookup: {
                 localField: "citizenId",
                 from: "citizens",
                 foreignField: "citizenId",
@@ -280,15 +289,7 @@ exports.tmp_out0List = [
             //     as: "lungfunctions",
             //   },
             // },
-             {
-              $lookup: {
-                localField: "caseId",
-                from: "lipidpaneltests",
-                foreignField: "caseId",
-                as: "lipidpaneltests",
-              },
-            },
-             { $unwind: "$lipidpaneltests" },
+             
            
             // { $unwind: "$lungfunctions" },
             // { $unwind: "$hemoglobins" },
