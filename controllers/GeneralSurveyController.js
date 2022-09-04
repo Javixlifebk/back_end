@@ -221,6 +221,7 @@ exports.tmp_out0List = [
                 as: "citizens",
               },
             },
+            { $unwind: "$citizens" },
             // {
             //   $lookup: {
             //     localField: "citizenId",
@@ -237,6 +238,7 @@ exports.tmp_out0List = [
                 as: "citizendetails",
               },
             },
+            { $unwind: "$citizendetails" },
             // {
             //   $lookup: {
             //     localField: "citizenId",
@@ -253,6 +255,7 @@ exports.tmp_out0List = [
                 as: "screeners",
               },
             },
+            {$unwind:"$screeners"},
             // {
             //   $lookup: {
             //     localField: "caseId",
@@ -277,23 +280,24 @@ exports.tmp_out0List = [
             //     as: "lungfunctions",
             //   },
             // },
-            //  {
-            //   $lookup: {
-            //     localField: "caseId",
-            //     from: "lipidpaneltests",
-            //     foreignField: "caseId",
-            //     as: "lipidpaneltests",
-            //   },
-            // },
-            { $unwind: "$citizendetails" },
+             {
+              $lookup: {
+                localField: "caseId",
+                from: "lipidpaneltests",
+                foreignField: "caseId",
+                as: "lipidpaneltests",
+              },
+            },
+             { $unwind: "$lipidpaneltests" },
+           
             // { $unwind: "$lungfunctions" },
             // { $unwind: "$hemoglobins" },
-            { $unwind: "$citizens" },
+            
             // { $unwind: "$eyetests" },
-          //  { $unwind: "$lipidpaneltests" },
+          
             // { $unwind: "$bloodglucosetests" },
             // { $unwind: "$urinetests" },
-           {$unwind:"$screeners"},
+         
             {
               $project: {
                 status: 1,
@@ -354,15 +358,15 @@ exports.tmp_out0List = [
                 // fev1_predicted_percent:"$lungfunctions.fev1_predicted_percent",
                 // fvc1_predicted_percent:"$lungfunctions.fvc1_predicted_percent",
                 // pef_predicted_percent:"$lungfunctions.pef_predicted_percent",
-                // cholesterol:"$lipidpaneltests.cholesterol",
-                // hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
-                // triglycerides:"$lipidpaneltests.triglycerides",
-                // ldl:"$lipidpaneltests.ldl",
-                // tcl_hdl:"$lipidpaneltests.tcl_hdl",
-                // ldl_hdl:"$lipidpaneltests.ldl_hdl",
-                // non_hdl:"$lipidpaneltests.non_hdl",
-                // glucose:"$lipidpaneltests.glucose",
-                // type:"$lipidpaneltests.type",
+                cholesterol:"$lipidpaneltests.cholesterol",
+                hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
+                triglycerides:"$lipidpaneltests.triglycerides",
+                ldl:"$lipidpaneltests.ldl",
+                tcl_hdl:"$lipidpaneltests.tcl_hdl",
+                ldl_hdl:"$lipidpaneltests.ldl_hdl",
+                non_hdl:"$lipidpaneltests.non_hdl",
+                glucose:"$lipidpaneltests.glucose",
+                type:"$lipidpaneltests.type",
   
   
                 caseId:1,
