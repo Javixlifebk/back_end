@@ -565,7 +565,7 @@ exports.citizenRefers=[
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
-								//  'firstName':1,
+								 'caseId':'$cases.caseId',
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
