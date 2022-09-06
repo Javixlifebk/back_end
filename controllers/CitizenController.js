@@ -561,14 +561,17 @@ exports.citizenRefers=[
                                                          }
                                                         },
 							{'$unwind':'$info'},
+							{'$unwind':'$cases'},
 							 {'$unwind':'$screeners'},
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
 								 'caseId':'$cases.caseId',
+								
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
+								 'caseStatus':'$cases.status',
 								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
 								 'mobile': {$ifNull: [ "$mobile", "Unspecified"]},
 								 'email':1,
@@ -580,15 +583,16 @@ exports.citizenRefers=[
                                  'raadhaar':1,
 								 'citizenLoginId':1,
 								 'createdAt':1,
-								 'cases': {
-                					'$filter' : {
-                    'input': '$cases',
-                    'as' : 'cases_field',
-                     'cond': { '$and': [
-                        {'$eq': ['$$cases_field.status',1]}
-                    ]}
-                }
-            },
+			// 					 'cases': {
+			// 						
+            //     					'$filter' : {
+            //         'input': '$cases',
+            //         'as' : 'cases_field',
+            //          'cond': { '$and': [
+            //             {'$eq': ['$$cases_field.status',1]}
+            //         ]}
+            //     }
+            // },
 							DOB:'$info.dateOfBirth',
 							'info.dateOfOnBoarding':{$ifNull: [ "$info.dateOfOnBoarding", "Unspecified"]},
 							bloodGroup:'$info.bloodGroup',
@@ -612,11 +616,11 @@ exports.citizenRefers=[
 					
 					let user=users[0];
 					
-					for(var i=0;i<users.length;i++){
-						if(users[i].cases.length>0) 
-						users[i].cases=users[i].cases[users[i].cases.length-1];
-						//console.dir(users[i]);
-					}
+					// for(var i=0;i<users.length;i++){
+					// 	if(users[i].cases.length>0) 
+					// 	users[i].cases=users[i].cases[users[i].cases.length-1];
+					// 	//console.dir(users[i]);
+					// }
 
 					if (user) {
 						for(i=0;i<users.length;i++){
@@ -745,7 +749,7 @@ exports.citizenRefers=[
 
 // -------------------display refer list data end--------------
 exports.citizenListSearcher=[
-    // body("screenerId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
+    //body("screenerId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 	
 	
@@ -757,9 +761,7 @@ exports.citizenListSearcher=[
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 				
-					// var queryP={'$match':{'$or':[{'isUnrefer':req.body.isUnrefer}]}};
-					// var queryP={'$match':{}};
-
+					var queryP={'$match':{}};
 					/*if(req.body.v!=null && req.body.v!=undefined && req.body.v!="" ){
 						
 						queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'lastName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'citizenId':req.body.v}]}};
@@ -767,19 +769,19 @@ exports.citizenListSearcher=[
 if(req.body.v!=null && req.body.v!=undefined && req.body.v!="" ){
 let vtemp=req.body.v.trim().split(" ");
 console.log(vtemp);
-
+if(vtemp.length===2){
+queryP={'$match':{'$and':[{'firstName':{$regex: ".*" + vtemp[0] + ".*",$options: "i"}},{'lastName':{$regex: ".*" + vtemp[1] + ".*",$options: "i"}}]}};
+}
+else{
+queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'lastName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'citizenId':req.body.v}]}};
+}
 }
 					
 					
 
 
 			CitizenModel.Citizen.aggregate([
-				{
-					$addFields: {
-					   "isUnrefer": "false"
-					}
-				 },
-				            {'$match':{}},
+							queryP,
 							{'$sort':{'createdAt':-1}},
 							{'$limit':100},
 							{'$lookup': {
@@ -804,13 +806,11 @@ console.log(vtemp);
                                                          }
                                                         },
 							{'$unwind':'$info'},
-							{'$unwind':'$screener'},
 							{'$project':{
 								 
 								 'screenerId':1,
 								 'firstName':1,
 								 'lastName':1,
-								 'isUnrefer':1,
 								 'sex':1,
 								 'mobile':1,
 								 'email':1,
@@ -826,7 +826,6 @@ console.log(vtemp);
 								 'info.dateOfOnBoarding':1,
 								 'info.bloodGroup':1,
 								 'info.country':1,
-								 issubscreener:'$screener.issubscreener',
 								 'info.state':1,
 								 'info.district':1,
 								 'info.address':1,

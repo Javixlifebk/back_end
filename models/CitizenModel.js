@@ -39,7 +39,7 @@ var CitizenDetailsSchema = new mongoose.Schema({
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     citizenId: {type: String, required: true},
 	isUnrefer: {type: Boolean, required: true, default: 0},
-
+	caseStatus:{type: Number, required: false, default: 0}
 }, {timestamps: true});
 
 module.exports.CitizenDetails = mongoose.model("CitizenDetails", CitizenDetailsSchema);
