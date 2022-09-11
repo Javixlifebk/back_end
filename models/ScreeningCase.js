@@ -29,6 +29,8 @@ var ScreeningCaseSchema = new mongoose.Schema({
     severity_respiratory_rate: {type:Number, default:0, required:false},   //0-green, 1-amber, 2-red , 0-Default
     severity: {type:Number, default:0, required:false},   //0-green, 1-amber, 2-red , 0-Default
     caseId:{type:String,required:true},
+	isUnrefer: {type: Boolean, required: true, default: false},
+	// caseId:{type:String,required:true},
 }, {timestamps: true});
 
 //Severity CALCULATOR
@@ -150,7 +152,8 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
     diarrhea: {type: String},
     hypertension: {type: String},
 	caseId:{type:String,required:true},
-	issubscreener:{type:String}
+	issubscreener:{type:String},
+	isUnrefer: {type: Boolean, required: true, default: false},
 }, {timestamps: true});
 
 module.exports.ScreeningCaseDetails = mongoose.model("ScreeningCaseDetails", ScreeningCaseDetailsSchema);

@@ -38,6 +38,7 @@ routerCitizen.post("/citizenrefer", CitizenController.citizenRefers);
 routerCitizen.post("/citizenup", CitizenController.updateCitizenR);
 
 
+
 routerCitizen.post("/getHistoryAllergy", MedicalAllergyHistoryController.historyAllergyList);
 routerCitizen.post("/getHistoryMedical", MedicalAllergyHistoryController.historyMedicalList);
 routerCitizen.post("/getHistoryWomen", WomenReproductiveHistoryController.WomenHistoryList);

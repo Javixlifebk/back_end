@@ -1,5 +1,6 @@
 const CitizenModel = require("../models/CitizenModel");
 const ScreenerModel = require("../models/ScreenerModel");
+const ScreeningCaseModel = require("../models/ScreeningCase");
 const UserModel = require("../models/UserModel");
 const DoctorModel = require("../models/DoctorModel");
 const UserDetailsModel = require("../models/UserDetailsModel");
@@ -535,7 +536,7 @@ exports.citizenRefers=[
 					
 
 
-			CitizenModel.Citizen.aggregate([
+				ScreeningCaseModel.ScreeningCase.aggregate([
 				 {'$match':{'isUnrefer':true}},
 							{'$sort':{'createdAt':-1}},
 							{'$limit':100},
@@ -548,9 +549,9 @@ exports.citizenRefers=[
 							},
 							{'$lookup': {
 								'localField':'citizenId',
-								'from':'screeningcases',
+								'from':'citizens',
 								'foreignField':'citizenId',
-								'as':'cases'
+								'as':'citizens'
 							 }
 							},
 							{'$lookup': {
@@ -561,28 +562,50 @@ exports.citizenRefers=[
                                                          }
                                                         },
 							{'$unwind':'$info'},
-							{'$unwind':'$cases'},
+							{'$unwind':'$citizens'},
 							 {'$unwind':'$screeners'},
 							{'$project':{
-								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
-								 'screenerId':1,
-								 'caseId':'$cases.caseId',
-								
-								 'javixId':1,
-								 'isUnrefer':1,
-								 'sex':1,
-								 'caseStatus':'$cases.status',
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-								 'mobile': {$ifNull: [ "$mobile", "Unspecified"]},
-								 'email':1,
-								 'pstatus':1,
-								 'isInstant':1,
-								 'citizenId':1,
-								 'javixId':1,
-                                 'aadhaar':1,
-                                 'raadhaar':1,
-								 'citizenLoginId':1,
+                                 'aadhaar':'$citizens.aadhaar',
+                                 'raadhaar':'$citizens.raadhaar',
+								 'citizenLoginId':'$citizens.citizenLoginId',
 								 'createdAt':1,
+								 citizenId: 1,
+								 notes: 1,
+								 doctorId: 1,
+								 status: 1,
+								 isUnrefer:1,
+								 screenerId: 1,
+								 height: 1,
+								 weight: 1,
+								 bmi: 1,
+								 bpsys: 1,
+								 bpdia: 1,
+								 arm: 1,
+								 spo2: 1,
+								 caseId: 1,
+								 pulse: 1,
+								 respiratory_rate: 1,
+								 temperature: 1,
+								 referDocId: 1,
+								 createdAt: 1,
+								 severity_bp: 1,
+								 severity_spo2: 1,
+								 severity_temperature: 1,
+								 severity_pulse: 1,
+								 severity_bmi: 1,
+								 severity_respiratory_rate: 1,
+								 severity: 1,
+								 "citizens.email": 1,
+								 "citizens.mobile": 1,
+								 "citizens.sex": 1,
+								 "info.dateOfBirth": 1,
+								 "screeners.email": 1,
+								 "screeners.mobile": 1,
+								 "screeners.mobile1": 1,
+								 "screeners.sex": 1,
+								 "screeners.ngoId": 1,
 			// 					 'cases': {
 			// 						
             //     					'$filter' : {
@@ -1373,60 +1396,34 @@ exports.updateCitizen = [
 
 
 	// ---==-----add ismapped 
-	exports.updateCitizenR = [
-		(req, res) => { 
+exports.updateCitizenR = [
+		
+			(req, res) => { 
 			
-			// let id = req.params.id;
-    
-
-			// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
-		  
-			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
-
-		  
-			  .then((note) => {
-				if (!note) {
-				  return res.status(404).send({
-					message: "data not found with id " + req.params.id,
-				  });
-				}
-				res.send(note);
-			  })
-			  .catch((err) => {
 			  
-				if (err.kind === "ObjectId") {
-				  return res.status(404).send({
-					message: "data not found with id ",
+				ScreeningCaseModel.ScreeningCase.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
+	
+			  
+				  .then((note) => {
+					if (!note) {
+					  return res.status(404).send({
+						message: "data not found with id " + req.params.id,
+					  });
+					}
+					res.send(note);
+				  })
+				  .catch((err) => {
+				  
+					if (err.kind === "ObjectId") {
+					  return res.status(404).send({
+						message: "data not found with id ",
+					  });
+					}
+					return res.status(500).send({
+					  message: "Error updating note with id ",
+					});
 				  });
-				}
-				return res.status(500).send({
-				  message: "Error updating note with id ",
-				});
-			  });
-			   
-		}
-
-		// (req, res) => { 
-				
-		// 	try {
-		// 		const errors = validationResult(req);
-		// 		if (!errors.isEmpty()) {
-		// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-		// 		}else {
-						
-						
-		// 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
-					
-
-		// 			return apiResponse.successResponseWithData(res,"Successfully Updated");
-						
-						
-		// 		}
-		// 	} catch (err) {
-				
-		// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
-		// 	}
-		// }
+			}
 	];
 	// ===----
 exports.updateCitizenAddress = [

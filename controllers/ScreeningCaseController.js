@@ -339,6 +339,55 @@ exports.updateCaseDetails = [
     }
   },
 ];
+exports.updateAddUnrefer= [
+	(req, res) => { 
+		
+		ScreeningCaseModel.ScreeningCase.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
+	  
+		  .then((note) => {
+			if (!note) {
+			  return res.status(404).send({
+				message: "data not found with id " + req.params.id,
+			  });
+			}
+			res.send(note);
+		  })
+		  .catch((err) => {
+		  
+			if (err.kind === "ObjectId") {
+			  return res.status(404).send({
+				message: "data not found with id ",
+			  });
+			}
+			return res.status(500).send({
+			  message: "Error updating note with id ",
+			});
+		  });
+		   
+	}
+
+	// (req, res) => { 
+			
+	// 	try {
+	// 		const errors = validationResult(req);
+	// 		if (!errors.isEmpty()) {
+	// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+	// 		}else {
+					
+					
+	// 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
+				
+
+	// 			return apiResponse.successResponseWithData(res,"Successfully Updated");
+					
+					
+	// 		}
+	// 	} catch (err) {
+			
+	// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
+	// 	}
+	// }
+];
 
 exports.screeningList = [
   sanitizeBody("citizenId").escape(),

@@ -160,7 +160,7 @@ exports.GeneralSurveyList = [
               as: "citizens",
             },
           },
-          { $limit: 100 },
+          // { $limit: 100 },
           {
             $project: {
               screenerId: 1,
