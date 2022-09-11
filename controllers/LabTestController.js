@@ -538,14 +538,38 @@ exports.BloodGlucoseTestList=[
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
 							andcond,
-
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							// {
+							// 	// output result into other collection
+							// 	$merge: {
+							// 	  into: '$citizens',
+							// 	},
+							//   },
 							{'$project':{
 									'caseId':1,
 									'status':1,
 									'bloodglucose':1,
 									'type':1,
 									'severity':1,
-									'createdAt':1
+									'createdAt':1,
+									'citizenId':'$screeningcases.citizenId',
+									// 'firstname':'$citizens.firstName'
+									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}}
 				]).then(users => {
 					
