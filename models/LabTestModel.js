@@ -43,6 +43,7 @@ var LabTestCaseSchema = new mongoose.Schema({
 	YellowFever: {type: Number, required: false},
 	Others: {type: Number, required: false},
 	caseId:{type:String,required:true},
+	severity_hdlcholesterol: {type:Number, default:3, required:false}
 }, {timestamps: true});
 
 module.exports.LabTest = mongoose.model("LabTest", LabTestCaseSchema);

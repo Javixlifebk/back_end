@@ -450,6 +450,881 @@ exports.LipidPanelTestList=[
 	}
 
 ];
+// ===========================HDL start================================
+exports.LipidPanelHDLGreenList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_hdlcholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_hdlcholesterol:0}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelHDLDefaultList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_hdlcholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_hdlcholesterol:3}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelHDLAmberList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_hdlcholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_hdlcholesterol:1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelHDLRedList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_hdlcholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+				{$lookup:{
+					from:"screeningcases",
+					localField: "caseId",
+					foreignField:"caseId",
+					as:"screeningcases"
+					}
+				},
+				{$lookup:{
+					from:"citizens",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizens"
+					}
+				},
+				 {"$unwind":"$screeningcases"},
+				 {"$unwind":"$citizens"},
+							{'$match':{severity_hdlcholesterol:2}},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+// ===========================triglycerides==========================
+exports.LipidPaneltriglyGreenList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_triglycerides").escape(),
+	
+
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_triglycerides:0}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_triglycerides':1,
+									// 'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPaneltriglyLDefaultList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_triglycerides").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_triglycerides:3}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_triglycerides':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPaneltriglyAmberList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_triglycerides").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_triglycerides:1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_triglycerides':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPaneltriglyRedList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_triglycerides").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+				{$lookup:{
+					from:"screeningcases",
+					localField: "caseId",
+					foreignField:"caseId",
+					as:"screeningcases"
+					}
+				},
+				{$lookup:{
+					from:"citizens",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizens"
+					}
+				},
+				 {"$unwind":"$screeningcases"},
+				 {"$unwind":"$citizens"},
+							{'$match':{severity_triglycerides:2}},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_triglycerides':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+// =================================Cholesterol==========================
+exports.LipidPanelCholesterolGreenList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_cholesterol").escape(),
+	
+
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_cholesterol:0}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_cholesterol':1,
+									// 'severity_hdlcholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelCholesterolLDefaultList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_cholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_cholesterol:3}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_cholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelCholesterolAmberList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_cholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+							{'$match':{severity_cholesterol:1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_cholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+exports.LipidPanelCholesterolRedList=[
+
+	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("severity_cholesterol").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+            console.log(req.body.severity_hdlcholesterol);
+            // console.log(severity_hdlcholesterol);
+
+			LabTestCaseModel.LipidPanelTest.aggregate([
+				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+				{$lookup:{
+					from:"screeningcases",
+					localField: "caseId",
+					foreignField:"caseId",
+					as:"screeningcases"
+					}
+				},
+				{$lookup:{
+					from:"citizens",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizens"
+					}
+				},
+				 {"$unwind":"$screeningcases"},
+				 {"$unwind":"$citizens"},
+							{'$match':{severity_cholesterol:2}},
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'severity_cholesterol':1,
+									'cholesterol':1,
+									'hdlcholesterol':1,
+									'triglycerides':1,
+									'glucose':1,
+									'ldl':1,
+									'tcl_hdl':1,
+									'ldl_hdl':1,
+									'non_hdl':1,
+									'type':1,
+									'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+
 exports.LipidPanelTestldlGreenList=[
 
 		//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
