@@ -450,6 +450,399 @@ exports.LipidPanelTestList=[
 	}
 
 ];
+exports.LipidPanelTestldlGreenList=[
+
+		//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+		sanitizeBody("caseId").escape(),
+		sanitizeBody("severity_ldl").escape(),
+		
+		(req, res) => { 
+				
+			try {
+				const errors = validationResult(req);
+				if (!errors.isEmpty()) {
+					return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+				}else {
+	
+					// var matchfield={};
+					// 	var arraymatch=[];
+					// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+					// 	matchfield['caseId']=req.body.caseId;
+					// 	arraymatch.push(matchfield);
+					// 		matchfield={};
+					// }
+					// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
+					// {
+					// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
+					// 	arraymatch.push(matchfield);
+					// 		matchfield={};
+						
+					// }
+					// var andcond={'$match':{'$and':arraymatch}};
+						
+						// if (arraymatch.length===0){
+						// 	andcond={'$match':{}};
+	
+						// }
+						// console.dir(andcond);
+	
+						LabTestCaseModel.LipidPanelTest.aggregate([
+								// andcond,
+								{'$match':{severity_ldl:0}},
+								{$lookup:{
+									from:"screeningcases",
+									localField: "caseId",
+									foreignField:"caseId",
+									as:"screeningcases"
+									}
+								},
+								{$lookup:{
+									from:"citizens",
+									localField: "screeningcases.citizenId",
+									foreignField:"citizenId",
+									as:"citizens"
+									}
+								},
+								 {"$unwind":"$screeningcases"},
+								 {"$unwind":"$citizens"},
+								// {
+								// 	// output result into other collection
+								// 	$merge: {
+								// 	  into: '$citizens',
+								// 	},
+								//   },
+								
+							{'$project':{
+								'caseId':1,
+								'status':1,
+								'cholesterol':1,
+								'hdlcholesterol':1,
+								'triglycerides':1,
+								'glucose':1,
+								'severity_ldl':1,
+								'ldl':1,
+								'tcl_hdl':1,
+								'ldl_hdl':1,
+								'non_hdl':1,
+								'type':1,
+								'createdAt':1,
+								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+						}}
+					]).then(users => {
+						
+						let user=users[0];
+						if (user) {
+							for(var i=0;i<users.length;i++){
+								users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+	
+							}
+								return apiResponse.successResponseWithData(res,"Found", users);
+						}
+						else return apiResponse.ErrorResponse(res,"Not Found");
+						
+					});
+				}
+			} catch (err) {
+				
+				return apiResponse.ErrorResponse(res,"EXp:"+err);
+			}
+		}
+];
+exports.LipidPanelTestldlDefaultList=[
+
+	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("caseId").escape(),
+	sanitizeBody("severity_ldl").escape(),
+	
+	(req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+
+				// var matchfield={};
+				// 	var arraymatch=[];
+				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+				// 	matchfield['caseId']=req.body.caseId;
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+				// }
+				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
+				// {
+				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+					
+				// }
+				// var andcond={'$match':{'$and':arraymatch}};
+					
+					// if (arraymatch.length===0){
+					// 	andcond={'$match':{}};
+
+					// }
+					// console.dir(andcond);
+
+					LabTestCaseModel.LipidPanelTest.aggregate([
+							// andcond,
+							{'$match':{severity_ldl:3}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							// {
+							// 	// output result into other collection
+							// 	$merge: {
+							// 	  into: '$citizens',
+							// 	},
+							//   },
+							
+						{'$project':{
+							'caseId':1,
+							'status':1,
+							'cholesterol':1,
+							'hdlcholesterol':1,
+							'triglycerides':1,
+							'glucose':1,
+							'severity_ldl':1,
+							'ldl':1,
+							'tcl_hdl':1,
+							'ldl_hdl':1,
+							'non_hdl':1,
+							'type':1,
+							'createdAt':1,
+							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+					}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+];
+exports.LipidPanelTestldlAmberList=[
+
+	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("caseId").escape(),
+	sanitizeBody("severity_ldl").escape(),
+	
+	(req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+
+				// var matchfield={};
+				// 	var arraymatch=[];
+				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+				// 	matchfield['caseId']=req.body.caseId;
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+				// }
+				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
+				// {
+				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+					
+				// }
+				// var andcond={'$match':{'$and':arraymatch}};
+					
+					// if (arraymatch.length===0){
+					// 	andcond={'$match':{}};
+
+					// }
+					// console.dir(andcond);
+
+					LabTestCaseModel.LipidPanelTest.aggregate([
+							// andcond,
+							{'$match':{severity_ldl:1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							// {
+							// 	// output result into other collection
+							// 	$merge: {
+							// 	  into: '$citizens',
+							// 	},
+							//   },
+							
+						{'$project':{
+							'caseId':1,
+							'status':1,
+							'cholesterol':1,
+							'hdlcholesterol':1,
+							'triglycerides':1,
+							'glucose':1,
+							'severity_ldl':1,
+							'ldl':1,
+							'tcl_hdl':1,
+							'ldl_hdl':1,
+							'non_hdl':1,
+							'type':1,
+							'createdAt':1,
+							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+					}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+];
+exports.LipidPanelTestldlRedList=[
+
+	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	sanitizeBody("caseId").escape(),
+	sanitizeBody("severity_ldl").escape(),
+	
+	(req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+
+				// var matchfield={};
+				// 	var arraymatch=[];
+				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+				// 	matchfield['caseId']=req.body.caseId;
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+				// }
+				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
+				// {
+				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
+				// 	arraymatch.push(matchfield);
+				// 		matchfield={};
+					
+				// }
+				// var andcond={'$match':{'$and':arraymatch}};
+					
+					// if (arraymatch.length===0){
+					// 	andcond={'$match':{}};
+
+					// }
+					// console.dir(andcond);
+
+					LabTestCaseModel.LipidPanelTest.aggregate([
+							// andcond,
+							{'$match':{severity_ldl:2}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							// {
+							// 	// output result into other collection
+							// 	$merge: {
+							// 	  into: '$citizens',
+							// 	},
+							//   },
+							
+						{'$project':{
+							'caseId':1,
+							'status':1,
+							'cholesterol':1,
+							'hdlcholesterol':1,
+							'triglycerides':1,
+							'glucose':1,
+							'severity_ldl':1,
+							'ldl':1,
+							'tcl_hdl':1,
+							'ldl_hdl':1,
+							'non_hdl':1,
+							'type':1,
+							'createdAt':1,
+							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
+					}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+];
 
 //Glucose Test
 

@@ -12,6 +12,13 @@ routerLabTestController.post("/addDrugTest", LabTestController.addDrugTest);
 routerLabTestController.post("/getDrugTestList", LabTestController.DrugTestList);
 routerLabTestController.post("/addLipidPanelTest", LabTestController.addLipidPanelTest);
 routerLabTestController.post("/getLipidPanelTestList", LabTestController.LipidPanelTestList);
+
+routerLabTestController.post("/LipidPanelTestldlGreenList", LabTestController.LipidPanelTestldlGreenList);
+routerLabTestController.post("/LipidPanelTestldlAmberList", LabTestController.LipidPanelTestldlAmberList);
+routerLabTestController.post("/LipidPanelTestldlRedList", LabTestController.LipidPanelTestldlRedList);
+
+
+
 routerLabTestController.post("/addBloodGlucoseTest", LabTestController.addBloodGlucoseTest);
 routerLabTestController.post("/getBloodGlucoseTestList", LabTestController.BloodGlucoseTestList);
 routerLabTestController.post("/getBloodGlucoseTestCount", LabTestController.bloodGlucoseCount);
