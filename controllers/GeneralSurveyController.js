@@ -264,14 +264,14 @@ exports.tmp_out0List = [
                 as: "bloodglucosetests",
               },
             },
-            // {
-            //   $lookup: {
-            //     localField: "caseId",
-            //     from: "urinetests",
-            //     foreignField: "caseId",
-            //     as: "urinetests",
-            //   },
-            // },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "urinetests",
+                foreignField: "caseId",
+                as: "urinetests",
+              },
+            },
             {
               $lookup: {
                 localField: "caseId",
@@ -296,7 +296,7 @@ exports.tmp_out0List = [
             { $unwind: "$eyetests" },
           
             { $unwind: "$bloodglucosetests" },
-            // { $unwind: "$urinetests" },
+            { $unwind: "$urinetests" },
          
             {
               $project: {
@@ -337,15 +337,15 @@ exports.tmp_out0List = [
                 hemoglobins:"$hemoglobins.hemoglobin",
                 unit:"$bloodglucosetests.bloodglucose",
                 btype:"$bloodglucosetests.type",
-                // leukocytes:"$urinetests.leukocytes", 
-                // nitrite:"$urinetests.nitrite",
-                // urobilinogen:"$urinetests.urobilinogen", 
-                // protein:"$urinetests.protein",
-                // blood:"$urinetests.blood",
-                // specificGravity:"$urinetests.specificGravity",
-                // ketone:"$urinetests.ketone",
-                // bilirubin:"$urinetests.bilirubin",
-                // glucose:"$urinetests.glucose",
+                leukocytes:"$urinetests.leukocytes", 
+                nitrite:"$urinetests.nitrite",
+                urobilinogen:"$urinetests.urobilinogen", 
+                protein:"$urinetests.protein",
+                blood:"$urinetests.blood",
+                specificGravity:"$urinetests.specificGravity",
+                ketone:"$urinetests.ketone",
+                bilirubin:"$urinetests.bilirubin",
+                glucose:"$urinetests.glucose",
                 fvc_predicted:"$lungfunctions.fvc_predicted",
                 fvc_actual:"$lungfunctions.fvc_actual",
                 fev1_predicted:"$lungfunctions.fev1_predicted",
