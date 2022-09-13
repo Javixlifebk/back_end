@@ -280,15 +280,15 @@ exports.tmp_out0List = [
                 as: "lungfunctions",
               },
             },
-             {
-              $lookup: {
-                localField: "caseId",
-                from: "lipidpaneltests",
-                foreignField: "caseId",
-                as: "lipidpaneltests",
-              },
-            },
-             { $unwind: "$lipidpaneltests" },
+            //  {
+            //   $lookup: {
+            //     localField: "caseId",
+            //     from: "lipidpaneltests",
+            //     foreignField: "caseId",
+            //     as: "lipidpaneltests",
+            //   },
+            // },
+            //  { $unwind: "$lipidpaneltests" },
            
             { $unwind: "$lungfunctions" },
             { $unwind: "$hemoglobins" },
@@ -358,7 +358,7 @@ exports.tmp_out0List = [
                 fev1_predicted_percent:"$lungfunctions.fev1_predicted_percent",
                 fvc1_predicted_percent:"$lungfunctions.fvc1_predicted_percent",
                 pef_predicted_percent:"$lungfunctions.pef_predicted_percent",
-                cholesterol:"$lipidpaneltests.cholesterol",
+                // cholesterol:"$lipidpaneltests.cholesterol",
                 // hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
                 // triglycerides:"$lipidpaneltests.triglycerides",
                 // ldl:"$lipidpaneltests.ldl",
