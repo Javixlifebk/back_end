@@ -256,14 +256,14 @@ exports.tmp_out0List = [
               },
             },
             {$unwind:"$screeners"},
-            // {
-            //   $lookup: {
-            //     localField: "caseId",
-            //     from: "bloodglucosetests",
-            //     foreignField: "caseId",
-            //     as: "bloodglucosetests",
-            //   },
-            // },
+            {
+              $lookup: {
+                localField: "caseId",
+                from: "bloodglucosetests",
+                foreignField: "caseId",
+                as: "bloodglucosetests",
+              },
+            },
             // {
             //   $lookup: {
             //     localField: "caseId",
@@ -295,7 +295,7 @@ exports.tmp_out0List = [
             
             // { $unwind: "$eyetests" },
           
-            // { $unwind: "$bloodglucosetests" },
+            { $unwind: "$bloodglucosetests" },
             // { $unwind: "$urinetests" },
          
             {
@@ -335,8 +335,8 @@ exports.tmp_out0List = [
                 // leye:"$eyetests.leyetest",
                 // reye:"$eyetests.reyetest",
                 // hemoglobins:"$hemoglobins.hemoglobin",
-                // unit:"$bloodglucosetests.bloodglucose",
-                // type:"$bloodglucosetests.type",
+                unit:"$bloodglucosetests.bloodglucose",
+                btype:"$bloodglucosetests.type",
                 // leukocytes:"$urinetests.leukocytes", 
                 // nitrite:"$urinetests.nitrite",
                 // urobilinogen:"$urinetests.urobilinogen", 

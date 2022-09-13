@@ -31,6 +31,7 @@ routerLabTestController.post("/LipidPaneltriglyRedList", LabTestController.Lipid
 routerLabTestController.post("/LipidPaneltriglyDefaultList", LabTestController.LipidPaneltriglyLDefaultList);
 
 // ==============================            =============================
+// LipidPanelCholesterolGreenList
 routerLabTestController.post("/LipidPanelCholesterolGreenList", LabTestController.LipidPanelCholesterolGreenList);
 routerLabTestController.post("/LipidPanelCholesterolAmberList", LabTestController.LipidPanelCholesterolAmberList);
 routerLabTestController.post("/LipidPanelCholesterolRedList", LabTestController.LipidPanelCholesterolRedList);
