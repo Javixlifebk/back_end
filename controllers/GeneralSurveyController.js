@@ -361,11 +361,11 @@ exports.tmp_out0List = [
                 cholesterol:"$lipidpaneltests.cholesterol",
                 hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
                 triglycerides:"$lipidpaneltests.triglycerides",
-                ldl:"$lipidpaneltests.ldl",
-                tcl_hdl:"$lipidpaneltests.tcl_hdl",
-                ldl_hdl:"$lipidpaneltests.ldl_hdl",
-                non_hdl:"$lipidpaneltests.non_hdl",
-                glucose:"$lipidpaneltests.glucose",
+                // ldl:"$lipidpaneltests.ldl",
+                // tcl_hdl:"$lipidpaneltests.tcl_hdl",
+                // ldl_hdl:"$lipidpaneltests.ldl_hdl",
+                // non_hdl:"$lipidpaneltests.non_hdl",
+                // glucose:"$lipidpaneltests.glucose",
                 type:"$lipidpaneltests.type",
   
   
