@@ -222,14 +222,14 @@ exports.tmp_out0List = [
               },
             },
             { $unwind: "$citizens" },
-            // {
-            //   $lookup: {
-            //     localField: "citizenId",
-            //     from: "eyetests",
-            //     foreignField: "citizenId",
-            //     as: "eyetests",
-            //   },
-            // },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "eyetests",
+                foreignField: "citizenId",
+                as: "eyetests",
+              },
+            },
             {
               $lookup: {
                 localField: "citizenId",
@@ -293,7 +293,7 @@ exports.tmp_out0List = [
             // { $unwind: "$lungfunctions" },
             // { $unwind: "$hemoglobins" },
             
-            // { $unwind: "$eyetests" },
+            { $unwind: "$eyetests" },
           
             { $unwind: "$bloodglucosetests" },
             // { $unwind: "$urinetests" },
@@ -332,8 +332,8 @@ exports.tmp_out0List = [
                 Gender: "$citizens.sex",
                 // Address: "$citizen.address",
                 ScreenerId: "$citizens.screenerId",
-                // leye:"$eyetests.leyetest",
-                // reye:"$eyetests.reyetest",
+                leyeleft:"$eyetests.leyetest",
+                reyeright:"$eyetests.reyetest",
                 // hemoglobins:"$hemoglobins.hemoglobin",
                 unit:"$bloodglucosetests.bloodglucose",
                 btype:"$bloodglucosetests.type",
