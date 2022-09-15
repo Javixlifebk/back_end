@@ -1803,6 +1803,7 @@ exports.BloodGlucoseTestList=[
 
 					}
 					console.dir(andcond);
+					
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
 							andcond,

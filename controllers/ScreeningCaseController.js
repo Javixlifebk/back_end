@@ -2090,6 +2090,7 @@ exports.screeningSevika=[
 
 							tmp_out0.aggregate([
 									{$match:{severity_bp:2,severity_bmi:2}},
+                  {$limit:1000},
 									{$lookup: {  'localField':'citizenId',
 									'from':'citizendetails', 
 									'foreignField':'citizenId',
