@@ -43,10 +43,8 @@ exports.forgotpassword = [
 			}else {
 				//generate new  password
 				var newpassword=""+utility.randomNumber(8);
-				console.log("New Generated Ppassword"+newpassword);
 				bcrypt.hash(newpassword,10,function(err, hash) {
 					// Create User object with escaped and trimmed data
-					console.log(hash);
 					UserModel.findOneAndUpdate({'email':req.body.email},{'$set':{'password':hash}},function(err,resDoc)
 					{
 						 if (err) {
@@ -62,7 +60,6 @@ exports.forgotpassword = [
 										html
 									).then(function(){ 
 									}).catch(erri => {
-										//console.log(err);
 										return apiResponse.ErrorResponse(res,erri);
 									}) ; // End Mail
 							return apiResponse.successResponse(res,"Password has been sent to email account.");

@@ -65,9 +65,7 @@ mongoose.set();
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true,useFindAndModify:false}).then(() => {
 	//don't show the log when it is test
 	if(process.env.NODE_ENV !== "test") {
-		console.log("Connected to %s", MONGODB_URL);
-		console.log("App is running ... \n");
-		console.log("Press CTRL + C to stop the process. \n");
+	
 	}
 })
 	.catch(err => {
@@ -152,7 +150,7 @@ app.post('/upload/profile', (req, res) => {
 
         // Display uploaded image for user validation
 
-        console.log(req.file);
+       
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,
@@ -206,7 +204,7 @@ app.post('/upload/documents', (req, res) => {
 
         // Display uploaded image for user validation
 
-        console.log(req.file);
+       
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,

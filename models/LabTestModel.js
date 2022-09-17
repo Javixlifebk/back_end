@@ -59,7 +59,6 @@ var BloodGlucoseTestSchema = new mongoose.Schema({
 
 //Severity CALCULATOR
 BloodGlucoseTestSchema.pre("save",function(){
-console.log("------------Presave-------------------------");
 	if(this.bloodglucose.length!=0 && isNaN(this.bloodglucose)==false)
 					 { 
 					   this.bloodglucose=parseFloat(this.bloodglucose);
@@ -71,7 +70,6 @@ console.log("------------Presave-------------------------");
 					   else if(((this.bloodglucose>70 || this.bloodglucose<100) && this.type==='Pre Meal(Fasting)') || ((this.bloodglucose>120 || this.bloodglucose<180) && this.type==='Post Meal') || ((this.bloodglucose>130 || this.bloodglucose<150) && this.type==='Pre Exercise')|| ((this.bloodglucose>110 || this.bloodglucose<140) && this.type==='Post Exercise') || ((this.bloodglucose>70 || this.bloodglucose<100) && this.type==='Non-Fasting(Random)') || (this.bloodglucose>70 || this.bloodglucose<140))
 					   	{this.severity=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 
@@ -101,7 +99,6 @@ var LipidPanelTestSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 LipidPanelTestSchema.pre("save",function(){
-console.log("------------Presave-------------------------");
 	if(this.cholesterol.length!=0 && isNaN(this.cholesterol)==false)
 					 { 
 					   this.cholesterol=parseFloat(this.cholesterol);
@@ -113,7 +110,6 @@ console.log("------------Presave-------------------------");
 					   else 
 					   	{this.severity_cholesterol=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 
@@ -128,7 +124,6 @@ console.log("------------Presave-------------------------");
 					   else 
 					   	{this.severity_hdlcholesterol=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 
@@ -143,7 +138,6 @@ console.log("------------Presave-------------------------");
 					   else 
 					   	{this.severity_triglycerides=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 	if(this.ldl.length!=0 && isNaN(this.ldl)==false)
@@ -157,7 +151,6 @@ console.log("------------Presave-------------------------");
 					   else 
 					   	{this.severity_ldl=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 

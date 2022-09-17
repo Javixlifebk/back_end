@@ -179,7 +179,6 @@ exports.register = [
 						});
 						
 					}).catch(err => {
-						//console.log(err);
 						return apiResponse.ErrorResponse(res,err);
 					}) ;
 				});
@@ -237,7 +236,6 @@ exports.login = [
 							}
 						]
 				).then(users => {
-					//console.log(users);
 					
 					let user=users[0];
 					
@@ -265,7 +263,7 @@ exports.login = [
 					request(options, function (error, response, body) {
 					  if (error) datass=null;
 					  else {
-					  		console.log(body);
+					  	
 					  		body=JSON.parse(body);
 					  		if(body.status==1)
 					  		datass=body.data.data[0].actorId;
@@ -291,7 +289,6 @@ exports.login = [
 											phoneNo1:user.info.phoneNo1
 											
 										}
-										console.log(userData);
 									
 										//Prepare JWT token for authentication
 										const jwtPayload = userData;
@@ -464,7 +461,6 @@ exports.authListByStatus=[
 					if(req.body.searchterm!=null){
 						term="(?i)"+req.body.searchterm;
 					}
-					console.log(setfield);
 					
 					UserModel.aggregate([
 							{'$match':{'$and':[{'status':_istatus},setfield,{'roleId':{'$ne':6}}]}},
@@ -527,7 +523,6 @@ async function getId(uid,rid){
 					await request(options, function (error, response, body) {
 					  if (error) return error;
 					  else {
-					  		console.log(body.status);
 					  		return "";
 					  	
 					  }
@@ -557,6 +552,5 @@ var options = { method: 'GET',
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
 
-  console.log(body);
 });
 }

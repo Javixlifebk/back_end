@@ -42,7 +42,6 @@ mongoose.set('useCreateIndex', true);
            {$match:{Age: { $gte: 40 }}},
            {$out:"lipidcritical"}]).then(recs => {
                         if(recs){
-                                console.log(recs);
                                 process.exit(1);
                         }
                 });
@@ -51,8 +50,7 @@ mongoose.set('useCreateIndex', true);
 
         mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false }).then(() => {
 
-                console.log("Connected to %s", MONGODB_URL);
-                console.log("App is running ... \n");
+                
                 _generate(0);
 
 

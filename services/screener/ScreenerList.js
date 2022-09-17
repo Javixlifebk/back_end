@@ -158,11 +158,9 @@ exports.screenerList=[
 					let user=users[0];
 					var temp=[];
 					if (user) {
-						console.log(users.length);
 						if(req.body.ismapped!='' && req.body.ismapped!=undefined && req.body.ismapped!=null){
 						for(var i=0;i<users.length;i++){
 
-							console.log(users);
 							
 								if(req.body.ismapped===0 || req.body.ismapped==='0'){
 									if(users[i].parentId===""){

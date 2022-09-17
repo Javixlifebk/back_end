@@ -15,7 +15,6 @@ let model=mongoose.model("Hemoglobin", HemoglobinSchema);
 
 //Severity CALCULATOR
 HemoglobinSchema.pre("save",function(){
-console.log("------------Presave-------------------------");
 	if(this.hemoglobin.length!=0 && isNaN(this.hemoglobin)==false)
 					 { 
 					   this.hemoglobin=parseFloat(this.hemoglobin);
@@ -27,7 +26,6 @@ console.log("------------Presave-------------------------");
 					   else if(this.hemoglobin>=12 ||  this.hemoglobin<=16)
 					   	{this.severity=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 

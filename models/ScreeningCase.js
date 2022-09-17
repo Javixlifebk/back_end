@@ -35,7 +35,6 @@ var ScreeningCaseSchema = new mongoose.Schema({
 
 //Severity CALCULATOR
 ScreeningCaseSchema.pre("save",function(){
-console.log("------------Presave-------------------------");
 	if(this.temperature.length!=0 && isNaN(parseInt(this.temperature))==false)
 					 { 
 					   this.temperature=parseFloat(this.temperature);

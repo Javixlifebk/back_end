@@ -7,9 +7,7 @@ class MenuClass
 		for(var i=0;i<this.menuRecs.length;i++)
 		{
 			this.prepareMenu(this.menuRecs[i]);
-			//console.log(this.menuRecs[i]);
 		}
-		console.log(this.JSONMENUS);
 		
 		return(this.JSONMENUS);
 	}
@@ -31,7 +29,8 @@ class MenuClass
 			tmpItemId=itemId;
 			tmpParentId=parentId;
 			var rec={id:tmpItemId,title:title,type:'item',navLink:linkURL};
-			if(this.JSONMENUS[tmpParentId]===undefined) {console.log("Not Found "+tmpParentId);this.JSONMENUS[tmpParentId]={};}
+			if(this.JSONMENUS[tmpParentId]===undefined) {
+				this.JSONMENUS[tmpParentId]={};}
 			this.JSONMENUS[tmpParentId].children.push(rec);
 			
 		}
@@ -41,7 +40,6 @@ class MenuClass
 			var rec={id:tmpItemId,title:title,type:'collapse',children:[]};
 			if(this.JSONMENUS[tmpItemId]===undefined) {this.JSONMENUS[tmpItemId]={};}
 			this.JSONMENUS[tmpItemId]=rec;
-			console.log(this.JSONMENUS[tmpItemId]);
 		}
 		else if (type==="N")
 		{
@@ -113,7 +111,6 @@ exports.toDDmmyy=function(yymmdd)
 	if(cols.length>2 )
 	{
 		ddmmyy=cols[2]+"-"+cols[1]+"-"+cols[0];
-		console.log(ddmmyy);
 		return ddmmyy;
 	}
 	else{
@@ -124,7 +121,6 @@ exports.toDDmmyy=function(yymmdd)
 	if(cols.length>2 )
 	{
 		ddmmyy=cols[2].split('T')[0]+"-"+cols[1]+"-"+cols[0];
-		console.log(ddmmyy);
 		return ddmmyy;
 	}
 	else{

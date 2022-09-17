@@ -15,7 +15,6 @@ exports.send = function (from, to, subject, html)
 {
 	// send mail with defined transport object
 	// visit https://nodemailer.com/ for more options
-	console.log(from + "----" + to + "---" + html);
 	return transporter.sendMail({
 		from: "Verify Admin <verify@javixlife.org>", // sender address e.g. no-reply@xyz.com or "Fred Foo 👻" <foo@example.com>
 		to: to, // list of receivers e.g. bar@example.com, baz@example.com

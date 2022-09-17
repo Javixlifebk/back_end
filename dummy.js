@@ -86,7 +86,6 @@ mongoose.set('useCreateIndex', true);
 		
 		]).then(recs => {
 			if(recs){
-				console.log(recs);
 				if(_status==0){
 				_generate(_status+1);}
 				else process.exit(1);
@@ -97,8 +96,6 @@ mongoose.set('useCreateIndex', true);
 
 	mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
 	
-		console.log("Connected to %s", MONGODB_URL);
-		console.log("App is running ... \n");
 		_generate(0);
 		
 		

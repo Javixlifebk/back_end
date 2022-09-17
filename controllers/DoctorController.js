@@ -537,7 +537,7 @@ exports.addDoctorSchedules = [
 							day:req.body.day,
 							timeslots: req.body.timeslots
 					}).then((user) => {
-						console.log(user[0]);
+						
 
 						if(user[0]){
 							return apiResponse.ErrorResponse(res,"Timeslot already Exists");	
@@ -608,7 +608,7 @@ exports.getDoctorScheduleList=[
 					var doctorId,day,timeslots;
 					var matchfield={};
 					var arraymatch=[];
-					//console.log(req.body.recordId);
+					
 
 					
 					if(req.body.doctorId!=null && req.body.doctorId!=undefined && req.body.doctorId!="" ){
@@ -632,7 +632,7 @@ exports.getDoctorScheduleList=[
 
 					
 					var andcond={'$match':{'$and':arraymatch}};
-					console.log(arraymatch);
+				
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
 
@@ -668,7 +668,7 @@ exports.getDoctorScheduleList=[
 					if (user) {
 						for(i=0;i<users.length;i++){
 						let temp=users[i];
-						//console.log(temp.createdAt);
+						
 						var timeslotss="";
 						
 					  	if(temp.timeslots!=null && temp.timeslots!=undefined && temp.timeslots!=""){

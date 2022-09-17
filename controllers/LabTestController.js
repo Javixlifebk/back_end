@@ -66,7 +66,7 @@ exports.addLabTest = [
 				    var ID=utility.uID();
 					
 					var userId=req.body.userId;
-					console.log("I am in");
+					
 					var recLabTest={
 							ChagasAb:req.body.ChagasAb,
 							Chikungunya:req.body.Chikungunya,
@@ -106,7 +106,6 @@ exports.addLabTest = [
 							caseId:req.body.caseId,
 							status:req.body.status
 					};
-					console.log(recLabTest);
 					var actionLabTestCase=new LabTestCaseModel.LabTest(recLabTest);
 					actionLabTestCase.save(function(_error)
 					{
@@ -256,7 +255,6 @@ exports.addDrugTest = [
 							Propoxyphene:req.body.Propoxyphene,
 							TricyclicAntidepressant:req.body.TricyclicAntidepressant
 					};
-					console.log(recDrugTest);
 					var actionDrugTestCase=new LabTestCaseModel.DrugTest(recDrugTest);
 					actionDrugTestCase.save(function(_error)
 					{
@@ -379,7 +377,6 @@ exports.addLipidPanelTest = [
 							glucose:req.body.glucose,
 							type:req.body.type
 					};
-					console.log(recLipidPanelTest);
 					var actionLipidPanelTestCase=new LabTestCaseModel.LipidPanelTest(recLipidPanelTest);
 					actionLipidPanelTestCase.save(function(_error)
 					{
@@ -463,9 +460,7 @@ exports.LipidPanelHDLGreenList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
-
+         
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 							{'$match':{severity_hdlcholesterol:0}},
@@ -535,8 +530,7 @@ exports.LipidPanelHDLDefaultList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+           
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -607,8 +601,7 @@ exports.LipidPanelHDLAmberList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+           
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -679,8 +672,7 @@ exports.LipidPanelHDLRedList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+          
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -754,8 +746,7 @@ exports.LipidPaneltriglyGreenList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+           
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -827,8 +818,7 @@ exports.LipidPaneltriglyLDefaultList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+        
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -899,8 +889,7 @@ exports.LipidPaneltriglyAmberList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+          
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -971,8 +960,7 @@ exports.LipidPaneltriglyRedList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+          
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -1046,9 +1034,7 @@ exports.LipidPanelCholesterolGreenList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
-
+          
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 							{'$match':{severity_cholesterol:0}},
@@ -1119,8 +1105,7 @@ exports.LipidPanelCholesterolLDefaultList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+            
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -1191,8 +1176,7 @@ exports.LipidPanelCholesterolAmberList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+          
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -1263,8 +1247,7 @@ exports.LipidPanelCholesterolRedList=[
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-            console.log(req.body.severity_hdlcholesterol);
-            // console.log(severity_hdlcholesterol);
+           
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
@@ -1748,7 +1731,7 @@ exports.addBloodGlucoseTest = [
 							bloodglucose:req.body.bloodglucose,
 							type:req.body.type
 					};
-					console.log(recBloodGlucoseTest);
+					
 					var actionBloodGlucoseTestCase=new LabTestCaseModel.BloodGlucoseTest(recBloodGlucoseTest);
 					actionBloodGlucoseTestCase.save(function(_error)
 					{
@@ -1888,14 +1871,14 @@ exports.addSickleCell = [
 				    var ID=utility.uID();
 					
 					var userId=req.body.userId;
-					console.log("I am in");
+					
 					var recSickleCell={
 							SickleCell:req.body.SickleCell,
 							caseId:req.body.caseId,
 							notes:req.body.notes,
 							status:req.body.status
 					};
-					console.log(recSickleCell);
+					
 					var actionSickleCell=new SickleCellModel.SickleCell(recSickleCell);
 					actionSickleCell.save(function(_error)
 					{
@@ -1979,14 +1962,14 @@ exports.addThalassemia = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 				    
-					console.log("I am in");
+					
 					var recThalassemia={
 							Thalassemia:req.body.Thalassemia,
 							caseId:req.body.caseId,
 							notes:req.body.notes,
 							status:req.body.status
 					};
-					console.log(recThalassemia);
+					
 					var actionThalassemia=new ThalassemiaModel.Thalassemia(recThalassemia);
 					actionThalassemia.save(function(_error)
 					{
@@ -2085,7 +2068,7 @@ sanitizeBody("pef_predicted_percent").escape(),
 				    var ID=utility.uID();
 					
 					var userId=req.body.userId;
-					console.log("I am in");
+					
 					var recLung={
 							fvc_predicted:req.body.fvc_predicted,
 							fvc_actual:req.body.fvc_actual,
@@ -2103,7 +2086,7 @@ sanitizeBody("pef_predicted_percent").escape(),
 							caseId:req.body.caseId,
 							status:req.body.status
 					};
-					console.log(recLung);
+				
 					var actionLung=new LungFunctionTest.LungFunction(recLung);
 					actionLung.save(function(_error)
 					{

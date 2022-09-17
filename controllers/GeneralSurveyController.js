@@ -106,7 +106,7 @@ exports.addGeneralSurvey = [
         });
       }
     } catch (err) {
-      console.log(err);
+     
       return apiResponse.ErrorResponse(res, err);
     }
   },

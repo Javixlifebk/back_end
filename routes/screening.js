@@ -17,5 +17,7 @@ routerScreeningCase.post("/getListSeverity", ScreeningCaseController.screeningLi
 routerScreeningCase.get("/countByScreener", ScreeningCaseController.screeningCountperScreener);
 routerScreeningCase.post("/lipidCritical", ScreeningCaseController.lipid);
 routerScreeningCase.post("/secreenerSevika", ScreeningCaseController.screeningSevika);
+routerScreeningCase.post("/lipidCount", ScreeningCaseController.lipidCount);
+routerScreeningCase.post("/lipidC", ScreeningCaseController.lipidcritical);
 
 module.exports = routerScreeningCase;

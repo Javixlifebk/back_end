@@ -636,7 +636,7 @@
 						else if(icolor===1) { red=255;green=255;blue=0; }
 						else if(icolor===2){ green=255-Math.floor(4.25*tcolor);red=255;blue=0; }
 						if(pointerTag===iLimit)
-						{   console.log("FOUND");
+						{   
 							html=html+'<span style=\'color:white;background-color:rgb(0,0,0)\'><span style=\'display:inline-block;border:1px solid #fff;border-radius:5px;\'>'+pointerTag+'</span></span>';
 						}
 						else
@@ -647,7 +647,7 @@
 						tcolor++;
 					}
 					
-					html=html+'</div>'; console.log(html);
+					html=html+'</div>'; 
 					return(html);
 				}
 				
@@ -837,7 +837,6 @@
 				var vx=div.innerHTML;
 				var gx=document.getElementById("lgender");
 					 var value=vx;
-					 console.log(vx);
 					 if(value.length!=0 && isNaN(value)==false)
 					 { div.innerHTML=value;
 					   value=parseFloat(value);
@@ -899,7 +898,6 @@
 			{
 				if(div!=null){
 				var vx=div.innerHTML;
-				console.log(vx);
 					 var value=vx;
 					 if(value.length!=0)
 					 { div.innerHTML=value;
@@ -1032,7 +1030,7 @@
 			 var height=document.getElementById("height");	  var HT=setHeight(height);
 			 var weight=document.getElementById("weight");	  var WT=setWeight(weight);
 			 
-			 var pointer=(BP+OX+TM+BM)*12; console.log("POINTER="+pointer);
+			 var pointer=(BP+OX+TM+BM)*12; 
 			 document.getElementById('myBar').innerHTML=getBar(pointer);
 
 			 var risk=document.getElementById("risk");
@@ -1050,7 +1048,6 @@
 			 
 			 
 			  var ltest=document.getElementsByName("ltest"); 
-			  //console.log(ltest);
 			  for(var i=0;i<ltest.length;i++){
 			  setTest(ltest[i]);
 			}

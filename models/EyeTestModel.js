@@ -14,7 +14,6 @@ var EyeTestSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 EyeTestSchema.pre("save",function(){
-console.log("------------Presave-------------------------");
 	if(this.reyetest.length!=0)
 					 {
 					   
@@ -25,7 +24,6 @@ console.log("------------Presave-------------------------");
 					   else
 					   	{this.severity_reye=0; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 }
 	if(this.leyetest.length!=0)
@@ -38,7 +36,6 @@ console.log("------------Presave-------------------------");
 					   else
 					   	{this.severity_leye=2; }
 					   
-					   console.log("------------Presave Done-------------------------");
 					   
 					 } 
 

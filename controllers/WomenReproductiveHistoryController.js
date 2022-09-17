@@ -122,7 +122,6 @@ exports.addWomenReproductiveHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -240,7 +239,6 @@ exports.addWomenReproductiveHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -328,7 +326,6 @@ exports.WomenHistoryList=[
 							}
 						]
 				).then(users => {
-					console.log(users);
 					
 					let user=users[0];
 					if (user) {

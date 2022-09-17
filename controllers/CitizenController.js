@@ -20,7 +20,6 @@ exports.addProfile = [
 			return ScreenerModel.Screener.findOne({screenerId : value}).then((user) => {
 				if (user) {}
 				else{
-					console.log(value);
 					return Promise.reject("Screener Not Found !");
 				}
 			});
@@ -149,7 +148,6 @@ exports.addProfile = [
 					var randThree=utility.randomNumber(3);
 					javixId=req.body.state+"/"+req.body.district.substring(0, 2)+"/"+ngoRowNo+"/"+req.body.firstName.substring(0, 1)+""+req.body.lastName.substring(0, 1)+""+dobEscape+"/"+randThree;
 					var ID=utility.uID();
-					console.log("PASS:"+passwordGenrated+" : JID="+javixId);
 					var screenerId=req.body.screenerId;
 					var citizenLoginId;
 					if(req.body.email!=null && req.body.email!=undefined && req.body.email!="" ){
@@ -358,7 +356,6 @@ exports.citizenList=[
 			}else {
 				var matchfield={};
 					var arraymatch=[];
-					//console.log(req.body.recordId);
 
 					
 					if(req.body.screenerId!=null && req.body.screenerId!=undefined && req.body.screenerId!="" ){
@@ -405,7 +402,6 @@ exports.citizenList=[
 					}
 
 					var andcond={'$match':{'$or':arraymatch}};
-					console.log(arraymatch);
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
 
@@ -493,11 +489,8 @@ exports.citizenList=[
 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
-					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
-					  		//console.log(qdate);
 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-					  		console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{
@@ -655,13 +648,7 @@ exports.citizenList=[
 					  	
 // 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
-// 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
-// 					  		console.log(ddate);
-// 					  		var qdate=new Date(ddate);
-// 					  		//console.log(qdate);
-// 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-// 					  		console.log(temp.info.dateOfBirth);
-// 					  		users[i]=temp;
+// 					  	
 // 					  	}
 // 					  	else{
 // 					  		temp.info.dateOfBirth=ddate;
@@ -818,7 +805,7 @@ exports.citizenRefers=[
 								 'screenerId':1,
 								 'caseId':'$cases.caseId',
 								 'caseStatus':'$cases.status',
-								
+
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
@@ -883,11 +870,8 @@ exports.citizenRefers=[
 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
-					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
-					  		//console.log(qdate);
 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-					  		console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{
@@ -931,7 +915,6 @@ exports.citizenListSearcher=[
 					}*/
 if(req.body.v!=null && req.body.v!=undefined && req.body.v!="" ){
 let vtemp=req.body.v.trim().split(" ");
-console.log(vtemp);
 if(vtemp.length===2){
 queryP={'$match':{'$and':[{'firstName':{$regex: ".*" + vtemp[0] + ".*",$options: "i"}},{'lastName':{$regex: ".*" + vtemp[1] + ".*",$options: "i"}}]}};
 }
@@ -1032,11 +1015,8 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
-					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
-					  		//console.log(qdate);
 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-					  		console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{
@@ -1329,11 +1309,8 @@ exports.recordList=[
 					  	if(temp.createdAt!=null && temp.createdAt!=undefined && temp.createdAt!=""){
 					  		
 					  		ddate=temp.createdAt.toISOString().split('T')[0];
-					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
-					  		//console.log(qdate);
 					  		temp.createdAt=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-					  		//console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{
@@ -1671,7 +1648,6 @@ exports.updateCitizenAddress = [
 			}else {
 				var matchfield={};
 					var arraymatch=[];
-					//console.log(req.body.recordId);
 
 					
 					if(req.body.screenerId!=null && req.body.screenerId!=undefined && req.body.screenerId!="" ){
@@ -1718,7 +1694,6 @@ exports.updateCitizenAddress = [
 					}
 
 					var andcond={'$match':{'$or':arraymatch}};
-					console.log(arraymatch);
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
 
@@ -1806,11 +1781,8 @@ exports.updateCitizenAddress = [
 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
-					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
-					  		//console.log(qdate);
 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
-					  		console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{

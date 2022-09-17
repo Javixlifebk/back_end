@@ -119,7 +119,6 @@ exports.addProfile = [
 					var ID=utility.uID();
 					
 					var userId=req.body.userId;
-					console.log(issubscreener);
 					var recScreener={
 							screenerId:ID,
 							firstName:req.body.firstName,

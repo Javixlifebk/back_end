@@ -120,7 +120,7 @@ exports.addPersonalHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -233,7 +233,7 @@ exports.addPersonalHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -334,7 +334,6 @@ exports.PersonalHistoryList=[
 							}
 						]
 				).then(users => {
-					console.log(users);
 					
 					let user=users[0];
 					if (user) {

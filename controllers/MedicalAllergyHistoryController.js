@@ -101,7 +101,7 @@ exports.addAllergy = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -242,7 +242,7 @@ exports.addHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -334,7 +334,7 @@ exports.historyAllergyList=[
 							}
 						]
 				).then(users => {
-					console.log(users);
+				
 					
 					let user=users[0];
 					if (user) {
@@ -469,7 +469,7 @@ exports.historyMedicalList=[
 							}
 						]
 				).then(users => {
-					console.log(users);
+				
 					
 					let user=users[0];
 					if (user) {
@@ -671,7 +671,7 @@ exports.updateHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -745,7 +745,7 @@ exports.updateAllergy = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];

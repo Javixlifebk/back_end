@@ -3,6 +3,7 @@ const CitizenModel = require("../models/CitizenModel");
 const DoctorModel = require("../models/DoctorModel");
 const ScreenerModel = require("../models/ScreenerModel");
 const SymptomsModel = require("../models/SymptomsModel");
+const tmp_out_all = require("../models/tmp_out_all");
 const { body, query, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
@@ -299,7 +300,6 @@ exports.updateCaseDetails = [
           setfield["referDocId"] = referDocId;
         }
 
-        console.log(temppstatus);
 
         ScreeningCaseModel.ScreeningCase.findOneAndUpdate(
           { caseId: caseId },
@@ -339,54 +339,52 @@ exports.updateCaseDetails = [
     }
   },
 ];
-exports.updateAddUnrefer= [
-	(req, res) => { 
-		
-		ScreeningCaseModel.ScreeningCase.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
-	  
-		  .then((note) => {
-			if (!note) {
-			  return res.status(404).send({
-				message: "data not found with id " + req.params.id,
-			  });
-			}
-			res.send(note);
-		  })
-		  .catch((err) => {
-		  
-			if (err.kind === "ObjectId") {
-			  return res.status(404).send({
-				message: "data not found with id ",
-			  });
-			}
-			return res.status(500).send({
-			  message: "Error updating note with id ",
-			});
-		  });
-		   
-	}
+exports.updateAddUnrefer = [
+  (req, res) => {
+    ScreeningCaseModel.ScreeningCase.update(
+      {},
+      { $set: { isUnrefer: false } },
+      { upsert: false, multi: true }
+    )
 
-	// (req, res) => { 
-			
-	// 	try {
-	// 		const errors = validationResult(req);
-	// 		if (!errors.isEmpty()) {
-	// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-	// 		}else {
-					
-					
-	// 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
-				
+      .then((note) => {
+        if (!note) {
+          return res.status(404).send({
+            message: "data not found with id " + req.params.id,
+          });
+        }
+        res.send(note);
+      })
+      .catch((err) => {
+        if (err.kind === "ObjectId") {
+          return res.status(404).send({
+            message: "data not found with id ",
+          });
+        }
+        return res.status(500).send({
+          message: "Error updating note with id ",
+        });
+      });
+  },
 
-	// 			return apiResponse.successResponseWithData(res,"Successfully Updated");
-					
-					
-	// 		}
-	// 	} catch (err) {
-			
-	// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
-	// 	}
-	// }
+  // (req, res) => {
+
+  // 	try {
+  // 		const errors = validationResult(req);
+  // 		if (!errors.isEmpty()) {
+  // 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+  // 		}else {
+
+  // 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
+
+  // 			return apiResponse.successResponseWithData(res,"Successfully Updated");
+
+  // 		}
+  // 	} catch (err) {
+
+  // 		return apiResponse.ErrorResponse(res,"EXp:"+err);
+  // 	}
+  // }
 ];
 
 exports.screeningList = [
@@ -427,7 +425,6 @@ exports.screeningList = [
           severity;
         var matchfield = {};
         var arraymatch = [];
-        //console.log(req.body.recordId);
 
         if (
           req.body.notes != null &&
@@ -598,7 +595,6 @@ exports.screeningList = [
         // arraymatch.push(matchfield);
 
         var andcond = { $match: { $and: arraymatch } };
-        console.log(arraymatch);
         if (arraymatch.length === 0) {
           andcond = { $match: {} };
         }
@@ -653,7 +649,7 @@ exports.screeningList = [
               as: "screeners",
             },
           },
-
+         {$unwind:'$citizens'},
           {
             $project: {
               citizenId: 1,
@@ -692,8 +688,8 @@ exports.screeningList = [
               "doctors.experience": 1,
               "doctors.referenceName": 1,
               "doctors.type": 1,
-              "citizens.firstName": 1,
-              "citizens.lastName": 1,
+              firstName: "$citizens.firstName",
+              lastname:"$citizens.lastName",
               "citizens.email": 1,
               "citizens.mobile": 1,
               "citizens.sex": 1,
@@ -712,7 +708,6 @@ exports.screeningList = [
           if (user) {
             for (i = 0; i < users.length; i++) {
               let temp = users[i];
-              console.log(temp.createdAt);
               var cdate = "";
               if (
                 temp.height != null &&
@@ -727,7 +722,6 @@ exports.screeningList = [
                 temp.createdAt != ""
               ) {
                 cdate = temp.createdAt.toISOString().split("T")[0];
-                console.log(cdate);
                 var adate = new Date(cdate);
                 temp.createdAt =
                   adate.getDate() +
@@ -736,7 +730,6 @@ exports.screeningList = [
                   "-" +
                   (adate.getYear() + 1900);
                 users[i] = temp;
-                console.log(temp.createdAt);
               } else {
                 temp.createdAt = cdate;
                 users[i] = temp;
@@ -781,7 +774,6 @@ exports.screeningListCount = [
           severity;
         var matchfield = {};
         var arraymatch = [];
-        //console.log(req.body.recordId);
 
         if (
           req.body.notes != null &&
@@ -952,7 +944,7 @@ exports.screeningListCount = [
         // arraymatch.push(matchfield);
 
         var andcond = { $match: { $and: arraymatch } };
-        console.log(arraymatch);
+       
         if (arraymatch.length === 0) {
           andcond = { $match: {} };
         }
@@ -1047,7 +1039,6 @@ exports.screeningDetailsList = [
         var caseId, date;
         var matchfield = {};
         var arraymatch = [];
-        //console.log(req.body.recordId);
 
         if (
           req.body.caseId != null &&
@@ -1078,7 +1069,6 @@ exports.screeningDetailsList = [
         }
 
         var andcond = { $match: { $and: arraymatch } };
-        console.log(arraymatch);
         if (arraymatch.length === 0) {
           andcond = { $match: {} };
         }
@@ -1349,7 +1339,6 @@ exports.screeningEncounters = [
           if (user) {
             for (i = 0; i < users.length; i++) {
               let temp = users[i];
-              console.log(temp.createdAt);
               var cdate = "";
               if (
                 temp.height != null &&
@@ -1364,7 +1353,6 @@ exports.screeningEncounters = [
                 temp.createdAt != ""
               ) {
                 cdate = temp.createdAt.toISOString().split("T")[0];
-                console.log(cdate);
                 var adate = new Date(cdate);
                 temp.createdAt =
                   adate.getDate() +
@@ -1373,7 +1361,6 @@ exports.screeningEncounters = [
                   "-" +
                   (adate.getYear() + 1900);
                 users[i] = temp;
-                console.log(temp.createdAt);
               } else {
                 temp.createdAt = cdate;
                 users[i] = temp;
@@ -1509,7 +1496,6 @@ exports.addSymptoms = [
           data: req.body.data,
           caseId: req.body.caseId,
         };
-        console.log(recSymptoms);
         var actionSymptoms = new SymptomsModel.Symptoms(recSymptoms);
         actionSymptoms.save(function (_error) {
           if (_error) {
@@ -1608,7 +1594,6 @@ exports.screeningListSeverity = [
           severity;
         var matchfield = {};
         var arraymatch = [];
-        //console.log(req.body.recordId);
 
         if (
           req.body.notes != null &&
@@ -1779,7 +1764,6 @@ exports.screeningListSeverity = [
         // arraymatch.push(matchfield);
 
         var andcond = { $match: { $and: arraymatch } };
-        console.log(arraymatch);
         if (arraymatch.length === 0) {
           andcond = { $match: {} };
         }
@@ -1872,7 +1856,8 @@ exports.lipid = [
         );
       } else {
         ScreeningCaseModel.ScreeningCase.aggregate([
-          { $match: { severity_bp: 2, severity_bmi: 2 } },
+           { $match: { severity_bp: 2 } },
+          { $match: { severity_bmi: 2 } },
           {
             $lookup: {
               localField: "citizenId",
@@ -1905,7 +1890,7 @@ exports.lipid = [
               as: "hemoglobins",
             },
           },
-		      {
+          {
             $lookup: {
               localField: "screenerId",
               from: "screeners",
@@ -1945,6 +1930,7 @@ exports.lipid = [
               as: "lipidpaneltests",
             },
           },
+          // { $group: { myCount: { $sum: 1 } } },
           { $unwind: "$citizendetails" },
           { $unwind: "$lungfunctions" },
           { $unwind: "$hemoglobins" },
@@ -1953,90 +1939,99 @@ exports.lipid = [
           { $unwind: "$lipidpaneltests" },
           { $unwind: "$bloodglucosetests" },
           { $unwind: "$urinetests" },
-         {$unwind:"$screeners"},
+          { $unwind: "$screeners" },
           {
             $project: {
               citizenId: 1,
-              'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+              // myCount: { $sum: 1 } ,
+              fullname: {
+                $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+              },
               // FirstName: "$citizens.firstName",
               // LastName: "$citizens.lastName",
               Email: "$citizens.email",
-              aadhaar:'$citizens.aadhaar',
-              address: '$citizendetails.address',
+              aadhaar: "$citizens.aadhaar",
+              address: "$citizendetails.address",
               Gender: "$citizens.sex",
               Address: "$citizen.address",
               ScreenerId: "$citizens.screenerId",
-              leye:"$eyetests.leyetest",
-              reye:"$eyetests.reyetest",
-              hemoglobins:"$hemoglobins.hemoglobin",
-              unit:"$bloodglucosetests.bloodglucose",
-              type:"$bloodglucosetests.type",
-              leukocytes:"$urinetests.leukocytes", 
-              nitrite:"$urinetests.nitrite",
-              urobilinogen:"$urinetests.urobilinogen", 
-              protein:"$urinetests.protein",
-              blood:"$urinetests.blood",
-              specificGravity:"$urinetests.specificGravity",
-              ketone:"$urinetests.ketone",
-              bilirubin:"$urinetests.bilirubin",
-              glucose:"$urinetests.glucose",
-              fvc_predicted:"$lungfunctions.fvc_predicted",
-              fvc_actual:"$lungfunctions.fvc_actual",
-              fev1_predicted:"$lungfunctions.fev1_predicted",
-              fev1_actual:"$lungfunctions.fev1_actual",
-              fvc1_predicted:"$lungfunctions.fvc1_predicted",
-              fvc1_actual:"$lungfunctions.fvc1_actual",
-              pef_predicted:"$lungfunctions.pef_predicted",
-              pef_actual:"$lungfunctions.pef_actual",
-              fvc_predicted_percent:"$lungfunctions.fvc_predicted_percent",
-              fev1_predicted_percent:"$lungfunctions.fev1_predicted_percent",
-              fvc1_predicted_percent:"$lungfunctions.fvc1_predicted_percent",
-              pef_predicted_percent:"$lungfunctions.pef_predicted_percent",
-              cholesterol:"$lipidpaneltests.cholesterol",
-              hdlcholesterol:"$lipidpaneltests.hdlcholesterol",
-              triglycerides:"$lipidpaneltests.triglycerides",
-              ldl:"$lipidpaneltests.ldl",
-              tcl_hdl:"$lipidpaneltests.tcl_hdl",
-              ldl_hdl:"$lipidpaneltests.ldl_hdl",
-              non_hdl:"$lipidpaneltests.non_hdl",
-              glucose:"$lipidpaneltests.glucose",
-              type:"$lipidpaneltests.type",
+              leye: "$eyetests.leyetest",
+              reye: "$eyetests.reyetest",
+              hemoglobins: "$hemoglobins.hemoglobin",
+              unit: "$bloodglucosetests.bloodglucose",
+              type: "$bloodglucosetests.type",
+              leukocytes: "$urinetests.leukocytes",
+              nitrite: "$urinetests.nitrite",
+              urobilinogen: "$urinetests.urobilinogen",
+              protein: "$urinetests.protein",
+              blood: "$urinetests.blood",
+              specificGravity: "$urinetests.specificGravity",
+              ketone: "$urinetests.ketone",
+              bilirubin: "$urinetests.bilirubin",
+              glucose: "$urinetests.glucose",
+              fvc_predicted: "$lungfunctions.fvc_predicted",
+              fvc_actual: "$lungfunctions.fvc_actual",
+              fev1_predicted: "$lungfunctions.fev1_predicted",
+              fev1_actual: "$lungfunctions.fev1_actual",
+              fvc1_predicted: "$lungfunctions.fvc1_predicted",
+              fvc1_actual: "$lungfunctions.fvc1_actual",
+              pef_predicted: "$lungfunctions.pef_predicted",
+              pef_actual: "$lungfunctions.pef_actual",
+              fvc_predicted_percent: "$lungfunctions.fvc_predicted_percent",
+              fev1_predicted_percent: "$lungfunctions.fev1_predicted_percent",
+              fvc1_predicted_percent: "$lungfunctions.fvc1_predicted_percent",
+              pef_predicted_percent: "$lungfunctions.pef_predicted_percent",
+              cholesterol: "$lipidpaneltests.cholesterol",
+              hdlcholesterol: "$lipidpaneltests.hdlcholesterol",
+              triglycerides: "$lipidpaneltests.triglycerides",
+              ldl: "$lipidpaneltests.ldl",
+              tcl_hdl: "$lipidpaneltests.tcl_hdl",
+              ldl_hdl: "$lipidpaneltests.ldl_hdl",
+              non_hdl: "$lipidpaneltests.non_hdl",
+              glucose: "$lipidpaneltests.glucose",
+              type: "$lipidpaneltests.type",
 
-
-              caseId:1,
+              caseId: 1,
               createdAt: {
-                  $dateToString: {
-                    format: "%d-%m-%Y",
-                    date: "$createdAt",
-                  },
+                $dateToString: {
+                  format: "%d-%m-%Y",
+                  date: "$createdAt",
                 },
-                DOB: {
-                  $dateToString: {
-                    format: "%d-%m-%Y",
-                    date: "$citizendetails.dateOfBirth",
-                  },
+              },
+              DOB: {
+                $dateToString: {
+                  format: "%d-%m-%Y",
+                  date: "$citizendetails.dateOfBirth",
                 },
-                "issubscreenertype": {
-                  "$switch": {
-                    "branches": [
-                      { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
-                      { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
-                     
-                    ],
-                    "default": "none"
-                  },
+              },
+              issubscreenertype: {
+                $switch: {
+                  branches: [
+                    {
+                      case: { $eq: ["$screeners.issubscreener", 0] },
+                      then: "Sanyojika",
+                    },
+                    {
+                      case: { $eq: ["$screeners.issubscreener", 1] },
+                      then: "Sevika",
+                    },
+                  ],
+                  default: "none",
                 },
-                'isubscreener':"$screeners.issubscreener",
-              'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-              height:1,
+              },
+              isubscreener: "$screeners.issubscreener",
+              Screenerfullname: {
+                $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+              },
+              height: 1,
               weight: 1,
-              bmi:1,
-              bpsys:1,
-              bpdia:1,
-              spo2:1,
-              pulse:1,
-              temperature:1,
-              arm:1,
+              bmi: 1,
+              bpsys: 1,
+              bpdia: 1,
+              spo2: 1,
+              pulse: 1,
+              temperature: 1,
+              arm: 1,
               Mobile: "$citizens.mobile",
               // createdAt: 1,
               severity_bp: 1,
@@ -2046,17 +2041,17 @@ exports.lipid = [
               severity_temperature: 1,
               severity_respiratory_rate: 1,
               severity: 1,
-              Age: { $round:{
-                $divide: [
-                  { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                  365 * 24 * 60 * 60 * 1000,
-                ],
+              Age: {
+                $round: {
+                  $divide: [
+                    { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                    365 * 24 * 60 * 60 * 1000,
+                  ],
+                },
               },
-			},
             },
           },
           { $match: { Age: { $gte: 40 } } },
-          // {$out:"lipidcritical"}
         ]).then((users) => {
           let user = users[0];
           if (user) {
@@ -2073,83 +2068,256 @@ exports.lipid = [
       return apiResponse.ErrorResponse(res, "EXp:" + err);
     }
   },
-
 ];
-exports.screeningSevika=[
+exports.lipidCount=[
 
-	// body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	// sanitizeBody("caseId").escape(),
+
 	
-(req, res) => { 
-					
-			try {
-					const errors = validationResult(req);
-					if (!errors.isEmpty()) {
-							return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-					}else {
+  (req, res) => { 
+    
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+    }else {
 
-							tmp_out0.aggregate([
-									{$match:{severity_bp:2,severity_bmi:2}},
-                  {$limit:1000},
-									{$lookup: {  'localField':'citizenId',
-									'from':'citizendetails', 
-									'foreignField':'citizenId',
-									'as':'citizen'  } },
-									{$lookup:
-											{  'localField':'screenerId', 
-											'from':'screeners', 
-											'foreignField':'screenerId', 
-											'as':'screeners'  } },
-											{$lookup: { 
-													'localField':'citizenId', 
-													'from':'citizens',
-													 'foreignField':'citizenId',
-													  'as':'citizens'  } },
 
-													  {$unwind:"$citizen"},{$unwind:"$citizens"},{$unwind:"$screeners"},
-
-													{'$project':{
-															"citizenId":1,
-															"FirstName":"$citizens.firstName",
-															"LastName":"$citizens.lastName",
-															"Email":"$citizens.email",
-															"Gender":"$citizens.sex",
-															"Address":"$citizen.address",
-															"ScreenerId":"$citizens.screenerId",
-															"ScreenerFirstName":"$screeners.firstName",
-															"ScreenerLastName":"$screeners.lastName",
-															"Mobile":"$citizens.mobile",
-															Age:{$divide:[{$subtract: [ new Date(), "$citizen.dateOfBirth" ] },(365 * 24*60*60*1000)]  } ,
-														   
-											
-													}},
-													{$match:{Age: { $gte: 40 }}},
-													{$out:"lipidcritical"}.then(recs => {
-															if(recs){
-																	console.log(recs);
-																	process.exit(1);
-															}
-													})
-											
-							])
-							.then(users => {
-									
-									let user=users[0];
-									if (user) {
-											for(var i=0;i<users.length;i++){
-													users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
-
-											}
-													return apiResponse.successResponseWithData(res,"Found", users);
-									}
-									else return apiResponse.ErrorResponse(res,"Not Found");
-									
-							});
-					}
-			} catch (err) {
-					
-					return apiResponse.ErrorResponse(res,"EXp:"+err);
-			}
-	}
+      ScreeningCaseModel.ScreeningCase.aggregate( [
+        { $match: { severity_bp: 2, severity_bmi: 2 } },
+            {'$group':{
+              '_id' : "$severity_bp",
+              'count': { '$sum': 1 }
+            }
+}
+        ] ).then(users => {
+        
+        let user=users[0];
+        if (user) {
+            return apiResponse.successResponseWithData(res,"Found", users);
+        }
+        else return apiResponse.ErrorResponse(res,"Not Found");
+        
+      });
+    }
+  } catch (err) {
+    
+    return apiResponse.ErrorResponse(res,"EXp:"+err);
+  }
+}
 
 ];
+
+exports.screeningSevika = [
+  // body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+  // sanitizeBody("caseId").escape(),
+
+  (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      } else {
+        tmp_out0
+          .aggregate([
+            { $match: { severity_bp: 2, severity_bmi: 2 } },
+            { $limit: 1000 },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizendetails",
+                foreignField: "citizenId",
+                as: "citizen",
+              },
+            },
+            {
+              $lookup: {
+                localField: "screenerId",
+                from: "screeners",
+                foreignField: "screenerId",
+                as: "screeners",
+              },
+            },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizens",
+                foreignField: "citizenId",
+                as: "citizens",
+              },
+            },
+
+            { $unwind: "$citizen" },
+            { $unwind: "$citizens" },
+            { $unwind: "$screeners" },
+
+            {
+              $project: {
+                citizenId: 1,
+                FirstName: "$citizens.firstName",
+                LastName: "$citizens.lastName",
+                Email: "$citizens.email",
+                Gender: "$citizens.sex",
+                Address: "$citizen.address",
+                ScreenerId: "$citizens.screenerId",
+                ScreenerFirstName: "$screeners.firstName",
+                ScreenerLastName: "$screeners.lastName",
+                Mobile: "$citizens.mobile",
+                Age: {
+                  $divide: [
+                    { $subtract: [new Date(), "$citizen.dateOfBirth"] },
+                    365 * 24 * 60 * 60 * 1000,
+                  ],
+                },
+              },
+            },
+            { $match: { Age: { $gte: 40 } } },
+            { $out: "lipidcritical" }.then((recs) => {
+              if (recs) {
+                process.exit(1);
+              }
+            }),
+          ])
+          .then((users) => {
+            let user = users[0];
+            if (user) {
+              for (var i = 0; i < users.length; i++) {
+                users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+              }
+              return apiResponse.successResponseWithData(res, "Found", users);
+            } else return apiResponse.ErrorResponse(res, "Not Found");
+          });
+      }
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "EXp:" + err);
+    }
+  },
+];
+exports.lipidcritical = [
+  // body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+  // sanitizeBody("caseId").escape(),
+
+  (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      } else {
+        tmp_out_all
+          .aggregate([
+            // { $match: { severity_bp: 2, severity_bmi: 2 } },
+            { $limit: 1000 },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizendetails",
+                foreignField: "citizenId",
+                as: "citizen",
+              },
+            },
+            {
+              $lookup: {
+                localField: "screenerId",
+                from: "screeners",
+                foreignField: "screenerId",
+                as: "screeners",
+              },
+            },
+            {
+              $lookup: {
+                localField: "citizenId",
+                from: "citizens",
+                foreignField: "citizenId",
+                as: "citizens",
+              },
+            },
+
+            { $unwind: "$citizen" },
+            { $unwind: "$citizens" },
+            { $unwind: "$screeners" },
+
+            {
+              $project: {
+                citizenId: 1,
+                FirstName: "$citizens.firstName",
+                LastName: "$citizens.lastName",
+                Email: "$citizens.email",
+                Gender: "$citizens.sex",
+                Address: "$citizen.address",
+                ScreenerId: "$citizens.screenerId",
+                ScreenerFirstName: "$screeners.firstName",
+                ScreenerLastName: "$screeners.lastName",
+                Mobile: "$citizens.mobile",
+                Age: {
+                  $divide: [
+                    { $subtract: [new Date(), "$citizen.dateOfBirth"] },
+                    365 * 24 * 60 * 60 * 1000,
+                  ],
+                },
+              },
+            },
+           { $match: { Age: { $gte: 40 } } },
+            // .then((recs) => {
+            //   if (recs) {
+            //     process.exit(1);
+            //   }
+            // }),
+          ])
+          .then((users) => {
+            let user = users[0];
+            if (user) {
+              for (var i = 0; i < users.length; i++) {
+                users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+              }
+              return apiResponse.successResponseWithData(res, "Found", users);
+            } else return apiResponse.ErrorResponse(res, "Not Found");
+          });
+      }
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "EXp:" + err);
+    }
+  },
+];
+// exports.lipidCriticalCase = [
+//   (req, res) => {
+//     try {
+     
+//       const errors = validationResult(req);
+//       if (!errors.isEmpty()) {
+       
+//         return apiResponse.validationErrorWithData(
+//           res,
+//           "Validation Error.",
+//           errors.array()
+//         );
+//       } else {
+//         LipidModel.aggregate([
+//           {
+//             $project: {
+//               status: 1,
+//               severity_bp: 1,
+//               severity_spo2: 1,
+//             },
+//           },
+//         ]).then((users) => {
+//           let user = users[0];
+//           if (user) {
+//             for (var i = 0; i < users.length; i++) {
+//               users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+//             }
+//             return apiResponse.successResponseWithData(res, "Found", users);
+//           } else return apiResponse.ErrorResponse(res, "Not Found");
+//         });
+//       }
+//     } catch (err) {
+//       return apiResponse.ErrorResponse(res, "EXp:" + err);
+//     }
+//   },
+// ];

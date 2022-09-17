@@ -53,11 +53,9 @@ exports.createProfileReport = [
 					request(options, function (error, response, body) {
 					  if (error) throw new Error(error);
 
-					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -88,7 +86,6 @@ exports.createProfileReport = [
 					  	pdf.create(document, options)
 					    .then(res => {
 					    	console.dir(document)
-					        console.log(res)
 					        return apiResponse.successResponseWithData(res,"Success");
 
 					    })

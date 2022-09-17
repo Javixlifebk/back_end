@@ -34,7 +34,7 @@ exports.issueAdd = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 				var issueNo="";
-				console.log(" ISSUE: "+issueNo);
+				
 					  var dateIn=new Date();
 					  var yyyy = dateIn.getFullYear();
 					  var mm = dateIn.getMonth() + 1; // getMonth() is zero-based

@@ -123,7 +123,7 @@ exports.addHealthSurvey = [
 			
 			
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];

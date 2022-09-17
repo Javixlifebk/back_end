@@ -102,7 +102,6 @@ exports.addSocioEconomicSurvey = [
 			
 			
 		} catch (err) {
-			console.log(err);
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];

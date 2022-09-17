@@ -32,7 +32,6 @@ var entitySchema = mongoose.Schema({
 entitySchema.pre('save', function(next) {
     var doc = this;
     counter.findByIdAndUpdateAsync({userId: 'entityId'}, {$inc: { seq: 1} }, {new: true, upsert: true}).then(function(count) {
-        console.log("...count: "+JSON.stringify(count));
         doc.sort = count.seq;
         next();
     })

@@ -55,7 +55,6 @@ exports.addVisualExam = [
 					var image;
 					
 					let  totalCount=images.length;
-					console.log(images);
 					images.forEach(element=>{
 						image=element;
 						if(image!=null && image!=undefined && image!=''){
@@ -97,7 +96,6 @@ exports.addVisualExam = [
 			}
 			
 		} catch (err) {
-			console.log(err);
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];

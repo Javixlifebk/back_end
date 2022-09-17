@@ -343,7 +343,6 @@ exports.prescriptionList=[
 					var recordId,doctorId,prescriptionId,screenerId,status,caseId,citizenId;
 					var matchfield={};
 					var arraymatch=[];
-					//console.log(req.body.recordId);
 
 					
 					if(req.body.recordId!=null && req.body.recordId!=undefined && req.body.recordId!="" ){
@@ -389,7 +388,6 @@ exports.prescriptionList=[
 						matchfield={};
 					}
 					var andcond={'$match':{'$and':arraymatch}};
-					//console.log(arraymatch);
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
 
@@ -434,6 +432,7 @@ exports.prescriptionList=[
 								'as':'screeners'	
 							 }
 							},
+							{$unwind:"$citizens"},
 							{'$project':{
 								'prescriptionId':1,
 								'citizenId':1,
@@ -466,8 +465,8 @@ exports.prescriptionList=[
 								 'doctors.experience':1,
 								 'doctors.referenceName':1,
 								'doctors.sex':1,
-								'citizens.firstName':1,
-								'citizens.lastName':1,
+								firstName:'$citizens.firstName',
+								lastname:'$citizens.lastName',
 								'citizens.email':1,
 								'citizens.mobile':1,
 								'citizens.sex':1,

@@ -131,7 +131,7 @@ exports.addFamilyHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -266,7 +266,7 @@ exports.addFamilyHistory = [
 					
 			}
 		} catch (err) {
-			console.log(err);
+			
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
@@ -359,7 +359,7 @@ exports.FamilyHistoryList=[
 							}
 						]
 				).then(users => {
-					console.log(users);
+					
 					
 					let user=users[0];
 					if (user) {

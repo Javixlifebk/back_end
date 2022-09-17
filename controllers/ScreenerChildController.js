@@ -30,12 +30,9 @@ exports.addMapping = [
 							parentScreenerId:req.body.parentScreenerId
 					};
 
-					console.log(recS);
 					var actionS=new ScreenerChildModel.ScreenerChild(recS);
-					console.log(actionS);
 					actionS.save(function(_error)
 					{
-						console.log("Inside");
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 						else
 						{
@@ -72,7 +69,6 @@ exports.mappingList=[
 					var screenerId,parentScreenerId;
 					var matchfield={};
 					var arraymatch=[];
-					//console.log(req.body.recordId);
 
 					
 					if(req.body.screenerId!=null && req.body.screenerId!=undefined && req.body.screenerId!=""){
@@ -90,7 +86,6 @@ exports.mappingList=[
 
 					
 					var andcond={'$match':{'$and':arraymatch}};
-					console.log(arraymatch);
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
 
