@@ -154,7 +154,7 @@ app.post('/upload/profile', (req, res) => {
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,
-		'profile-url':'http://159.65.148.197:3001/profile/'+req.file.filename
+		'profile-url':'http://143.244.136.145:3010/profile/'+req.file.filename
 		})
     }else{
     	res.json({
@@ -208,7 +208,7 @@ app.post('/upload/documents', (req, res) => {
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,
-		'url':'http://159.65.148.197:3001/documents/'+req.file.filename
+		'url':'http://143.244.136.145:3010/documents/'+req.file.filename
 		})
     }else{
     	res.json({

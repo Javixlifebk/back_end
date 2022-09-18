@@ -252,7 +252,7 @@ exports.login = [
 					
 	
 	var options = { method: 'POST',
-					  url: 'http://159.65.148.197:3001/api/login/getjavixid',
+					  url: 'http://143.244.136.145:3010/api/login/getjavixid',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
