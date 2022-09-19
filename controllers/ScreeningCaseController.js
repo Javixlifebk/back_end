@@ -650,6 +650,7 @@ exports.screeningList = [
             },
           },
          {$unwind:'$citizens'},
+         {$unwind:'$screeners'},
           {
             $project: {
               citizenId: 1,
@@ -696,6 +697,8 @@ exports.screeningList = [
               "citizendetails.dateOfBirth": 1,
               "screeners.firstName": 1,
               "screeners.lastName": 1,
+              ScreenerFirstName:"$screeners.firstName",
+              ScreenerLastName:"$screeners.lastName",
               "screeners.email": 1,
               "screeners.mobile": 1,
               "screeners.mobile1": 1,
