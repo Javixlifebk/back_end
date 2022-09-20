@@ -929,7 +929,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 			CitizenModel.Citizen.aggregate([
 							queryP,
 							{'$sort':{'createdAt':-1}},
-							{'$limit':100},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
