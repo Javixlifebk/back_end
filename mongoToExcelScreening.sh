@@ -1,6 +1,6 @@
 today=$(date +"%Y-%m-%dT00:00:00.000Z")
-yesterday=$(date -d "2 days ago" +"%Y-%m-%dT00:00:00.000Z")
-lastweek=$(date -d "2 days ago" +"%Y-%m-%dT00:00:00.000Z")
+yesterday=$(date -d "1 days ago" +"%Y-%m-%dT00:00:00.000Z")
+lastweek=$(date -d "1 weeks ago" +"%Y-%m-%dT00:00:00.000Z")
 k="$"
 s="'"
 
