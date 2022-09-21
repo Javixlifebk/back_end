@@ -230,9 +230,11 @@ exports.createProfileReport = [
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -262,6 +264,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -296,9 +299,11 @@ exports.createProfileReport = [
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -328,6 +333,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -363,9 +369,11 @@ exports.createProfileReport = [
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -395,6 +403,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -430,9 +439,11 @@ if(req.body.roleId==='4'){
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -462,6 +473,7 @@ if(req.body.roleId==='4'){
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -497,9 +509,11 @@ if(req.body.roleId==='6'){
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+					  	//console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -529,6 +543,7 @@ if(req.body.roleId==='6'){
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -567,6 +582,7 @@ exports.createCaseReport = [
 	(req, res) => { 
 			
 		try {
+			console.log("Hello i am creating report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -588,7 +604,7 @@ exports.createCaseReport = [
 
 
 
-					   var options1 = { method: 'get',
+					   var options1 = { method: 'POST',
 					  url: 'http://143.244.136.145:3010/api/labtest/getHemoglobinList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
@@ -803,7 +819,7 @@ exports.createCaseReport = [
 					  				labs.symptoms=JSON.parse(body13).data.data;	
 					  				console.dir(labs.symptoms);
 					  				for(var i=0;i<labs.symptoms.length;i++){
-					  					;
+					  					console.log("Val");
 					  					 //console.dir(labs.symptoms[0]['data']);
 					  				labs.symptoms[i].data=JSON.parse(labs.symptoms[i]['data']);
 					  				console.dir(labs.symptoms);
@@ -883,7 +899,7 @@ exports.createCaseReport = [
 					  			
 					  			request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
-					  
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
@@ -907,7 +923,7 @@ exports.createCaseReport = [
 					  	
 					  	
 					  	// var cdate="";
-					  	
+					  	// console.log(users[0].createdAt);
 					  	// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
 					  	// 	cdate=users[0].createdAt.toISOString().split('T')[0];
 					  	// 	var adate=new Date(cdate);
@@ -917,7 +933,8 @@ exports.createCaseReport = [
 					  	// 	users[0].createdAt=cdate;
 					  	// }
 						
-					
+						//console.log("DOB="+users[0].citizendetails[0].dob);
+						//console.log("Cdate="+users[0].createdAt);
 						users[0].labs=labs;
 						global_labs=labs;
 						users[0].bpsysFun=function() { if(this.bpsys>=110 && this.bpsys<=120)
@@ -958,12 +975,15 @@ exports.createCaseReport = [
 					    // }
 					};
 						  
+						  console.log("inhere");
 
 					  	pdf.create(document, options)
 					    .then(val => {
 
+					    	console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
 					        var filename="./uploads/"+temp[temp.length-1];
+					        console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
@@ -1049,6 +1069,7 @@ exports.createMedicalHistoryReport = [
 	(req, res) => { 
 			
 		try {
+			console.log("Hello i am creating Medical History report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -1169,6 +1190,7 @@ exports.createMedicalHistoryReport = [
 					  			
 					  			request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  //drugs[0].history=history;
 					  //var tempr={};
@@ -1316,6 +1338,7 @@ exports.createMedicalHistoryReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -1355,6 +1378,7 @@ exports.createPrescriptionReport = [
 	(req, res) => { 
 			
 		try {
+			console.log("Hello i am creating Prescription report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -1362,6 +1386,7 @@ exports.createPrescriptionReport = [
 						var caseId=req.body.caseId;
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/prescription.html', 'utf8');
 						//var token="hgaghsagf";
+						console.log(html);
 
 					var options = { method: 'POST',
 					  url: 'http://143.244.136.145:3010/api/doctor/prescriptionlist',
@@ -1378,6 +1403,7 @@ exports.createPrescriptionReport = [
 					  			
 					  			request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
+					  //console.log(JSON.parse(body).status);
 					  status=JSON.parse(body).status;
 					  
 					  if(status==1){
@@ -1389,7 +1415,7 @@ exports.createPrescriptionReport = [
 					  	
 					  	
 					  	// var cdate="";
-					  
+					  	// console.log(users[0].createdAt);
 					  	// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
 					  	// 	cdate=users[0].createdAt.toISOString().split('T')[0];
 					  	// 	var adate=new Date(cdate);
@@ -1399,7 +1425,8 @@ exports.createPrescriptionReport = [
 					  	// 	users[0].createdAt=cdate;
 					  	// }
 						
-						;
+						//console.log("DOB="+users[0].citizendetails[0].dob);
+						//console.log("Cdate="+users[0].createdAt);
 						//drugs[0].history=history;
 						console.dir(prescription);
 						// drugs[0].bpsysFun=function() { if(this.bpsys>=110 && this.bpsys<=120)
@@ -1441,6 +1468,7 @@ exports.createPrescriptionReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
