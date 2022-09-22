@@ -10,6 +10,8 @@ routerScreeningCase.post("/caseUnrefer", ScreeningCaseController.updateAddUnrefe
 routerScreeningCase.post("/addDetailCase", ScreeningCaseController.addDetailScreening);
 routerScreeningCase.post("/getCaseDetailsList", ScreeningCaseController.screeningDetailsList);
 routerScreeningCase.post("/getEncounters", ScreeningCaseController.screeningEncounters);
+routerScreeningCase.post("/getscreenercases", ScreeningCaseController.screenerCasesList);
+
 routerScreeningCase.post("/addSymptoms", ScreeningCaseController.addSymptoms);
 routerScreeningCase.post("/SymptomsList", ScreeningCaseController.SymptomsList);
 routerScreeningCase.post("/getCount", ScreeningCaseController.screeningListCount);

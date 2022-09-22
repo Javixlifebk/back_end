@@ -4,6 +4,8 @@ const DoctorModel = require("../models/DoctorModel");
 const ScreenerModel = require("../models/ScreenerModel");
 const SymptomsModel = require("../models/SymptomsModel");
 const tmp_out_all = require("../models/tmp_out_all");
+const tmp_out0Model = require("../models/tmp_out0Model");
+
 const { body, query, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
@@ -1422,6 +1424,91 @@ exports.screeningEncounters = [
 
             return apiResponse.successResponseWithData(res, "Found", users);
           } else return apiResponse.ErrorResponse(res, "Not Found");
+        });
+      }
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "EXp:" + err);
+    }
+  },
+];
+
+////////////////////screener cases list
+exports.screenerCasesList = [
+  // body("data").isLength({ min: 1 }).trim().withMessage("Enter Data Value!"),
+  body("screenerId").isLength({ min: 1 }).trim().withMessage("Enter caseId!"),
+  // body("issubscreener").isLength({ min: 1 }).trim().withMessage("Enter caseId!"),
+
+
+  sanitizeBody("screenerId").escape(),
+  // sanitizeBody("citizenId").escape(),
+
+
+  (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      } else {
+        tmp_out0Model.aggregate([
+          { $match:{ screenerId: req.body.screenerId } },
+          // {$match:{issubscreener:1}},
+          { $sort: { createdAt: -1 } },
+          {
+            $lookup: {
+              localField: "citizenId",
+              from: "citizens",
+              foreignField: "citizenId",
+              as: "citizens",
+            },
+          },
+          {
+            $lookup: {
+              localField: "citizenId",
+              from: "citizendetails",
+              foreignField: "citizenId",
+              as: "citizendetails",
+            },
+          },
+          {
+            $project: {
+              citizenId: 1,
+              notes: 1,
+              doctorId: 1,
+              status: 1,
+              screenerId: 1,
+              height: 1,
+              weight: 1,
+              bmi: 1,
+              bpsys: 1,
+              bpdia: 1,
+              arm: 1,
+              spo2: 1,
+              caseId: 1,
+              pulse: 1,
+              respiratory_rate: 1,
+              temperature: 1,
+              referDocId: 1,
+              createdAt: 1,
+              "citizens.firstName": 1,
+              "citizens.lastName": 1,
+              "citizens.email": 1,
+              "citizens.mobile": 1,
+              "citizens.sex": 1,
+              "citizendetails.dateOfBirth": 1,
+            },
+          },
+        ]).then((users) => {
+          let user = users[0];
+          if (user) {
+            return apiResponse.successResponseWithData(res, "Found", users);
+          } else
+            return apiResponse.successResponseWithData(res, "not Found", [
+
+            ]);
         });
       }
     } catch (err) {

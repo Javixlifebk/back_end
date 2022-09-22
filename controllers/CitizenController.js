@@ -760,7 +760,7 @@ exports.citizenRefers=[
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
 	// sanitizeBody("isUnrefer").escape(),
-    (req, res) => { 
+	(req, res) => { 
 			
 		try {
 			const errors = validationResult(req);
@@ -803,7 +803,7 @@ exports.citizenRefers=[
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
-								 'caseId':'$cases.caseId',
+								//  'caseId':'$cases.caseId',
 								 'caseStatus':'$cases.status',
 
 								 'javixId':1,
@@ -820,30 +820,28 @@ exports.citizenRefers=[
                                  'raadhaar':1,
 								 'citizenLoginId':1,
 								 'createdAt':1,
-			// 					 'cases': {
-			// 						// 'caseStatus':'$cases.status',
-            //     					'$filter' : {
-            //         'input': '$cases',
-            //         'as' : 'cases_field',
-            //          'cond': { '$and': [
-            //             {'$eq': ['$$cases_field.status',1]}
-            //         ]}
-            //     }
-            // },
-							DOB:'$info.dateOfBirth',
-							'info.dateOfOnBoarding':{$ifNull: [ "$info.dateOfOnBoarding", "Unspecified"]},
-							bloodGroup:'$info.bloodGroup',
-							country:'$info.country',
-							state:'$info.state',
-							district:'$info.district',
-							address:'$info.address',
+								 'cases': {
+                					'$filter' : {
+                    'input': '$cases',
+                    'as' : 'cases_field',
+                     'cond': { '$and': [
+                        {'$eq': ['$$cases_field.status',1]}
+                    ]}
+                }
+            },
+								 'info.dateOfBirth':1,
+								 'info.dateOfOnBoarding':1,
+								 'info.bloodGroup':1,
+								 'info.country':1,
+								 'info.state':1,
+								 'info.district':1,
+								 'info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
-								 'info.photo':{$ifNull: [ "$info.photo", "Unspecified"]},
-								
-								// 'screener.firstName':1,
-								// 'screener.lastName':1,
+								 'info.photo':1,
+								'screener.firstName':1,
+								'screener.lastName':1,
 							
 								 
 								}
@@ -853,11 +851,11 @@ exports.citizenRefers=[
 					
 					let user=users[0];
 					
-					// for(var i=0;i<users.length;i++){
-					// 	if(users[i].cases.length>0) 
-					// 	users[i].cases=users[i].cases[users[i].cases.length-1];
-					// 	//console.dir(users[i]);
-					// }
+					for(var i=0;i<users.length;i++){
+						if(users[i].cases.length>0) 
+						users[i].cases=users[i].cases[users[i].cases.length-1];
+						//console.dir(users[i]);
+					}
 
 					if (user) {
 						for(i=0;i<users.length;i++){
@@ -870,8 +868,11 @@ exports.citizenRefers=[
 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
 					  		
 					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
+					  		console.log(ddate);
 					  		var qdate=new Date(ddate);
+					  		//console.log(qdate);
 					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
+					  		console.log(temp.info.dateOfBirth);
 					  		users[i]=temp;
 					  	}
 					  	else{
@@ -890,6 +891,7 @@ exports.citizenRefers=[
 			return apiResponse.ErrorResponse(res,"EXp:"+err);
 		}
 	}
+
 ];
 
 
