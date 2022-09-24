@@ -1435,11 +1435,11 @@ exports.screeningEncounters = [
 ////////////////////screener cases list
 exports.screenerCasesList = [
   // body("data").isLength({ min: 1 }).trim().withMessage("Enter Data Value!"),
-  body("screenerId").isLength({ min: 1 }).trim().withMessage("Enter caseId!"),
+  // body("screenerId").isLength({ min: 1 }).trim().withMessage("Enter caseId!"),
   // body("issubscreener").isLength({ min: 1 }).trim().withMessage("Enter caseId!"),
 
 
-  sanitizeBody("screenerId").escape(),
+  // sanitizeBody("screenerId").escape(),
   // sanitizeBody("citizenId").escape(),
 
 
@@ -1454,7 +1454,7 @@ exports.screenerCasesList = [
         );
       } else {
         tmp_out0Model.aggregate([
-          { $match:{ screenerId: req.body.screenerId } },
+          { $match:{ screenerId: "162480116265360010" } },
           // {$match:{issubscreener:1}},
           { $sort: { createdAt: -1 } },
           {
@@ -1473,6 +1473,7 @@ exports.screenerCasesList = [
               as: "citizendetails",
             },
           },
+          {$unwind:"$citizens"},
           {
             $project: {
               citizenId: 1,
@@ -1493,10 +1494,11 @@ exports.screenerCasesList = [
               temperature: 1,
               referDocId: 1,
               createdAt: 1,
+            	'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
               "citizens.firstName": 1,
               "citizens.lastName": 1,
               "citizens.email": 1,
-              "citizens.mobile": 1,
+              'mobile':"$citizens.mobile",
               "citizens.sex": 1,
               "citizendetails.dateOfBirth": 1,
             },

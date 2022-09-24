@@ -805,7 +805,6 @@ exports.citizenRefers=[
 								 'screenerId':1,
 								//  'caseId':'$cases.caseId',
 								 'caseStatus':'$cases.status',
-
 								 'javixId':1,
 								 'isUnrefer':1,
 								 'sex':1,
