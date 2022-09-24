@@ -463,7 +463,9 @@ exports.LipidPanelHDLGreenList=[
          
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-							{'$match':{severity_hdlcholesterol:0}},
+				// gt greater than and lt less than eq equal too
+				{'$match':{severity_hdlcholesterol:0}},
+							// {'$match':{$and:[{severity_hdlcholesterol:0},{ hdlcholesterol : { $gt :  80, $lt : 100}}]}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1790,6 +1792,8 @@ exports.BloodGlucoseTestList=[
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
 							andcond,
+							// {$and:
+							// {'$match':{$and:{ bloodglucose : { $gt :  80, $lt : 100}}}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
