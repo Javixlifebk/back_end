@@ -31,8 +31,10 @@
     "node-cron": "^3.0.0",
     "node-downloader-helper": "^1.0.19",
     "nodemailer": "^6.7.5",
+    "path": "^0.12.7",
     "pdf-creator-node": "^2.3.4",
-    "pdf-merger-js": "^3.4.0"
+    "pdf-merger-js": "^3.4.0",
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "devDependencies": {
     "chai": "^4.2.0",

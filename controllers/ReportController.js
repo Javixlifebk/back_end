@@ -1,6 +1,12 @@
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
 const PDFMerger = require('pdf-merger-js');
+var path = require('path');
+var phantomjs = require('phantomjs-prebuilt')
+var binPath = phantomjs.path
+
+// console.log("phantomjs",phantomjs)
+// console.log("binPath",binPath)
 
 const { body,query,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -956,8 +962,10 @@ exports.createCaseReport = [
 					    path: "./uploads/"+Date.now()+".pdf"
 					};
 
-					var options = {
-						phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
+					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
+                   
+				   var options = {
+						phantomPath: binPath,
 					        format: "A3",
 					        orientation: "portrait",
 					        border: "10mm"
@@ -981,7 +989,7 @@ exports.createCaseReport = [
 					    .then(val => {
 
 					    	console.log("I am inside pdf create");
-					        var temp = val.filename.split("/");
+					        var temp = val.filename.split("\\");
 					        var filename="./uploads/"+temp[temp.length-1];
 					        console.log(filename);
 					    	(async () => {
