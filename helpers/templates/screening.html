@@ -52,17 +52,21 @@
 			 <table border=0 width='100%' cellpadding=8px cellspacing=0px>
 				<tr>
 					<td colspan=3>
-						{{#each this.citizens}}
-						<div class='headData'>{{this.firstName}}&nbsp;{{this.lastName}}</div>
+						
+						<div class='headData'>{{this.firstName}}&nbsp;{{this.lastname}}</div>
 						 
 					</td>
 				</tr>
 				<tr>
+					
 					<td>
+						
 						<div class='label'>Gender</div>
-						<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
+						{{#with this.citizens}}
+						<div class='labelData'> <span id="lgender">{{sex}}</span></div>
+						{{/with}}
 					</td>
-					   {{/each}}
+					   
 					   {{#each this.citizendetails}}
 					<td>
 						<div class='label'>D.O.B</div>
@@ -81,12 +85,11 @@
 						<div class='label'>Case Id</div>
 						<div class='labelData'>{{this.caseId}}</div>
 					</td>
-					{{#each this.screeners}}
 					<td>
 						<div class='label'>Screener/Sevika Name</div>
-						<div class='labelData'>{{this.firstName}}&nbsp;{{this.lastName}}</div>
+						<div class='labelData'>{{this.ScreenerFirstName}}&nbsp;{{this.ScreenerLastName}}</div>
 					</td>
-					{{/each}}
+					
 					{{#each this.doctors}}
 					<td>
 						<div class='label'>Doctor</div>
