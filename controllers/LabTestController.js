@@ -1824,7 +1824,103 @@ exports.BloodGlucoseTestList=[
 									'severity':1,
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
-									// 'firstname':'$citizens.firstName'
+									//  'firstname':'$citizens.firstName'
+									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+exports.BloodGlucoseTestGreenList=[
+
+	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+	// sanitizeBody("caseId").escape(),
+	// sanitizeBody("severity").escape(),
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+
+				var matchfield={};
+					var arraymatch=[];
+				if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+					matchfield['caseId']=req.body.caseId;
+					arraymatch.push(matchfield);
+						matchfield={};
+				}
+				if(req.body.severity!=null && req.body.severity!=undefined && req.body.severity!="" )
+				{
+					matchfield['severity']=parseInt(req.body.severity);
+					arraymatch.push(matchfield);
+						matchfield={};
+					
+				}
+				var andcond={'$match':{'$and':arraymatch}};
+					
+					if (arraymatch.length===0){
+						andcond={'$match':{}};
+
+					}
+					console.dir(andcond);
+					
+
+			LabTestCaseModel.BloodGlucoseTest.aggregate([
+							andcond,
+							// {$and:
+							// {'$match':{$and:{ bloodglucose : { $gt :  80, $lt : 100}}}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+							// {
+							// 	// output result into other collection
+							// 	$merge: {
+							// 	  into: '$citizens',
+							// 	},
+							//   },
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'bloodglucose':1,
+									'type':1,
+									'severity':1,
+									'createdAt':1,
+									'citizenId':'$screeningcases.citizenId',
+									//  'firstname':'$citizens.firstName'
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}}
 				]).then(users => {

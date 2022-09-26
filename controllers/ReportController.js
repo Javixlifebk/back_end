@@ -1,6 +1,12 @@
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
 const PDFMerger = require('pdf-merger-js');
+var path = require('path');
+var phantomjs = require('phantomjs-prebuilt')
+var binPath = phantomjs.path
+
+// console.log("phantomjs",phantomjs)
+// console.log("binPath",binPath)
 
 const { body,query,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -234,7 +240,7 @@ exports.createProfileReport = [
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
+					  	console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -264,7 +270,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -303,7 +309,7 @@ exports.createProfileReport = [
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
+					  	console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -333,7 +339,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -373,7 +379,7 @@ exports.createProfileReport = [
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
+					  	console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -403,7 +409,7 @@ exports.createProfileReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -443,7 +449,7 @@ if(req.body.roleId==='4'){
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
+					  	console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -473,7 +479,7 @@ if(req.body.roleId==='4'){
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -513,7 +519,7 @@ if(req.body.roleId==='6'){
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
-					  	//console.log(users);
+					  	console.log(users);
 					  	var document = {
 					    html: html,
 					    data: {
@@ -543,7 +549,7 @@ if(req.body.roleId==='6'){
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -582,7 +588,7 @@ exports.createCaseReport = [
 	(req, res) => { 
 			
 		try {
-			console.log("Hello i am creating report");
+			// console.log("Hello i am creating report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -819,7 +825,7 @@ exports.createCaseReport = [
 					  				labs.symptoms=JSON.parse(body13).data.data;	
 					  				console.dir(labs.symptoms);
 					  				for(var i=0;i<labs.symptoms.length;i++){
-					  					console.log("Val");
+					  					// console.log("Val");
 					  					 //console.dir(labs.symptoms[0]['data']);
 					  				labs.symptoms[i].data=JSON.parse(labs.symptoms[i]['data']);
 					  				console.dir(labs.symptoms);
@@ -903,6 +909,7 @@ exports.createCaseReport = [
 					  status=JSON.parse(body).status;
 					  if(status==1){
 					  	users=JSON.parse(body).data.data;
+						console.log("users",users)
 					  	var cdob="";
 					  	if(users[0].citizendetails[0].dateOfBirth!=null && users[0].citizendetails[0].dateOfBirth!=undefined && users[0].citizendetails[0].dateOfBirth!=""){
 					  		cdob=users[0].citizendetails[0].dateOfBirth.split('T')[0];
@@ -956,8 +963,10 @@ exports.createCaseReport = [
 					    path: "./uploads/"+Date.now()+".pdf"
 					};
 
-					var options = {
-						phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
+					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
+                   
+				   var options = {
+						phantomPath: binPath,
 					        format: "A3",
 					        orientation: "portrait",
 					        border: "10mm"
@@ -975,15 +984,15 @@ exports.createCaseReport = [
 					    // }
 					};
 						  
-						  console.log("inhere");
+						//   console.log("inhere");
 
 					  	pdf.create(document, options)
 					    .then(val => {
 
-					    	console.log("I am inside pdf create");
+					    	// console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
 					        var filename="./uploads/"+temp[temp.length-1];
-					        console.log(filename);
+					        // console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
@@ -1069,7 +1078,7 @@ exports.createMedicalHistoryReport = [
 	(req, res) => { 
 			
 		try {
-			console.log("Hello i am creating Medical History report");
+			// console.log("Hello i am creating Medical History report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -1338,7 +1347,7 @@ exports.createMedicalHistoryReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
@@ -1378,7 +1387,7 @@ exports.createPrescriptionReport = [
 	(req, res) => { 
 			
 		try {
-			console.log("Hello i am creating Prescription report");
+			// console.log("Hello i am creating Prescription report");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -1386,7 +1395,7 @@ exports.createPrescriptionReport = [
 						var caseId=req.body.caseId;
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/prescription.html', 'utf8');
 						//var token="hgaghsagf";
-						console.log(html);
+						// console.log(html);
 
 					var options = { method: 'POST',
 					  url: 'http://143.244.136.145:3010/api/doctor/prescriptionlist',
@@ -1468,7 +1477,7 @@ exports.createPrescriptionReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        console.log("Response is : -   "+val.filename);
+					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
 					        
