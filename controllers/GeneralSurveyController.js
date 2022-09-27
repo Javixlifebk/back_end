@@ -563,7 +563,7 @@ exports.tmp_out1List = [
     }
   },
 ];
-exports.tmp_out1List = [
+exports.tmp_outList = [
   //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
   // sanitizeBody("familyId").escape(),
 
@@ -588,92 +588,35 @@ exports.tmp_out1List = [
         // 	   condition['screenerId']=req.body.screenerId;
         //    }
 
-        tmp_out1Model
+        tmp_outModel
           .aggregate([
-                {'$match':{issubscreener:1}},
-            { $sort: { createdAt: -1 } },
-            {
-              $lookup: {
-                localField: "citizenId",
-                from: "citizens",
-                foreignField: "citizenId",
-                as: "citizens",
-              },
-            },
-            {
-              $lookup: {
-                localField: "citizenId",
-                from: "citizendetails",
-                foreignField: "citizenId",
-                as: "citizendetails",
-              },
-            },
-            {
-              $lookup: {
-                localField: "screenerId",
-                from: "screeners",
-                foreignField: "screenerId",
-                as: "screeners",
-              },
-            },
-            { $unwind: "$citizens" },
-            { $unwind: "$screeners" },
-            { $unwind: "$citizendetails" },
-            //    {'$limit':100},
             {
               $project: {
-                status: 1,
-                'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-                'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                severity_bp: 1,
-                Email: "$citizens.email",
-                aadhaar:'$citizens.aadhaar',
-                Mobile:'$citizens.mobile',
-                address: '$citizendetails.address',
-                Gender: "$citizens.sex",
-                severity_spo2: 1,
-                severity_temperature: 1,
-                severity_pulse: 1,
-                severity_bmi: 1,
-                severity_respiratory_rate: 1,
-                severity: 1,
-                citizenId:1,
-                notes: 1,
-                doctorId: 1,
-                screenerId: 1,
-                height: 1,
-                weight: 1,
-                bmi:1,
-                bpsys:1,
-                bpdia: 1,
-                arm: 1,
-                spo2: 1,
-                caseId:1,
-                pulse: 1,
-                respiratory_rate:1,
-                Age: { $round:{
-                  $divide: [
-                    { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                    365 * 24 * 60 * 60 * 1000,
-                  ],
-                },},
-                temperature:1,
-                referDocId: 1,
-                FirstName: "$citizens.firstName",
-                LastName: "$citizens.lastName",
-				issubscreener:1,
-                createdAt: {
-                  $dateToString: {
-                    format: "%d-%m-%Y",
-                    date: "$createdAt",
-                  },
-                },
-                DOB: {
-                  $dateToString: {
-                    format: "%d-%m-%Y",
-                    date: "$citizendetails.dateOfBirth",
-                  },
-                },
+                status:  1,
+                severity_bp:  1,
+                severity_spo2:  1,
+                severity_temperature:  1,
+                severity_pulse:  1,
+                severity_bmi:  1,
+                severity_respiratory_rate:  1,
+                severity:  1,
+                citizenId:  1,
+                notes:  1,
+                doctorId:  1,
+                screenerId:  1,
+                height:  1,
+                weight:  1,
+                bmi:  1,
+                bpsys:  1,
+                bpdia:  1,
+                arm:  1,
+                spo2:  1,
+                caseId:  1,
+                pulse:  1,
+                respiratory_rate:  1,
+                temperature:  1,
+                referDocId:  1,
+                createdAt: 1
               },
             },
           ])
