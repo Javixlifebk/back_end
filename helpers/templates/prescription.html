@@ -49,7 +49,7 @@
 			 <table border=0 width='100%' cellpadding=8px cellspacing=0px>
 				<tr>
 					<td colspan=3>
-						{{#each this.citizens}}
+						{{#with this.citizens}}
 						<div class='headData'>{{this.firstName}}&nbsp;{{this.lastName}}</div>
 						 
 					</td>
@@ -59,7 +59,7 @@
 						<div class='label'>Gender</div>
 						<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
 					</td>
-					   {{/each}}
+					   {{/with}}
 					   
 					<td>
 						
