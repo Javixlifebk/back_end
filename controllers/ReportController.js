@@ -1458,6 +1458,7 @@ exports.createPrescriptionReport = [
 					};
 
 					var options = {
+						phantomPath: binPath,
 					        format: "A3",
 					        orientation: "portrait",
 					        border: "10mm"

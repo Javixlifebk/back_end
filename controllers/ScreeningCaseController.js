@@ -389,273 +389,196 @@ exports.updateAddUnrefer = [
   // }
 ];
 
-exports.screeningList = [
-  sanitizeBody("citizenId").escape(),
-  sanitizeBody("notes").escape(),
-  sanitizeBody("doctorId").escape(),
-  sanitizeBody("status").escape(),
-  sanitizeBody("screenerId").escape(),
-  sanitizeBody("referDocId").escape(),
-  sanitizeBody("citizenId").escape(),
-  sanitizeBody("caseId").escape(),
-  sanitizeBody("sdate").escape(),
-  sanitizeBody("edate").escape(),
-  (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return apiResponse.validationErrorWithData(
-          res,
-          "Validation Error.",
-          errors.array()
-        );
-      } else {
-        var notes,
-          doctorId,
-          referDocId,
-          screenerId,
-          status,
-          caseId,
-          citizenId,
-          date,
-          severity_bp,
-          severity_spo2,
-          severity_temperature,
-          severity_pulse,
-          severity_bmi,
-          severity_respiratory_rate,
-          severity;
-        var matchfield = {};
-        var arraymatch = [];
+exports.screeningList=[
 
-        if (
-          req.body.notes != null &&
-          req.body.notes != undefined &&
-          req.body.notes != ""
-        ) {
-          notes = req.body.notes;
-          matchfield["notes"] = notes;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        //s
 
-        if (
-          req.body.severity_bp != null &&
-          req.body.severity_bp != undefined &&
-          req.body.severity_bp != ""
-        ) {
-          severity_bp = req.body.severity_bp;
-          matchfield["severity_bp"] = parseInt(severity_bp);
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.severity_spo2 != null &&
-          req.body.severity_spo2 != undefined &&
-          req.body.severity_spo2 != ""
-        ) {
-          severity_spo2 = parseInt(req.body.severity_spo2);
-          matchfield["severity_spo2"] = severity_spo2;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.severity_temperature != null &&
-          req.body.severity_temperature != undefined &&
-          req.body.severity_temperature != ""
-        ) {
-          severity_temperature = parseInt(req.body.severity_temperature);
-          matchfield["severity_temperature"] = severity_temperature;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.severity_pulse != null &&
-          req.body.severity_pulse != undefined &&
-          req.body.severity_pulse != ""
-        ) {
-          severity_pulse = parseInt(req.body.severity_pulse);
-          matchfield["severity_pulse"] = severity_pulse;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.severity_bmi != null &&
-          req.body.severity_bmi != undefined &&
-          req.body.severity_bmi != ""
-        ) {
-          severity_bmi = parseInt(req.body.severity_bmi);
-          matchfield["severity_bmi"] = severity_bmi;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.severity_respiratory_rate != null &&
-          req.body.severity_respiratory_rate != undefined &&
-          req.body.severity_respiratory_rate != ""
-        ) {
-          severity_respiratory_rate = parseInt(
-            req.body.severity_respiratory_rate
-          );
-          matchfield["severity_respiratory_rate"] = severity_respiratory_rate;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
+	sanitizeBody("citizenId").escape(),
+	sanitizeBody("notes").escape(),
+	sanitizeBody("doctorId").escape(),
+	sanitizeBody("status").escape(),
+	sanitizeBody("screenerId").escape(),
+	sanitizeBody("referDocId").escape(),
+	sanitizeBody("citizenId").escape(),
+	sanitizeBody("caseId").escape(),
+	sanitizeBody("sdate").escape(),
+	sanitizeBody("edate").escape(),
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
 
-        if (
-          req.body.severity != null &&
-          req.body.severity != undefined &&
-          req.body.severity != ""
-        ) {
-          severity = parseInt(req.body.severity);
-          matchfield["severity"] = severity;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
 
-        if (
-          req.body.doctorId != null &&
-          req.body.doctorId != undefined &&
-          req.body.doctorId != ""
-        ) {
-          doctorId = req.body.doctorId;
-          matchfield["doctorId"] = doctorId;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.referDocId != null &&
-          req.body.referDocId != undefined &&
-          req.body.referDocId != ""
-        ) {
-          referDocId = req.body.referDocId;
-          matchfield["referDocId"] = referDocId;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.screenerId != null &&
-          req.body.screenerId != undefined &&
-          req.body.screenerId != ""
-        ) {
-          screenerId = req.body.screenerId;
-          matchfield["screenerId"] = screenerId;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.citizenId != null &&
-          req.body.citizenId != undefined &&
-          req.body.citizenId != ""
-        ) {
-          citizenId = req.body.citizenId;
-          matchfield["citizenId"] = citizenId;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.status != null &&
-          req.body.status != undefined &&
-          req.body.status != ""
-        ) {
-          status = req.body.status;
-          matchfield["status"] = parseInt(status);
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.caseId != null &&
-          req.body.caseId != undefined &&
-          req.body.caseId != ""
-        ) {
-          caseId = req.body.caseId;
-          matchfield["caseId"] = caseId;
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
-        if (
-          req.body.sdate != null &&
-          req.body.sdate != undefined &&
-          req.body.sdate != "" &&
-          req.body.edate != null &&
-          req.body.edate != undefined &&
-          req.body.edate != ""
-        ) {
-          date = new Date(req.body.edate);
-          date.setDate(date.getDate() + 1);
-          matchfield["createdAt"] = { $gte: new Date(req.body.sdate) };
-          arraymatch.push(matchfield);
-          matchfield = {};
-          matchfield["createdAt"] = { $lte: new Date(date) };
-          arraymatch.push(matchfield);
-          matchfield = {};
-        }
 
-        // matchfield={};
-        // matchfield["severity"]={'$gt': 0};
-        // arraymatch.push(matchfield);
+					
+					var notes,doctorId,referDocId,screenerId,status,caseId,citizenId,date,severity_bp,severity_spo2,severity_temperature,severity_pulse,severity_bmi,severity_respiratory_rate,severity;
+					var matchfield={};
+					var arraymatch=[];
+					//console.log(req.body.recordId);
 
-        var andcond = { $match: { $and: arraymatch } };
-        if (arraymatch.length === 0) {
-          andcond = { $match: {} };
-        }
-        console.dir(andcond);
-        var pageCalc = 0;
+					
+					if(req.body.notes!=null && req.body.notes!=undefined && req.body.notes!="" ){
+						notes=req.body.notes;
+						matchfield["notes"]=notes;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					//s
 
-        if (
-          req.body.page != null &&
-          req.body.page != undefined &&
-          req.body.page != ""
-        ) {
-          page = req.body.page;
-          if (page > 1) {
-            pageCalc = page * 100;
-          }
-        }
+					if(req.body.severity_bp!=null && req.body.severity_bp!=undefined && req.body.severity_bp!="" ){
+						severity_bp=req.body.severity_bp;
+						matchfield["severity_bp"]=parseInt(severity_bp);
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.severity_spo2!=null && req.body.severity_spo2!=undefined && req.body.severity_spo2!="" ){
+						severity_spo2=parseInt(req.body.severity_spo2);
+						matchfield["severity_spo2"]=severity_spo2;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.severity_temperature!=null && req.body.severity_temperature!=undefined && req.body.severity_temperature!="" ){
+						severity_temperature=parseInt(req.body.severity_temperature);
+						matchfield["severity_temperature"]=severity_temperature;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.severity_pulse!=null && req.body.severity_pulse!=undefined && req.body.severity_pulse!="" ){
+						severity_pulse=parseInt(req.body.severity_pulse);
+						matchfield["severity_pulse"]=severity_pulse;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.severity_bmi!=null && req.body.severity_bmi!=undefined && req.body.severity_bmi!="" ){
+						severity_bmi=parseInt(req.body.severity_bmi);
+						matchfield["severity_bmi"]=severity_bmi;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.severity_respiratory_rate!=null && req.body.severity_respiratory_rate!=undefined && req.body.severity_respiratory_rate!="" ){
+						severity_respiratory_rate=parseInt(req.body.severity_respiratory_rate);
+						matchfield["severity_respiratory_rate"]=severity_respiratory_rate;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
 
-        ScreeningCaseModel.ScreeningCase.aggregate([
-          andcond,
-          { $sort: { createdAt: -1 } },
-          { $skip: pageCalc },
-          { $limit: 100 },
-          {
-            $lookup: {
-              localField: "doctorId",
-              from: "doctors",
-              foreignField: "doctorId",
-              as: "doctors",
-            },
-          },
-          {
-            $lookup: {
-              localField: "citizenId",
-              from: "citizens",
-              foreignField: "citizenId",
-              as: "citizens",
-            },
-          },
-          {
-            $lookup: {
-              localField: "citizenId",
-              from: "citizendetails",
-              foreignField: "citizenId",
-              as: "citizendetails",
-            },
-          },
-          {
-            $lookup: {
-              localField: "screenerId",
-              from: "screeners",
-              foreignField: "screenerId",
-              as: "screeners",
-            },
-          },
-         {$unwind:'$citizens'},
-         {$unwind:'$screeners'},
-          {
-            $project: {
-              'citizenId':1,
+					if(req.body.severity!=null && req.body.severity!=undefined && req.body.severity!="" ){
+						severity=parseInt(req.body.severity);
+						matchfield["severity"]=severity;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+
+
+					if(req.body.doctorId!=null && req.body.doctorId!=undefined && req.body.doctorId!=""){
+						doctorId=req.body.doctorId;
+						matchfield["doctorId"]=doctorId;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.referDocId!=null && req.body.referDocId!=undefined && req.body.referDocId!=""){
+						referDocId=req.body.referDocId;
+						matchfield["referDocId"]=referDocId;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.screenerId!=null && req.body.screenerId!=undefined && req.body.screenerId!=""){
+						screenerId=req.body.screenerId;
+						matchfield["screenerId"]=screenerId;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.citizenId!=null && req.body.citizenId!=undefined && req.body.citizenId!=""){
+						citizenId=req.body.citizenId;
+						matchfield["citizenId"]=citizenId;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.status!=null && req.body.status!=undefined && req.body.status!=""){
+						status=req.body.status;
+						matchfield["status"]=parseInt(status);
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!=""){
+						caseId=req.body.caseId;
+						matchfield["caseId"]=caseId;
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+					if(req.body.sdate!=null && req.body.sdate!=undefined && req.body.sdate!="" && req.body.edate!=null && req.body.edate!=undefined && req.body.edate!=""){
+						date=new Date(req.body.edate);
+						date.setDate(date.getDate() + 1);
+						matchfield["createdAt"]={'$gte': new Date(req.body.sdate)};
+						arraymatch.push(matchfield);
+						matchfield={};
+						matchfield["createdAt"]={'$lte': new Date(date)};
+						arraymatch.push(matchfield);
+						matchfield={};
+					}
+
+					// matchfield={};
+					// matchfield["severity"]={'$gt': 0};
+					// arraymatch.push(matchfield);
+
+					
+					var andcond={'$match':{'$and':arraymatch}};
+					console.log(arraymatch);
+					if (arraymatch.length===0){
+						andcond={'$match':{}};
+
+					}
+					console.dir(andcond);
+					var pageCalc=0;
+
+					if(req.body.page!=null && req.body.page!=undefined && req.body.page!=""){
+						page=req.body.page;
+						if(page>1){
+							pageCalc=page*100;
+						}
+					}
+
+
+
+
+			ScreeningCaseModel.ScreeningCase.aggregate([
+							andcond,
+							{'$sort':{'createdAt':-1}},
+							{'$skip':pageCalc},
+							{'$limit':100},
+							{'$lookup': {
+								'localField':'doctorId',
+								'from':'doctors',
+								'foreignField':'doctorId',
+								'as':'doctors'	
+							 }
+							},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'citizens',
+								'foreignField':'citizenId',
+								'as':'citizens'	
+							 }
+							},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'citizendetails',
+								'foreignField':'citizenId',
+								'as':'citizendetails'	
+							 }
+							},
+							{'$lookup': {
+								'localField':'screenerId',
+								'from':'screeners',
+								'foreignField':'screenerId',
+								'as':'screeners'	
+							 }
+							},
+
+							{'$project':{
+								'citizenId':1,
 								'notes':1,
 								'doctorId':1,
 								'status':1,
@@ -705,55 +628,53 @@ exports.screeningList = [
 								'screeners.sex':1,
 								'screeners.ngoId':1,
               firstName: "$citizens.firstName",
-              lastname:"$citizens.lastName",
-              
-              ScreenerFirstName:"$screeners.firstName",
-              ScreenerLastName:"$screeners.lastName",
-              
-            },
-          },
-        ]).then((users) => {
-          let user = users[0];
-          if (user) {
-            for (i = 0; i < users.length; i++) {
-              let temp = users[i];
-              var cdate = "";
-              if (
-                temp.height != null &&
-                temp.height != undefined &&
-                temp.height != ""
-              ) {
-                temp.height = parseFloat(temp.height).toFixed(2);
-              }
-              if (
-                temp.createdAt != null &&
-                temp.createdAt != undefined &&
-                temp.createdAt != ""
-              ) {
-                cdate = temp.createdAt.toISOString().split("T")[0];
-                var adate = new Date(cdate);
-                temp.createdAt =
-                  adate.getDate() +
-                  "-" +
-                  (adate.getMonth() + 1) +
-                  "-" +
-                  (adate.getYear() + 1900);
-                users[i] = temp;
-              } else {
-                temp.createdAt = cdate;
-                users[i] = temp;
-              }
-            }
+                lastname:"$citizens.lastName",
+                ScreenerFirstName:"$screeners.firstName",
+                ScreenerLastName:"$screeners.lastName",
+							}}
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(i=0;i<users.length;i++){
+						let temp=users[i];
+						console.log(temp.createdAt);
+						var cdate="";
+						if(temp.height!=null && temp.height!=undefined && temp.height!=""){
+					  	temp.height=parseFloat(temp.height).toFixed(2);
+					  }
+					  	if(temp.createdAt!=null && temp.createdAt!=undefined && temp.createdAt!=""){
 
-            return apiResponse.successResponseWithData(res, "Found", users);
-          } else return apiResponse.ErrorResponse(res, "Not Found");
-        });
-      }
-    } catch (err) {
-      return apiResponse.ErrorResponse(res, "EXp:" + err);
-    }
-  },
+					  		cdate=temp.createdAt.toISOString().split('T')[0];
+					  		console.log(cdate);
+					  		var adate=new Date(cdate);
+					  		temp.createdAt=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
+					  		users[i]=temp;
+					  		console.log(temp.createdAt);
+					  	}
+					  	else{
+					  		temp.createdAt=cdate;
+					  		users[i]=temp;
+					  	}
+					  }
+					
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
 ];
+
+
+
+
 
 exports.screeningListCount = [
   (req, res) => {
@@ -2147,7 +2068,7 @@ exports.lipid = [
               },
             },
           },
-          { $match: { Age: { $gte: 40 } } },
+          // { $match: { Age: { $gte: 40 } } },
         ]).then((users) => {
           let user = users[0];
           if (user) {
@@ -2306,9 +2227,9 @@ exports.lipidcritical = [
           errors.array()
         );
       } else {
-        tmp_out_all
+        ScreeningCaseModel.ScreeningCase
           .aggregate([
-            // { $match: { severity_bp: 2, severity_bmi: 2 } },
+            { $match: { severity_bp: 2, severity_bmi: 2 } },
             { $limit: 1000 },
             {
               $lookup: {
@@ -2359,7 +2280,7 @@ exports.lipidcritical = [
                 },
               },
             },
-           { $match: { Age: { $gte: 40 } } },
+          //  { $match: { Age: { $gte: 40 } } },
             // .then((recs) => {
             //   if (recs) {
             //     process.exit(1);
