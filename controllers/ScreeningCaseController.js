@@ -3,7 +3,6 @@ const CitizenModel = require("../models/CitizenModel");
 const DoctorModel = require("../models/DoctorModel");
 const ScreenerModel = require("../models/ScreenerModel");
 const SymptomsModel = require("../models/SymptomsModel");
-const tmp_out_all = require("../models/tmp_out_all");
 const tmp_out0Model = require("../models/tmp_out0Model");
 
 const { body, query, validationResult } = require("express-validator");
