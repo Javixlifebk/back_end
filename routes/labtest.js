@@ -40,6 +40,9 @@ routerLabTestController.post("/LipidPanelCholesterolDefaultList", LabTestControl
 routerLabTestController.post("/addBloodGlucoseTest", LabTestController.addBloodGlucoseTest);
 routerLabTestController.post("/getBloodGlucoseTestList", LabTestController.BloodGlucoseTestList);
 routerLabTestController.post("/getBloodGlucoseTestCount", LabTestController.bloodGlucoseCount);
+routerLabTestController.post("/getBloodGlucoseGreenList", LabTestController.BloodGlucoseTestGreenList);
+routerLabTestController.post("/getBloodGlucoseAmberList", LabTestController.BloodGlucoseTestAmberList);
+
 
 routerLabTestController.post("/addVisualExam", VisualExamController.addVisualExam);
 routerLabTestController.post("/getVisualExamList", VisualExamController.VisualExamList);
