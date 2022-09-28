@@ -616,7 +616,7 @@ exports.tmp_outList = [
                 respiratory_rate:  1,
                 temperature:  1,
                 referDocId:  1,
-                createdAt: 1
+                // createdAt: 1
               },
             },
           ])
