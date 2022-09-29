@@ -21,10 +21,10 @@ jobs:
 
             script: |
               cd /mnt/volume_blr1_01/javix/test
-              git pull
+              git pull origin JavixBackend_Master
               # export NVM_DIR=~/.nvm
               # source ~/.nvm/nvm.sh                
               npm install
               echo `Deployment Successfult to Digital Ocean`
               
-            ssh_agent_auth: true              
+                          
