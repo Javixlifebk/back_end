@@ -28,3 +28,5 @@ jobs:
               npm i
               pm2 start 1
               echo `Deployment Successfult to Digital Ocean'
+              
+            ssh_agent_auth: true              
