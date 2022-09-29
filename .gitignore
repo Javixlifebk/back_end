@@ -65,4 +65,5 @@ uploads/
 #vs code configurations
 .vscode/
 
-
+#cicd workflow
+.github/
