@@ -1,8 +1,8 @@
 name: Build & Deploy
 
 on:
-   push:
-     branches: [JavixBackend_Master]
+  push:
+    branches: [JavixBackend_Master]
 
 jobs:
     build:
