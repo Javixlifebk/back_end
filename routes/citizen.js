@@ -16,7 +16,7 @@ routerCitizen.post("/citizenReferList", CitizenController.updateReferAuth);
 routerCitizen.post("/citizenNewList", CitizenController.citizenNewList);
 routerCitizen.post("/citizenById", CitizenController.citizenById);
 routerCitizen.post("/citizenl", CitizenController.listcity);
-// routerCitizen.post("/citizenRefer", CitizenController.citizenReferList);
+routerCitizen.post("/citizenCases", CitizenController.citizenCasesList);
 routerCitizen.post("/addDocuments", CitizenController.addDocuments);
 routerCitizen.post("/documentsList", CitizenController.recordList);
 routerCitizen.post("/updateCitizen", CitizenController.updateCitizen);
