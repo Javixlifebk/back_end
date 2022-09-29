@@ -8,7 +8,7 @@ on:
     branches: [JavixBackend_Master]
 
 jobs:
-    deploy:
+    build:
       runs-on: ubuntu-latest
       steps:
         - name: Deploy Node JS app
