@@ -1851,9 +1851,7 @@ exports.BloodGlucoseTestList=[
 
 exports.BloodGlucoseTestAmberList=[
 
-	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	// sanitizeBody("caseId").escape(),
-	// sanitizeBody("severity").escape(),
+	
 	
     (req, res) => { 
 			
@@ -1866,31 +1864,21 @@ exports.BloodGlucoseTestAmberList=[
 				// var matchfield={};
 				// 	var arraymatch=[];
 				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity!=null && req.body.severity!=undefined && req.body.severity!="" )
-				// {
-				// 	matchfield['severity']=parseInt(req.body.severity);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-					
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-					
-				// 	if (arraymatch.length===0){
-				// 		andcond={'$match':{}};
+				
+			// let min = 60;
+			// let max = 80;
+			// if(req.body.min){
+			// 	min = req.body.min;
+			// }
+			// if(req.body.max){
+			// 	max = req.body.max;
+			// }
 
-				// 	}
-					// console.dir(andcond);
+			// console.log(req.body.min);
 					
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
-							// andcond,
 							
-							//  {'$match':{ bloodglucose : { $gt: 70, $lt: 133 }}},
-							{'$match':{ severity:0}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1907,23 +1895,20 @@ exports.BloodGlucoseTestAmberList=[
 							},
 							 {"$unwind":"$screeningcases"},
 							 {"$unwind":"$citizens"},
-							// {
-							// 	// output result into other collection
-							// 	$merge: {
-							// 	  into: '$citizens',
-							// 	},
-							//   },
+						
 							{'$project':{
 									'caseId':1,
 									'status':1,
-									'bloodglucose':1,
+									'bloodglucose': { $toInt: "$bloodglucose" },
 									'type':1,
 									'severity':1,
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-							}}
+							}},
+							{$match:{bloodglucose : { $gt :  100, $lt : 125} }},
+
 				]).then(users => {
 					
 					let user=users[0];
@@ -1939,11 +1924,10 @@ exports.BloodGlucoseTestAmberList=[
 				});
 			}
 		} catch (err) {
-			
+			console.log(err);
 			return apiResponse.ErrorResponse(res,"EXp:"+err);
 		}
 	}
-
 ];
 exports.BloodGlucoseTestGreenList=[
 
@@ -1962,56 +1946,21 @@ exports.BloodGlucoseTestGreenList=[
 				// var matchfield={};
 				// 	var arraymatch=[];
 				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity!=null && req.body.severity!=undefined && req.body.severity!="" )
-				// {
-				// 	matchfield['severity']=parseInt(req.body.severity);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-					
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-					
-				// 	if (arraymatch.length===0){
-				// 		andcond={'$match':{}};
+				
+			// let min = 60;
+			// let max = 80;
+			// if(req.body.min){
+			// 	min = req.body.min;
+			// }
+			// if(req.body.max){
+			// 	max = req.body.max;
+			// }
 
-				// 	}
-					// console.dir(andcond);
+			// console.log(req.body.min);
 					
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
-							// andcond,
 							
-							//  {'$match':{ bloodglucose : { $gte: 20 }}},
-							{"$match": {
-							// 	"$expr": {
-							// 	  "$cond": [
-							// 		{
-							// 		  "$gte": [
-							// 			{
-							// 			  "$max": "$data.bloodglucose"
-							// 			},
-							// 			70
-							// 		  ]
-							// 		},
-							// 		{
-							// 		  "$lte":
-							// 		  [
-							// 			{
-							// 			  "$min": "$data.bloodglucose"
-							// 			},
-							// 			133
-							// 		  ]
-							// 		},
-							// 		{severity:2}
-
-							// 	  ]
-							// 	}
-}},
-							 {'$match':{ severity:2}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -2028,26 +1977,20 @@ exports.BloodGlucoseTestGreenList=[
 							},
 							 {"$unwind":"$screeningcases"},
 							 {"$unwind":"$citizens"},
-							// {
-							// 	// output result into other collection
-							// 	$merge: {
-							// 	  into: '$citizens',
-							// 	},
-							//   },
+						
 							{'$project':{
 									'caseId':1,
 									'status':1,
-									'bloodglucose': 1,
-									// {
-									// 	$cond: [{$and:[{ $gte:["$bloodglucose",20]},{$lte:["$bloodglucose",133]}]}]
-									//   },
+									'bloodglucose': { $toInt: "$bloodglucose" },
 									'type':1,
 									'severity':1,
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-							}}
+							}},
+							{$match:{bloodglucose : { $gt :  80, $lt : 100} }},
+
 				]).then(users => {
 					
 					let user=users[0];
@@ -2063,13 +2006,92 @@ exports.BloodGlucoseTestGreenList=[
 				});
 			}
 		} catch (err) {
-			
+			console.log(err);
 			return apiResponse.ErrorResponse(res,"EXp:"+err);
 		}
 	}
 
 ];
+exports.BloodGlucoseTestRedList=[
 
+	
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+
+				// var matchfield={};
+				// 	var arraymatch=[];
+				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+				
+			// let min = 60;
+			// let max = 80;
+			// if(req.body.min){
+			// 	min = req.body.min;
+			// }
+			// if(req.body.max){
+			// 	max = req.body.max;
+			// }
+
+			// console.log(req.body.min);
+					
+
+			LabTestCaseModel.BloodGlucoseTest.aggregate([
+							
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							 {"$unwind":"$screeningcases"},
+							 {"$unwind":"$citizens"},
+						
+							{'$project':{
+									'caseId':1,
+									'status':1,
+									'bloodglucose': { $toInt: "$bloodglucose" },
+									'type':1,
+									'severity':1,
+									'createdAt':1,
+									'citizenId':'$screeningcases.citizenId',
+									//  'firstname':'$citizens.firstName'
+									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							}},
+							{$match:{bloodglucose : { $gt :  125 }},}
+
+				]).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						for(var i=0;i<users.length;i++){
+							users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+
+						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+];
 
 
 //Thal and Sickle

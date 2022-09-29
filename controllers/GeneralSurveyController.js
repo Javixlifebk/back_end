@@ -4,7 +4,7 @@ const UserModel = require("../models/UserModel");
 const GeneralSurveyModel = require("../models/GeneralSurveyModel");
 const tmp_out0Model = require("../models/tmp_out0Model");
 const tmp_out1Model = require("../models/tmp_out1Model");
-const tmp_outModel = require("../models/tmp_out_allModel")
+// const lipidcritical = require("../models/lipidcriticalcitizenModel")
 const UserDetailsModel = require("../models/UserDetailsModel");
 const { body, query, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -15,6 +15,7 @@ const mailer = require("../helpers/mailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
+const lipidcritical = require("../models/lipidcriticalcitizenModel");
 
 exports.addGeneralSurvey = [
   body("screenerId")
@@ -564,9 +565,6 @@ exports.tmp_out1List = [
   },
 ];
 exports.tmp_outList = [
-  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
-  // sanitizeBody("familyId").escape(),
-
   (req, res) => {
     try {
       const errors = validationResult(req);
@@ -577,46 +575,21 @@ exports.tmp_outList = [
           errors.array()
         );
       } else {
-        //    var condition={};
-        //    if(req.body.familyId!='' && req.body.familyId!=undefined && req.body.familyId!=null){
-        // 	   condition['familyId']=req.body.familyId;
-        //    }
-        //    if(req.body.citizenId!='' && req.body.citizenId!=undefined && req.body.citizenId!=null){
-        // 	   condition['citizenId']=req.body.citizenId;
-        //    }
-        //    if(req.body.screenerId!='' && req.body.screenerId!=undefined && req.body.screenerId!=null){
-        // 	   condition['screenerId']=req.body.screenerId;
-        //    }
-
-        tmp_outModel
+        lipidcritical
           .aggregate([
             {
               $project: {
-                status:  1,
-                severity_bp:  1,
-                severity_spo2:  1,
-                severity_temperature:  1,
-                severity_pulse:  1,
-                severity_bmi:  1,
-                severity_respiratory_rate:  1,
-                severity:  1,
-                citizenId:  1,
-                notes:  1,
-                doctorId:  1,
-                screenerId:  1,
-                height:  1,
-                weight:  1,
-                bmi:  1,
-                bpsys:  1,
-                bpdia:  1,
-                arm:  1,
-                spo2:  1,
-                caseId:  1,
-                pulse:  1,
-                respiratory_rate:  1,
-                temperature:  1,
-                referDocId:  1,
-                // createdAt: 1
+                citizenId:1,
+                FirstName:1,
+                LastName:1,
+                Email:1,
+                Gender:1,
+                Address:1,
+                ScreenerId:1,
+                ScreenerFirstName:1,
+                ScreenerLastName:1,
+                Mobile:1,
+                Age:1
               },
             },
           ])
