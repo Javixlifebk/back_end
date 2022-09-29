@@ -21,7 +21,7 @@ jobs:
 
             script: |
               cd /mnt/volume_blr1_01/javix/test
-              git add set-url origin https://devsumagoinfotech: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@github.com/devsumagoinfotech/Javix-FrontEnd.git
+              git remote add origin https://devsumagoinfotech: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@github.com/devsumagoinfotech/Javix-FrontEnd.git
               git pull origin JavixFrontend_Master
               echo `Deployment Successfult to Digital Ocean`
               
