@@ -5,7 +5,7 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [JavixBackEnd_Master]
+    branches: [JavixBackend_Master]
 
 jobs:
     deploy:
