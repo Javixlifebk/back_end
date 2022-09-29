@@ -1378,8 +1378,8 @@ exports.screenerCasesList = [
         );
       } else {
         tmp_out0Model.aggregate([
-          { $match:{ screenerId: "162480116265360010" } },
-          // {$match:{issubscreener:1}},
+          { $match:{ screenerId: req.body.screenerId } },
+          // {$match:{issubscreener:1}},162480116265360010
           { $sort: { createdAt: -1 } },
           {
             $lookup: {
