@@ -21,13 +21,10 @@ jobs:
 
             script: |
               cd /mnt/volume_blr1_01/javix
-              pm2 stop 1
               mkdir test
               cd test
               git remote set-url origin https://devsumagoinfotech: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@github.com/devsumagoinfotech/Javix-BackEnd.git
               git pull origin JavixBackend_Master
-              npm i
-              pm2 start 1
               echo `Deployment Successfult to Digital Ocean'
               
             ssh_agent_auth: true              
