@@ -17,6 +17,6 @@ jobs:
             username: ${{secrets.SSH_USERNAME}}
 
             script: |
-              cd /mnt/volume_blr1_01/javix/Javix-BackEnd-Cicd
+              cd /mnt/volume_blr1_01/javix/Javix-BackEnd-Cicd/Javix-BackEnd
               sh deploy.sh
               echo `Deployment Successfult to Digital Ocean
