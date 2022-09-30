@@ -1,8 +1,8 @@
 name: Build & Deploy
 
 on:
-  #push:
-    #branches: [master]
+  push:
+    branches: [master]
 
 jobs:
     build:
@@ -19,4 +19,4 @@ jobs:
             script: |
               cd /mnt/volume_blr1_01/javix/Javix-BackEnd
               sh deploy.sh
-              echo `Deployment Successfult to Digital Ocean`
+              echo `Deployment Successfult to Digital Ocean !!!`
