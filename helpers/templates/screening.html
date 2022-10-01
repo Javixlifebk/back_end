@@ -59,15 +59,15 @@
 					</td>
 				</tr>
 				<tr>
-					
+					{{#with this.citizens}}
 					<td>
 						
 						<div class='label'>Gender</div>
-						{{#with this.citizens}}
 						<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
-						{{/with}}
+						
 					</td>
-					   
+					{{/with}}
+					
 					   {{#each this.citizendetails}}
 					<td>
 						<div class='label'>D.O.B</div>
