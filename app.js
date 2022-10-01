@@ -8,7 +8,7 @@ var apiRouter = require("./routes/api");
 var apiResponse = require("./helpers/apiResponse");
 var cors = require("cors");
 const multer = require('multer');
-
+//Test changes 
 
 const storage = multer.diskStorage({
 	destination : './uploads/images',
@@ -76,6 +76,7 @@ var db = mongoose.connection;
 
 var app = express();
 app.use(cors());
+
 //don't show the log when it is test
 if(process.env.NODE_ENV !== "test") {
 	app.use(logger("dev"));

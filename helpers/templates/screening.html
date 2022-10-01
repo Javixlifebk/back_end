@@ -64,7 +64,7 @@
 						
 						<div class='label'>Gender</div>
 						{{#with this.citizens}}
-						<div class='labelData'> <span id="lgender">{{sex}}</span></div>
+						<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
 						{{/with}}
 					</td>
 					   
@@ -91,12 +91,12 @@
 						<div class='labelData'>{{this.ScreenerFirstName}}&nbsp;{{this.ScreenerLastName}}</div>
 					</td>
 					
-					{{#each this.doctors}}
+					<!-- {{#each this.doctors}}
 					<td>
 						<div class='label'>Doctor</div>
 						<div class='labelData'>Dr.{{this.firstName}}&nbsp;{{this.lastName}}</div>
 					</td>
-					{{/each}}
+					{{/each}} -->
 					<td>
 						<div class='label'>Report Date</div>
 						<div class='labelData'>{{this.createdAt}}</div>
@@ -240,9 +240,9 @@
 				<tr>
 				<td><div class='lxlabel'>Url of the Media</div> </td><td><div class='lxSize gray' id="leye"><a href={{this.image}}>URL</a></div></td>
 			</tr>
-				<tr>
+				<!-- <tr>
 				<td><div class='lxlabel'>Notes</div> </td><td><div class='lxSize gray' id="leye">{{this.notes}}</div></td>
-			</tr>
+			</tr> -->
 			<tr> </tr>
 			{{/each}}
 			
@@ -372,10 +372,10 @@
 							<td><span class='labelData'>{{this.glucose}}</span></td>
 							<td><span class='labelData'>{{this.description.glucose}}</span></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 							<td><div class='lxlabel'>NOTES</div></td>
 							<td><span class='labelData'>{{this.notes}}</span></td>
-				</tr>
+				</tr> -->
 				<tr>
 							<td><div class='lxlabel'>CREATION DATE</div></td>
 							<td><span class='labelData'>{{this.createdAt}}</span></td>
