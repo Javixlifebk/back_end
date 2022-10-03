@@ -1887,6 +1887,20 @@ exports.BloodGlucoseTestAmberList=[
 								}
 							},
 							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							{$lookup:{
 								from:"citizens",
 								localField: "screeningcases.citizenId",
 								foreignField:"citizenId",
@@ -1895,7 +1909,8 @@ exports.BloodGlucoseTestAmberList=[
 							},
 							 {"$unwind":"$screeningcases"},
 							 {"$unwind":"$citizens"},
-						
+						      {'$unwind':"$citizendetails"},
+							  {'$unwind':"$screeners"},
 							{'$project':{
 									'caseId':1,
 									'status':1,
@@ -1904,7 +1919,9 @@ exports.BloodGlucoseTestAmberList=[
 									'severity':1,
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
-									//  'firstname':'$citizens.firstName'
+									 'mobile':'$citizens.mobile',
+									 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}},
 							{$match:{bloodglucose : { $gt :  100, $lt : 125} }},
@@ -1961,22 +1978,38 @@ exports.BloodGlucoseTestGreenList=[
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
 							
-							{$lookup:{
-								from:"screeningcases",
-								localField: "caseId",
-								foreignField:"caseId",
-								as:"screeningcases"
-								}
-							},
-							{$lookup:{
-								from:"citizens",
-								localField: "screeningcases.citizenId",
-								foreignField:"citizenId",
-								as:"citizens"
-								}
-							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+				{$lookup:{
+					from:"screeningcases",
+					localField: "caseId",
+					foreignField:"caseId",
+					as:"screeningcases"
+					}
+				},
+				{$lookup:{
+					from:"citizendetails",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizendetails"
+					}
+				},
+				{$lookup:{
+					from:"screeners",
+					localField: "screeningcases.screenerId",
+					foreignField:"screenerId",
+					as:"screeners"
+					}
+				},
+				{$lookup:{
+					from:"citizens",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizens"
+					}
+				},
+				 {"$unwind":"$screeningcases"},
+				 {"$unwind":"$citizens"},
+				  {'$unwind':"$citizendetails"},
+				  {'$unwind':"$screeners"},
 						
 							{'$project':{
 									'caseId':1,
@@ -1987,6 +2020,10 @@ exports.BloodGlucoseTestGreenList=[
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
+									'mobile':'$citizens.mobile',
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}},
 							{$match:{bloodglucose : { $gt :  80, $lt : 100} }},
@@ -2042,22 +2079,38 @@ exports.BloodGlucoseTestRedList=[
 
 			LabTestCaseModel.BloodGlucoseTest.aggregate([
 							
-							{$lookup:{
-								from:"screeningcases",
-								localField: "caseId",
-								foreignField:"caseId",
-								as:"screeningcases"
-								}
-							},
-							{$lookup:{
-								from:"citizens",
-								localField: "screeningcases.citizenId",
-								foreignField:"citizenId",
-								as:"citizens"
-								}
-							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+				{$lookup:{
+					from:"screeningcases",
+					localField: "caseId",
+					foreignField:"caseId",
+					as:"screeningcases"
+					}
+				},
+				{$lookup:{
+					from:"citizendetails",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizendetails"
+					}
+				},
+				{$lookup:{
+					from:"screeners",
+					localField: "screeningcases.screenerId",
+					foreignField:"screenerId",
+					as:"screeners"
+					}
+				},
+				{$lookup:{
+					from:"citizens",
+					localField: "screeningcases.citizenId",
+					foreignField:"citizenId",
+					as:"citizens"
+					}
+				},
+				 {"$unwind":"$screeningcases"},
+				 {"$unwind":"$citizens"},
+				  {'$unwind':"$citizendetails"},
+				  {'$unwind':"$screeners"},
 						
 							{'$project':{
 									'caseId':1,
@@ -2068,7 +2121,11 @@ exports.BloodGlucoseTestRedList=[
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
-									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+									'mobile':'$citizens.mobile',
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+									// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}},
 							{$match:{bloodglucose : { $gt :  125 }},}
 
