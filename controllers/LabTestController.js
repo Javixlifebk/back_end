@@ -1907,9 +1907,10 @@ exports.BloodGlucoseTestAmberList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
+							
 							 {"$unwind":"$citizens"},
 						      {'$unwind':"$citizendetails"},
+							  {"$unwind":"$screeningcases"},
 							  {'$unwind':"$screeners"},
 							{'$project':{
 									'caseId':1,
