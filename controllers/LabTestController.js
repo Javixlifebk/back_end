@@ -1183,6 +1183,7 @@ exports.LipidPanelCholesterolAmberList=[
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 							{'$match':{severity_cholesterol:1}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1197,6 +1198,23 @@ exports.LipidPanelCholesterolAmberList=[
 								as:"citizens"
 								}
 							},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							  {'$unwind':"$citizendetails"},
+							  {'$unwind':"$screeners"},
 							 {"$unwind":"$screeningcases"},
 							 {"$unwind":"$citizens"},
 							{'$project':{
@@ -1213,7 +1231,12 @@ exports.LipidPanelCholesterolAmberList=[
 									'non_hdl':1,
 									'type':1,
 									'createdAt':1,
-								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+									'mobile':'$citizens.mobile',
+									'citizenId':'$citizens.citizenId',
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
 				]).then(users => {
