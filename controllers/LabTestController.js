@@ -1071,6 +1071,10 @@ exports.LipidPanelCholesterolGreenList=[
 									'non_hdl':1,
 									'type':1,
 									'createdAt':1,
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								    
 								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
@@ -1213,10 +1217,10 @@ exports.LipidPanelCholesterolAmberList=[
 								}
 							},
 							
-							  {'$unwind':"$citizendetails"},
-							  {'$unwind':"$screeners"},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
 							{'$project':{
 									'caseId':1,
 									'status':1,

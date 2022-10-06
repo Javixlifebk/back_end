@@ -346,7 +346,7 @@ exports.HemoglobinTestAmberList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								 'address':'info.address',
+								 'address':'$info.address',
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
