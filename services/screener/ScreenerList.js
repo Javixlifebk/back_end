@@ -106,16 +106,16 @@ exports.screenerList=[
 								 'email':1,
 								 'ngoId':1,
 								 'parentId':1,
-								//  'issubscreener':{
-								// 	"$switch": {
-								// 	  "branches": [
-								// 		{ "case": { "$eq": ["$issubscreener", 0] }, "then": "Sanyojika" },
-								// 		{ "case": { "$eq": ["$issubscreener", 1] }, "then": "Sevika" },
+								 'issubscreener':{
+									"$switch": {
+									  "branches": [
+										{ "case": { "$eq": ["$issubscreener", 0] }, "then": "Sanyojika" },
+										{ "case": { "$eq": ["$issubscreener", 1] }, "then": "Sevika" },
 									   
-								// 	  ],
-								// 	  "default": "none"
-								// 	},
-								//   },
+									  ],
+									  "default": "none"
+									},
+								  },
 								// "issubscreener": {
 								// 	"$cond": [
 								// 	   { "$eq": [ "$issubscreener", "0" ] }, 
@@ -145,11 +145,11 @@ exports.screenerList=[
 								 'numOfHealthSurveys':{'$size':"$healthsurveys"},
 								 'numOfCitizens':{'$size':"$citizens"},
 								 'numOfSocioEconomicSurveys':{'$size':"$socioeconomicsurveys"},
-								//  'age': { $round: [{$divide: [{$subtract: [ new Date(), "$info.dateOfBirth" ] }, 
-								// 			(365 * 24*60*60*1000)]},
-								//   ]
+								 'age': { $round: [{$divide: [{$subtract: [ new Date(), "$info.dateOfBirth" ] }, 
+											(365 * 24*60*60*1000)]},
+								  ]
 									
-								// },
+								},
 								},
 						
 							}
