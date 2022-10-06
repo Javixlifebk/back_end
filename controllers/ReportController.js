@@ -991,22 +991,21 @@ exports.createCaseReport = [
 
 					    	// console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
-					        var filename="./uploads/"+temp[temp.length-1];
+					        var filename="../uploads/"+temp[temp.length-1];
 					        // console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
-
-							  console.dir(global_labs.heart);
+							//   console.dir(global_labs.heart);
 							 // for(var i=0;i<global_labs.heart.length;i++){
 
 							  	//var temp1 = global_labs.heart[i].url.split("/");
 					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
 							  	//merger.add(filename1); 
 							 // }
-							  var filename2="./uploads/documents/DISCLAIMER.pdf";
+							  var filename2="../uploads/documents/DISCLAIMER.pdf";
 							  merger.add(filename2); 
-							  var file="./uploads/"+Date.now()+".pdf";
+							  var file="../uploads/"+Date.now()+".pdf";
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
