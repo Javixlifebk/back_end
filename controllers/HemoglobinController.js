@@ -201,14 +201,14 @@ exports.HemoglobinTestGreenList=[
 								'as':'basic'
 							 }
 							},
-							{'$lookup': {
-								'localField':'screenerId',
-								'from':'screeners',
-								'foreignField':'screenerId',
-								'as':'screeners'
-							 }
-							},
-							{"$unwind":"$screeners"},
+							// {'$lookup': {
+							// 	'localField':'screenerId',
+							// 	'from':'screeners',
+							// 	'foreignField':'screenerId',
+							// 	'as':'screeners'
+							//  }
+							// },
+							// {"$unwind":"$screeners"},
 							{'$unwind':'$basic'},
 							
 							{'$unwind':'$info'},
@@ -232,15 +232,15 @@ exports.HemoglobinTestGreenList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								 'address':'$info.address',
+								 '$info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								 'email':'$basic.email',
-								 'mobile':'$basic.mobile',
-								 'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								//  'email':'$basic.email',
+								//  'mobile':'$basic.mobile',
+								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
+								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
@@ -302,13 +302,13 @@ exports.HemoglobinTestAmberList=[
 								'as':'basic'
 							 }
 							},
-							{'$lookup': {
-								'localField':'screenerId',
-								'from':'screeners',
-								'foreignField':'screenerId',
-								'as':'screeners'
-							 }
-							},
+							// {'$lookup': {
+							// 	'localField':'screenerId',
+							// 	'from':'screeners',
+							// 	'foreignField':'screenerId',
+							// 	'as':'screeners'
+							//  }
+							// },
 							// {'$lookup':{
 							// 	'from':"screeners",
 							// 	'localField': "caseId",
@@ -323,7 +323,7 @@ exports.HemoglobinTestAmberList=[
 							// 	as:"screeningcases"
 							// 	}
 							// },
-							{'$unwind':"$screeners"},
+							// {'$unwind':"$screeners"},
 							{'$unwind':'$basic'},
 							{'$unwind':'$info'},
 							// {"$unwind":"$screeningcases"},
@@ -346,15 +346,15 @@ exports.HemoglobinTestAmberList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								 'address':'$info.address',
+								 'info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								 'email':'$basic.email',
-								 'mobile':'$basic.mobile',
-								 'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								//  'email':'$basic.email',
+								//  'mobile':'$basic.mobile',
+								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
+								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
@@ -416,14 +416,14 @@ exports.HemoglobinTestRedList=[
 								'as':'basic'
 							 }
 							},
-							{'$lookup': {
-								'localField':'screenerId',
-								'from':'screeners',
-								'foreignField':'screenerId',
-								'as':'screeners'
-							 }
-							},
-							{"$unwind":"$screeners"},
+							// {'$lookup': {
+							// 	'localField':'screenerId',
+							// 	'from':'screeners',
+							// 	'foreignField':'screenerId',
+							// 	'as':'screeners'
+							//  }
+							// },
+							// {"$unwind":"$screeners"},
 							{'$unwind':'$basic'},
 							{'$unwind':'$info'},
 							{'$project':{
@@ -446,15 +446,15 @@ exports.HemoglobinTestRedList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								 'address':'$info.address',
+								//  'address':'$info.address',
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								 'email':'$basic.email',
-								 'mobile':'$basic.mobile',
-								 'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								//  'email':'$basic.email',
+								//  'mobile':'$basic.mobile',
+								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
+								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
