@@ -232,7 +232,7 @@ exports.HemoglobinTestGreenList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								 '$info.address':1,
+								 'info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
