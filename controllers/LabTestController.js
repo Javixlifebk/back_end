@@ -1052,10 +1052,18 @@ exports.LipidPanelCholesterolGreenList=[
 								localField: "screeningcases.citizenId",
 								foreignField:"citizenId",
 								as:"citizens"
-								}
+								},
+							},
+							{'$lookup': {
+								'localField':'screenerId',
+								'from':'screeners',
+								'foreignField':'screenerId',
+								'as':'screeners'
+							 }
 							},
 							 {"$unwind":"$screeningcases"},
 							 {"$unwind":"$citizens"},
+							 {"$unwind":"$screeners"},
 							{'$project':{
 									'caseId':1,
 									'status':1,
@@ -1074,7 +1082,6 @@ exports.LipidPanelCholesterolGreenList=[
 									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
 									'address':'$citizendetails.address',
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-								    
 								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
