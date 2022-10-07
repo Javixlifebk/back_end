@@ -1013,6 +1013,7 @@ exports.createCaseReport = [
 							  merger.add(filename2); 
 							  let file = path.join(__dirname, '../uploads/'+Date.now()+".pdf");
 							//   var file="../uploads/"+Date.now()+".pdf";
+							  console.log("file ----",file);
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
