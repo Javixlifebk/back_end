@@ -185,7 +185,7 @@ exports.HemoglobinTestGreenList=[
 			HemoglobinModel.Hemoglobin.aggregate([
 							 {'$match':{severity:0}},
 							{'$match':condition},
-							
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -244,8 +244,7 @@ exports.HemoglobinTestGreenList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}},
-							{'$limit':1000}
+							{'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
@@ -287,6 +286,7 @@ exports.HemoglobinTestAmberList=[
 			HemoglobinModel.Hemoglobin.aggregate([
 							 {'$match':{severity:1}},
 							{'$match':condition},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -358,8 +358,7 @@ exports.HemoglobinTestAmberList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}},
-							{'$limit':1000}
+							{'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
@@ -401,6 +400,7 @@ exports.HemoglobinTestRedList=[
 			HemoglobinModel.Hemoglobin.aggregate([
 							 {'$match':{severity:2}},
 							{'$match':condition},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -458,8 +458,7 @@ exports.HemoglobinTestRedList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}},
-							{'$limit':1000}
+							{'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
