@@ -201,14 +201,14 @@ exports.HemoglobinTestGreenList=[
 								'as':'basic'
 							 }
 							},
-							// {'$lookup': {
-							// 	'localField':'screenerId',
-							// 	'from':'screeners',
-							// 	'foreignField':'screenerId',
-							// 	'as':'screeners'
-							//  }
-							// },
-							// {"$unwind":"$screeners"},
+							{'$lookup': {
+								'localField':'screenerId',
+								'from':'screeners',
+								'foreignField':'screenerId',
+								'as':'screeners'
+							 }
+							},
+							{"$unwind":"$screeners"},
 							{'$unwind':'$basic'},
 							
 							{'$unwind':'$info'},
@@ -237,10 +237,10 @@ exports.HemoglobinTestGreenList=[
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								//  'email':'$basic.email',
-								//  'mobile':'$basic.mobile',
-								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								 'email':'$basic.email',
+								 'mobile':'$basic.mobile',
+								 'dateOfOnBoarding':'$info.dateOfOnBoarding',
+								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
