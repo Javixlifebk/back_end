@@ -991,9 +991,8 @@ exports.createCaseReport = [
 
 					    	// console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
-					        var filename="../uploads/"+temp[temp.length-1];
-
-					        console.log(filename,"filename 1===========");
+					        var filename="./uploads/"+temp[temp.length-1];
+					        console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
@@ -1005,10 +1004,8 @@ exports.createCaseReport = [
 							  	//merger.add(filename1); 
 							 // }
 							  var filename2="./uploads/documents/DISCLAIMER.pdf";
-							  console.log(filename2,"=============filename2");
 							  merger.add(filename2); 
 							  var file="./uploads/"+Date.now()+".pdf";
-							  console.log(file,"======file name");
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
