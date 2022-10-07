@@ -1055,7 +1055,7 @@ exports.LipidPanelCholesterolGreenList=[
 								},
 							},
 							{'$lookup': {
-								'localField':'screenerId',
+								'localField':'screeningcases.screenerId',
 								'from':'screeners',
 								'foreignField':'screenerId',
 								'as':'screeners'
