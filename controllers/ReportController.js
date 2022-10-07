@@ -989,12 +989,11 @@ exports.createCaseReport = [
 					  	pdf.create(document, options)
 					    .then(val => {
 
-					    	
-							 
+					    	// console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
-					        var filename=temp[temp.length-1];
-					       console.log("first file filename");
-					       console.log(filename);
+					        var filename="../uploads/"+temp[temp.length-1];
+
+					        console.log(filename,"filename 1===========");
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
@@ -1005,15 +1004,11 @@ exports.createCaseReport = [
 					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
 							  	//merger.add(filename1); 
 							 // }
-							  //var filename2="../uploads/documents/DISCLAIMER.pdf";
-							  let filename2 = path.join(__dirname, '../uploads/documents/DISCLAIMER.pdf');//It goes three folders or directories back from given __dirname.
-							  console.log("filename2");
-							  console.log(filename2);
-
+							  var filename2="./uploads/documents/DISCLAIMER.pdf";
+							  console.log(filename2,"=============filename2");
 							  merger.add(filename2); 
-							  let file = path.join(__dirname, '../uploads/'+Date.now()+".pdf");
-							//   var file="../uploads/"+Date.now()+".pdf";
-							  console.log("file ----",file);
+							  var file="./uploads/"+Date.now()+".pdf";
+							  console.log(file,"======file name");
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
