@@ -55,7 +55,7 @@ const upload1 = multer({
 
 
 // DB connection
-var MONGODB_URL ='mongodb://127.0.0.1:27017/javix';
+var MONGODB_URL ='mongodb://127.0.0.1:27017/sumago';
 
 var mongoose = require("mongoose");
 
