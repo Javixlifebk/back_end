@@ -50,7 +50,6 @@ exports.screenerList=[
 
 			ScreenerModel.Screener.aggregate([
 							{'$match':condition},
-							{ $sort: { createdAt: -1 } },
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'screenerId',
@@ -152,7 +151,8 @@ exports.screenerList=[
 								},
 								},
 						
-							}
+							},
+							{ $sort: { createdAt: -1 } }
 						]
 				).then(users => {
 					

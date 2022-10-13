@@ -238,7 +238,7 @@ exports.login = [
 				).then(users => {
 					
 					let user=users[0];
-					
+					console.log("user",user)
 					
 
 					if (user) {

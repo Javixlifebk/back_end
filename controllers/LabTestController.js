@@ -1040,6 +1040,7 @@ exports.LipidPanelCholesterolGreenList=[
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 							{'$match':{severity_cholesterol:0}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1054,8 +1055,25 @@ exports.LipidPanelCholesterolGreenList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
 							{'$project':{
 									'caseId':1,
 									'status':1,
@@ -1074,7 +1092,6 @@ exports.LipidPanelCholesterolGreenList=[
 									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
 									'address':'$citizendetails.address',
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-								    
 								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
@@ -1116,6 +1133,7 @@ exports.LipidPanelCholesterolLDefaultList=[
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 							{'$match':{severity_cholesterol:3}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1130,8 +1148,25 @@ exports.LipidPanelCholesterolLDefaultList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
 							{'$project':{
 									'caseId':1,
 									'status':1,
@@ -1146,7 +1181,13 @@ exports.LipidPanelCholesterolLDefaultList=[
 									'non_hdl':1,
 									'type':1,
 									'createdAt':1,
-								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+									'mobile':'$citizens.mobile',
+									'citizenId':'$citizens.citizenId',
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+								// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
 				]).then(users => {
@@ -1280,22 +1321,40 @@ exports.LipidPanelCholesterolRedList=[
 
 			LabTestCaseModel.LipidPanelTest.aggregate([
 				// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-				{$lookup:{
-					from:"screeningcases",
-					localField: "caseId",
-					foreignField:"caseId",
-					as:"screeningcases"
-					}
-				},
-				{$lookup:{
-					from:"citizens",
-					localField: "screeningcases.citizenId",
-					foreignField:"citizenId",
-					as:"citizens"
-					}
-				},
-				 {"$unwind":"$screeningcases"},
-				 {"$unwind":"$citizens"},
+				{'$match':{severity_cholesterol:2}},
+				{$sort:{createdAt:-1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+				{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
 							{'$match':{severity_cholesterol:2}},
 							{'$project':{
 									'caseId':1,
@@ -1311,8 +1370,12 @@ exports.LipidPanelCholesterolRedList=[
 									'non_hdl':1,
 									'type':1,
 									'createdAt':1,
-								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-
+									'mobile':'$citizens.mobile',
+									'citizenId':'$citizens.citizenId',
+									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}}
 				]).then(users => {
 					
@@ -1948,7 +2011,8 @@ exports.BloodGlucoseTestAmberList=[
 									'createdAt':1,
 									'citizenId':'$screeningcases.citizenId',
 									 'mobile':'$citizens.mobile',
-									 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 									 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 							}},
@@ -2049,7 +2113,8 @@ exports.BloodGlucoseTestGreenList=[
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
 									'mobile':'$citizens.mobile',
-									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 									'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
@@ -2150,7 +2215,8 @@ exports.BloodGlucoseTestRedList=[
 									'citizenId':'$screeningcases.citizenId',
 									//  'firstname':'$citizens.firstName'
 									'mobile':'$citizens.mobile',
-									'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 									// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
