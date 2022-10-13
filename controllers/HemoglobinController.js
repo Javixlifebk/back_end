@@ -218,7 +218,7 @@ exports.HemoglobinTestGreenList=[
 								 'citizenId':1,
 								 'hemoglobin':1,
 								 'notes':1,
-								 'createdAt':1,
+								 'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 								 'basic.firstName':1,
 								 'basic.lastName':1,
 								 'basic.email':1,
@@ -236,9 +236,10 @@ exports.HemoglobinTestGreenList=[
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
+								 'address':'$info.address',
 								 'email':'$basic.email',
 								 'mobile':'$basic.mobile',
-								 'dateOfOnBoarding':'$info.dateOfOnBoarding',
+								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
@@ -269,7 +270,7 @@ exports.HemoglobinTestAmberList=[
 	//sanitizeBody("caseId").escape(),
 	 sanitizeBody("severity").escape(),
 	
-    (req, res) => { 
+	 (req, res) => { 
 			
 		try {
 			const errors = validationResult(req);
@@ -301,46 +302,33 @@ exports.HemoglobinTestAmberList=[
 								'as':'basic'
 							 }
 							},
-							// {'$lookup': {
-							// 	'localField':'screenerId',
-							// 	'from':'screeners',
-							// 	'foreignField':'screenerId',
-							// 	'as':'screeners'
-							//  }
-							// },
-							// {'$lookup':{
-							// 	'from':"screeners",
-							// 	'localField': "caseId",
-							// 	'foreignField':"caseId",
-							// 	'as':"screeners"
-							// 	}
-							// },
-							// {$lookup:{
-							// 	from:"screeningcases",
-							// 	localField: "caseId",
-							// 	foreignField:"caseId",
-							// 	as:"screeningcases"
-							// 	}
-							// },
-							// {'$unwind':"$screeners"},
+							{'$lookup': {
+								'localField':'screenerId',
+								'from':'screeners',
+								'foreignField':'screenerId',
+								'as':'screeners'
+							 }
+							},
+							{"$unwind":"$screeners"},
 							{'$unwind':'$basic'},
+							
 							{'$unwind':'$info'},
-							// {"$unwind":"$screeningcases"},
-							{'$unwind':"$screeners"},
 							{'$project':{
 								'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
-								 
 								 'screenerId':1,
 								 'caseId':1,
 								 'citizenId':1,
 								 'hemoglobin':1,
 								 'notes':1,
-								 'createdAt':1,
+								 'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 								 'basic.firstName':1,
 								 'basic.lastName':1,
+								 'basic.email':1,
+								 'basic.mobile':1,
 								 'basic.sex':1,
 								 'basic.javixId':1,
 								 'info.dateOfBirth':1,
+								 'info.dateOfOnBoarding':1,
 								 'info.bloodGroup':1,
 								 'info.country':1,
 								 'info.state':1,
@@ -350,10 +338,11 @@ exports.HemoglobinTestAmberList=[
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								//  'email':'$basic.email',
-								//  'mobile':'$basic.mobile',
-								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								 'address':'$info.address',
+								 'email':'$basic.email',
+								 'mobile':'$basic.mobile',
+								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
@@ -383,7 +372,7 @@ exports.HemoglobinTestRedList=[
 	//sanitizeBody("caseId").escape(),
 	 sanitizeBody("severity").escape(),
 	
-    (req, res) => { 
+	 (req, res) => { 
 			
 		try {
 			const errors = validationResult(req);
@@ -398,7 +387,7 @@ exports.HemoglobinTestRedList=[
 					condition={'caseId':req.body.caseId};
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
-							 {'$match':{severity:2}},
+							{'$match':{severity:2}},
 							{'$match':condition},
 							{'$limit':1000},
 							{'$lookup': {
@@ -415,15 +404,16 @@ exports.HemoglobinTestRedList=[
 								'as':'basic'
 							 }
 							},
-							// {'$lookup': {
-							// 	'localField':'screenerId',
-							// 	'from':'screeners',
-							// 	'foreignField':'screenerId',
-							// 	'as':'screeners'
-							//  }
-							// },
-							// {"$unwind":"$screeners"},
+							{'$lookup': {
+								'localField':'screenerId',
+								'from':'screeners',
+								'foreignField':'screenerId',
+								'as':'screeners'
+							 }
+							},
+							{"$unwind":"$screeners"},
 							{'$unwind':'$basic'},
+							
 							{'$unwind':'$info'},
 							{'$project':{
 								'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
@@ -432,7 +422,7 @@ exports.HemoglobinTestRedList=[
 								 'citizenId':1,
 								 'hemoglobin':1,
 								 'notes':1,
-								 'createdAt':1,
+								 'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 								 'basic.firstName':1,
 								 'basic.lastName':1,
 								 'basic.email':1,
@@ -445,15 +435,16 @@ exports.HemoglobinTestRedList=[
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
-								//  'address':'$info.address',
+								 'info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
 								 'info.geolocations':1,
 								 'info.photo':1,
-								//  'email':'$basic.email',
-								//  'mobile':'$basic.mobile',
-								//  'dateOfOnBoarding':'$info.dateOfOnBoarding',
-								//  'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								 'address':'$info.address',
+								 'email':'$basic.email',
+								 'mobile':'$basic.mobile',
+								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 								 severity:1
 								 
 								}
