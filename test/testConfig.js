@@ -1,6 +1,6 @@
 //During the automated test the env variable, We will set it to "test"
 process.env.NODE_ENV = "test";
-process.env.MONGODB_URL = "mongodb://127.0.0.1:27017/javix";
+process.env.MONGODB_URL = "mongodb://admin123:Jzfq2n6b4n15@127.0.0.1:27017/javix";
 
 //Require the dev-dependencies
 let chai = require("chai");
