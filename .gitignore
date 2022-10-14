@@ -44,6 +44,8 @@ uploads/
 
 # Optional npm cache directory
 .npm
+.github/
+.yml
 
 # Optional eslint cache
 .eslintcache

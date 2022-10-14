@@ -1,6 +1,5 @@
 const Citizen = require("./models/CitizenModel");
 const config=require('./config')
-// var MONGODB_URL ="mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin";
 var mongoose = require("mongoose");
 	const _generate=()=>{
 		
