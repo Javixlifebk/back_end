@@ -55,9 +55,9 @@ const upload1 = multer({
 
 
 // DB connection
-// var MONGODB_URL ='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix';
+// var MONGODB_URL ='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin';
 // DATA = “mongodb://admin:admin@localhost:27017/ais_mlm?authSource=admin”
-// var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix'
+// var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin'
 
  var mongoose = require("mongoose");
 
@@ -75,7 +75,7 @@ const upload1 = multer({
 	// 	process.exit(1);
 	// });
 
-mongoose.connect('mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix',{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin',{ useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
