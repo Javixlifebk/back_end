@@ -1,5 +1,4 @@
 const Screening = require("./models/ScreeningCase");
-// var MONGODB_URL ="mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin";
 const config=require('./config')
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
