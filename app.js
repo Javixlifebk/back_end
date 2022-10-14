@@ -55,7 +55,7 @@ const upload1 = multer({
 
 
 // DB connection
-// var MONGODB_URL ='mongodb://127.0.0.1:27017/javix';
+// var MONGODB_URL ='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authMechanism=DEFAULT';
 // DATA = “mongodb://admin:admin@localhost:27017/ais_mlm?authSource=admin”
 // var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix'
 

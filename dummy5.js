@@ -1,5 +1,5 @@
 const Socio = require("./models/SocioEconomicSurveyModel");
-var MONGODB_URL ="mongodb://admin123:Jzfq2n6b4n15@127.0.0.1:27017/javix";
+var MONGODB_URL ="mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authMechanism=DEFAULT";
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
