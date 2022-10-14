@@ -55,26 +55,38 @@ const upload1 = multer({
 
 
 // DB connection
-// var MONGODB_URL ='mongodb://127.0.0.1:27017/javix';
+// var MONGODB_URL ='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin';
 // DATA = “mongodb://admin:admin@localhost:27017/ais_mlm?authSource=admin”
-var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix'
+// var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin'
 
-var mongoose = require("mongoose");
+ var mongoose = require("mongoose");
 
 // mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
-mongoose.set();
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true,useFindAndModify:false}).then(() => {
+// mongoose.set();
+// mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true,useFindAndModify:false}).then(() => {
 	//don't show the log when it is test
-	if(process.env.NODE_ENV !== "test") {
+// 	if(process.env.NODE_ENV !== "test") {
 	
-	}
-})
-	.catch(err => {
-		console.error("App starting error:", err.message);
-		process.exit(1);
-	});
+// 	}
+// })
+	// .catch(err => {
+	// 	console.error("App starting error:", err.message);
+	// 	process.exit(1);
+	// });
+
+mongoose.connect('mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix?authSource=admin',{ useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("h");
+});
+
+// exports.test = function(req,res) {
+//   console.log(res)
+// };
+// var db = mongoose.connection;
+
 
 var app = express();
 app.use(cors());
