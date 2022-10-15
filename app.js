@@ -59,16 +59,6 @@ const upload1 = multer({
 
 mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-  console.log("h");
-});
-
-// exports.test = function(req,res) {
-//   console.log(res)
-// };
-// var db = mongoose.connection;
-
 
 var app = express();
 app.use(cors());
