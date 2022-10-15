@@ -1,9 +1,8 @@
-var MONGODB_URL = "mongodb://admin123:Jzfq2n6b4n15@127.0.0.1:27017/javix";
+const config=require('./config')
 var mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
-// mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify:false}).then(() => {
+mongoose.connect(config.databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify:false}).then(() => {
 	//don't show the log when it is test
 	if(process.env.NODE_ENV !== "test") {
 		
