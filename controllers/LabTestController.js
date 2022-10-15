@@ -1278,7 +1278,7 @@ exports.LipidPanelCholesterolGreenList=[
 									'citizenId':'$citizendetails.citizenId',
 									'mobile':'$citizens.mobile',
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 
 							}}
 				]).then(users => {
@@ -1631,22 +1631,40 @@ exports.LipidPanelTestldlGreenList=[
 						LabTestCaseModel.LipidPanelTest.aggregate([
 								// andcond,
 								{'$match':{severity_ldl:0}},
-								{$lookup:{
-									from:"screeningcases",
-									localField: "caseId",
-									foreignField:"caseId",
-									as:"screeningcases"
-									}
-								},
-								{$lookup:{
-									from:"citizens",
-									localField: "screeningcases.citizenId",
-									foreignField:"citizenId",
-									as:"citizens"
-									}
-								},
-								 {"$unwind":"$screeningcases"},
-								 {"$unwind":"$citizens"},
+								{$sort:{createdAt:-1}},
+							{$lookup:{
+								from:"screeningcases",
+								localField: "caseId",
+								foreignField:"caseId",
+								as:"screeningcases"
+								}
+							},
+							{$lookup:{
+								from:"citizens",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizens"
+								}
+							},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
 								// {
 								// 	// output result into other collection
 								// 	$merge: {
@@ -1668,7 +1686,13 @@ exports.LipidPanelTestldlGreenList=[
 								'non_hdl':1,
 								'type':1,
 								'createdAt':1,
-								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+								'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'citizenId':'$citizendetails.citizenId',
+									'mobile':'$citizens.mobile',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
 						}}
 					]).then(users => {
 						
@@ -1729,6 +1753,7 @@ exports.LipidPanelTestldlDefaultList=[
 					LabTestCaseModel.LipidPanelTest.aggregate([
 							// andcond,
 							{'$match':{severity_ldl:3}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1743,8 +1768,26 @@ exports.LipidPanelTestldlDefaultList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
+								// {
 							// {
 							// 	// output result into other collection
 							// 	$merge: {
@@ -1766,7 +1809,13 @@ exports.LipidPanelTestldlDefaultList=[
 							'non_hdl':1,
 							'type':1,
 							'createdAt':1,
-							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'citizenId':'$citizendetails.citizenId',
+									'mobile':'$citizens.mobile',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
 					}}
 				]).then(users => {
 					
@@ -1827,6 +1876,7 @@ exports.LipidPanelTestldlAmberList=[
 					LabTestCaseModel.LipidPanelTest.aggregate([
 							// andcond,
 							{'$match':{severity_ldl:1}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1841,8 +1891,26 @@ exports.LipidPanelTestldlAmberList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
+								// {
 							// {
 							// 	// output result into other collection
 							// 	$merge: {
@@ -1864,7 +1932,13 @@ exports.LipidPanelTestldlAmberList=[
 							'non_hdl':1,
 							'type':1,
 							'createdAt':1,
-							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'citizenId':'$citizendetails.citizenId',
+									'mobile':'$citizens.mobile',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
 					}}
 				]).then(users => {
 					
@@ -1925,6 +1999,7 @@ exports.LipidPanelTestldlRedList=[
 					LabTestCaseModel.LipidPanelTest.aggregate([
 							// andcond,
 							{'$match':{severity_ldl:2}},
+							{$sort:{createdAt:-1}},
 							{$lookup:{
 								from:"screeningcases",
 								localField: "caseId",
@@ -1939,8 +2014,26 @@ exports.LipidPanelTestldlRedList=[
 								as:"citizens"
 								}
 							},
-							 {"$unwind":"$screeningcases"},
-							 {"$unwind":"$citizens"},
+							{$lookup:{
+								from:"citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField:"citizenId",
+								as:"citizendetails"
+								}
+							},
+							{$lookup:{
+								from:"screeners",
+								localField: "screeningcases.screenerId",
+								foreignField:"screenerId",
+								as:"screeners"
+								}
+							},
+							
+							{'$unwind':"$citizendetails"},
+							{'$unwind':"$screeners"},
+							{"$unwind":"$screeningcases"},
+							{"$unwind":"$citizens"},
+								// {
 							// {
 							// 	// output result into other collection
 							// 	$merge: {
@@ -1962,7 +2055,13 @@ exports.LipidPanelTestldlRedList=[
 							'non_hdl':1,
 							'type':1,
 							'createdAt':1,
-							'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+									'address':'$citizendetails.address',
+									'citizenId':'$citizendetails.citizenId',
+									'mobile':'$citizens.mobile',
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+								   'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+
 
 					}}
 				]).then(users => {
