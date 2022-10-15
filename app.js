@@ -8,6 +8,7 @@ var apiRouter = require("./routes/api");
 var apiResponse = require("./helpers/apiResponse");
 var cors = require("cors");
 const multer = require('multer');
+const config = require('./config');
 //Test changes 
 
 const storage = multer.diskStorage({
@@ -54,26 +55,9 @@ const upload1 = multer({
 });
 
 
-// DB connection
-// var MONGODB_URL ='mongodb://127.0.0.1:27017/javix';
-// DATA = “mongodb://admin:admin@localhost:27017/ais_mlm?authSource=admin”
-var MONGODB_URL='mongodb://admin123:Jzfq2n6b4n15@localhost:27017/javix'
+ var mongoose = require("mongoose");
 
-var mongoose = require("mongoose");
-
-// mongoose.set('useNewUrlParser', true);
-// mongoose.set('useFindAndModify', false);
-mongoose.set();
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true,useFindAndModify:false}).then(() => {
-	//don't show the log when it is test
-	if(process.env.NODE_ENV !== "test") {
-	
-	}
-})
-	.catch(err => {
-		console.error("App starting error:", err.message);
-		process.exit(1);
-	});
+mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 
 var app = express();
