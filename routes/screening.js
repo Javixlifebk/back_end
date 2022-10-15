@@ -7,6 +7,7 @@ routerScreeningCase.post("/updateCase", ScreeningCaseController.updateCaseDetail
 routerScreeningCase.post("/getCaseDetails", ScreeningCaseController.screeningList);
 routerScreeningCase.post("/caseUnrefer", ScreeningCaseController.updateAddUnrefer);
 
+
 routerScreeningCase.post("/addDetailCase", ScreeningCaseController.addDetailScreening);
 routerScreeningCase.post("/getCaseDetailsList", ScreeningCaseController.screeningDetailsList);
 routerScreeningCase.post("/getEncounters", ScreeningCaseController.screeningEncounters);
