@@ -1667,7 +1667,7 @@ exports.LipidPanelCholesterolRedList = [
 exports.LipidPanelTestldlGreenList = [
 
 	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	sanitizeBody("caseId").escape(),
+	// sanitizeBody("caseId").escape(),
 	sanitizeBody("severity_ldl").escape(),
 
 	(req, res) => {
@@ -1678,31 +1678,9 @@ exports.LipidPanelTestldlGreenList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
-				// {
-				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-
-				// if (arraymatch.length===0){
-				// 	andcond={'$match':{}};
-
-				// }
-				// console.dir(andcond);
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					// andcond,
-					{ '$match': { severity_ldl: 0 } },
+					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1736,40 +1714,34 @@ exports.LipidPanelTestldlGreenList = [
 							as: "screeners"
 						}
 					},
+
 					{ '$unwind': "$citizendetails" },
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					// {
-					// 	// output result into other collection
-					// 	$merge: {
-					// 	  into: '$citizens',
-					// 	},
-					//   },
-
+					{ '$match': { severity_ldl: 0 } },
 					{
 						'$project': {
 							'caseId': 1,
 							'status': 1,
+							'severity_triglycerides': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
 							'triglycerides': 1,
 							'glucose': 1,
-							'severity_ldl': 1,
 							'ldl': 1,
 							'tcl_hdl': 1,
 							'ldl_hdl': 1,
 							'non_hdl': 1,
 							'type': 1,
 							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
 							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
 							'address': '$citizendetails.address',
 							'citizenId': '$citizendetails.citizenId',
 							'mobile': '$citizens.mobile',
 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+
 						}
 					}
 				]).then(users => {
@@ -1791,11 +1763,12 @@ exports.LipidPanelTestldlGreenList = [
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}
+
 ];
 exports.LipidPanelTestldlDefaultList = [
 
 	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	sanitizeBody("caseId").escape(),
+	// sanitizeBody("caseId").escape(),
 	sanitizeBody("severity_ldl").escape(),
 
 	(req, res) => {
@@ -1806,31 +1779,9 @@ exports.LipidPanelTestldlDefaultList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
-				// {
-				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-
-				// if (arraymatch.length===0){
-				// 	andcond={'$match':{}};
-
-				// }
-				// console.dir(andcond);
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					// andcond,
-					{ '$match': { severity_ldl: 3 } },
+					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1864,40 +1815,34 @@ exports.LipidPanelTestldlDefaultList = [
 							as: "screeners"
 						}
 					},
+
 					{ '$unwind': "$citizendetails" },
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					// {
-					// 	// output result into other collection
-					// 	$merge: {
-					// 	  into: '$citizens',
-					// 	},
-					//   },
-
+					{ '$match': { severity_ldl: 3 } },
 					{
 						'$project': {
 							'caseId': 1,
 							'status': 1,
+							'severity_triglycerides': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
 							'triglycerides': 1,
 							'glucose': 1,
-							'severity_ldl': 1,
 							'ldl': 1,
 							'tcl_hdl': 1,
 							'ldl_hdl': 1,
 							'non_hdl': 1,
 							'type': 1,
 							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
 							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
 							'address': '$citizendetails.address',
 							'citizenId': '$citizendetails.citizenId',
 							'mobile': '$citizens.mobile',
 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+
 						}
 					}
 				]).then(users => {
@@ -1919,11 +1864,12 @@ exports.LipidPanelTestldlDefaultList = [
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}
+
 ];
 exports.LipidPanelTestldlAmberList = [
 
 	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	sanitizeBody("caseId").escape(),
+	// sanitizeBody("caseId").escape(),
 	sanitizeBody("severity_ldl").escape(),
 
 	(req, res) => {
@@ -1934,31 +1880,9 @@ exports.LipidPanelTestldlAmberList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
-				// {
-				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-
-				// if (arraymatch.length===0){
-				// 	andcond={'$match':{}};
-
-				// }
-				// console.dir(andcond);
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					// andcond,
-					{ '$match': { severity_ldl: 1 } },
+					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1992,40 +1916,34 @@ exports.LipidPanelTestldlAmberList = [
 							as: "screeners"
 						}
 					},
+
 					{ '$unwind': "$citizendetails" },
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					// {
-					// 	// output result into other collection
-					// 	$merge: {
-					// 	  into: '$citizens',
-					// 	},
-					//   },
-
+					{ '$match': { severity_ldl: 1 } },
 					{
 						'$project': {
 							'caseId': 1,
 							'status': 1,
+							'severity_triglycerides': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
 							'triglycerides': 1,
 							'glucose': 1,
-							'severity_ldl': 1,
 							'ldl': 1,
 							'tcl_hdl': 1,
 							'ldl_hdl': 1,
 							'non_hdl': 1,
 							'type': 1,
 							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
 							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
 							'address': '$citizendetails.address',
 							'citizenId': '$citizendetails.citizenId',
 							'mobile': '$citizens.mobile',
 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+
 						}
 					}
 				]).then(users => {
@@ -2047,11 +1965,12 @@ exports.LipidPanelTestldlAmberList = [
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}
+
 ];
 exports.LipidPanelTestldlRedList = [
 
 	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	sanitizeBody("caseId").escape(),
+	// sanitizeBody("caseId").escape(),
 	sanitizeBody("severity_ldl").escape(),
 
 	(req, res) => {
@@ -2062,31 +1981,9 @@ exports.LipidPanelTestldlRedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-				// 	matchfield['caseId']=req.body.caseId;
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-				// }
-				// if(req.body.severity_ldl!=null && req.body.severity_ldl!=undefined && req.body.severity_ldl!="" )
-				// {
-				// 	matchfield['severity_ldl']=parseInt(req.body.severity_ldl);
-				// 	arraymatch.push(matchfield);
-				// 		matchfield={};
-
-				// }
-				// var andcond={'$match':{'$and':arraymatch}};
-
-				// if (arraymatch.length===0){
-				// 	andcond={'$match':{}};
-
-				// }
-				// console.dir(andcond);
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					// andcond,
-					{ '$match': { severity_ldl: 2 } },
+					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -2120,34 +2017,27 @@ exports.LipidPanelTestldlRedList = [
 							as: "screeners"
 						}
 					},
+
 					{ '$unwind': "$citizendetails" },
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					// {
-					// 	// output result into other collection
-					// 	$merge: {
-					// 	  into: '$citizens',
-					// 	},
-					//   },
-
+					{ '$match': { severity_ldl: 2 } },
 					{
 						'$project': {
 							'caseId': 1,
 							'status': 1,
+							'severity_triglycerides': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
 							'triglycerides': 1,
 							'glucose': 1,
-							'severity_ldl': 1,
 							'ldl': 1,
 							'tcl_hdl': 1,
 							'ldl_hdl': 1,
 							'non_hdl': 1,
 							'type': 1,
 							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
 							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
 							'address': '$citizendetails.address',
 							'citizenId': '$citizendetails.citizenId',
@@ -2176,6 +2066,7 @@ exports.LipidPanelTestldlRedList = [
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}
+
 ];
 
 //Glucose Test
