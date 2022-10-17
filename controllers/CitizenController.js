@@ -894,7 +894,7 @@ exports.citizenRefers=[
 	}
 
 ];
-exports.citizenPrescribe=[
+exports.CitizenPrescribe=[
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
 	// sanitizeBody("isUnrefer").escape(),
