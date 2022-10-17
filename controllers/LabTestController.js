@@ -1680,7 +1680,7 @@ exports.LipidPanelTestldlGreenList = [
 
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+					{ '$match': { severity_ldl: 0 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1719,7 +1719,7 @@ exports.LipidPanelTestldlGreenList = [
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					{ '$match': { severity_ldl: 0 } },
+					
 					{
 						'$project': {
 							'caseId': 1,
@@ -1734,6 +1734,7 @@ exports.LipidPanelTestldlGreenList = [
 							'ldl_hdl': 1,
 							'non_hdl': 1,
 							'type': 1,
+							'severity_ldl':1,
 							'createdAt': 1,
 							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
 							'address': '$citizendetails.address',
@@ -1883,6 +1884,7 @@ exports.LipidPanelTestldlAmberList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+					{ '$match': { severity_ldl: 0 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1926,6 +1928,7 @@ exports.LipidPanelTestldlAmberList = [
 						'$project': {
 							'caseId': 1,
 							'status': 1,
+							'severity_ldl':1,
 							'severity_triglycerides': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
@@ -1984,6 +1987,7 @@ exports.LipidPanelTestldlRedList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+					{ '$match': { severity_ldl: 0 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
