@@ -20,4 +20,4 @@ jobs:
             script: |
               cd /javix/Javix-BackEnd
               sh deploy.sh
-              echo `Deployment Successfult to Digital Ocean..!!!`
+              echo `Deployment Successfult to Digital Ocean...!!!`
