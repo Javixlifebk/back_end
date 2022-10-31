@@ -1884,7 +1884,7 @@ exports.LipidPanelTestldlAmberList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_ldl: 0 } },
+					// { '$match': { severity_ldl: 1 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1987,7 +1987,7 @@ exports.LipidPanelTestldlRedList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_ldl: 0 } },
+					// { '$match': { severity_ldl: 0 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -2876,10 +2876,12 @@ exports.bloodGlucoseCount = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{
+						
 						'$group': {
 							'_id': "$severity",
 							'count': { '$sum': 1 }
-						}
+						},
+						
 					}
 				]).then(users => {
 

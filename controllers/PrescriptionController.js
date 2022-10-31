@@ -17,7 +17,7 @@ exports.addPrescription = [
 	body("status").isLength({ min: 1,max:1 }).trim().withMessage("Enter Status code !"),
 	body("screenerId").isLength({ min: 1 }).trim().withMessage("Enter ScreenerId!"),
 	body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	body("medicine").isLength({ min: 1 }).trim().withMessage("Enter Medicine separated by ,,,!"),
+	// body("medicine").isLength({ min: 1 }).trim().withMessage("Enter Medicine separated by ,,,!"),
 	//body("cause").isLength({ min: 1 }).trim().withMessage("Invalid Cause!"),
 	// body("strength").isLength({ min: 1 }).trim().withMessage("Enter strength separated by ,,,!"),
 	// body("quantity").isLength({ min: 1 }).trim().withMessage("Enter quantity separated by ,,,!"),
