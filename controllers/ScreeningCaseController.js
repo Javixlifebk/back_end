@@ -2042,7 +2042,8 @@ exports.lipid = [
               height: 1,
               weight: 1,
               bmi: 1,
-              bpsys: 1,
+              bpsys: 1
+              ,
               bpdia: 1,
               spo2: 1,
               pulse: 1,
@@ -2226,10 +2227,10 @@ exports.lipidcritical = [
           errors.array()
         );
       } else {
-        ScreeningCaseModel.ScreeningCase
-          .aggregate([
-            { $match: { severity_bp: 2, severity_bmi: 2 } },
-            { $limit: 1000 },
+        ScreeningCaseModel.ScreeningCase.aggregate([
+            { $match: { severity_bp: 2} },
+            {$match:{severity_bmi: 2}},
+            // { $limit: 1000 },
             {
               $lookup: {
                 localField: "citizenId",
@@ -2254,10 +2255,12 @@ exports.lipidcritical = [
                 as: "citizens",
               },
             },
+            
 
             { $unwind: "$citizen" },
             { $unwind: "$citizens" },
             { $unwind: "$screeners" },
+            { $unwind: "$lungfunctions" },
 
             {
               $project: {
@@ -2279,19 +2282,15 @@ exports.lipidcritical = [
                 },
               },
             },
-          //  { $match: { Age: { $gte: 40 } } },
-            // .then((recs) => {
-            //   if (recs) {
-            //     process.exit(1);
-            //   }
-            // }),
+            { $match: { Age: { $gte: 40 } } },
+          
           ])
           .then((users) => {
             let user = users[0];
             if (user) {
-              for (var i = 0; i < users.length; i++) {
-                users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-              }
+              // for (var i = 0; i < users.length; i++) {
+              //   users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+              // }
               return apiResponse.successResponseWithData(res, "Found", users);
             } else return apiResponse.ErrorResponse(res, "Not Found");
           });
@@ -2301,6 +2300,96 @@ exports.lipidcritical = [
     }
   },
 ];
+// exports.lipidcritical = [
+//   // body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
+//   // sanitizeBody("caseId").escape(),
+
+//   (req, res) => {
+//     try {
+//       const errors = validationResult(req);
+//       if (!errors.isEmpty()) {
+//         return apiResponse.validationErrorWithData(
+//           res,
+//           "Validation Error.",
+//           errors.array()
+//         );
+//       } else {
+//         ScreeningCaseModel.ScreeningCase
+//           .aggregate([
+//             { $match: { severity_bp: 3} },
+//             // { $limit: 1000 },
+//             {
+//               $lookup: {
+//                 localField: "citizenId",
+//                 from: "citizendetails",
+//                 foreignField: "citizenId",
+//                 as: "citizen",
+//               },
+//             },
+//             {
+//               $lookup: {
+//                 localField: "screenerId",
+//                 from: "screeners",
+//                 foreignField: "screenerId",
+//                 as: "screeners",
+//               },
+//             },
+//             {
+//               $lookup: {
+//                 localField: "citizenId",
+//                 from: "citizens",
+//                 foreignField: "citizenId",
+//                 as: "citizens",
+//               },
+//             },
+
+//             { $unwind: "$citizen" },
+//             { $unwind: "$citizens" },
+//             { $unwind: "$screeners" },
+
+//             {
+//               $project: {
+//                 citizenId: 1,
+//                 FirstName: "$citizens.firstName",
+//                 LastName: "$citizens.lastName",
+//                 Email: "$citizens.email",
+//                 Gender: "$citizens.sex",
+//                 Address: "$citizen.address",
+//                 ScreenerId: "$citizens.screenerId",
+//                 ScreenerFirstName: "$screeners.firstName",
+//                 ScreenerLastName: "$screeners.lastName",
+//                 Mobile: "$citizens.mobile",
+//                 severity_bp:1,
+//                 // Age: {
+//                 //   $divide: [
+//                 //     { $subtract: [new Date(), "$citizen.dateOfBirth"] },
+//                 //     365 * 24 * 60 * 60 * 1000,
+//                 //   ],
+//                 // },
+//               },
+//             },
+//           // { $match: { Age: { $gte: 40 } } },
+//             // .then((recs) => {
+//             //   if (recs) {
+//             //     process.exit(1);
+//             //   }
+//             // }),
+//           ])
+//           .then((users) => {
+//             let user = users[0];
+//             if (user) {
+//               for (var i = 0; i < users.length; i++) {
+//                 users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+//               }
+//               return apiResponse.successResponseWithData(res, "Found", users);
+//             } else return apiResponse.ErrorResponse(res, "Not Found");
+//           });
+//       }
+//     } catch (err) {
+//       return apiResponse.ErrorResponse(res, "EXp:" + err);
+//     }
+//   },
+// ];
 // exports.lipidCriticalCase = [
 //   (req, res) => {
 //     try {
