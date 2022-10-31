@@ -57,7 +57,7 @@ const upload1 = multer({
 
  var mongoose = require("mongoose");
 
-mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false});
 var db = mongoose.connection;
 
 var app = express();
