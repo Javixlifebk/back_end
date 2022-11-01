@@ -274,15 +274,15 @@ exports.addProfile = [
 	exports.updateReferAuth = [
    
     
-		body("citizenId").isLength({ min: 3 }).trim().withMessage("user must atleast 3 chars!").custom((value) => {
+		body("citizenId").custom((value) => {
 				return CitizenModel.Citizen.findOne({citizenId : value}).then((user) => {
 					if (user) {}
 					else return Promise.reject("Invalid User Selection");
 				});
 			}),
-		body("status").isLength({ min: 1,max:1 }).trim().withMessage("Invalid Status!").isNumeric().withMessage("status 0-9"),
-		body("pstatus").isLength({ min: 1,max:1 }).trim().withMessage("Blocked Status 0|1!").isNumeric().withMessage("isBlocked should be 0|1"),
-		body("isInstant").isLength({ min: 1,max:1 }).trim().withMessage("Expired Status 0|1!").isNumeric().withMessage("isExpired should be 0|1"),
+		// body("status").isLength({ min: 1,max:1 }).trim().withMessage("Invalid Status!").isNumeric().withMessage("status 0-9"),
+		// body("pstatus").isLength({ min: 1,max:1 }).trim().withMessage("Blocked Status 0|1!").isNumeric().withMessage("isBlocked should be 0|1"),
+		// body("isInstant").isLength({ min: 1,max:1 }).trim().withMessage("Expired Status 0|1!").isNumeric().withMessage("isExpired should be 0|1"),
 		body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
 		
 		sanitizeBody("citizenId").escape(),
