@@ -44,6 +44,9 @@ routerLabTestController.post("/getBloodGlucoseGreenList", LabTestController.Bloo
 routerLabTestController.post("/getBloodGlucoseAmberList", LabTestController.BloodGlucoseTestAmberList);
 routerLabTestController.post("/getBloodGlucoseRedList", LabTestController.BloodGlucoseTestRedList);
 
+routerLabTestController.post("/getBloodGlucoseGreenCount", LabTestController.BloodGlucoseTestGreenCount);
+routerLabTestController.post("/LipidPanelTestldlRedcount", LabTestController.LipidPanelTestldlRedcount);
+
 
 routerLabTestController.post("/addVisualExam", VisualExamController.addVisualExam);
 routerLabTestController.post("/getVisualExamList", VisualExamController.VisualExamList);
