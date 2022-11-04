@@ -286,6 +286,7 @@ exports.HemoglobinTestAmberList=[
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
 							 {'$match':{severity:1}},
+							
 							{'$match':condition},
 							{'$limit':1000},
 							{'$lookup': {
