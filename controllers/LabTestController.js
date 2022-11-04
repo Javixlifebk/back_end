@@ -2289,7 +2289,7 @@ exports.BloodGlucoseTestAmberList = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{'$limit':100},
-					{'$sort':{createdAt:-1}},
+					 {$sort:{'createdAt':-1}},
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2400,7 +2400,7 @@ exports.BloodGlucoseTestGreenList = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{'$limit':100},
-					{'$sort':{createdAt:-1}},
+					 {$sort:{'createdAt':-1}},
 					// { $count: "Total" },
 					{
 						$lookup: {
@@ -2509,7 +2509,7 @@ exports.BloodGlucoseTestGreenCount=[
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{'$limit':100},
-					{'$sort':{createdAt:-1}},
+					 {$sort:{'createdAt':-1}},
 					// { $count: "Total" },
 					{
 						$lookup: {
@@ -2622,7 +2622,7 @@ exports.BloodGlucoseTestRedList = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
                     {'$limit':100},
-					{'$sort':{createdAt:-1}},
+					 {$sort:{'createdAt':-1}},
 					{
 						$lookup: {
 							from: "screeningcases",

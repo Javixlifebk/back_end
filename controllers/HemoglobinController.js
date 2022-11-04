@@ -184,6 +184,7 @@ exports.HemoglobinTestGreenList=[
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
 							 {'$match':{severity:0}},
+							 {$sort:{'createdAt':-1}},
 							{'$match':condition},
 							{'$limit':1000},
 							{'$lookup': {
@@ -245,7 +246,7 @@ exports.HemoglobinTestGreenList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}}
+							// {'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
@@ -285,6 +286,7 @@ exports.HemoglobinTestAmberList=[
 					condition={'caseId':req.body.caseId};
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
+				{$sort:{'createdAt':-1}},
 							 {'$match':{severity:1}},
 							
 							{'$match':condition},
@@ -348,7 +350,7 @@ exports.HemoglobinTestAmberList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}}
+							// {'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
@@ -388,6 +390,7 @@ exports.HemoglobinTestRedList=[
 					condition={'caseId':req.body.caseId};
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
+				{$sort:{'createdAt':-1}},
 							{'$match':{severity:2}},
 							{'$match':condition},
 							{'$limit':1000},
@@ -450,7 +453,7 @@ exports.HemoglobinTestRedList=[
 								 
 								}
 							},
-							{'$sort':{createdAt:-1}}
+							// {'$sort':{createdAt:-1}}
 						]
 				).then(users => {
 					
