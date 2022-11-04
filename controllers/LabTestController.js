@@ -868,7 +868,7 @@ exports.LipidPaneltriglyGreenList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_triglycerides: 1 } },
+					{ '$match': { severity_triglycerides: 3 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -969,7 +969,7 @@ exports.LipidPaneltriglyLDefaultList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_triglycerides: 0 } },
+					{ '$match': { severity_triglycerides: 3 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1069,7 +1069,7 @@ exports.LipidPaneltriglyAmberList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_triglycerides: 2 } },
+					{ '$match': { severity_triglycerides: 1 } },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1207,7 +1207,7 @@ exports.LipidPaneltriglyRedList = [
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					{ '$match': { severity_triglycerides: 3 } },
+					{ '$match': { severity_triglycerides: 2 } },
 					{
 						'$project': {
 							'caseId': 1,
@@ -2073,6 +2073,46 @@ exports.LipidPanelTestldlRedList = [
 
 ];
 
+
+exports.LipidPanelTestldlRedcount=[
+	
+	(req, res) => {
+
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
+
+
+				LabTestCaseModel.LipidPanelTest.aggregate([
+					{ '$match': { severity_triglycerides: 2 } },
+					{
+							
+						'$group': {
+							'_id': "$severity",
+							'count': { '$sum': 1 }
+						},
+						
+					}
+				]).then(users => {
+
+					let user = users[0];
+					if (user) {
+						return apiResponse.successResponseWithData(res, "Found", users);
+					}
+					else return apiResponse.ErrorResponse(res, "Not Found");
+
+				});
+			}
+		} catch (err) {
+
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}
+	
+ ]
+
 //Glucose Test
 
 exports.addBloodGlucoseTest = [
@@ -2248,7 +2288,8 @@ exports.BloodGlucoseTestAmberList = [
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-
+					{'$limit':100},
+					{'$sort':{createdAt:-1}},
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2286,6 +2327,7 @@ exports.BloodGlucoseTestAmberList = [
 					{ '$unwind': "$citizendetails" },
 					{ "$unwind": "$screeningcases" },
 					{ '$unwind': "$screeners" },
+					
 					{
 						'$project': {
 							'caseId': 1,
@@ -2303,6 +2345,7 @@ exports.BloodGlucoseTestAmberList = [
 						}
 					},
 					{ $match: { bloodglucose: { $gt: 100, $lt: 125 } } },
+					// { $match: { severity:1} },
 
 				]).then(users => {
 
@@ -2325,6 +2368,7 @@ exports.BloodGlucoseTestAmberList = [
 	}
 ];
 exports.BloodGlucoseTestGreenList = [
+	
 
 	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
 	// sanitizeBody("caseId").escape(),
@@ -2355,7 +2399,9 @@ exports.BloodGlucoseTestGreenList = [
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-
+					{'$limit':100},
+					{'$sort':{createdAt:-1}},
+					// { $count: "Total" },
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2412,6 +2458,7 @@ exports.BloodGlucoseTestGreenList = [
 						}
 					},
 					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+					// { $match: { severity:0} },
 
 				]).then(users => {
 
@@ -2434,6 +2481,117 @@ exports.BloodGlucoseTestGreenList = [
 	}
 
 ];
+exports.BloodGlucoseTestGreenCount=[
+	
+	(req, res) => {
+
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
+
+				// var matchfield={};
+				// 	var arraymatch=[];
+				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
+
+				// let min = 60;
+				// let max = 80;
+				// if(req.body.min){
+				// 	min = req.body.min;
+				// }
+				// if(req.body.max){
+				// 	max = req.body.max;
+				// }
+
+				// console.log(req.body.min);
+
+
+				LabTestCaseModel.BloodGlucoseTest.aggregate([
+					{'$limit':100},
+					{'$sort':{createdAt:-1}},
+					// { $count: "Total" },
+					{
+						$lookup: {
+							from: "screeningcases",
+							localField: "caseId",
+							foreignField: "caseId",
+							as: "screeningcases"
+						}
+					},
+					{
+						$lookup: {
+							from: "citizendetails",
+							localField: "screeningcases.citizenId",
+							foreignField: "citizenId",
+							as: "citizendetails"
+						}
+					},
+					{
+						$lookup: {
+							from: "screeners",
+							localField: "screeningcases.screenerId",
+							foreignField: "screenerId",
+							as: "screeners"
+						}
+					},
+					{
+						$lookup: {
+							from: "citizens",
+							localField: "screeningcases.citizenId",
+							foreignField: "citizenId",
+							as: "citizens"
+						}
+					},
+					{ "$unwind": "$screeningcases" },
+					{ "$unwind": "$citizens" },
+					{ '$unwind': "$citizendetails" },
+					{ '$unwind': "$screeners" },
+
+					{
+						'$project': {
+							'caseId': 1,
+							'status': 1,
+							'bloodglucose': { $toInt: "$bloodglucose" },
+							'type': 1,
+							'severity': 1,
+							'createdAt': 1,
+							'citizenId': '$screeningcases.citizenId',
+							//  'firstname':'$citizens.firstName'
+							'mobile': '$citizens.mobile',
+							// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+							//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						}
+					},
+					{ $group: { _id : null, sum : { $sum: "$bloodglucose" } } },
+					{ $match: {severity:2 } } ,
+
+				]).then(users => {
+					console.log(users);
+
+					let user = users[0];
+					if (user) {
+						// for (var i = 0; i < users.length; i++) {
+						// 	users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+
+						// }
+						return apiResponse.successResponseWithData(res, "Found", users);
+					}
+					else return apiResponse.ErrorResponse(res, "Not Found");
+
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}
+
+	
+ ]
 exports.BloodGlucoseTestRedList = [
 
 
@@ -2463,7 +2621,8 @@ exports.BloodGlucoseTestRedList = [
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-
+                    {'$limit':100},
+					{'$sort':{createdAt:-1}},
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2520,6 +2679,7 @@ exports.BloodGlucoseTestRedList = [
 						}
 					},
 					{ $match: { bloodglucose: { $gt: 125 } }, }
+					// { $match: {severity:2}, }
 
 				]).then(users => {
 
@@ -3024,10 +3184,6 @@ exports.UrineTestList = [
 
 
 
-///
-
-
-
 exports.reyeTestCount = [
 
 
@@ -3298,3 +3454,6 @@ exports.ldlTestCount = [
 	}
 
 ];
+
+// count apis
+
