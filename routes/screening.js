@@ -12,6 +12,7 @@ routerScreeningCase.post("/addDetailCase", ScreeningCaseController.addDetailScre
 routerScreeningCase.post("/getCaseDetailsList", ScreeningCaseController.screeningDetailsList);
 routerScreeningCase.post("/getEncounters", ScreeningCaseController.screeningEncounters);
 routerScreeningCase.post("/getscreenercases", ScreeningCaseController.screenerCasesList);
+routerScreeningCase.post("/getsevikacases", ScreeningCaseController.sevikaCasesList);
 
 routerScreeningCase.post("/addSymptoms", ScreeningCaseController.addSymptoms);
 routerScreeningCase.post("/SymptomsList", ScreeningCaseController.SymptomsList);
