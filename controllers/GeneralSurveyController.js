@@ -370,7 +370,7 @@ exports.tmp_out0List = [
                  tcl_hdl:"$lipidpaneltests.tcl_hdl",
                  ldl_hdl:"$lipidpaneltests.ldl_hdl",
                  non_hdl:"$lipidpaneltests.non_hdl",
-                 lipidpanelglucose:"$lipidpaneltests.glucose",
+                 lipidglucose:"$lipidpaneltests.glucose",
                  type:"$lipidpaneltests.type",
   
   
