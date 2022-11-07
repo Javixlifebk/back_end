@@ -336,7 +336,7 @@ exports.tmp_out0List = [
                 ScreenerId: "$citizens.screenerId",
 
                 leyeleft:{$concat: [" " ,"$eyetests.leyetest" ," "]},
-                reyeright:"$eyetests.reyetest",
+                reyeright:{$concat: [" " ,"$eyetests.reyetest" ," "]},
 
                 hemoglobins:"$hemoglobins.hemoglobin",
                 unit:"$bloodglucosetests.bloodglucose",
