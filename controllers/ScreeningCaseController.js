@@ -1367,7 +1367,7 @@ exports.screenerCasesList = [
           errors.array()
         );
       } else {
-        tmp_out0Model.aggregate([
+        ScreeningCaseModel.ScreeningCase.aggregate([
           { $match:{ screenerId: req.body.screenerId } },
           // {$match:{issubscreener:1}},162480116265360010
           { $sort: { createdAt: -1 } },
@@ -1387,7 +1387,9 @@ exports.screenerCasesList = [
               as: "citizendetails",
             },
           },
-          {$unwind:"$citizens"},
+          {$unwind:{path:"$citizens",preserveNullAndEmptyArrays: true}},
+          {$unwind:{path:"$citizendetails",preserveNullAndEmptyArrays: true}},
+
           {
             $project: {
               citizenId: 1,
@@ -1407,14 +1409,15 @@ exports.screenerCasesList = [
               respiratory_rate: 1,
               temperature: 1,
               referDocId: 1,
-              createdAt: 1,
+              createdAt: { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
             	'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
               "citizens.firstName": 1,
               "citizens.lastName": 1,
-              "citizens.email": 1,
-              'mobile':"$citizens.mobile",
-              "citizens.sex": 1,
-              "citizendetails.dateOfBirth": 1,
+              email:"$citizens.email",
+              mobile:"$citizens.mobile",
+              gender:"$citizens.sex",
+              address:"$citizendetails.address",
+              dob:{ $dateToString: { format: "%d/%m/%Y", date:"$citizendetails.dateOfBirth" } },
             },
           },
         ]).then((users) => {
@@ -1445,10 +1448,9 @@ exports.sevikaCasesList = [
           errors.array()
         );
       } else {
-        ScreeningCaseModel.ScreeningCase.aggregate([
-          { $match:{ screenerId: 163170496991043284 } },
-        //  {$match:{issubscreener:1}},
+        tmp_out1Model.aggregate([
           { $sort: { createdAt: -1 } },
+          { $match:{ screenerId: req.body.screenerId } },
           {
             $lookup: {
               localField: "citizenId",
@@ -1942,7 +1944,7 @@ exports.lipid = [
       } else {
         ScreeningCaseModel.ScreeningCase.aggregate([
            { $match: {$and:[{ severity_bp: 2} ,{ severity_bmi: 2 }]}},
-          // { $match:  },
+          {$sort:{'createdAt':-1} },
           {
             $lookup: {
               localField: "citizenId",
@@ -2016,15 +2018,16 @@ exports.lipid = [
             },
           },
           // { $group: { myCount: { $sum: 1 } } },
-          { $unwind: "$citizendetails" },
-          { $unwind: "$lungfunctions" },
-          { $unwind: "$hemoglobins" },
-          { $unwind: "$citizens" },
-          { $unwind: "$eyetests" },
-          { $unwind: "$lipidpaneltests" },
-          { $unwind: "$bloodglucosetests" },
-          { $unwind: "$urinetests" },
-          { $unwind: "$screeners" },
+          { $unwind: {path:"$citizendetails",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$lungfunctions",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$hemoglobins",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$citizens",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$eyetests",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$lipidpaneltests",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$bloodglucosetests",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$urinetests",preserveNullAndEmptyArrays: true} },
+          { $unwind: {path:"$screeners",preserveNullAndEmptyArrays: true} },
+          
           {
             $project: {
               citizenId: 1,

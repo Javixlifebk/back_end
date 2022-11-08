@@ -2271,24 +2271,11 @@ exports.BloodGlucoseTestAmberList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-
-				// let min = 60;
-				// let max = 80;
-				// if(req.body.min){
-				// 	min = req.body.min;
-				// }
-				// if(req.body.max){
-				// 	max = req.body.max;
-				// }
-
-				// console.log(req.body.min);
+			
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					{'$limit':100},
+					 {'$limit':1000},
 					 {$sort:{'createdAt':-1}},
 					{
 						$lookup: {
@@ -2323,10 +2310,10 @@ exports.BloodGlucoseTestAmberList = [
 						}
 					},
 
-					{ "$unwind": "$citizens" },
-					{ '$unwind': "$citizendetails" },
-					{ "$unwind": "$screeningcases" },
-					{ '$unwind': "$screeners" },
+					{ "$unwind": {path:"$citizens",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path:"$citizendetails",preserveNullAndEmptyArrays: true} },
+					{ "$unwind":{path:"$screeningcases",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path:"$screeners",preserveNullAndEmptyArrays: true} },
 					
 					{
 						'$project': {
@@ -2367,12 +2354,100 @@ exports.BloodGlucoseTestAmberList = [
 		}
 	}
 ];
-exports.BloodGlucoseTestGreenList = [
-	
+// exports.BloodGlucoseTestGreenList = [
 
-	//body("caseId").isLength({ min: 1 }).trim().withMessage("Invalid caseId!"),
-	// sanitizeBody("caseId").escape(),
-	// sanitizeBody("severity").escape(),
+// 	(req, res) => {
+
+// 		try {
+// 			const errors = validationResult(req);
+// 			if (!errors.isEmpty()) {
+// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 			} else {
+
+// 				LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 					// {'$limit':1000},
+// 					 {$sort:{'createdAt':-1}},
+// 					// { $count: "Total" },
+// 					{
+// 						$lookup: {
+// 							from: "screeningcases",
+// 							localField: "caseId",
+// 							foreignField: "caseId",
+// 							as: "screeningcases"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizendetails",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizendetails"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "screeners",
+// 							localField: "screeningcases.screenerId",
+// 							foreignField: "screenerId",
+// 							as: "screeners"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizens",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizens"
+// 						}
+// 					},
+// 					{ "$unwind":{path: "$screeningcases",preserveNullAndEmptyArrays: true} },
+// 					{ "$unwind":{path: "$citizens",preserveNullAndEmptyArrays: true} },
+// 					{ '$unwind':{path: "$citizendetails",preserveNullAndEmptyArrays: true} },
+// 					{ '$unwind':{path: "$screeners",preserveNullAndEmptyArrays: true} },
+
+// 					{
+// 						'$project': {
+// 							'caseId': 1,
+// 							'status': 1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
+// 							'type': 1,
+// 							'severity': 1,
+// 							'createdAt': 1,
+// 							'citizenId': '$screeningcases.citizenId',
+// 							//  'firstname':'$citizens.firstName'
+// 							'mobile': '$citizens.mobile',
+// 							// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+// 							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 							//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+// 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 						}
+// 					},
+// 					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+// 					// { $match: { severity:0} },
+
+// 				]).then(users => {
+
+// 					let user = users[0];
+// 					if (user) {
+// 						for (var i = 0; i < users.length; i++) {
+// 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+
+// 						}
+// 						return apiResponse.successResponseWithData(res, "Found", users);
+// 					}
+// 					else return apiResponse.ErrorResponse(res, "Not Found");
+
+// 				});
+// 			}
+// 		} catch (err) {
+// 			console.log(err);
+// 			return apiResponse.ErrorResponse(res, "EXp:" + err);
+// 		}
+// 	}
+
+// ];
+exports.BloodGlucoseTestGreenList = [
 
 	(req, res) => {
 
@@ -2382,24 +2457,8 @@ exports.BloodGlucoseTestGreenList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-
-				// let min = 60;
-				// let max = 80;
-				// if(req.body.min){
-				// 	min = req.body.min;
-				// }
-				// if(req.body.max){
-				// 	max = req.body.max;
-				// }
-
-				// console.log(req.body.min);
-
-
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					{'$limit':100},
+					 {'$limit':1000},
 					 {$sort:{'createdAt':-1}},
 					// { $count: "Total" },
 					{
@@ -2434,10 +2493,10 @@ exports.BloodGlucoseTestGreenList = [
 							as: "citizens"
 						}
 					},
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
+					{ "$unwind":{path: "$screeningcases",preserveNullAndEmptyArrays: true} },
+					{ "$unwind":{path: "$citizens",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path: "$citizendetails",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path: "$screeners",preserveNullAndEmptyArrays: true} },
 
 					{
 						'$project': {
@@ -2621,7 +2680,7 @@ exports.BloodGlucoseTestRedList = [
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-                    {'$limit':100},
+                    {'$limit':1000},
 					 {$sort:{'createdAt':-1}},
 					{
 						$lookup: {
@@ -2655,10 +2714,10 @@ exports.BloodGlucoseTestRedList = [
 							as: "citizens"
 						}
 					},
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
+					{ "$unwind":{path: "$screeningcases",preserveNullAndEmptyArrays: true} },
+					{ "$unwind":{path: "$citizens",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path: "$citizendetails",preserveNullAndEmptyArrays: true} },
+					{ '$unwind':{path: "$screeners",preserveNullAndEmptyArrays: true} },
 
 					{
 						'$project': {
