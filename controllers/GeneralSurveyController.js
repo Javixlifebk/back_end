@@ -290,15 +290,15 @@ exports.tmp_out0List = [
                 as: "lipidpaneltests",
               },
             },
-             { $unwind: "$lipidpaneltests" },
+             { $unwind:{path:"$lipidpaneltests",preserveNullAndEmptyArrays: true} },
            
-            { $unwind: "$lungfunctions" },
-            { $unwind: "$hemoglobins" },
+            { $unwind:{path:"$lungfunctions",preserveNullAndEmptyArrays: true} },
+            { $unwind:{path:"$hemoglobins",preserveNullAndEmptyArrays: true} },
             
-            { $unwind: "$eyetests" },
+            { $unwind:{path:"$eyetests",preserveNullAndEmptyArrays: true} },
           
-            { $unwind: "$bloodglucosetests" },
-            { $unwind: "$urinetests" },
+            { $unwind:{path:"$bloodglucosetests",preserveNullAndEmptyArrays: true} },
+            { $unwind:{path:"$urinetests",preserveNullAndEmptyArrays: true} },
          
             {
               $project: {
