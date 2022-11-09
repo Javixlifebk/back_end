@@ -500,10 +500,10 @@ exports.LipidPanelHDLGreenList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -600,10 +600,10 @@ exports.LipidPanelHDLDefaultList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -700,10 +700,10 @@ exports.LipidPanelHDLAmberList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -799,10 +799,10 @@ exports.LipidPanelHDLRedList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_hdlcholesterol: 2 } },
 					{
 						'$project': {
@@ -903,10 +903,10 @@ exports.LipidPaneltriglyGreenList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1004,10 +1004,10 @@ exports.LipidPaneltriglyLDefaultList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1104,10 +1104,10 @@ exports.LipidPaneltriglyAmberList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1203,10 +1203,10 @@ exports.LipidPaneltriglyRedList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_triglycerides: 2 } },
 					{
 						'$project': {
@@ -1306,10 +1306,10 @@ exports.LipidPanelCholesterolGreenList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1407,10 +1407,10 @@ exports.LipidPanelCholesterolLDefaultList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1510,10 +1510,10 @@ exports.LipidPanelCholesterolAmberList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{
 						'$project': {
 							'caseId': 1,
@@ -1611,10 +1611,10 @@ exports.LipidPanelCholesterolRedList = [
 							as: "screeners"
 						}
 					},
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path :"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path :"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path :"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path :"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_cholesterol: 2 } },
 					{
 						'$project': {
@@ -1715,10 +1715,10 @@ exports.LipidPanelTestldlGreenList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					
 					{
 						'$project': {
@@ -1817,10 +1817,10 @@ exports.LipidPanelTestldlDefaultList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_ldl: 3 } },
 					{
 						'$project': {
@@ -1919,10 +1919,10 @@ exports.LipidPanelTestldlAmberList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_ldl: 1 } },
 					{
 						'$project': {
@@ -2022,10 +2022,10 @@ exports.LipidPanelTestldlRedList = [
 						}
 					},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
 					{ '$match': { severity_ldl: 2 } },
 					{
 						'$project': {
@@ -2216,8 +2216,8 @@ exports.BloodGlucoseTestList = [
 							as: "citizens"
 						}
 					},
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
 					// {
 					// 	// output result into other collection
 					// 	$merge: {
@@ -2602,10 +2602,10 @@ exports.BloodGlucoseTestGreenCount=[
 							as: "citizens"
 						}
 					},
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
+					{ "$unwind":{path:"$screeningcases" ,preserveNullAndEmptyArrays: true}},
+					{ "$unwind":{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind':{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
 
 					{
 						'$project': {

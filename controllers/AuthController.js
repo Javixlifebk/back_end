@@ -219,7 +219,7 @@ exports.login = [
 								'as':'info'	
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'email':1,
@@ -472,7 +472,7 @@ exports.authListByStatus=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'email':1,

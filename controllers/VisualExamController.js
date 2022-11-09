@@ -137,7 +137,7 @@ exports.VisualExamList=[
 								'as':'basic'
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'screenerId':1,
