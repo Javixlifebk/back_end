@@ -426,7 +426,7 @@ exports.citizenList=[
 								'as':'cases'
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -554,9 +554,9 @@ exports.citizenList=[
 //                                                                 'as':'screeners'
 //                                                          }
 //                                                         },
-// 							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+// 							{'$unwind':'$info'},
 // 							{'$unwind':'$citizens'},
-// 							 {'$unwind':{path:'$screeners',preserveNullAndEmptyArrays: true}},
+// 							 {'$unwind':'$screeners'},
 // 							{'$project':{
 // 								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 // 								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
@@ -691,7 +691,7 @@ exports.citizenList=[
 // 	// 						// 	'as':'cases'	
 // 	// 						//  }
 // 	// 						// },
-// 	// 						{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+// 	// 						{'$unwind':'$info'},
 // 	// 						{'$project':{
 								 
 // 	// 							 'screenerId':1,
@@ -799,8 +799,8 @@ exports.citizenRefers=[
                                                                 'as':'screeners'
                                                          }
                                                         },
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
-							 {'$unwind':{path:'$screeners',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
+							 {'$unwind':'$screeners'},
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
@@ -933,8 +933,8 @@ exports.CitizenPrescribe=[
                                                                 'as':'screeners'
                                                          }
                                                         },
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
-							 {'$unwind':{path:'$screeners',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
+							 {'$unwind':'$screeners'},
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
@@ -1070,8 +1070,8 @@ exports.citizenCasesList = [
 				'as':'cases'
 			 }
 			},
-			{$unwind:{path:"$cases",preserveNullAndEmptyArrays: true}},
-			{$unwind:{path:"$citizens",preserveNullAndEmptyArrays: true}},
+			{$unwind:"$cases"},
+			{$unwind:"$citizens"},
 			{
 			  $project: {
 				citizenId: 1,
@@ -1176,7 +1176,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
                                                                 'as':'screener'
                                                          }
                                                         },
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -1296,7 +1296,7 @@ exports.citizenById=[
 								'as':'cases'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -1502,7 +1502,7 @@ exports.recordList=[
 								'as':'screener'
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'citizenId':1,
@@ -1945,7 +1945,7 @@ exports.updateCitizenAddress = [
 								'as':'cases'
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -2054,7 +2054,7 @@ exports.listcity=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								'screenerId':1,
