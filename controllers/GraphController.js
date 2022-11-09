@@ -82,7 +82,7 @@ exports.listGraph = [
 								'as':'users'	
 							 }
 							},
-							{'$unwind' : '$users'},
+							{'$unwind' : {path:'$users',preserveNullAndEmptyArrays: true}},
 							{'$match' : {'users.roleId':21}},
 							{
       						'$count': "subscreeners"

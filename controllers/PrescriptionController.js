@@ -432,7 +432,7 @@ exports.prescriptionList=[
 								'as':'screeners'	
 							 }
 							},
-							{$unwind:"$citizens"},
+							{$unwind:{path:"$citizens",preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								'prescriptionId':1,
 								'citizenId':1,
