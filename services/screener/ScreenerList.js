@@ -93,7 +93,7 @@ exports.screenerList=[
 								'as':'citizens'	
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								'fullname': {$concat: ["$firstName", " ", "$lastName"]},
 								 'screenerId':1,
@@ -290,7 +290,7 @@ exports.screenerProfile=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'screenerId':1,
