@@ -264,7 +264,7 @@ exports.pharmacyList=[
 							 }
 							},
 							
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'pharmacyId':1,
@@ -327,7 +327,7 @@ exports.pharmacyProfile=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':'$info'},
+							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
 							{'$project':{
 								 
 								 'pharmacyId':1,

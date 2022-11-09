@@ -1467,7 +1467,7 @@ exports.sevikaCasesList = [
               as: "citizendetails",
             },
           },
-          {$unwind:"$citizens"},
+          {$unwind:{path:"$citizens",preserveNullAndEmptyArrays: true}},
           {
             $project: {
               citizenId: 1,
@@ -1919,7 +1919,7 @@ exports.screeningCountperScreener = [
         );
       } else {
         ScreeningCaseModel.ScreeningCase.aggregate([
-          { $unwind: "$screenerId" },
+          { $unwind:{path:"$screenerId",preserveNullAndEmptyArrays: true} },
           { $sortByCount: "$screenerId" },
         ]).then((users) => {
           return apiResponse.successResponseWithData(res, "Success", users);
@@ -2239,9 +2239,9 @@ exports.screeningSevika = [
               },
             },
 
-            { $unwind: "$citizen" },
-            { $unwind: "$citizens" },
-            { $unwind: "$screeners" },
+            { $unwind:{path:"$citizen" ,preserveNullAndEmptyArrays: true}},
+            { $unwind:{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
+            { $unwind:{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
 
             {
               $project: {
@@ -2329,10 +2329,10 @@ exports.lipidcritical = [
             },
             
 
-            { $unwind: "$citizen" },
-            { $unwind: "$citizens" },
-            { $unwind: "$screeners" },
-            { $unwind: "$lungfunctions" },
+            { $unwind:{path:"$citizen" ,preserveNullAndEmptyArrays: true}},
+            { $unwind:{path:"$citizens" ,preserveNullAndEmptyArrays: true}},
+            { $unwind:{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
+            { $unwind:{path:"$lungfunctions" ,preserveNullAndEmptyArrays: true}},
 
             {
               $project: {
