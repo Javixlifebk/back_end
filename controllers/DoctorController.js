@@ -289,7 +289,7 @@ exports.doctorList=[
 								'as':'online'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'doctorId':1,
@@ -370,7 +370,7 @@ exports.doctorById=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'doctorId':1,
@@ -450,7 +450,7 @@ exports.doctorMapped=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'doctorId':1,

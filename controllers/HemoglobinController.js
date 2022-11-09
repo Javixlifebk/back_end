@@ -98,7 +98,7 @@ exports.HemoglobinList=[
 				}
 			HemoglobinModel.Hemoglobin.aggregate([
 							{'$match':condition},
-							// {'$limit':100000},
+							{'$limit':100000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -113,7 +113,7 @@ exports.HemoglobinList=[
 								'as':'basic'
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'screenerId':1,
@@ -186,7 +186,7 @@ exports.HemoglobinTestGreenList=[
 							 {'$match':{severity:0}},
 							 {$sort:{'createdAt':-1}},
 							{'$match':condition},
-							// {'$limit':1000},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -208,10 +208,10 @@ exports.HemoglobinTestGreenList=[
 								'as':'screeners'
 							 }
 							},
-							{"$unwind":{path:'$screeners',preserveNullAndEmptyArrays: true}},
-							{'$unwind':{path:'$basic',preserveNullAndEmptyArrays: true}},
+							{"$unwind":"$screeners"},
+							{'$unwind':'$basic'},
 							
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
 								 'screenerId':1,
@@ -290,7 +290,7 @@ exports.HemoglobinTestAmberList=[
 							 {'$match':{severity:1}},
 							
 							{'$match':condition},
-							// {'$limit':1000},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -312,10 +312,10 @@ exports.HemoglobinTestAmberList=[
 								'as':'screeners'
 							 }
 							},
-							{"$unwind":{path:"$screeners",preserveNullAndEmptyArrays: true}},
-							{'$unwind':{path:'$basic',preserveNullAndEmptyArrays: true}},
+							{"$unwind":"$screeners"},
+							{'$unwind':'$basic'},
 							
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
 								 'screenerId':1,
@@ -393,7 +393,7 @@ exports.HemoglobinTestRedList=[
 				{$sort:{'createdAt':-1}},
 							{'$match':{severity:2}},
 							{'$match':condition},
-							// {'$limit':1000},
+							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
 								'from':'citizendetails',
@@ -415,10 +415,10 @@ exports.HemoglobinTestRedList=[
 								'as':'screeners'
 							 }
 							},
-							{"$unwind":{path:"$screeners",preserveNullAndEmptyArrays: true}},
-							{'$unwind':{path:'$basic',preserveNullAndEmptyArrays: true}},
+							{"$unwind":"$screeners"},
+							{'$unwind':'$basic'},
 							
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
 								 'screenerId':1,
