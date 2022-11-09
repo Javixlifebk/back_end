@@ -23,7 +23,7 @@ exports.ngoList=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'ngoId':1,
@@ -91,7 +91,7 @@ exports.ngoProfile=[
 								'as':'info'	
 							 }
 							},
-							{'$unwind':{path:'$info',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$info'},
 							{'$project':{
 								 
 								 'ngoId':1,
