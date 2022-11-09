@@ -214,7 +214,7 @@ exports.tmp_out0List = [
           .aggregate([
               {'$match':{issubscreener:0}},
             { $sort: { createdAt: -1 } },
-          
+            {$limit:1000},
             {
               $lookup: {
                 localField: "citizenId",
@@ -223,7 +223,7 @@ exports.tmp_out0List = [
                 as: "citizens",
               },
             },
-            { $unwind: {path:"$citizens",preserveNullAndEmptyArrays: true}},
+            { $unwind: "$citizens" },
             {
               $lookup: {
                 localField: "citizenId",
@@ -240,7 +240,7 @@ exports.tmp_out0List = [
                 as: "citizendetails",
               },
             },
-            { $unwind: {path:"$citizendetails",preserveNullAndEmptyArrays: true} },
+            { $unwind: "$citizendetails" },
             {
               $lookup: {
                 localField: "citizenId",
@@ -257,7 +257,7 @@ exports.tmp_out0List = [
                 as: "screeners",
               },
             },
-            {$unwind:{path:"$screeners",preserveNullAndEmptyArrays: true}},
+            {$unwind:"$screeners"},
             {
               $lookup: {
                 localField: "caseId",
@@ -455,10 +455,20 @@ exports.tmp_out1List = [
           errors.array()
         );
       } else {
-       
+        //    var condition={};
+        //    if(req.body.familyId!='' && req.body.familyId!=undefined && req.body.familyId!=null){
+        // 	   condition['familyId']=req.body.familyId;
+        //    }
+        //    if(req.body.citizenId!='' && req.body.citizenId!=undefined && req.body.citizenId!=null){
+        // 	   condition['citizenId']=req.body.citizenId;
+        //    }
+        //    if(req.body.screenerId!='' && req.body.screenerId!=undefined && req.body.screenerId!=null){
+        // 	   condition['screenerId']=req.body.screenerId;
+        //    }
+
         tmp_out1Model
           .aggregate([
-           {'$match':{issubscreener:1}},
+                {'$match':{issubscreener:1}},
             { $sort: { createdAt: -1 } },
             {
               $lookup: {
@@ -484,9 +494,9 @@ exports.tmp_out1List = [
                 as: "screeners",
               },
             },
-            { $unwind:{path:"$citizens",preserveNullAndEmptyArrays: true}},
-            { $unwind:{path:"$screeners" ,preserveNullAndEmptyArrays: true}},
-            { $unwind:{path:"$citizendetails" ,preserveNullAndEmptyArrays: true}},
+            { $unwind: "$citizens" },
+            { $unwind: "$screeners" },
+            { $unwind: "$citizendetails" },
             //    {'$limit':100},
             {
               $project: {

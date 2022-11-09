@@ -107,8 +107,8 @@ exports.mappingList=[
 								'as':'parent'	
 							 }
 							},
-							{'$unwind':{path:'$child',preserveNullAndEmptyArrays: true}},
-							{'$unwind':{path:'$parent',preserveNullAndEmptyArrays: true}},
+							{'$unwind':'$child'},
+							{'$unwind':'$parent'},
 							{'$project':{
 								 
 								 'screenerId':1,
