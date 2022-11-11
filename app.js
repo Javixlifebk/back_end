@@ -9,6 +9,7 @@ var apiResponse = require("./helpers/apiResponse");
 var cors = require("cors");
 const multer = require('multer');
 const config = require('./config');
+
 //Test changes 
 
 const storage = multer.diskStorage({
@@ -69,6 +70,7 @@ if(process.env.NODE_ENV !== "test") {
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.json())
 
 app.use(cookieParser());
 app.use('/profile',express.static('./uploads/images'));
