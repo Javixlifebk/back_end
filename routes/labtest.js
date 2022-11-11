@@ -58,6 +58,7 @@ routerLabTestController.post("/getHemoglobinList", HemoglobinController.Hemoglob
 routerLabTestController.post("/getHemoglobinGreenList", HemoglobinController.HemoglobinTestGreenList);
 routerLabTestController.post("/getHemoglobinAmberList", HemoglobinController.HemoglobinTestAmberList);
 routerLabTestController.post("/getHemoglobinRedList", HemoglobinController.HemoglobinTestRedList);
+routerLabTestController.post("/getUserPost", HemoglobinController.getUserPost);
 routerLabTestController.post("/getHemoglobinCount", LabTestController.hemoTestCount);
 routerLabTestController.post("/getREyeCount", LabTestController.reyeTestCount);
 routerLabTestController.post("/getLEyeCount", LabTestController.leyeTestCount);
