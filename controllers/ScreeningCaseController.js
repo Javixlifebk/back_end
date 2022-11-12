@@ -1933,17 +1933,33 @@ exports.screeningCountperScreener = [
 // =================lipid
 exports.lipid = [
   (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return apiResponse.validationErrorWithData(
-          res,
-          "Validation Error.",
-          errors.array()
-        );
-      } else {
+    // const { pageNo, size} = req.body
+	  //  console.log(req.body);
+	  //  if (pageNo < 0 || pageNo === 0) {
+		//  response = {
+		//    error: true,
+		//    message: 'invalid page number, should start with 1',
+		//  }
+		//  return res.json(response)
+	  //  }
+	  //  const query = {}
+	  //  query.skip = size * (pageNo - 1)
+	  //  query.limit = size
+	  //  console.log(query);
+	   
+	  //  // Find some documents
+	  //  ScreeningCaseModel.ScreeningCase.count({ severity_bp: 2, severity_bmi: 2  } , async (err, totalCount) => {
+		//  if (err) {
+		//    response = { error: true, message: 'Error fetching data' }
+		//  }
+    //  ScreeningCaseModel.ScreeningCase.find({}, {}, query, async (err, data) => {
+		//    // Mongo command to fetch all data from collection.
+		//    // const post_id = data.post_id
+		//    if (err) {
+		// 	 response = { error: true, message: 'Error fetching data' }
+		//    } else {
         ScreeningCaseModel.ScreeningCase.aggregate([
-           { $match: {$and:[{ severity_bp: 2} ,{ severity_bmi: 2 }]}},
+         
           {$sort:{'createdAt':-1} },
           {
             $lookup: {
@@ -2140,23 +2156,33 @@ exports.lipid = [
               },
             },
           },
-          // { $match: { Age: { $gte: 40 } } },
-        ]).then((users) => {
-          let user = users[0];
-          if (user) {
-            return apiResponse.successResponseWithData(res, "Found", users);
-          } else
-            return apiResponse.successResponseWithData(res, "Found", [
-              {
-                // "count": 0
-              },
-            ]);
-        });
-      }
-    } catch (err) {
-      return apiResponse.ErrorResponse(res, "EXp:" + err);
+           { $match: { Age: { $gte: 40 } } },
+          { $match: { severity_bp: 2, severity_bmi: 2 }},
+          {$sort:{'createdAt':-1}},
+          // { $skip: query.skip },
+          // { $limit: query.limit },
+        ])
+  .exec((err, likeData) => {
+  if (err) {
+    throw err
+  } else {
+    // var totalPages = Math.ceil(totalCount / size)
+    response = {
+    message: 'data fatch successfully',
+    status: 1,
+    // pages: totalPages,
+    // total: totalCount,
+    // size: size,
+    data: likeData.reverse(),
     }
-  },
+    
+    res.json(response)
+  }
+  })
+}
+// })
+// })
+// }	
 ];
 exports.lipidCount=[
 
