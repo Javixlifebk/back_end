@@ -1436,16 +1436,38 @@ exports.LipidPanelCholesterolGreenList = [
 
 	(req, res) => {
 
-		try {
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+		const { pageNo, size} = req.body
+		console.log(req.body);
+		if (pageNo < 0 || pageNo === 0) {
+		  response = {
+			error: true,
+			message: 'invalid page number, should start with 1',
+		  }
+		  return res.json(response)
+		}
+		const query = {}
+		query.skip = size * (pageNo - 1)
+		query.limit = size
+		console.log(query);
+		
+		// Find some documents
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 0}, async (err, totalCount) => {
+		  if (err) {
+			response = { error: true, message: 'Error fetching data' }
+		  }
+		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+			// Mongo command to fetch all data from collection.
+			// const post_id = data.post_id
+			if (err) {
+			  response = { error: true, message: 'Error fetching data' }
 			} else {
+
+
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_cholesterol: 0 } },
-					{ $sort: { createdAt: -1 } },
+					// { '$match': { severity_cholesterol: 0 } },
+					// { $sort: { createdAt: -1 } },
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -1507,26 +1529,33 @@ exports.LipidPanelCholesterolGreenList = [
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
 						}
-					}
-				]).then(users => {
-
-					let user = users[0];
-					if (user) {
-						for (var i = 0; i < users.length; i++) {
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-
-						}
-						return apiResponse.successResponseWithData(res, "Found", users);
-					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
-
-				});
-			}
-		} catch (err) {
-
-			return apiResponse.ErrorResponse(res, "EXp:" + err);
+					},
+					{ '$match': {  severity_cholesterol: 0 } },
+					{$sort:{'createdAt':-1}},
+					{ $skip: query.skip },
+					{ $limit: query.limit },
+				])
+	.exec((err, likeData) => {
+	  if (err) {
+		throw err
+	  } else {
+		var totalPages = Math.ceil(totalCount / size)
+		response = {
+		  message: 'data fatch successfully',
+		  status: 1,
+		  pages: totalPages,
+		  total: totalCount,
+		  size: size,
+		  data: likeData.reverse(),
 		}
-	}
+		
+		res.json(response)
+	  }
+	})
+}
+})
+})
+}	
 
 ];
 exports.LipidPanelCholesterolLDefaultList = [
@@ -1639,17 +1668,36 @@ exports.LipidPanelCholesterolAmberList = [
 
 	(req, res) => {
 
-		try {
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+		const { pageNo, size} = req.body
+		console.log(req.body);
+		if (pageNo < 0 || pageNo === 0) {
+		  response = {
+			error: true,
+			message: 'invalid page number, should start with 1',
+		  }
+		  return res.json(response)
+		}
+		const query = {}
+		query.skip = size * (pageNo - 1)
+		query.limit = size
+		console.log(query);
+		
+		// Find some documents
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 1}, async (err, totalCount) => {
+		  if (err) {
+			response = { error: true, message: 'Error fetching data' }
+		  }
+		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+			// Mongo command to fetch all data from collection.
+			// const post_id = data.post_id
+			if (err) {
+			  response = { error: true, message: 'Error fetching data' }
 			} else {
-
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_cholesterol: 1 } },
-					{ $sort: { createdAt: -1 } },
+					// { '$match': { severity_cholesterol: 1 } },
+					// { $sort: { createdAt: -1 } },
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -1712,26 +1760,33 @@ exports.LipidPanelCholesterolAmberList = [
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
 						}
-					}
-				]).then(users => {
-
-					let user = users[0];
-					if (user) {
-						for (var i = 0; i < users.length; i++) {
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-
-						}
-						return apiResponse.successResponseWithData(res, "Found", users);
-					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
-
-				});
-			}
-		} catch (err) {
-
-			return apiResponse.ErrorResponse(res, "EXp:" + err);
+					},
+					{ '$match': { severity_cholesterol: 1} },
+					{$sort:{'createdAt':-1}},
+					{ $skip: query.skip },
+					{ $limit: query.limit },
+				])
+	.exec((err, likeData) => {
+	  if (err) {
+		throw err
+	  } else {
+		var totalPages = Math.ceil(totalCount / size)
+		response = {
+		  message: 'data fatch successfully',
+		  status: 1,
+		  pages: totalPages,
+		  total: totalCount,
+		  size: size,
+		  data: likeData.reverse(),
 		}
-	}
+		
+		res.json(response)
+	  }
+	})
+}
+})
+})
+}	
 
 ];
 exports.LipidPanelCholesterolRedList = [
@@ -1741,17 +1796,35 @@ exports.LipidPanelCholesterolRedList = [
 
 	(req, res) => {
 
-		try {
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+		const { pageNo, size} = req.body
+		console.log(req.body);
+		if (pageNo < 0 || pageNo === 0) {
+		  response = {
+			error: true,
+			message: 'invalid page number, should start with 1',
+		  }
+		  return res.json(response)
+		}
+		const query = {}
+		query.skip = size * (pageNo - 1)
+		query.limit = size
+		console.log(query);
+		
+		// Find some documents
+		LabTestCaseModel.LipidPanelTest.count({  severity_cholesterol: 2}, async (err, totalCount) => {
+		  if (err) {
+			response = { error: true, message: 'Error fetching data' }
+		  }
+		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+			// Mongo command to fetch all data from collection.
+			// const post_id = data.post_id
+			if (err) {
+			  response = { error: true, message: 'Error fetching data' }
 			} else {
-
-
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_cholesterol: 2 } },
-					{ $sort: { createdAt: -1 } },
+					// { '$match': { severity_cholesterol: 2 } },
+					// { $sort: { createdAt: -1 } },
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -1788,7 +1861,7 @@ exports.LipidPanelCholesterolRedList = [
 					{ '$unwind': "$screeners" },
 					{ "$unwind": "$screeningcases" },
 					{ "$unwind": "$citizens" },
-					{ '$match': { severity_cholesterol: 2 } },
+					// { '$match': { severity_cholesterol: 2 } },
 					{
 						'$project': {
 							'caseId': 1,
@@ -1813,26 +1886,33 @@ exports.LipidPanelCholesterolRedList = [
 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 						}
-					}
-				]).then(users => {
-
-					let user = users[0];
-					if (user) {
-						for (var i = 0; i < users.length; i++) {
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-
-						}
-						return apiResponse.successResponseWithData(res, "Found", users);
-					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
-
-				});
-			}
-		} catch (err) {
-
-			return apiResponse.ErrorResponse(res, "EXp:" + err);
+					},
+					{ '$match': {  severity_cholesterol: 2} },
+					{$sort:{'createdAt':-1}},
+					{ $skip: query.skip },
+					{ $limit: query.limit },
+				])
+	.exec((err, likeData) => {
+	  if (err) {
+		throw err
+	  } else {
+		var totalPages = Math.ceil(totalCount / size)
+		response = {
+		  message: 'data fatch successfully',
+		  status: 1,
+		  pages: totalPages,
+		  total: totalCount,
+		  size: size,
+		  data: likeData.reverse(),
 		}
-	}
+		
+		res.json(response)
+	  }
+	})
+}
+})
+})
+}	
 
 ];
 
