@@ -511,6 +511,48 @@ exports.citizenList=[
 	}
 
 ];
+
+
+exports.updateAddcitizen = [
+	(req, res) => {
+
+		// let id = req.params.id;
+
+
+		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+
+		CitizenModel.Citizen.update({}, { $set: {  Age: {
+			$round: {
+			  $divide: [
+				{ $subtract: [new Date(), "dateOfBirth"] },
+				365 * 24 * 60 * 60 * 1000,
+			  ],
+			},
+		  },} }, { upsert: false, multi: true })
+
+
+			.then((note) => {
+				if (!note) {
+					return res.status(404).send({
+						message: "data not found with id " + req.params.id,
+					});
+				}
+				res.send(note);
+			})
+			.catch((err) => {
+
+				if (err.kind === "ObjectId") {
+					return res.status(404).send({
+						message: "data not found with id ",
+					});
+				}
+				return res.status(500).send({
+					message: "Error updating note with id ",
+				});
+			});
+
+	}
+]
 // --------------------display refer list cases start-----------------
 // exports.citizenRefers=[
 // 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
