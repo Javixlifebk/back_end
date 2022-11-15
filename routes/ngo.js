@@ -21,6 +21,8 @@ routerNGO.post("/screenercount", ScreenerList.screenerCount);
 
 routerNGO.post("/sevikamappedlist", ScreenerList.sevikamappedList);
 routerNGO.post("/sevikaunmappedlist", ScreenerList.sevikaunmappedList);
+routerNGO.post("/screenerNgo", ScreenerList.updateAddscreener);
+
 
 
 
