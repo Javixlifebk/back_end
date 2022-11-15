@@ -36,6 +36,7 @@ var CitizenDetailsSchema = new mongoose.Schema({
 	pincode: {type: String, required:false},
 	photo: {type: String},
     rating : {type: Number, required: false, default: 0},
+	Age : {type: Number, required: false, default: 0},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     citizenId: {type: String, required: true},
 	isUnrefer: {type: Boolean, required: true, default: 0},

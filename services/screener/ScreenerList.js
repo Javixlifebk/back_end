@@ -611,7 +611,7 @@ exports.updateScreenerMapAuth = [
 					else {
 						if (resDoc) {
 
-							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'ismapped': req.body.ismapped } }, function (ierr, iresDoc) {
+							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'ismapped': req.body.ismapped,'ngoId':req.body.ngoId } }, function (ierr, iresDoc) {
 								if (ierr) {
 									return apiResponse.ErrorResponse(res, ierr);
 								}
@@ -645,7 +645,7 @@ exports.updateAddmappedscreener = [
 
 		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
 
-		ScreenerModel.Screener.update({}, { $set: { "ismapped": false } }, { upsert: false, multi: true })
+		ScreenerModel.Screener.update({}, { $set: { "ismapped": false} }, { upsert: false, multi: true })
 
 
 			.then((note) => {
@@ -705,10 +705,9 @@ exports.screenermappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': true, 'issubscreener': 0 } },
+					{ '$match': { 'issubscreener': 0,'ngoId':req.body.ngoId,'ismapped': true,} },
 					{ '$sort': { 'createdAt': -1 } },
-					{ '$limit': 100 },
-
+					
 					{
 						'$project': {
 							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
@@ -758,7 +757,7 @@ exports.screenerunmappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': false, 'issubscreener': 0 } },
+					{ '$match': { 'ismapped': false, 'issubscreener': 0 ,ngoId:"0"} },
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 100 },
 
@@ -813,9 +812,9 @@ exports.sevikamappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': true, 'issubscreener': 1 } },
+					{ '$match': { 'issubscreener': 1,'ngoId':req.body.ngoId} },
 					{ '$sort': { 'createdAt': -1 } },
-					{ '$limit': 100 },
+					// { '$limit': 100 },
 
 					{
 						'$project': {
@@ -867,9 +866,9 @@ exports.sevikaunmappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': false, 'issubscreener': 1 } },
+					{ '$match': { 'ismapped': false,'issubscreener': 1, ngoId:"0"} },
 					{ '$sort': { 'createdAt': -1 } },
-					{ '$limit': 100 },
+				
 
 					{
 						'$project': {
@@ -949,3 +948,36 @@ exports.screenerCount = [
 	}
 
 ];
+exports.updateAddscreener = [
+	(req, res) => {
+
+		// let id = req.params.id;
+
+
+		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+
+		ScreenerModel.Screener.update({ $rename: { "userId": "ngoId" } })
+
+
+			.then((note) => {
+				if (!note) {
+					return res.status(404).send({
+						message: "data not found with id " + req.params.id,
+					});
+				}
+				res.send(note);
+			})
+			.catch((err) => {
+
+				if (err.kind === "ObjectId") {
+					return res.status(404).send({
+						message: "data not found with id ",
+					});
+				}
+				return res.status(500).send({
+					message: "Error updating note with id ",
+				});
+			});
+
+	}
+]
