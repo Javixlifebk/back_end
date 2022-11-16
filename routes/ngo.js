@@ -12,6 +12,7 @@ routerNGO.post("/updateNGODetailsFinal", NGOController.updateNGODetailsFinal);
 routerNGO.post("/ngoList", NGOList.ngoList);
 routerNGO.post("/ngoById", NGOList.ngoProfile);
 routerNGO.post("/screenerList", ScreenerList.screenerList);
+routerNGO.post("/sevikaList", ScreenerList.sevikalist);
 routerNGO.post("/approvescreenerList", ScreenerList.updatescreenerList);
 routerNGO.post("/addscreener", ScreenerList.updateAddmappedscreener);
 routerNGO.post("/updatescreenermap", ScreenerList.updateScreenerMapAuth);
