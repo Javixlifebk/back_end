@@ -455,124 +455,124 @@ exports.LipidPanelHDLGreenList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 0}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 0 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// gt greater than and lt less than eq equal too
-					// { '$match': { severity_hdlcholesterol: 0 } },
-					// {'$match':{$and:[{severity_hdlcholesterol:0},{ hdlcholesterol : { $gt :  80, $lt : 100}}]}},
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// gt greater than and lt less than eq equal too
+						// { '$match': { severity_hdlcholesterol: 0 } },
+						// {'$match':{$and:[{severity_hdlcholesterol:0},{ hdlcholesterol : { $gt :  80, $lt : 100}}]}},
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_hdlcholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_hdlcholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': { severity_hdlcholesterol: 0} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_hdlcholesterol: 0 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPanelHDLDefaultList = [
 
@@ -580,122 +580,122 @@ exports.LipidPanelHDLDefaultList = [
 	sanitizeBody("severity_hdlcholesterol").escape(),
 
 	(req, res) => {
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({  severity_hdlcholesterol: 3}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 3 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_hdlcholesterol: 3 } },
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_hdlcholesterol: 3 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_hdlcholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_hdlcholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {  severity_hdlcholesterol: 3} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_hdlcholesterol: 3 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 exports.LipidPanelHDLAmberList = [
@@ -705,122 +705,122 @@ exports.LipidPanelHDLAmberList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({  severity_hdlcholesterol: 1}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 1 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_hdlcholesterol: 1 } },
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_hdlcholesterol: 1 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_hdlcholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_hdlcholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {   severity_hdlcholesterol: 1} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_hdlcholesterol: 1 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPanelHDLRedList = [
 
@@ -829,122 +829,122 @@ exports.LipidPanelHDLRedList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 2}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 2 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					// { '$match': { severity_hdlcholesterol: 2 } },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_hdlcholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						// { '$match': { severity_hdlcholesterol: 2 } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_hdlcholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {  severity_hdlcholesterol: 2} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_hdlcholesterol: 2 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 
 // ===========================triglycerides==========================
@@ -956,125 +956,125 @@ exports.LipidPaneltriglyGreenList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 3  }, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 3 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_triglycerides: 3 } },
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_triglycerides: 3 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
-					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							// 'severity_hdlcholesterol':1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+						{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								// 'severity_hdlcholesterol':1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-				 {'$match': { severity_triglycerides: 3 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_triglycerides: 3 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPaneltriglyLDefaultList = [
 
@@ -1127,10 +1127,10 @@ exports.LipidPaneltriglyLDefaultList = [
 						}
 					},
 
-					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
-					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
+					{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+					{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+					{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+					{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
 					{
 						'$project': {
 							'caseId': 1,
@@ -1182,122 +1182,122 @@ exports.LipidPaneltriglyAmberList = [
 	sanitizeBody("severity_triglycerides").escape(),
 
 	(req, res) => {
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_triglycerides: 1 }, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 1 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_triglycerides: 1 } },
-					// { $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
-					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
-					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						{ '$match': { severity_triglycerides: 1 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
+						{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+						{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {severity_triglycerides: 1   } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_triglycerides: 1 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPaneltriglyRedList = [
 
@@ -1306,125 +1306,125 @@ exports.LipidPaneltriglyRedList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_triglycerides: 2 }, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 2 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
 
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind':{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
-					{ '$unwind':{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$screeningcases" ,preserveNullAndEmptyArrays: true}},
-					{ "$unwind":{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
-					// { '$match': { severity_triglycerides: 2 } },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+						{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+						// { '$match': { severity_triglycerides: 2 } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {severity_triglycerides: 2  } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_triglycerides: 2 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 
 // =================================Cholesterol==========================
@@ -1436,126 +1436,126 @@ exports.LipidPanelCholesterolGreenList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 0}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 0 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
 
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_cholesterol: 0 } },
-					// { $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_cholesterol: 0 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_cholesterol': 1,
-							// 'severity_hdlcholesterol':1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_cholesterol': 1,
+								// 'severity_hdlcholesterol':1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': {  severity_cholesterol: 0 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_cholesterol: 0 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 exports.LipidPanelCholesterolLDefaultList = [
@@ -1668,125 +1668,125 @@ exports.LipidPanelCholesterolAmberList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 1}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 1 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_cholesterol: 1 } },
-					// { $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_cholesterol: 1 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_cholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_cholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'mobile': '$citizens.mobile',
+								'citizenId': '$citizens.citizenId',
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': { severity_cholesterol: 1} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_cholesterol: 1 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 exports.LipidPanelCholesterolRedList = [
@@ -1796,123 +1796,123 @@ exports.LipidPanelCholesterolRedList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({  severity_cholesterol: 2}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 2 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_cholesterol: 2 } },
-					// { $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					// { '$match': { severity_cholesterol: 2 } },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_cholesterol': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': 1,
-							'mobile': '$citizens.mobile',
-							'citizenId': '$citizens.citizenId',
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-						}
-					},
-					{ '$match': {  severity_cholesterol: 2} },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_cholesterol: 2 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						// { '$match': { severity_cholesterol: 2 } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_cholesterol': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': 1,
+								'mobile': '$citizens.mobile',
+								'citizenId': '$citizens.citizenId',
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+							}
+						},
+						{ '$match': { severity_cholesterol: 2 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 
@@ -1925,123 +1925,123 @@ exports.LipidPanelTestldlGreenList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_ldl:0}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 0 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// { '$match': { severity_ldl: 0 } },
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// { '$match': { severity_ldl: 0 } },
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'severity_ldl':1,
-							'createdAt': 1,
-							'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
 
-						}
-					},
-					{ '$match': { severity_ldl: 0 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'severity_ldl': 1,
+								'createdAt': 1,
+								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+
+							}
+						},
+						{ '$match': { severity_ldl: 0 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPanelTestldlDefaultList = [
 
@@ -2051,122 +2051,122 @@ exports.LipidPanelTestldlDefaultList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_ldl:3}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 3 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					// { '$match': { severity_ldl: 3 } },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
-							'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						// { '$match': { severity_ldl: 3 } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': { severity_ldl: 3 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_ldl: 3 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 ];
 exports.LipidPanelTestldlAmberList = [
 
@@ -2176,126 +2176,126 @@ exports.LipidPanelTestldlAmberList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_ldl:1}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 1 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_ldl: 1 } },
-					{ $sort: { createdAt: -1 } },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_ldl: 1 } },
+						{ $sort: { createdAt: -1 } },
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					// { '$match': { severity_ldl: 1 } },
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_ldl':1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
-							'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
+						// { '$match': { severity_ldl: 1 } },
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_ldl': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 
-						}
-					},
-					{ '$match': { severity_ldl: 1 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+							}
+						},
+						{ '$match': { severity_ldl: 1 } },
+						// { $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 exports.LipidPanelTestldlRedList = [
@@ -2306,132 +2306,132 @@ exports.LipidPanelTestldlRedList = [
 
 	(req, res) => {
 
-		const { pageNo, size} = req.body
+		const { pageNo, size } = req.body
 		console.log(req.body);
 		if (pageNo < 0 || pageNo === 0) {
-		  response = {
-			error: true,
-			message: 'invalid page number, should start with 1',
-		  }
-		  return res.json(response)
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
 		const query = {}
 		query.skip = size * (pageNo - 1)
 		query.limit = size
 		console.log(query);
-		
+
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({severity_ldl:2}, async (err, totalCount) => {
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  }
-		  LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
-			// Mongo command to fetch all data from collection.
-			// const post_id = data.post_id
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 2 }, async (err, totalCount) => {
 			if (err) {
-			  response = { error: true, message: 'Error fetching data' }
-			} else {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			LabTestCaseModel.LipidPanelTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
-				LabTestCaseModel.LipidPanelTest.aggregate([
-					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					// { '$match': { severity_ldl: 0 } },
-					
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
+					LabTestCaseModel.LipidPanelTest.aggregate([
+						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { '$match': { severity_ldl: 0 } },
 
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'severity_triglycerides': 1,
-							'cholesterol': 1,
-							'hdlcholesterol': 1,
-							'triglycerides': 1,
-							'glucose': 1,
-							'severity_ldl': 1,
-							'ldl': 1,
-							'tcl_hdl': 1,
-							'ldl_hdl': 1,
-							'non_hdl': 1,
-							'type': 1,
-							'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
-							'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
-							'address': '$citizendetails.address',
-							'citizenId': '$citizendetails.citizenId',
-							'mobile': '$citizens.mobile',
+						{
+							$lookup: {
+								from: "screeningcases",
+								localField: "caseId",
+								foreignField: "caseId",
+								as: "screeningcases"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizens",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizens"
+							}
+						},
+						{
+							$lookup: {
+								from: "citizendetails",
+								localField: "screeningcases.citizenId",
+								foreignField: "citizenId",
+								as: "citizendetails"
+							}
+						},
+						{
+							$lookup: {
+								from: "screeners",
+								localField: "screeningcases.screenerId",
+								foreignField: "screenerId",
+								as: "screeners"
+							}
+						},
 
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+						{ '$unwind': "$citizendetails" },
+						{ '$unwind': "$screeners" },
+						{ "$unwind": "$screeningcases" },
+						{ "$unwind": "$citizens" },
 
-						}
-					},
-					{ '$match': { severity_ldl: 2 } },
-					{$sort:{'createdAt':-1}},
-					{ $skip: query.skip },
-					{ $limit: query.limit },
-				])
-	.exec((err, likeData) => {
-	  if (err) {
-		throw err
-	  } else {
-		var totalPages = Math.ceil(totalCount / size)
-		response = {
-		  message: 'data fatch successfully',
-		  status: 1,
-		  pages: totalPages,
-		  total: totalCount,
-		  size: size,
-		  data: likeData.reverse(),
-		}
-		
-		res.json(response)
-	  }
-	})
-}
-})
-})
-}	
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'severity_triglycerides': 1,
+								'cholesterol': 1,
+								'hdlcholesterol': 1,
+								'triglycerides': 1,
+								'glucose': 1,
+								'severity_ldl': 1,
+								'ldl': 1,
+								'tcl_hdl': 1,
+								'ldl_hdl': 1,
+								'non_hdl': 1,
+								'type': 1,
+								'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+								'address': '$citizendetails.address',
+								'citizenId': '$citizendetails.citizenId',
+								'mobile': '$citizens.mobile',
+
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+
+							}
+						},
+						{ '$match': { severity_ldl: 2 } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+					])
+						.exec((err, likeData) => {
+							if (err) {
+								throw err
+							} else {
+								var totalPages = Math.ceil(totalCount / size)
+								response = {
+									message: 'data fatch successfully',
+									status: 1,
+									pages: totalPages,
+									total: totalCount,
+									size: size,
+									data: likeData.reverse(),
+								}
+
+								res.json(response)
+							}
+						})
+				}
+			})
+		})
+	}
 
 ];
 
 
-exports.LipidPanelTestldlRedcount=[
-	
+exports.LipidPanelTestldlRedcount = [
+
 	(req, res) => {
 
 		try {
@@ -2444,12 +2444,12 @@ exports.LipidPanelTestldlRedcount=[
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					{ '$match': { severity_triglycerides: 2 } },
 					{
-							
+
 						'$group': {
 							'_id': "$severity",
 							'count': { '$sum': 1 }
 						},
-						
+
 					}
 				]).then(users => {
 
@@ -2466,8 +2466,8 @@ exports.LipidPanelTestldlRedcount=[
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}
-	
- ]
+
+]
 
 //Glucose Test
 
@@ -2616,10 +2616,7 @@ exports.BloodGlucoseTestList = [
 ];
 
 exports.BloodGlucoseTestAmberList = [
-
-
-
-	(req, res) => {
+	async (req, res) => {
 
 		try {
 			const errors = validationResult(req);
@@ -2627,12 +2624,12 @@ exports.BloodGlucoseTestAmberList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-			
 
 
-				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					 {'$limit':1000},
-					 {$sort:{'createdAt':-1}},
+
+				await LabTestCaseModel.BloodGlucoseTest.aggregate([
+                  {$limit:1000},
+					{ $sort: { 'createdAt': -1 } },
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2666,11 +2663,11 @@ exports.BloodGlucoseTestAmberList = [
 						}
 					},
 
-					{ "$unwind": {path:"$citizens",preserveNullAndEmptyArrays: true} },
-					{ '$unwind':{path:"$citizendetails",preserveNullAndEmptyArrays: true} },
-					{ "$unwind":{path:"$screeningcases",preserveNullAndEmptyArrays: true} },
-					{ '$unwind':{path:"$screeners",preserveNullAndEmptyArrays: true} },
-					
+					{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+					{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+					{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+					{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+
 					{
 						'$project': {
 							'caseId': 1,
@@ -2687,7 +2684,7 @@ exports.BloodGlucoseTestAmberList = [
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 						}
 					},
-					{ $match: { bloodglucose: { $gt: 100, $lt: 125 } } },
+					{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
 					// { $match: { severity:1} },
 
 				]).then(users => {
@@ -2805,124 +2802,290 @@ exports.BloodGlucoseTestAmberList = [
 // ];
 exports.BloodGlucoseTestGreenList = [
 
-	(req, res) => {
+	async (req, res) => {
 
-		const { pageNo, size} = req.body
-	   console.log(req.body);
-	   if (pageNo < 0 || pageNo === 0) {
-		 response = {
-		   error: true,
-		   message: 'invalid page number, should start with 1',
-		 }
-		 return res.json(response)
-	   }
-	   const query = {}
-	   query.skip = size * (pageNo - 1)
-	   query.limit = size
-	   console.log(query);
-	   LabTestCaseModel.BloodGlucoseTest.countDocuments( {}, async (err, totalCount) => {
-		if (err) {
-		  response = { error: true, message: 'Error fetching data' }
+		const { pageNo, size } = req.body
+		console.log(req.body);
+		if (pageNo < 0 || pageNo === 0) {
+			response = {
+				error: true,
+				message: 'invalid page number, should start with 1',
+			}
+			return res.json(response)
 		}
-		LabTestCaseModel.BloodGlucoseTest.find({}, {}, query, async (err, data) => {
-		  // Mongo command to fetch all data from collection.
-		  // const post_id = data.post_id
-		  if (err) {
-			response = { error: true, message: 'Error fetching data' }
-		  } else {
+		const query = {}
+		query.skip = size * (pageNo - 1)
+		query.limit = size
+		console.log(query);
+	 await	LabTestCaseModel.BloodGlucoseTest.countDocuments({}, async (err, totalCount) => {
+			if (err) {
+				response = { error: true, message: 'Error fetching data' }
+			}
+			await LabTestCaseModel.BloodGlucoseTest.find({}, {}, query, async (err, data) => {
+				// Mongo command to fetch all data from collection.
+				// const post_id = data.post_id
+				if (err) {
+					response = { error: true, message: 'Error fetching data' }
+				} else {
 
-				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					//  {'$limit':1000},
-					
-					// { $count: "Total" },
-				
-					{
-						'$lookup': {
-							'from': "screeningcases",
-							'localField': "caseId",
-							'foreignField': "caseId",
-							'as': "screeningcases"
-						}
-					},
-					{
-						'$lookup': {
-							'from': "citizendetails",
-							'localField': "screeningcases.citizenId",
-							'foreignField': "citizenId",
-							'as': "citizendetails"
-						}
-					},
-					{
-						'$lookup': {
-							'from': "screeners",
-							'localField': "screeningcases.screenerId",
-							'foreignField': "screenerId",
-							'as': "screeners"
-						}
-					},
-					{
-						'$lookup': {
-							'from': "citizens",
-							'localField': "screeningcases.citizenId",
-							'foreignField': "citizenId",
-							'as': "citizens"
-						}
-					},
-					
-					{ "$unwind":{path: "$screeningcases",preserveNullAndEmptyArrays: true} },
-					{ "$unwind":{path: "$citizens",preserveNullAndEmptyArrays: true} },
-					{ '$unwind':{path: "$citizendetails",preserveNullAndEmptyArrays: true} },
-					{ '$unwind':{path: "$screeners",preserveNullAndEmptyArrays: true} },
+					await LabTestCaseModel.BloodGlucoseTest.aggregate([
+						{'$limit':2000},
 
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'bloodglucose': { $toInt: "$bloodglucose" },
-							'type': 1,
-							'severity': 1,
-							'createdAt': 1,
-							'citizenId': '$screeningcases.citizenId',
-							//  'firstname':'$citizens.firstName'
-							'mobile': '$citizens.mobile',
-							// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
-							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-						}
-					},
-					
-					//  { $match: { severity:0} },
-					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
-					{$sort:{'createdAt':-1}},
-							   { $skip: query.skip },
-							   { $limit: query.limit },
+						// { $count: "Total" },
 
-				]).exec((err, likeData) => {
-					if (err) {
-					  throw err
-					} else {
-					  var totalPages = Math.ceil(totalCount / size)
-					  response = {
-						message: 'data fatch successfully',
-						status: 1,
-						pages: totalPages,
-						total: totalCount,
-						size: size,
-						data: likeData.reverse(),
-					  }
-					  
-					  res.json(response)
-					}
-				  })
-			  }
+						{
+							'$lookup': {
+								'from': "screeningcases",
+								'localField': "caseId",
+								'foreignField': "caseId",
+								'as': "screeningcases"
+							}
+						},
+						{
+							'$lookup': {
+								'from': "citizendetails",
+								'localField': "screeningcases.citizenId",
+								'foreignField': "citizenId",
+								'as': "citizendetails"
+							}
+						},
+						{
+							'$lookup': {
+								'from': "screeners",
+								'localField': "screeningcases.screenerId",
+								'foreignField': "screenerId",
+								'as': "screeners"
+							}
+						},
+						{
+							'$lookup': {
+								'from': "citizens",
+								'localField': "screeningcases.citizenId",
+								'foreignField': "citizenId",
+								'as': "citizens"
+							}
+						},
+
+						{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+						{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+						{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+						{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+
+						{
+							'$project': {
+								'caseId': 1,
+								'status': 1,
+								'bloodglucose': { $toInt: "$bloodglucose" },
+								'type': 1,
+								'severity': 1,
+								'createdAt': 1,
+								'citizenId': '$screeningcases.citizenId',
+								//  'firstname':'$citizens.firstName'
+								'mobile': '$citizens.mobile',
+								// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+								'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+								//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+							}
+						},
+
+						//  { $match: { severity:0} },
+						{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+						{ $sort: { 'createdAt': -1 } },
+						{ $skip: query.skip },
+						{ $limit: query.limit },
+
+					]).exec((err, likeData) => {
+						if (err) {
+							throw err
+						} else {
+							var totalPages = Math.ceil(totalCount / size)
+							response = {
+								message: 'data fatch successfully',
+								status: 1,
+								pages: totalPages,
+								total: totalCount,
+								size: size,
+								data: likeData.reverse(),
+							}
+
+							res.json(response)
+						}
+					})
+				}
 			})
-		   })
-		}
+		})
+	}
 ];
-exports.BloodGlucoseTestGreenCount=[
-	
+// exports.BloodGlucoseTestRedList = [
+
+// 	async (req, res) => {
+// 		var blooddata;
+// 		var bloodcount = 0;
+// 		var bloodcountFinal = 0;
+// 		const { pageNo, size } = req.body
+// 		console.log(req.body);
+// 		if (!pageNo) {
+// 			pageNo = 1;
+// 		}
+// 		if (!size) {
+// 			size = 10;
+// 		}
+// 		const query = {}
+// 		query.skip = size * (pageNo - 1)
+// 		query.limit = parseInt(size)
+// 		console.log(query);
+
+// 		// for count 
+// 		bloodcount = await LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 			{ $sort: { 'createdAt': -1 } },
+		
+// 			{
+// 				$lookup: {
+// 					from: "screeningcases",
+// 					localField: "caseId",
+// 					foreignField: "caseId",
+// 					as: "screeningcases"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "citizendetails",
+// 					localField: "screeningcases.citizenId",
+// 					foreignField: "citizenId",
+// 					as: "citizendetails"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "screeners",
+// 					localField: "screeningcases.screenerId",
+// 					foreignField: "screenerId",
+// 					as: "screeners"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "citizens",
+// 					localField: "screeningcases.citizenId",
+// 					foreignField: "citizenId",
+// 					as: "citizens"
+// 				}
+// 			},
+// 			{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+// 			{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+// 			{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+// 			{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+
+// 			{
+// 				'$project': {
+// 					'caseId': 1,
+// 					'status': 1,
+// 					'bloodglucose': { $toInt: "$bloodglucose" },
+// 					'type': 1,
+// 					'severity': 1,
+// 					'createdAt': 1,
+// 					'citizenId': '$screeningcases.citizenId',
+// 					//  'firstname':'$citizens.firstName'
+// 					'mobile': '$citizens.mobile',
+// 					// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+// 					'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 					'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 					'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 					// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+// 				}
+// 			},
+// 			{ '$match': { bloodglucose: { $gt: 125 } }, },
+// 			{ $group: { _id: null, count: { $sum: 1 } } },
+
+
+// 		]);
+
+
+// 		bloodcountFinal = bloodcount[0].count;
+// 		console.log(bloodcountFinal);
+// 		//for pagination
+
+// 		blooddata = await LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 			{ $limit: 1000 },
+// 			{
+// 				$lookup: {
+// 					from: "screeningcases",
+// 					localField: "caseId",
+// 					foreignField: "caseId",
+// 					as: "screeningcases"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "citizendetails",
+// 					localField: "screeningcases.citizenId",
+// 					foreignField: "citizenId",
+// 					as: "citizendetails"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "screeners",
+// 					localField: "screeningcases.screenerId",
+// 					foreignField: "screenerId",
+// 					as: "screeners"
+// 				}
+// 			},
+// 			{
+// 				$lookup: {
+// 					from: "citizens",
+// 					localField: "screeningcases.citizenId",
+// 					foreignField: "citizenId",
+// 					as: "citizens"
+// 				}
+// 			},
+// 			{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+// 			{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+// 			{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+// 			{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+
+// 			{
+// 				'$project': {
+// 					'caseId': 1,
+// 					'status': 1,
+// 					'bloodglucose': { $toInt: "$bloodglucose" },
+// 					'type': 1,
+// 					'severity': 1,
+// 					'createdAt': 1,
+// 					'citizenId': '$screeningcases.citizenId',
+// 					//  'firstname':'$citizens.firstName'
+// 					'mobile': '$citizens.mobile',
+// 					// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+// 					'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 					'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 					'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 					// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+// 				}
+// 			},
+// 			{ $sort: { 'createdAt': -1 } },
+// 			{ '$match': { bloodglucose: { $gt: 125 } }, },
+// 			{ $skip: query.skip },
+// 			{ $limit: query.limit },
+// 		])
+
+// 		response = {
+// 			message: 'data fatch successfully',
+// 			status: 1,
+// 			pages: pageNo,
+// 			// total: count,
+// 			size: size,
+// 			total: bloodcountFinal,
+// 			data: blooddata,
+
+// 		}
+// 		res.json(response)
+// 	}
+// ]
+
+exports.BloodGlucoseTestGreenCount = [
+
 	(req, res) => {
 
 		try {
@@ -2948,8 +3111,8 @@ exports.BloodGlucoseTestGreenCount=[
 
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					{'$limit':100},
-					 {$sort:{'createdAt':-1}},
+					{ '$limit': 100 },
+					{ $sort: { 'createdAt': -1 } },
 					// { $count: "Total" },
 					{
 						$lookup: {
@@ -3006,8 +3169,8 @@ exports.BloodGlucoseTestGreenCount=[
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 						}
 					},
-					{ $group: { _id : null, sum : { $sum: "$bloodglucose" } } },
-					{ $match: {severity:2 } } ,
+					{ $group: { _id: null, sum: { $sum: "$bloodglucose" } } },
+					{ $match: { severity: 2 } },
 
 				]).then(users => {
 					console.log(users);
@@ -3030,37 +3193,40 @@ exports.BloodGlucoseTestGreenCount=[
 		}
 	}
 
-	
- ]
+
+]
 exports.BloodGlucoseTestRedList = [
 
+	async (req, res) => {
+		const { pageNo, size} = req.body
+		console.log(req.body);
+		if (pageNo < 0 || pageNo === 0) {
+		  response = {
+			error: true,
+			message: 'invalid page number, should start with 1',
+		  }
+		  return res.json(response)
+		}
+		const query = {}
+		query.skip = size * (pageNo - 1)
+		query.limit = size
+		console.log(query);
 
-
-	(req, res) => {
-
-		try {
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+		// Find some documents
+		await LabTestCaseModel.BloodGlucoseTest.count({bloodglucose: { $gt: 125 }}, async (err, totalCount) => {
+		  if (err) {
+			response = { error: true, message: 'Error fetching data' }
+		  }
+		 await LabTestCaseModel.BloodGlucoseTest.find({}, {}, query, async (err, data) => {
+			// Mongo command to fetch all data from collection.
+			// const post_id = data.post_id
+			if (err) {
+			  response = { error: true, message: 'Error fetching data' }
 			} else {
 
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-
-				// let min = 60;
-				// let max = 80;
-				// if(req.body.min){
-				// 	min = req.body.min;
-				// }
-				// if(req.body.max){
-				// 	max = req.body.max;
-				// }
-
-				// console.log(req.body.min);
 
 
-				LabTestCaseModel.BloodGlucoseTest.aggregate([
+				await LabTestCaseModel.BloodGlucoseTest.aggregate([
                     {'$limit':1000},
 					 {$sort:{'createdAt':-1}},
 					{
@@ -3118,30 +3284,34 @@ exports.BloodGlucoseTestRedList = [
 							// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 						}
 					},
-					{ $match: { bloodglucose: { $gt: 125 } }, }
-					// { $match: {severity:2}, }
-
-				]).then(users => {
-
-					let user = users[0];
-					if (user) {
-						for (var i = 0; i < users.length; i++) {
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-
-						}
-						return apiResponse.successResponseWithData(res, "Found", users);
-					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
-
-				});
-			}
-		} catch (err) {
-			console.log(err);
-			return apiResponse.ErrorResponse(res, "EXp:" + err);
+					{ '$match': { bloodglucose: { $gt: 125 } }, },
+					// { '$match': { severity_ldl: 2 } },
+					{$sort:{'createdAt':-1}},
+					{ $skip: query.skip },
+					{ $limit: query.limit },
+				])
+	      .exec((err, likeData) => {
+	  if (err) {
+		throw err
+	  } else {
+		var totalPages = Math.ceil(totalCount / size)
+		response = {
+		  message: 'data fatch successfully',
+		  status: 1,
+		  pages: totalPages,
+		  total: totalCount,
+		  size: size,
+		  data: likeData.reverse(),
 		}
-	}
-];
 
+		res.json(response)
+	  }
+	})
+}
+})
+})
+}	
+];
 
 //Thal and Sickle
 
@@ -3476,12 +3646,12 @@ exports.bloodGlucoseCount = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{
-						
+
 						'$group': {
 							'_id': "$severity",
 							'count': { '$sum': 1 }
 						},
-						
+
 					}
 				]).then(users => {
 
