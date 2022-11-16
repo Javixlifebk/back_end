@@ -516,43 +516,139 @@ exports.citizenList=[
 exports.updateAddcitizen = [
 	(req, res) => {
 
-		// let id = req.params.id;
+		/*CitizenModel.CitizenDetails.findAndModify(
+			{
+			  update: { $Age: { 
+				$round: {
+					$divide: [
+					  { $subtract: [new Date(), $dateOfBirth] },
+					  365 * 24 * 60 * 60 * 1000,
+					],
+				  },
+			} },
+			  upsert: true
+			}
+		 )
+*/
+		 CitizenModel.CitizenDetails.updateMany(
+			{},
+			[
+				{"$set": {"Age": { 
+					$round: {
+						$divide: [
+						  { $subtract: [new Date(),' $dateOfBirth'] },
+						  365 * 24 * 60 * 60 * 1000,
+						],
+					  },
+				} }}
+			]
+		)
 
-
-		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
-
-		CitizenModel.Citizen.update({}, { $set: {  Age: {
-			$round: {
-			  $divide: [
-				{ $subtract: [new Date(), "dateOfBirth"] },
-				365 * 24 * 60 * 60 * 1000,
-			  ],
-			},
-		  },} }, { upsert: false, multi: true })
-
-
-			.then((note) => {
-				if (!note) {
-					return res.status(404).send({
-						message: "data not found with id " + req.params.id,
-					});
-				}
-				res.send(note);
-			})
-			.catch((err) => {
-
-				if (err.kind === "ObjectId") {
-					return res.status(404).send({
-						message: "data not found with id ",
-					});
-				}
-				return res.status(500).send({
-					message: "Error updating note with id ",
-				});
+		/*CitizenModel.CitizenDetails.updateMany({},{$set : 
+			               {Age: { 
+									$round: {
+										$divide: [
+										  { $subtract: [new Date(), '$dateOfBirth'] },
+										  365 * 24 * 60 * 60 * 1000,
+										],
+									  },
+								},}}
+								, {upsert:false, multi:true})*/
+	.then((note) => {
+		if (!note) {
+			return res.status(404).send({
+				message: "data not found with id ",
 			});
+		}
+		res.send(note);
+	})
+	.catch((err) => {
+
+		if (err.kind === "ObjectId") {
+			return res.status(404).send({
+				message: "data not found with id ",
+			});
+		}
+		return res.status(500).send({
+			message: err,
+		});
+	});
 
 	}
 ]
+// exports.updateAddAgeLipid = [
+// 	(req, res) => {
+
+// 		// let id = req.params.id;
+
+
+// 		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+
+//     ScreeningCaseModel.ScreeningCase.aggregate( [
+//       {
+//         $set: {
+          
+//            totalHomework: { $sum: "$homework" },
+//            totalQuiz: { $sum: "$quiz" },
+//            Age: {
+//             $round: {
+//               $divide: [
+//                 { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+//                 365 * 24 * 60 * 60 * 1000,
+//               ],
+//             },
+//           },
+//         }
+//       },
+     
+//     ] )
+
+
+// 			.then((note) => {
+// 				if (!note) {
+// 					return res.status(404).send({
+// 						message: "data not found with id " + req.params.id,
+// 					});
+// 				}
+// 				res.send(note);
+// 			})
+// 			.catch((err) => {
+
+// 				if (err.kind === "ObjectId") {
+// 					return res.status(404).send({
+// 						message: "data not found with id ",
+// 					});
+// 				}
+// 				return res.status(500).send({
+// 					message: "Error updating note with id ",
+// 				});
+// 			});
+
+// 	}
+
+// 	// (req, res) => { 
+
+// 	// 	try {
+// 	// 		const errors = validationResult(req);
+// 	// 		if (!errors.isEmpty()) {
+// 	// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 	// 		}else {
+
+
+// 	// 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
+
+
+// 	// 			return apiResponse.successResponseWithData(res,"Successfully Updated");
+
+
+// 	// 		}
+// 	// 	} catch (err) {
+
+// 	// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
+// 	// 	}
+// 	// }
+// ];
+
 // --------------------display refer list cases start-----------------
 // exports.citizenRefers=[
 // 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
