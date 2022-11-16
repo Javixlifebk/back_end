@@ -405,6 +405,7 @@ exports.screenerList = [
 										users = temp;
 									}
 
+
 									for (var j = 0; j < users.length; j++) {
 										users[j].createdAt = utility.toDDmmyy(users[j].createdAt);
 										users[j].info.dateOfOnBoarding = utility.toDDmmyy(users[j].info.dateOfOnBoarding);
@@ -435,6 +436,59 @@ exports.screenerList = [
 				return apiResponse.ErrorResponse(res, "EXp:" + err);
 			}
 		}
+
+];
+
+exports.sevikalist = [
+	// body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
+	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
+	// sanitizeBody("isUnrefer").escape(),
+	(req, res) => {
+
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
+				ScreenerModel.Screener.aggregate([
+					{ '$match': { 'issubscreener': 1} },
+					{ '$sort': { 'createdAt': -1 } },
+					
+					{
+						'$project': {
+							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
+							'screenerId': 1,
+							'firstName': 1,
+							'lastName': 1,
+							'sex': 1,
+							'mobile': 1,
+							'mobile1': 1,
+							'email': 1,
+							'ngoId': 1,
+							'parentId': 1,
+							'issubscreener': 1,
+							'createdAt': 1,
+
+						}
+					}
+				]
+				).then(users => {
+
+					let user = users[0];
+					if (user) {
+
+						return apiResponse.successResponseWithData(res, "Found", users);
+					}
+					else return apiResponse.ErrorResponse(res, "Not Found");
+
+				});
+			}
+		} catch (err) {
+
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}
+
 
 ];
 exports.updatescreenerList = [
