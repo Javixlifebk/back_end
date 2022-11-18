@@ -537,8 +537,8 @@ exports.LipidPanelHDLGreenList = [
 								'ldl_hdl': 1,
 								'non_hdl': 1,
 								'type': 1,
-								'createdAt': 1,
-								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 								'address': '$citizendetails.address',
 								'citizenId': '$citizendetails.citizenId',
 								'mobile': '$citizens.mobile',
@@ -785,8 +785,8 @@ exports.LipidPanelHDLAmberList = [
 								'ldl_hdl': 1,
 								'non_hdl': 1,
 								'type': 1,
-								'createdAt': 1,
-								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 								'address': '$citizendetails.address',
 								'citizenId': '$citizendetails.citizenId',
 								'mobile': '$citizens.mobile',
@@ -909,8 +909,8 @@ exports.LipidPanelHDLRedList = [
 								'ldl_hdl': 1,
 								'non_hdl': 1,
 								'type': 1,
-								'createdAt': 1,
-								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 								'address': '$citizendetails.address',
 								'citizenId': '$citizendetails.citizenId',
 								'mobile': '$citizens.mobile',
@@ -2019,8 +2019,8 @@ exports.LipidPanelTestldlGreenList = [
 								'non_hdl': 1,
 								'type': 1,
 								'severity_ldl': 1,
-								'createdAt': 1,
-								'dateOfOnBoarding': '$citizendetails.dateOfOnBoarding',
+								'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 								'address': '$citizendetails.address',
 								'citizenId': '$citizendetails.citizenId',
 								'mobile': '$citizens.mobile',
@@ -2696,11 +2696,12 @@ exports.BloodGlucoseTestAmberList = [
 			'bloodglucose': { $toInt: "$bloodglucose" },
 			'type': 1,
 			'severity': 1,
-			'createdAt': 1,
+			'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 			'citizenId': '$screeningcases.citizenId',
 			'mobile': '$citizens.mobile',
 			//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
-			'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+			// 'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 			'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 			'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 		}
@@ -2764,11 +2765,13 @@ exports.BloodGlucoseTestAmberList = [
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				'type': 1,
 				'severity': 1,
-				'createdAt': 1,
+				// 'createdAt': 1,
+				'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+				'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 				'citizenId': '$screeningcases.citizenId',
 				'mobile': '$citizens.mobile',
 				//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
-				'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+				// 'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 				'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 				'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 			}
@@ -2861,11 +2864,12 @@ exports.BloodGlucoseTestGreenList = [
 			  'bloodglucose': { $toInt: "$bloodglucose" },
 			  'type': 1,
 			  'severity': 1,
-			  'createdAt': 1,
+			  'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+								'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 			  'citizenId': '$screeningcases.citizenId',
 			  'mobile': '$citizens.mobile',
 			  //  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
-			  'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+			//   'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
 			  'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
 			  'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 		  }
@@ -3017,7 +3021,7 @@ exports.BloodGlucoseGreenCount=[
 				'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 			}
 		},
-		{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+		{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
 		{ $group: { _id: null, count: { $sum: 1 } } },
 		
 			
@@ -3381,117 +3385,7 @@ exports.BloodGlucoseRedCount=[
 // 	}
 // ]
 
-exports.BloodGlucoseTestGreenCount = [
 
-	(req, res) => {
-
-		try {
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-			} else {
-
-				// var matchfield={};
-				// 	var arraymatch=[];
-				// if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!="" ){
-
-				// let min = 60;
-				// let max = 80;
-				// if(req.body.min){
-				// 	min = req.body.min;
-				// }
-				// if(req.body.max){
-				// 	max = req.body.max;
-				// }
-
-				// console.log(req.body.min);
-
-
-				LabTestCaseModel.BloodGlucoseTest.aggregate([
-					{ '$limit': 100 },
-					{ $sort: { 'createdAt': -1 } },
-					// { $count: "Total" },
-					{
-						$lookup: {
-							from: "screeningcases",
-							localField: "caseId",
-							foreignField: "caseId",
-							as: "screeningcases"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizendetails",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizendetails"
-						}
-					},
-					{
-						$lookup: {
-							from: "screeners",
-							localField: "screeningcases.screenerId",
-							foreignField: "screenerId",
-							as: "screeners"
-						}
-					},
-					{
-						$lookup: {
-							from: "citizens",
-							localField: "screeningcases.citizenId",
-							foreignField: "citizenId",
-							as: "citizens"
-						}
-					},
-					{ "$unwind": "$screeningcases" },
-					{ "$unwind": "$citizens" },
-					{ '$unwind': "$citizendetails" },
-					{ '$unwind': "$screeners" },
-
-					{
-						'$project': {
-							'caseId': 1,
-							'status': 1,
-							'bloodglucose': { $toInt: "$bloodglucose" },
-							'type': 1,
-							'severity': 1,
-							'createdAt': 1,
-							'citizenId': '$screeningcases.citizenId',
-							//  'firstname':'$citizens.firstName'
-							'mobile': '$citizens.mobile',
-							// 'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
-							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
-							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-							//    'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-						}
-					},
-					{ $group: { _id: null, sum: { $sum: "$bloodglucose" } } },
-					{ $match: { severity: 2 } },
-
-				]).then(users => {
-					console.log(users);
-
-					let user = users[0];
-					if (user) {
-						// for (var i = 0; i < users.length; i++) {
-						// 	users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
-
-						// }
-						return apiResponse.successResponseWithData(res, "Found", users);
-					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
-
-				});
-			}
-		} catch (err) {
-			console.log(err);
-			return apiResponse.ErrorResponse(res, "EXp:" + err);
-		}
-	}
-
-
-]
 exports.BloodGlucoseTestRedList = [
 
 	async (req, res) => {
@@ -3524,7 +3418,7 @@ exports.BloodGlucoseTestRedList = [
 
 
 				await LabTestCaseModel.BloodGlucoseTest.aggregate([
-                    {'$limit':1000},
+                    {'$limit':2000},
 					 {$sort:{'createdAt':-1}},
 					{
 						$lookup: {
@@ -3581,7 +3475,7 @@ exports.BloodGlucoseTestRedList = [
 							// 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 						}
 					},
-					{ '$match': { bloodglucose: { $gt: 125 } }, },
+					{ '$match': { bloodglucose: { $gt: 125 } }},
 					// { '$match': { severity_ldl: 2 } },
 					{$sort:{'createdAt':-1}},
 					{ $skip: query.skip },
@@ -3928,6 +3822,251 @@ exports.LungTestList = [
 
 //Graphs
 
+// exports.bloodGlucoseCount = [
+
+
+
+// 	async (req, res) => {
+
+// 		// try {
+// 		// 	const errors = validationResult(req);
+// 		// 	if (!errors.isEmpty()) {
+// 		// 		return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 		// 	} else {
+// 				var redCount=0;
+// 				var greenCount =0;
+// 				var amberCount =0;
+
+// 				// LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 				// 	{
+
+// 				// 		'$group': {
+// 				// 			'_id': "$severity",
+// 				// 			'count': { '$sum': 1 }
+// 				// 		},
+
+// 				// 	}
+// 				// ])
+// 				greenCount =await LabTestCaseModel.BloodGlucoseTest.aggregate([
+					
+// 					{ $sort: { 'createdAt': -1 } },
+// 					{
+// 						$lookup: {
+// 							from: "screeningcases",
+// 							localField: "caseId",
+// 							foreignField: "caseId",
+// 							as: "screeningcases"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizendetails",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizendetails"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "screeners",
+// 							localField: "screeningcases.screenerId",
+// 							foreignField: "screenerId",
+// 							as: "screeners"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizens",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizens"
+// 						}
+// 					},
+				
+// 					{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+// 					{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+				
+// 					{
+// 						'$project': {
+// 							'caseId': 1,
+// 							'status': 1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
+// 							'type': 1,
+// 							'severity': 1,
+// 							'createdAt': 1,
+// 							'citizenId': '$screeningcases.citizenId',
+// 							'mobile': '$citizens.mobile',
+// 							//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+// 							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 						}
+// 					},
+// 					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+// 					{ $group: { _id: null, count: { $sum: 1 } } },
+					
+						
+// 					  ])
+						
+// 					  bloodcountGreen = greenCount[0].count;
+// 						console.log(bloodcountGreen);
+
+// 			redCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
+					
+// 					{ $sort: { 'createdAt': -1 } },
+// 					{
+// 						$lookup: {
+// 							from: "screeningcases",
+// 							localField: "caseId",
+// 							foreignField: "caseId",
+// 							as: "screeningcases"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizendetails",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizendetails"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "screeners",
+// 							localField: "screeningcases.screenerId",
+// 							foreignField: "screenerId",
+// 							as: "screeners"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizens",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizens"
+// 						}
+// 					},
+				
+// 					{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+// 					{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+				
+// 					{
+// 						'$project': {
+// 							'caseId': 1,
+// 							'status': 1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
+// 							'type': 1,
+// 							'severity': 1,
+// 							'createdAt': 1,
+// 							'citizenId': '$screeningcases.citizenId',
+// 							'mobile': '$citizens.mobile',
+// 							//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+// 							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 						}
+// 					},
+// 					{ '$match': { bloodglucose: { $gt: 125 } }, },
+// 					{ $group: { _id: null, count: { $sum: 1 } } },
+					
+						
+// 					  ])
+// 					  bloodcountRed = redCount[0].count;
+// 					  console.log(bloodcountRed);
+
+// 				 amberCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
+					
+// 					{ $sort: { 'createdAt': -1 } },
+// 					{
+// 						$lookup: {
+// 							from: "screeningcases",
+// 							localField: "caseId",
+// 							foreignField: "caseId",
+// 							as: "screeningcases"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizendetails",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizendetails"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "screeners",
+// 							localField: "screeningcases.screenerId",
+// 							foreignField: "screenerId",
+// 							as: "screeners"
+// 						}
+// 					},
+// 					{
+// 						$lookup: {
+// 							from: "citizens",
+// 							localField: "screeningcases.citizenId",
+// 							foreignField: "citizenId",
+// 							as: "citizens"
+// 						}
+// 					},
+				
+// 					{ "$unwind": { path: "$citizens", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$citizendetails", preserveNullAndEmptyArrays: true } },
+// 					{ "$unwind": { path: "$screeningcases", preserveNullAndEmptyArrays: true } },
+// 					{ '$unwind': { path: "$screeners", preserveNullAndEmptyArrays: true } },
+				
+// 					{
+// 						'$project': {
+// 							'caseId': 1,
+// 							'status': 1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
+// 							'type': 1,
+// 							'severity': 1,
+// 							// 'createdAt': 1,
+// 							'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "createdAt" } },
+// 							'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$citizendetails.dateOfOnBoarding" } },
+// 							'citizenId': '$screeningcases.citizenId',
+// 							'mobile': '$citizens.mobile',
+// 							//  'dateOfOnBoarding':'$citizendetails.dateOfOnBoarding',
+						
+// 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+// 						}
+// 					},
+// 					{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+			
+// 					{ $group: { _id: null, count: { $sum: 1 } } },
+					
+						
+// 					  ])
+// 					  bloodcountAmber = amberCount[0].count;
+// 					  console.log(bloodcountAmber);
+
+// 					  response = {
+// 						message: 'data fatch successfully',
+// 						status: 1,
+// 						 totalRed: bloodcountRed,
+// 						 totalGreen:bloodcountGreen,
+// 						 totalAmber:bloodcountAmber,
+						
+						
+// 					  }
+					  
+// 					  res.json(response)
+
+// 					// }
+				
+// 		// } catch (err) {
+
+// 		// 	return apiResponse.ErrorResponse(res, "EXp:" + err);
+// 		// }
+// 	}
+
+// ];
 exports.bloodGlucoseCount = [
 
 
@@ -3943,12 +4082,12 @@ exports.bloodGlucoseCount = [
 
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					{
-
+						
 						'$group': {
 							'_id': "$severity",
 							'count': { '$sum': 1 }
 						},
-
+						
 					}
 				]).then(users => {
 
@@ -3967,7 +4106,6 @@ exports.bloodGlucoseCount = [
 	}
 
 ];
-
 
 //Urine Test
 
