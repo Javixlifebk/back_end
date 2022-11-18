@@ -577,6 +577,7 @@ exports.HemoglobinTestRedList=[
 									'hemoglobin':1,
 									'notes':1,
 									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'basic.firstName':1,
 									'basic.lastName':1,
 									'basic.email':1,
@@ -597,7 +598,7 @@ exports.HemoglobinTestRedList=[
 									'address':'$info.address',
 									'email':'$basic.email',
 									'mobile':'$basic.mobile',
-									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									severity:1
 									

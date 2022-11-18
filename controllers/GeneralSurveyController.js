@@ -885,6 +885,7 @@ exports.tmp_outList = [
           response = { error: true, message: 'Error fetching data' }
         } else {
           tmp_out1Model.aggregate([
+            { $sort: { 'createdAt': -1 } },
 
             { '$match': { severity: 2 } },
             // {'$match':condition},
@@ -952,7 +953,7 @@ exports.tmp_outList = [
 
               }
             },
-            { $sort: { 'createdAt': -1 } },
+            
             { $skip: query.skip },
             { $limit: query.limit },
           ])
