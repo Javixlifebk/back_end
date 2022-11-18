@@ -45,7 +45,10 @@ routerLabTestController.post("/getBloodGlucoseGreenList", LabTestController.Bloo
 routerLabTestController.post("/getBloodGlucoseAmberList", LabTestController.BloodGlucoseTestAmberList);
 routerLabTestController.post("/getBloodGlucoseRedList", LabTestController.BloodGlucoseTestRedList);
 
-routerLabTestController.post("/getBloodGlucoseGreenCount", LabTestController.BloodGlucoseTestGreenCount);
+routerLabTestController.post("/getBloodGlucoseGreenCount", LabTestController.BloodGlucoseGreenCount);
+routerLabTestController.post("/getBloodGlucoseAmberCount", LabTestController.BloodGlucoseAmberCount);
+routerLabTestController.post("/getBloodGlucoseRedCount", LabTestController.BloodGlucoseRedCount);
+
 routerLabTestController.post("/LipidPanelTestldlRedcount", LabTestController.LipidPanelTestldlRedcount);
 
 
