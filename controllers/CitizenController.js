@@ -1266,7 +1266,7 @@ exports.citizenCasesList = [
 
 
 // -------------------display refer list data end--------------
-exports.citizenListSearcher = [
+exports.citizenListSearcherPagination = [
 	//body("screenerId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 
@@ -1447,6 +1447,149 @@ exports.citizenListSearcher = [
 		})
 
 			}
+
+];
+exports.citizenListSearcher=[
+    //body("screenerId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
+	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
+	
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+				
+					var queryP={'$match':{}};
+					/*if(req.body.v!=null && req.body.v!=undefined && req.body.v!="" ){
+						
+						queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'lastName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'citizenId':req.body.v}]}};
+					}*/
+if(req.body.v!=null && req.body.v!=undefined && req.body.v!="" ){
+let vtemp=req.body.v.trim().split(" ");
+if(vtemp.length===2){
+queryP={'$match':{'$and':[{'firstName':{$regex: ".*" + vtemp[0] + ".*",$options: "i"}},{'lastName':{$regex: ".*" + vtemp[1] + ".*",$options: "i"}}]}};
+}
+else{
+queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'lastName':{$regex: ".*" + req.body.v + ".*",$options: "i"}},{'citizenId':req.body.v}]}};
+}
+}
+					
+					
+
+
+			CitizenModel.Citizen.aggregate([
+							queryP,
+							{'$sort':{'createdAt':-1}},
+							{'$limit':1000},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'citizendetails',
+								'foreignField':'citizenId',
+								'as':'info'	
+							 }
+							},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'screeningcases',
+								'foreignField':'citizenId',
+								'as':'cases'
+							 }
+							},
+							{'$lookup': {
+                                                                'localField':'screenerId',
+                                                                'from':'screeners',
+                                                                'foreignField':'screenerId',
+                                                                'as':'screener'
+                                                         }
+                                                        },
+							{'$unwind':'$info'},
+							{'$project':{
+								 
+								 'screenerId':1,
+								 'firstName':1,
+								 'lastName':1,
+								 'sex':1,
+								 'mobile':1,
+								 'email':1,
+								 'pstatus':1,
+								 'isInstant':1,
+								 'citizenId':1,
+								 'javixId':1,
+                                 'aadhaar':1,
+                                 'raadhaar':1,
+								 'citizenLoginId':1,
+								 'createdAt':1,
+								 'info.dateOfBirth':1,
+								 'info.dateOfOnBoarding':1,
+								 'info.bloodGroup':1,
+								 'info.country':1,
+								 'info.state':1,
+								 'info.district':1,
+								 'info.address':1,
+								 'info.pincode':1,
+								 'info.rating':1,
+								 'info.geolocations':1,
+								 'info.photo':1,
+								'screener.firstName':1,
+								'screener.lastName':1,
+								 'cases': 1,
+								//  {
+            //     					'$filter' : {
+            //         'input': '$cases',
+            //         'as' : 'cases_field',
+            //          'cond': { '$and': [
+            //             {'$eq': ['$$cases_field.status',1]}
+            //         ]}
+            //     }
+            // }
+								 
+								}
+							}
+						]
+				).then(users => {
+					
+					let user=users[0];
+					
+					for(var i=0;i<users.length;i++){
+						if(users[i].cases.length>0) 
+						users[i].cases=users[i].cases[users[i].cases.length-1];
+						//console.dir(users[i]);
+					}
+
+					if (user) {
+						for(i=0;i<users.length;i++){
+						let temp=users[i];
+						var ddate="";
+						users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
+						users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
+						//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
+					  	
+					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
+					  		
+					  		ddate=temp.info.dateOfBirth.toISOString().split('T')[0];
+					  		var qdate=new Date(ddate);
+					  		temp.info.dateOfBirth=qdate.getDate()+"-"+(qdate.getMonth()+1)+"-"+(qdate.getYear()+1900);
+					  		users[i]=temp;
+					  	}
+					  	else{
+					  		temp.info.dateOfBirth=ddate;
+					  		users[i]=temp;
+					  	}
+					  }
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
 
 ];
 

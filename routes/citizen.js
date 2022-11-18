@@ -35,6 +35,7 @@ routerCitizen.post("/updateFamilyHistory", FamilyHistoryController.updateFamilyH
 routerCitizen.post("/updatePersonalHistory", PersonalHistoryController.updatePersonalHistory);
 routerCitizen.post("/updateWomenHistory", WomenReproductiveHistoryController.updateWomenHistory);
 routerCitizen.post("/citizenList100", CitizenController.citizenListSearcher);
+routerCitizen.post("/citizenListPagination", CitizenController.citizenListSearcherPagination);
 routerCitizen.post("/citizenrefer", CitizenController.citizenRefers);
 routerCitizen.post("/citizenPrescribe", CitizenController.CitizenPrescribe);
 routerCitizen.post("/citizenup", CitizenController.updateCitizenR);
