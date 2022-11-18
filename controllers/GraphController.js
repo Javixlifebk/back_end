@@ -69,11 +69,25 @@ exports.listGraph = [
 					ScreeningCaseModel.ScreeningCase.find({}).countDocuments()
 			        .then(cases => {
                   	graph.push({'Screening': cases});
+			
 
 					ScreeningCaseModel.ScreeningCase.find({status:'2'}).countDocuments()
 					.then(nonprescription => {
 					graph.push({'NonPrescription': nonprescription})
-					ScreenerModel.Screener.aggregate([
+
+
+					ScreenerModel.Screener.find({ 'issubscreener': 1,'ngoId':"rakesh",'ismapped': true}).countDocuments()
+					.then(mapsevika => {
+					graph.push({'mapsevika': mapsevika});
+			  ScreenerModel.Screener.find({ 'issubscreener': 0,'ngoId':"rakesh",'ismapped': true}).countDocuments()
+					.then(mapscreener => {
+					graph.push({'mapscreener': mapscreener});
+			   DoctorModel.Doctor.find({'doctorId':req.body.doctorId,'ngoId':'rakesh','ismapped':req.body.ismapped}).countDocuments()
+					.then(mapdoctor => {
+				  graph.push({'mapdoctor': mapdoctor});
+
+				
+				ScreenerModel.Screener.aggregate([
 						
 						{'$lookup': {
 								'localField':'screenerLoginId',
@@ -88,6 +102,7 @@ exports.listGraph = [
       						'$count': "subscreeners"
     						}
 						])
+					
 					.then(subscreeners => {
 					//console.dir(subscreeners);
 
@@ -100,8 +115,10 @@ exports.listGraph = [
 						}
 				else return apiResponse.ErrorResponse(res,"Not Found");
 					
+			
 					
-				});});
+				});
+			});
 
 				});
 					
@@ -109,6 +126,10 @@ exports.listGraph = [
 			});
 		});
 				});
+			});
+
+		});
+	});
 					
 				});
 
