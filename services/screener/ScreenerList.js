@@ -665,7 +665,7 @@ exports.updateScreenerMapAuth = [
 					else {
 						if (resDoc) {
 
-							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'ismapped': req.body.ismapped,'ngoId':req.body.ngoId } }, function (ierr, iresDoc) {
+							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'ngoId':req.body.ngoId } }, function (ierr, iresDoc) {
 								if (ierr) {
 									return apiResponse.ErrorResponse(res, ierr);
 								}
@@ -759,7 +759,7 @@ exports.screenermappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'issubscreener': 0,'ngoId':req.body.ngoId,'ismapped': true,} },
+					{ '$match': { 'issubscreener': 0,'ngoId':req.body.ngoId,} },
 					{ '$sort': { 'createdAt': -1 } },
 					
 					{
@@ -811,7 +811,7 @@ exports.screenerunmappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': false, 'issubscreener': 0 ,ngoId:"0"} },
+					{ '$match': {  'issubscreener': 0 ,ngoId:"0"} },
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 100 },
 
