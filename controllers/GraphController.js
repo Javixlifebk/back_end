@@ -76,15 +76,15 @@ exports.listGraph = [
 																								graph.push({ 'NonPrescription': nonprescription })
 
 
-																								ScreenerModel.Screener.find({ 'issubscreener': 1, 'ngoId': "rakesh", 'ismapped': true }).countDocuments()
+																								ScreenerModel.Screener.find({ 'issubscreener': 1, 'ngoId': "rakesh" }).countDocuments()
 																									.then(mapsevika => {
 																										graph.push({ 'mapsevika': mapsevika });
 
-																										ScreenerModel.Screener.find({ 'issubscreener': 0, 'ngoId': "rakesh", 'ismapped': true }).countDocuments()
+																										ScreenerModel.Screener.find({ 'issubscreener': 0, 'ngoId': "rakesh" }).countDocuments()
 																											.then(mapscreener => {
 																												graph.push({ 'mapscreener': mapscreener });
 
-																												DoctorModel.Doctor.find({ 'ngoId': 'rakesh', 'ismapped': true }).countDocuments()
+																												DoctorModel.Doctor.find({'ismapped': true }).countDocuments()
 																													.then(mapdoctor => {
 																														graph.push({ 'mapdoctor': mapdoctor });
 
