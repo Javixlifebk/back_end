@@ -196,8 +196,6 @@ exports.GeneralSurveyList = [
   },
 ];
 exports.tmp_out0List = [
-  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
-  // sanitizeBody("familyId").escape(),
 
   async (req, res) => {
     const { pageNo, size } = req.body
@@ -221,8 +219,7 @@ exports.tmp_out0List = [
           response = { error: true, message: 'Error fetching data' }
         }
         await tmp_out0Model.find({}, {}, query, async (err, data) => {
-          // Mongo command to fetch all data from collection.
-          // const post_id = data.post_id
+        
           if (err) {
             response = { error: true, message: 'Error fetching data' }
           } else {
