@@ -920,7 +920,7 @@ exports.sevikaunmappedList = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 				ScreenerModel.Screener.aggregate([
-					{ '$match': { 'ismapped': false,'issubscreener': 1, ngoId:"0"} },
+					{ '$match': { 'issubscreener': 1, ngoId:"0"} },
 					{ '$sort': { 'createdAt': -1 } },
 				
 
