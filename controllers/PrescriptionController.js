@@ -345,25 +345,25 @@ exports.prescriptionList=[
 					var arraymatch=[];
 
 					
-					if(req.body.recordId!=null && req.body.recordId!=null && req.body.recordId!="" ){
+					if(req.body.recordId!=null && req.body.recordId!=undefined && req.body.recordId!="" ){
 						recordId=req.body.recordId;
 						matchfield["recordId"]=recordId;
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
-					if(req.body.doctorId!=null && req.body.doctorId!=null && req.body.doctorId!=""){
+					if(req.body.doctorId!=null && req.body.doctorId!=undefined && req.body.doctorId!=""){
 						doctorId=req.body.doctorId;
 						matchfield["doctorId"]=doctorId;
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
-					if(req.body.prescriptionId!=null && req.body.prescriptionId!=null && req.body.prescriptionId!=""){
+					if(req.body.prescriptionId!=null && req.body.prescriptionId!=undefined && req.body.prescriptionId!=""){
 						prescriptionId=req.body.prescriptionId;
 						matchfield["prescriptionId"]=prescriptionId;
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
-					if(req.body.screenerId!=null && req.body.screenerId!=null && req.body.screenerId!=""){
+					if(req.body.screenerId!=null && req.body.screenerId!=undefined && req.body.screenerId!=""){
 						screenerId=req.body.screenerId;
 						matchfield["screenerId"]=screenerId;
 						arraymatch.push(matchfield);
@@ -375,13 +375,13 @@ exports.prescriptionList=[
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
-					if(req.body.caseId!=null && req.body.caseId!=null && req.body.caseId!=""){
+					if(req.body.caseId!=null && req.body.caseId!=undefined && req.body.caseId!=""){
 						caseId=req.body.caseId;
 						matchfield["caseId"]=caseId;
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
-					if(req.body.citizenId!=null && req.body.citizenId!=null && req.body.citizenId!=""){
+					if(req.body.citizenId!=null && req.body.citizenId!=undefined && req.body.citizenId!=""){
 						citizenId=req.body.citizenId;
 						matchfield["citizenId"]=citizenId;
 						arraymatch.push(matchfield);
@@ -397,7 +397,6 @@ exports.prescriptionList=[
 
 			PrescriptionModel.Prescription.aggregate([
 							andcond,
-							{$sort:{'createdAt':-1}},
 							{'$lookup': {
 								'localField':'doctorId',
 								'from':'doctors',
@@ -433,9 +432,7 @@ exports.prescriptionList=[
 								'as':'screeners'	
 							 }
 							},
-							{$unwind:{ path:"$citizens", preserveNullAndEmptyArrays: true }},
-							{$unwind:{ path:"$screeners", preserveNullAndEmptyArrays: true }},
-							{$unwind:{ path:"$doctors", preserveNullAndEmptyArrays: true }},
+							{$unwind:"$citizens"},
 							{'$project':{
 								'prescriptionId':1,
 								'citizenId':1,
@@ -457,8 +454,6 @@ exports.prescriptionList=[
 								'strength':1,
 								'createdAt':1,
 								'tests':1,
-								'docfullname': { $concat: ["$doctors.firstName", " ", "$doctors.lastName"] },
-								
 								'doctors.firstName':1,
 								'doctors.lastName':1,
 								'doctors.email':1,
@@ -476,11 +471,6 @@ exports.prescriptionList=[
 								'citizens.mobile':1,
 								'citizens.sex':1,
 								'citizendetails.dateOfBirth':1,
-								'citizendetails.dateOfOnBoarding':1,
-								'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-								
-								// 'screeners.lastName':1,
-								'screeners.lastName':1,
 								'screeners.firstName':1,
 								'screeners.lastName':1,
 								'screeners.email':1,
@@ -569,3 +559,4 @@ exports.prescriptionList=[
 	}
 
 ];
+

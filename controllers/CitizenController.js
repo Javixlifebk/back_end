@@ -1036,6 +1036,117 @@ exports.citizenRefers = [
 
 ];
 
+exports.citizenRefersCount = [
+	// body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
+	// // body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
+	
+
+	async (req, res) => {
+	await CitizenModel.Citizen.aggregate([
+						{ '$match': { 'isUnrefer': true } },
+
+					// { '$sort': { 'createdAt': -1 } },
+					{ '$limit': 1000 },
+					{
+						'$lookup': {
+							'localField': 'citizenId',
+							'from': 'citizendetails',
+							'foreignField': 'citizenId',
+							'as': 'info'
+						}
+					},
+					{
+						'$lookup': {
+							'localField': 'citizenId',
+							'from': 'screeningcases',
+							'foreignField': 'citizenId',
+							'as': 'cases'
+						}
+					},
+					{
+						'$lookup': {
+							'localField': 'screenerId',
+							'from': 'screeners',
+							'foreignField': 'screenerId',
+							'as': 'screeners'
+						}
+					},
+					{ '$unwind':{path: '$info' , preserveNullAndEmptyArrays: true }},
+					{ '$unwind':{path: '$screeners' , preserveNullAndEmptyArrays: true }},
+					{
+						'$project': {
+							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
+							'screenerId': 1,
+							//  'caseId':'$cases.caseId',
+							//  'caseStatus':'$cases.status',
+							'javixId': 1,
+							'isUnrefer': 1,
+							'sex': 1,
+							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+							'mobile': { $ifNull: ["$mobile", "Unspecified"] },
+							'email': 1,
+							'pstatus': 1,
+							'isInstant': 1,
+							'citizenId': 1,
+							'javixId': 1,
+							'aadhaar': 1,
+							'raadhaar': 1,
+							'citizenLoginId': 1,
+							'createdAt': 1,
+							'cases': 1,
+							// 					 {
+							//     					'$filter' : {
+							//         'input': '$cases',
+							//         'as' : 'cases_field',
+							//          'cond': { '$and': [
+							//             {'$eq': ['$$cases_field.status',1]}
+							//         ]}
+							//     }
+							// },
+							'info.dateOfBirth': 1,
+							'info.dateOfOnBoarding': 1,
+							'info.bloodGroup': 1,
+							'info.country': 1,
+							'info.state': 1,
+							'info.district': 1,
+							'info.address': 1,
+							'info.pincode': 1,
+							'info.rating': 1,
+							'info.geolocations': 1,
+							'info.photo': 1,
+							'screener.firstName': 1,
+							'screener.lastName': 1,
+
+
+						},
+						
+					},
+					{ $group: { _id: null, count: { $sum: 1 } } }
+		
+			
+		  ]).exec((err, likeData) => {
+			if (err) {
+			  throw err
+			} else {
+			 
+			  response = {
+				message: 'data fatch successfully',
+				status: 1,
+				// pages: totalPages,
+				// total: totalCount,
+				// size: size,
+				data: likeData[0].count,
+				 
+			  }
+			  
+			  res.json(response)
+			}
+		  })
+		}
+			
+
+];
+
 exports.CitizenPrescribe = [
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
@@ -1069,6 +1180,7 @@ exports.CitizenPrescribe = [
 							'as': 'cases'
 						}
 					},
+					
 					{
 						'$lookup': {
 							'localField': 'screenerId',
@@ -1174,6 +1286,110 @@ exports.CitizenPrescribe = [
 
 ];
 
+
+exports.CitizenPrescribeCount = [
+	async (req, res) => {
+		await 	CitizenModel.Citizen.aggregate([
+			{ '$match': { 'isUnrefer': false } },
+            {$limit:1000},
+			{
+				'$lookup': {
+					'localField': 'citizenId',
+					'from': 'citizendetails',
+					'foreignField': 'citizenId',
+					'as': 'info'
+				}
+			},
+			{
+				'$lookup': {
+					'localField': 'citizenId',
+					'from': 'screeningcases',
+					'foreignField': 'citizenId',
+					'as': 'cases'
+				}
+			},
+			{
+				'$lookup': {
+					'localField': 'screenerId',
+					'from': 'screeners',
+					'foreignField': 'screenerId',
+					'as': 'screeners'
+				}
+			},
+			{ '$unwind': '$info' },
+			{ '$unwind': '$screeners' },
+			{
+				'$project': {
+					'fullname': { $concat: ["$firstName", " ", "$lastName"] },
+					'screenerId': 1,
+					//  'caseId':'$cases.caseId',
+					//  'caseStatus':'$cases.status',
+					'javixId': 1,
+					'isUnrefer': 1,
+					'sex': 1,
+					'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+					'mobile': { $ifNull: ["$mobile", "Unspecified"] },
+					'email': 1,
+					'pstatus': 1,
+					'isInstant': 1,
+					'citizenId': 1,
+					'javixId': 1,
+					'aadhaar': 1,
+					'raadhaar': 1,
+					'citizenLoginId': 1,
+					'createdAt': 1,
+					'cases': 1,
+					// 					 {
+					//     					'$filter' : {
+					//         'input': '$cases',
+					//         'as' : 'cases_field',
+					//          'cond': { '$and': [
+					//             {'$eq': ['$$cases_field.status',1]}
+					//         ]}
+					//     }
+					// },
+					'info.dateOfBirth': 1,
+					'info.dateOfOnBoarding': 1,
+					'info.bloodGroup': 1,
+					'info.country': 1,
+					'info.state': 1,
+					'info.district': 1,
+					'info.address': 1,
+					'info.pincode': 1,
+					'info.rating': 1,
+					'info.geolocations': 1,
+					'info.photo': 1,
+					'screener.firstName': 1,
+					'screener.lastName': 1,
+
+
+				}
+			},
+			
+			{ $group: { _id: null, count: { $sum: 1 } } },
+			
+				
+			  ]).exec((err, likeData) => {
+				if (err) {
+				  throw err
+				} else {
+				 
+				  response = {
+					message: 'data fatch successfully',
+					status: 1,
+					// pages: totalPages,
+					// total: totalCount,
+					// size: size,
+					data: likeData[0].count,
+				     
+				  }
+				  
+				  res.json(response)
+				}
+			  })
+			}
+				
+];
 
 exports.citizenCasesList = [
 
