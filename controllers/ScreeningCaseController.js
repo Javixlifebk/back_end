@@ -547,7 +547,7 @@ exports.screeningList=[
 							andcond,
 							{'$sort':{'createdAt':-1}},
 							{'$skip':pageCalc},
-							{'$limit':100},
+							// {'$limit':100},
 							{'$lookup': {
 								'localField':'doctorId',
 								'from':'doctors',
@@ -671,6 +671,151 @@ exports.screeningList=[
 	}
 
 ];
+
+
+exports.screeningcasesPaginationList=[
+  // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
+// body("severity").isLength().trim().withMessage("Invalid Token!"),
+//sanitizeBody("caseId").escape(),
+ sanitizeBody("severity").escape(),
+
+ (req, res)=> {
+  const { pageNo, size} = req.body
+   console.log(req.body);
+   if (pageNo < 0 || pageNo === 0) {
+   response = {
+     error: true,
+     message: 'invalid page number, should start with 1',
+   }
+   return res.json(response)
+   }
+   const query = {}
+   query.skip = size * (pageNo - 1)
+   query.limit = size
+   console.log(query);
+   
+   // Find some documents
+   ScreeningCaseModel.ScreeningCase.count({}, async (err, totalCount) => {
+   if (err) {
+     response = { error: true, message: 'Error fetching data' }
+   }
+   ScreeningCaseModel.ScreeningCase.find({}, {}, query, async (err, data) => {
+     // Mongo command to fetch all data from collection.
+     // const post_id = data.post_id
+     if (err) {
+     response = { error: true, message: 'Error fetching data' }
+     } else {
+      ScreeningCaseModel.ScreeningCase.aggregate([
+        // andcond,
+        {'$sort':{'createdAt':-1}},
+        // {'$skip':pageCalc},
+        // {'$limit':100},
+        {'$lookup': {
+          'localField':'doctorId',
+          'from':'doctors',
+          'foreignField':'doctorId',
+          'as':'doctors'	
+         }
+        },
+        {'$lookup': {
+          'localField':'citizenId',
+          'from':'citizens',
+          'foreignField':'citizenId',
+          'as':'citizens'	
+         }
+        },
+        {'$lookup': {
+          'localField':'citizenId',
+          'from':'citizendetails',
+          'foreignField':'citizenId',
+          'as':'citizendetails'	
+         }
+        },
+        {'$lookup': {
+          'localField':'screenerId',
+          'from':'screeners',
+          'foreignField':'screenerId',
+          'as':'screeners'	
+         }
+        },
+        {"$unwind":"$screeners"},
+        {"$unwind":"$citizens"},
+
+        {'$project':{
+          'citizenId':1,
+          'notes':1,
+          'doctorId':1,
+          'status':1,
+          'screenerId':1,
+          'height':1,
+          'weight':1,
+          'bmi':1,
+        
+          'caseId':1,
+          'pulse':1,
+          'respiratory_rate':1,
+          'temperature':1,
+          'referDocId':1,
+          'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+          
+          'doctors.firstName':1,
+          'doctors.lastName':1,
+          'doctors.email':1,
+          'doctors.mobile':1,
+          'doctors.sex':1,
+          'doctors.medicalRegNo':1,
+           'doctors.yearOfReg':1,
+           'doctors.statteMedicalCouncil':1,
+           'doctors.experience':1,
+           'doctors.referenceName':1,
+           'doctors.type':1,
+          'citizens.firstName':1,
+          'citizens.lastName':1,
+          'citizens.email':1,
+          'citizens.mobile':1,
+          'citizens.sex':1,
+          'citizendetails.dateOfBirth':1,
+          'screeners.firstName':1,
+          'screeners.lastName':1,
+          email:'$screeners.email',
+          mobile:'screeners.mobile',
+          'screeners.mobile1':1,
+          gender:'$screeners.sex',
+          'screeners.ngoId':1,
+          'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+          'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+         
+        }
+      }
+      ,{ $skip: query.skip },
+        { $limit: query.limit },
+  ])
+       .exec((err, likeData) => {
+       if (err) {
+         throw err
+       } else {
+         var totalPages = Math.ceil(totalCount / size)
+         response = {
+         message: 'data fatch successfully',
+         status: 1,
+         pages: totalPages,
+         total: totalCount,
+         size: size,
+         data: likeData.reverse(),
+         }
+         
+         res.json(response)
+       }
+       })
+     }
+   })
+  })
+   }	
+
+];
+
+
+
 
 
 
