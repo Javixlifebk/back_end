@@ -5,6 +5,7 @@ var routerScreeningCase = express.Router();
 routerScreeningCase.post("/addCase", ScreeningCaseController.addScreening);
 routerScreeningCase.post("/updateCase", ScreeningCaseController.updateCaseDetails);
 routerScreeningCase.post("/getCaseDetails", ScreeningCaseController.screeningList);
+routerScreeningCase.post("/screeningcasesList", ScreeningCaseController.screeningcasesPaginationList);
 routerScreeningCase.post("/caseUnrefer", ScreeningCaseController.updateAddUnrefer);
 
 
