@@ -480,78 +480,78 @@ exports.tmp_out0List = [
 		 
 	// for count 
 	screenercount = await tmp_out0Model.aggregate([
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizens",
-        foreignField: "citizenId",
-        as: "citizens",
-      },
-    },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "eyetests",
-        foreignField: "citizenId",
-        as: "eyetests",
-      },
-    },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizendetails",
-        foreignField: "citizenId",
-        as: "citizendetails",
-      },
-    },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "hemoglobins",
-        foreignField: "citizenId",
-        as: "hemoglobins",
-      },
-    },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
-      },
-    },
-    {
-      $lookup: {
-        localField: "caseId",
-        from: "bloodglucosetests",
-        foreignField: "caseId",
-        as: "bloodglucosetests",
-      },
-    },
-    {
-      $lookup: {
-        localField: "caseId",
-        from: "urinetests",
-        foreignField: "caseId",
-        as: "urinetests",
-      },
-    },
-    {
-      $lookup: {
-        localField: "caseId",
-        from: "lungfunctions",
-        foreignField: "caseId",
-        as: "lungfunctions",
-      },
-    },
-    {
-      $lookup: {
-        localField: "caseId",
-        from: "lipidpaneltests",
-        foreignField: "caseId",
-        as: "lipidpaneltests",
-      },
-    },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizens",
+    //     foreignField: "citizenId",
+    //     as: "citizens",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "eyetests",
+    //     foreignField: "citizenId",
+    //     as: "eyetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizendetails",
+    //     foreignField: "citizenId",
+    //     as: "citizendetails",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "hemoglobins",
+    //     foreignField: "citizenId",
+    //     as: "hemoglobins",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "screenerId",
+    //     from: "screeners",
+    //     foreignField: "screenerId",
+    //     as: "screeners",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "bloodglucosetests",
+    //     foreignField: "caseId",
+    //     as: "bloodglucosetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "urinetests",
+    //     foreignField: "caseId",
+    //     as: "urinetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "lungfunctions",
+    //     foreignField: "caseId",
+    //     as: "lungfunctions",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "lipidpaneltests",
+    //     foreignField: "caseId",
+    //     as: "lipidpaneltests",
+    //   },
+    // },
 
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -960,30 +960,30 @@ exports.tmp_out1List = [
 		 
 	// for count 
 	sevikacount = await tmp_out1Model.aggregate([
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizens",
-        foreignField: "citizenId",
-        as: "citizens",
-      },
-    },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizendetails",
-        foreignField: "citizenId",
-        as: "citizendetails",
-      },
-    },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
-      },
-    },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizens",
+    //     foreignField: "citizenId",
+    //     as: "citizens",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizendetails",
+    //     foreignField: "citizenId",
+    //     as: "citizendetails",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "screenerId",
+    //     from: "screeners",
+    //     foreignField: "screenerId",
+    //     as: "screeners",
+    //   },
+    // },
 	
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
