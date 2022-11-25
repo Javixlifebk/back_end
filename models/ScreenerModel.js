@@ -20,6 +20,7 @@ var ScreenerSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // ngoId=>{NGOSchema=>ngoId}
+//screener model
 // screenerLoginId=>{User=>userId}
 module.exports.Screener = mongoose.model("Screeners", ScreenerSchema);
 
