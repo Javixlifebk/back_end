@@ -31,6 +31,8 @@ var ScreeningCaseSchema = new mongoose.Schema({
     caseId:{type:String,required:true},
 	isUnrefer: {type: Boolean, required: true, default: false},
 	// caseId:{type:String,required:true},
+	isdeleted:{type: Boolean,default: false},
+
 }, {timestamps: true});
 
 //Severity CALCULATOR
@@ -152,6 +154,7 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
     hypertension: {type: String},
 	caseId:{type:String,required:true},
 	issubscreener:{type:String},
+	isdeleted:{type: Boolean,default: false},
 	isUnrefer: {type: Boolean, required: true, default: false},
 }, {timestamps: true});
 

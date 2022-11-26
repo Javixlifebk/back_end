@@ -543,6 +543,9 @@ exports.updateScreenerFinal = [
    
    ];
 	
+
+
+   
 exports.updateScreenerDetailsFinal = [
    body("userId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
    body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
@@ -608,4 +611,89 @@ exports.updateScreenerDetailsFinal = [
 		}
 	}];
 	
+
+	//update and add isdeleted variable in screener table
+exports.updateandScreener= [
+		(req, res) => { 
+			
+			// let id = req.params.id;
+	
+
+			// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+		  
+			ScreenerModel.Screener.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+
+		  
+			  .then((note) => {
+				if (!note) {
+				  return res.status(404).send({
+					message: "data not found with id " + req.params.id,
+				  });
+				}
+				res.send(note);
+			  })
+			  .catch((err) => {
+			  
+				if (err.kind === "ObjectId") {
+				  return res.status(404).send({
+					message: "data not found with id ",
+				  });
+				}
+				return res.status(500).send({
+				  message: "Error updating note with id ",
+				});
+			  });
+			   
+		}
+
+						
+	
+	];
+
+
+	
+exports.updateScreenerDeletedAuth = [
+	
+
+	(req, res) => {
+
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
+
+
+				ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
+					if (err) {
+						return apiResponse.ErrorResponse(res, err);
+					}
+					else {
+						if (resDoc) {
+
+							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
+								if (ierr) {
+									return apiResponse.ErrorResponse(res, ierr);
+								}
+								else {
+									if (iresDoc) {
+
+										return apiResponse.successResponse(res, "Updated Successfullly.");
+									}
+									else apiResponse.ErrorResponse(res, "Invalid User");
+								}
+							});
+						}
+						else apiResponse.ErrorResponse(res, "Invalid User");
+					}
+				});
+
+
+
+			}
+		} catch (err) {
+
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}];
 
