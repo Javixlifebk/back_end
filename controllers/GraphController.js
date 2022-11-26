@@ -36,7 +36,7 @@ exports.listGraph = [
       } else {
         var graph = [];
 
-        ScreenerModel.Screener.find({})
+        ScreenerModel.Screener.find({isdeleted:false})
           .countDocuments()
           .then((screeners) => {
             graph.push({ Screeners: screeners });
@@ -76,7 +76,7 @@ exports.listGraph = [
                                         graph.push({ Pharmacy: pharmacies });
 
                                         ScreeningCaseModel.ScreeningCase.find(
-                                          {}
+                                          {isdeleted:false}
                                         )
                                           .countDocuments()
                                           .then((cases) => {
@@ -161,6 +161,11 @@ exports.listGraph = [
                                                                 {
                                                                   $match: {
                                                                     "users.roleId": 21,
+                                                                  },
+                                                                },
+                                                                {
+                                                                  $match: {
+                                                                    "isdeleted": false,
                                                                   },
                                                                 },
                                                                 {

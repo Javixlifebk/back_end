@@ -24,5 +24,8 @@ routerScreeningCase.post("/lipidCritical", ScreeningCaseController.lipid);
 routerScreeningCase.post("/secreenerSevika", ScreeningCaseController.screeningSevika);
 routerScreeningCase.post("/lipidCount", ScreeningCaseController.lipidCount);
 routerScreeningCase.post("/lipidC", ScreeningCaseController.lipidcritical);
+routerScreeningCase.post("/screenerCaseDeleteById", ScreeningCaseController.ScreenerCaseDeletedUpdate)
+routerScreeningCase.post("/updateScreenerCase", ScreeningCaseController.updateandScreenerCase)
+
 
 module.exports = routerScreeningCase;

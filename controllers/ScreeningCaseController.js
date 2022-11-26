@@ -695,11 +695,11 @@ exports.screeningcasesPaginationList=[
    console.log(query);
    
    // Find some documents
-   ScreeningCaseModel.ScreeningCase.count({}, async (err, totalCount) => {
+   ScreeningCaseModel.ScreeningCase.count({isdeleted:false}, async (err, totalCount) => {
    if (err) {
      response = { error: true, message: 'Error fetching data' }
    }
-   ScreeningCaseModel.ScreeningCase.find({}, {}, query, async (err, data) => {
+   ScreeningCaseModel.ScreeningCase.find({isdeleted:false}, {}, query, async (err, data) => {
      // Mongo command to fetch all data from collection.
      // const post_id = data.post_id
      if (err) {
@@ -776,9 +776,10 @@ exports.screeningcasesPaginationList=[
           'citizens.sex':1,
           'citizendetails.dateOfBirth':1,
           'screeners.firstName':1,
+          address:'$citizendetails.address',
           'screeners.lastName':1,
           email:'$screeners.email',
-          mobile:'screeners.mobile',
+          mobile:'$screeners.mobile',
           'screeners.mobile1':1,
           gender:'$screeners.sex',
           'screeners.ngoId':1,
@@ -789,6 +790,7 @@ exports.screeningcasesPaginationList=[
       }
       ,{ $skip: query.skip },
         { $limit: query.limit },
+        {$match:{isdeleted:false}}
   ])
        .exec((err, likeData) => {
        if (err) {
@@ -812,6 +814,146 @@ exports.screeningcasesPaginationList=[
   })
    }	
 
+];
+exports.screeningcasesPaginationList = [
+
+	async (req, res) => {
+		var casedata;
+		var casecount=0;
+		var casecountFinal = 0 ;
+		const { pageNo, size} = req.body
+		   console.log(req.body);
+		// if(!pageNo){
+		//   pageNo=1;
+		// }
+		// if(!size){
+		//   size=10;
+		// }
+		   const query = {}
+		   query.skip = size * (pageNo - 1)
+		   query.limit = parseInt(size)
+		   console.log(query);
+		 
+	// for count 
+	casecount = await  ScreeningCaseModel.ScreeningCase.aggregate([
+	
+		{
+			'$project': {
+				
+				isdeleted:1
+				
+			}
+		},
+	 
+	  { '$match': { isdeleted:false}},
+	  { $group: { _id: null, count: { $sum: 1 } } }
+	  
+		])
+
+		casecountFinal = casecount[0].count;
+		  console.log(casecountFinal);
+	
+		
+	var	casedata = await  ScreeningCaseModel.ScreeningCase.aggregate([
+	
+		  { $sort: { 'createdAt': -1 } },
+      {'$lookup': {
+        'localField':'doctorId',
+        'from':'doctors',
+        'foreignField':'doctorId',
+        'as':'doctors'	
+       }
+      },
+      {'$lookup': {
+        'localField':'citizenId',
+        'from':'citizens',
+        'foreignField':'citizenId',
+        'as':'citizens'	
+       }
+      },
+      {'$lookup': {
+        'localField':'citizenId',
+        'from':'citizendetails',
+        'foreignField':'citizenId',
+        'as':'citizendetails'	
+       }
+      },
+      {'$lookup': {
+        'localField':'screenerId',
+        'from':'screeners',
+        'foreignField':'screenerId',
+        'as':'screeners'	
+       }
+      },
+      {"$unwind":"$screeners"},
+      {"$unwind":"$citizens"},
+
+      {'$project':{
+        'citizenId':1,
+        'notes':1,
+        'doctorId':1,
+        'status':1,
+        'screenerId':1,
+        'height':1,
+        'weight':1,
+        'bmi':1,
+      
+        'caseId':1,
+        'pulse':1,
+        'respiratory_rate':1,
+        'temperature':1,
+        'referDocId':1,
+        'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+        
+        'doctors.firstName':1,
+        'doctors.lastName':1,
+        'doctors.email':1,
+        'doctors.mobile':1,
+        'doctors.sex':1,
+        'doctors.medicalRegNo':1,
+         'doctors.yearOfReg':1,
+         'doctors.statteMedicalCouncil':1,
+         'doctors.experience':1,
+         'doctors.referenceName':1,
+         'doctors.type':1,
+        'citizens.firstName':1,
+        'citizens.lastName':1,
+        'citizens.email':1,
+        'citizens.mobile':1,
+        'citizens.sex':1,
+        'citizendetails.dateOfBirth':1,
+        'screeners.firstName':1,
+        address:'$citizendetails.address',
+        'screeners.lastName':1,
+        email:'$screeners.email',
+        mobile:'$screeners.mobile',
+        'screeners.mobile1':1,
+        gender:'$screeners.sex',
+        'screeners.ngoId':1,
+        isdeleted:1,
+        'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+        'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+       
+      }
+    },
+		//   { $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+		{ '$match': { isdeleted:false}},
+		  
+			  { $skip: query.skip },
+			  { $limit: query.limit },
+			])
+	  response = {
+		message: 'data fatch successfully',
+		status: 1,
+	   pages: pageNo,
+		// total: count,
+		size: size,
+		total:casecountFinal,
+		data: casedata,
+		
+		}
+		res.json(response)
+	}
 ];
 
 
@@ -935,7 +1077,8 @@ exports.screeningListCount = [
         }
 
         if (
-          req.body.doctorId != null &&
+          req.
+          body.doctorId != null &&
           req.body.doctorId != undefined &&
           req.body.doctorId != ""
         ) {
@@ -1173,6 +1316,94 @@ exports.screeningDetailsList = [
 ];
 
 ///////
+
+// update and delete screening cases
+
+
+exports.updateandScreenerCase= [
+  (req, res) => { 
+    
+    // let id = req.params.id;
+
+
+    // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+    
+   ScreeningCaseModel.ScreeningCase.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+
+    
+      .then((note) => {
+      if (!note) {
+        return res.status(404).send({
+        message: "data not found with id " + req.params.id,
+        });
+      }
+      res.send(note);
+      })
+      .catch((err) => {
+      
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+        message: "data not found with id ",
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating note with id ",
+      });
+      });
+       
+  }
+
+          
+
+];
+
+
+
+exports.ScreenerCaseDeletedUpdate = [
+
+
+(req, res) => {
+
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+    } else {
+
+
+     ScreeningCaseModel.ScreeningCase.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
+        if (err) {
+          return apiResponse.ErrorResponse(res, err);
+        }
+        else {
+          if (resDoc) {
+
+           ScreeningCaseModel.ScreeningCase.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
+              if (ierr) {
+                return apiResponse.ErrorResponse(res, ierr);
+              }
+              else {
+                if (iresDoc) {
+
+                  return apiResponse.successResponse(res, "Updated Successfullly.");
+                }
+                else apiResponse.ErrorResponse(res, "Invalid User");
+              }
+            });
+          }
+          else apiResponse.ErrorResponse(res, "Invalid User");
+        }
+      });
+
+
+
+    }
+  } catch (err) {
+
+    return apiResponse.ErrorResponse(res, "EXp:" + err);
+  }
+}];
+
 
 exports.screeningEncounters = [
   // sanitizeBody("citizenId").escape(),
@@ -2664,6 +2895,7 @@ exports.lipid = [
        
         // createdAt: 1,
         severity_bp: 1,
+        isdeleted:1,
         severity_bmi: 1,
         
         Age: {
@@ -2677,6 +2909,7 @@ exports.lipid = [
       },
     },
     { $match: { Age: { $gte: 40 } } },
+    { $match: { 'isdeleted':false } },
     { $match: { severity_bp: 2, severity_bmi: 2 }},
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -2881,6 +3114,7 @@ exports.lipid = [
           severity_temperature: 1,
           severity_respiratory_rate: 1,
           severity: 1,
+          isdeleted:1,
           // Age:"$lipidcritical.Age"
           Age: {
             $round: {
@@ -2893,6 +3127,7 @@ exports.lipid = [
         },
       },
        { $match: { Age: { $gte: 40 } } },
+       { $match: { isdeleted:false } },
       { $match: { severity_bp: 2, severity_bmi: 2 }},
 			  { $skip: query.skip },
 			  { $limit: query.limit },
