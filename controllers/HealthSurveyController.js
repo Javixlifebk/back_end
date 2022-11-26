@@ -201,11 +201,32 @@ exports.addHealthSurvey = [
 				HealthSurveyModel.aggregate([
 							{'$match':condition},
 							{'$limit':100000},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'citizendetails',
+								'foreignField':'citizenId',
+								'as':'info'	
+							 }
+							},
+							{'$lookup': {
+								'localField':'citizenId',
+								'from':'citizens',
+								'foreignField':'citizenId',
+								'as':'basic'
+							 }
+							},
 							{'$project':{
+								createdAt:1,
+								address:'$info.address',
+								mobile:'$basic.mobile',
+								firstName:'$basic.firstName',
+								lastName:'$basic.lastName',
+								aadhaar:'$basic.aadhaar',
 								'healthsurveyId':1,
 								'familyId':1,
 								'screenerId':1,
 								'citizenId':1,
+								
 								'drinkingWaterSource':1,
 								'drinkingWaterDistance':1,
 								'isdrinkingWaterTreatmentRequired':1,

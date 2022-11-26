@@ -255,7 +255,7 @@ exports.screenerList = [
 
 				console.dir(condition);
 
-				ScreenerModel.Screener.count({}, async (err, totalCount) => {
+				ScreenerModel.Screener.count({isdeleted:false}, async (err, totalCount) => {
 					if (err) {
 						response = { error: true, message: 'Error fetching data' }
 					}
@@ -268,6 +268,7 @@ exports.screenerList = [
 
 							ScreenerModel.Screener.aggregate([
 								{ '$match': condition },
+								{'$match':{'isdeleted':false}},
 								
 								{
 									'$lookup': {
@@ -452,6 +453,7 @@ exports.sevikalist = [
 			} else {
 				ScreenerModel.Screener.aggregate([
 					{ '$match': { 'issubscreener': 1} },
+					{ '$match': { 'isdeleted': false} },
 					{ '$sort': { 'createdAt': -1 } },
 					
 					{
