@@ -35,7 +35,8 @@ routerNGO.post("/screener/updateScreenerSevika", ScreenerController.updateScreen
 routerNGO.post("/screener/updateScreenerNgoId", ScreenerController.updateScreenerNgoId);
 routerNGO.post("/screener/updateScreenerFinal", ScreenerController.updateScreenerFinal);
 routerNGO.post("/screener/updateScreenerDetailsFinal", ScreenerController.updateScreenerDetailsFinal);
-
+routerNGO.post("/updateScreener", ScreenerController.updateandScreener);
+routerNGO.post("/deleteScreenerById", ScreenerController.updateScreenerDeletedAuth);
 routerNGO.post("/requpdate/list", NGOController.ngoRequestUpdateList);
 // routerNGO.post("/screener/updateScreenerDetailsFinal", ScreenerController.);
 

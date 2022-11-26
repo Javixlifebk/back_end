@@ -163,6 +163,14 @@ exports.GeneralSurveyList = [
               as: "citizens",
             },
           },
+             
+          {'$lookup': {
+            'localField':'citizenId',
+            'from':'citizendetails',
+            'foreignField':'citizenId',
+            'as':'info'	
+           }
+          },
           // { $limit: 100 },
           {
             $project: {
@@ -178,9 +186,12 @@ exports.GeneralSurveyList = [
               NoOfChildrenFemales: 1,
               createdAt: 1,
               updatedAt: 1,
-              "citizens.citizenId": 1,
-              "citizens.firstName": 1,
-              "citizens.lastName": 1,
+								
+								address:'$info.address',
+								mobile:'$citizens.mobile',
+								firstName:'$citizens.firstName',
+								lastName:'$citizens.lastName',
+								aadhaar:'$citizens.aadhaar',
             },
           },
         ]).then((users) => {
@@ -563,9 +574,10 @@ exports.tmp_out0List = [
     {
       $project: {
         issubscreener: '$screeners.issubscreener',
+        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       }},
-    {$match:{issubscreener:0}},
-	
+    {$match:{'issubscreener':0,'isdeleted':false}},
+    // {$match:},
 
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -777,6 +789,7 @@ exports.tmp_out0List = [
                     severity_temperature: 1,
                     severity_respiratory_rate: 1,
                     severity: 1,
+                    isdeleted:1,
                     Age: {
                       $round: {
                         $divide: [
@@ -788,6 +801,7 @@ exports.tmp_out0List = [
                   },
                 },
                 {$match:{issubscreener:0}},
+                {$match:{'isdeleted':false}},
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -1012,8 +1026,10 @@ exports.tmp_out1List = [
     {
       $project: {
         issubscreener: '$screeners.issubscreener',
+        isdeleted:1
       }},
     {$match:{issubscreener:1}},
+    {$match:{'isdeleted':false}},
 	
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -1072,6 +1088,7 @@ exports.tmp_out1List = [
           severity_respiratory_rate: 1,
           severity: 1,
           citizenId: 1,
+          isdeleted:1,
           notes: 1,
           doctorId: 1,
           screenerId: 1,
@@ -1113,6 +1130,7 @@ exports.tmp_out1List = [
       },
 
 		  {$match:{issubscreener:1}},
+      {$match:{isdeleted:false}},
 			  { $skip: query.skip },
 			  { $limit: query.limit },
 			])

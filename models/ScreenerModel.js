@@ -16,6 +16,7 @@ var ScreenerSchema = new mongoose.Schema({
     ngoId :{type:String,required:false},
     parentId :{type:String,required:false},
 	ismapped:{type:Boolean,required:false,default:0},
+	isdeleted:{type: Boolean, required: true},
     issubscreener: {type:Number,required:false, default:0} //0 is false(screener) and 1 is true(sevika)
 }, {timestamps: true});
 
@@ -39,7 +40,8 @@ var ScreenerDetailsSchema = new mongoose.Schema({
 	photo: {type: String},
     rating : {type: Number, required: true, default: 0},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
-    screenerId: {type: String, required: true}
+    screenerId: {type: String, required: true},
+	isdeleted:{type: Boolean, required: true}
 }, {timestamps: true});
 // screenerId=>{ScreenerSchema=>screenerId}
 module.exports.ScreenerDetails = mongoose.model("ScreenerDetails", ScreenerDetailsSchema);
