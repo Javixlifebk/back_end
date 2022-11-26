@@ -4,7 +4,7 @@ const UserModel = require("../models/UserModel");
 const GeneralSurveyModel = require("../models/GeneralSurveyModel");
 const tmp_out0Model = require("../models/tmp_out0Model");
 const tmp_out1Model = require("../models/tmp_out1Model");
-
+const ScreeningCaseModel = require("../models/ScreeningCase");
 const UserDetailsModel = require("../models/UserDetailsModel");
 const { body, query, validationResult } = require("express-validator");
 const moment = require('moment');
@@ -479,7 +479,7 @@ exports.tmp_out0List = [
 		   console.log(query);
 		 
 	// for count 
-	screenercount = await tmp_out0Model.aggregate([
+	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
     // {
     //   $lookup: {
     //     localField: "citizenId",
@@ -552,6 +552,20 @@ exports.tmp_out0List = [
     //     as: "lipidpaneltests",
     //   },
     // },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
+    {
+      $project: {
+        issubscreener: '$screeners.issubscreener',
+      }},
+    {$match:{issubscreener:0}},
+	
 
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -561,9 +575,10 @@ exports.tmp_out0List = [
 		  console.log(screenercountFinal);
 	
 		
-	var	screenerdata =  await tmp_out0Model.aggregate([
+	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
 		  { $sort: { 'createdAt': -1 } },
+     
       {
         $lookup: {
           localField: "citizenId",
@@ -652,6 +667,7 @@ exports.tmp_out0List = [
                     status: 1,
                     severity_bp: 1,
                     severity_spo2: 1,
+                    // issubscreener:"$screener.issubscreener",
                     severity_temperature: 1,
                     severity_pulse: 1,
                     severity_bmi: 1,
@@ -771,6 +787,7 @@ exports.tmp_out0List = [
                     },
                   },
                 },
+                {$match:{issubscreener:0}},
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -959,7 +976,7 @@ exports.tmp_out1List = [
 		   console.log(query);
 		 
 	// for count 
-	sevikacount = await tmp_out1Model.aggregate([
+	sevikacount = await ScreeningCaseModel.ScreeningCase.aggregate([
     // {
     //   $lookup: {
     //     localField: "citizenId",
@@ -984,6 +1001,19 @@ exports.tmp_out1List = [
     //     as: "screeners",
     //   },
     // },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
+    {
+      $project: {
+        issubscreener: '$screeners.issubscreener',
+      }},
+    {$match:{issubscreener:1}},
 	
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -993,7 +1023,7 @@ exports.tmp_out1List = [
 		  console.log(sevikacountFinal);
 	
 		
-	var	sevikadata = await tmp_out1Model.aggregate([
+	var	sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
 	
 		  { $sort: { 'createdAt': -1 } },
 		  {
@@ -1066,7 +1096,7 @@ exports.tmp_out1List = [
           temperature: 1,
           referDocId: 1,
          
-          issubscreener: 1,
+          issubscreener: '$screeners.issubscreener',
           createdAt: {
             $dateToString: {
               format: "%d-%m-%Y",
@@ -1082,7 +1112,7 @@ exports.tmp_out1List = [
         },
       },
 
-		  
+		  {$match:{issubscreener:1}},
 			  { $skip: query.skip },
 			  { $limit: query.limit },
 			])
