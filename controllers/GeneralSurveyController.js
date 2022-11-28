@@ -652,14 +652,14 @@ exports.tmp_out0List = [
     //     as: "lipidpaneltests",
     //   },
     // },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
-      },
-    },
+    // {
+    //   $lookup: {
+    //     localField: "screenerId",
+    //     from: "screeners",
+    //     foreignField: "screenerId",
+    //     as: "screeners",
+    //   },
+    // },
 
 
     
@@ -681,7 +681,7 @@ exports.tmp_out0List = [
     {$match:{'issubscreener':0,'isdeleted':false}},
     // {$match:},
 
-	  { $group: { _id: null, count: { $sum: 1 } } }
+	  // { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
 
@@ -873,8 +873,8 @@ exports.tmp_out0List = [
                     'issubscreener': "$screeners.issubscreener",
                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                    height: 1,
-                    weight: 1,
+                    // height: 1,
+                    // weight: 1,
                     bmi: 1,
                     bpsys: 1,
                     bpdia: 1,
