@@ -580,15 +580,15 @@ exports.tmp_out0List = [
 		 
 	// for count 
 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizens",
-        foreignField: "citizenId",
-        as: "citizens",
-      },
-    },
-    // // {
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizens",
+    //     foreignField: "citizenId",
+    //     as: "citizens",
+    //   },
+    // },
+    // {
     //   $lookup: {
     //     localField: "citizenId",
     //     from: "eyetests",
@@ -596,30 +596,30 @@ exports.tmp_out0List = [
     //     as: "eyetests",
     //   },
     // },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "citizendetails",
-        foreignField: "citizenId",
-        as: "citizendetails",
-      },
-    },
-    {
-      $lookup: {
-        localField: "citizenId",
-        from: "hemoglobins",
-        foreignField: "citizenId",
-        as: "hemoglobins",
-      },
-    },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
-      },
-    },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizendetails",
+    //     foreignField: "citizenId",
+    //     as: "citizendetails",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "hemoglobins",
+    //     foreignField: "citizenId",
+    //     as: "hemoglobins",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "screenerId",
+    //     from: "screeners",
+    //     foreignField: "screenerId",
+    //     as: "screeners",
+    //   },
+    // },
     // {
     //   $lookup: {
     //     localField: "caseId",
@@ -652,33 +652,22 @@ exports.tmp_out0List = [
     //     as: "lipidpaneltests",
     //   },
     // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
-
-
-    
-    { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-    { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
-    // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
-    // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
-     { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
-    // { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
-    { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
-    // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
-    // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
-
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
     {
       $project: {
         issubscreener: '$screeners.issubscreener',
-        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        // 'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       }},
-    {$match:{'issubscreener':0,'isdeleted':false}},
+    {$match:{'issubscreener':0,
+    //'isdeleted':false
+    }},
     // {$match:},
 
 	  // { $group: { _id: null, count: { $sum: 1 } } }
@@ -873,8 +862,8 @@ exports.tmp_out0List = [
                     'issubscreener': "$screeners.issubscreener",
                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                    // height: 1,
-                    // weight: 1,
+                    height: 1,
+                    weight: 1,
                     bmi: 1,
                     bpsys: 1,
                     bpdia: 1,
@@ -903,7 +892,7 @@ exports.tmp_out0List = [
                   },
                 },
                 {$match:{issubscreener:0}},
-                {$match:{'isdeleted':false}},
+                // {$match:{'isdeleted':false}},
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
