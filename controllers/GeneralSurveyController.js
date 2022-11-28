@@ -225,7 +225,7 @@ exports.tmp_out0List = [
 		//   size=10;
 		// }
 		   const query = {}
-		   query.skip = size * (pageNo - 1)
+		   query.skip = 1000 * (5 - 1)
 		   query.limit = parseInt(size)
 		   console.log(query);
 		 
