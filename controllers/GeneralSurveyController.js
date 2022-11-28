@@ -682,14 +682,14 @@ exports.tmp_out0List = [
 	
 		  // { $sort: { 'createdAt': -1 } },
      
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizens",
-      //     foreignField: "citizenId",
-      //     as: "citizens",
-      //   },
-      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizens",
+          foreignField: "citizenId",
+          as: "citizens",
+        },
+      },
       // {
       //   $lookup: {
       //     localField: "citizenId",
@@ -755,7 +755,7 @@ exports.tmp_out0List = [
       //   },
       // },
   
-		            //  { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
                 // { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
@@ -792,14 +792,14 @@ exports.tmp_out0List = [
                     // respiratory_rate: 1,
                     // temperature: 1,
                     // referDocId: 1,
-                    // 'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
+                    'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
                     // 'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-                    // Email: "$citizens.email",
-                    // aadhaar: '$citizens.aadhaar',
+                    Email: "$citizens.email",
+                    aadhaar: '$citizens.aadhaar',
                     // address: '$citizendetails.address',
-                    // Gender: "$citizens.sex",
-                    // Address: "$citizen.address",
-                    // ScreenerId: "$citizens.screenerId",
+                    Gender: "$citizens.sex",
+                    Address: "$citizens.address",
+                    ScreenerId: "$citizens.screenerId",
                     // leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
                     // reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
                     hemoglobins: "$hemoglobins.hemoglobin",
