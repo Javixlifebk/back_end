@@ -698,14 +698,14 @@ exports.tmp_out0List = [
       //     as: "eyetests",
       //   },
       // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizendetails",
-      //     foreignField: "citizenId",
-      //     as: "citizendetails",
-      //   },
-      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizendetails",
+          foreignField: "citizenId",
+          as: "citizendetails",
+        },
+      },
       {
         $lookup: {
           localField: "citizenId",
@@ -756,7 +756,7 @@ exports.tmp_out0List = [
       // },
   
 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-                // { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
+                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
                   // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
@@ -796,7 +796,7 @@ exports.tmp_out0List = [
                     // 'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
                     Email: "$citizens.email",
                     aadhaar: '$citizens.aadhaar',
-                    // address: '$citizendetails.address',
+                    address: '$citizendetails.address',
                     Gender: "$citizens.sex",
                     Address: "$citizens.address",
                     ScreenerId: "$citizens.screenerId",
@@ -843,12 +843,12 @@ exports.tmp_out0List = [
                         date: "$createdAt",
                       },
                     },
-                    // DOB: {
-                    //   $dateToString: {
-                    //     format: "%d-%m-%Y",
-                    //     date: "$citizendetails.dateOfBirth",
-                    //   },
-                    // },
+                    DOB: {
+                      $dateToString: {
+                        format: "%d-%m-%Y",
+                        date: "$citizendetails.dateOfBirth",
+                      },
+                    },
                     // "issubscreenertype": {
                     //   "$switch": {
                     //     "branches": [
@@ -881,14 +881,14 @@ exports.tmp_out0List = [
                     // severity_respiratory_rate: 1,
                     // severity: 1,
                     // isdeleted:1,
-                    // Age: {
-                    //   $round: {
-                    //     $divide: [
-                    //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                    //       365 * 24 * 60 * 60 * 1000,
-                    //     ],
-                    //   },
-                    // },
+                    Age: {
+                      $round: {
+                        $divide: [
+                          { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                          365 * 24 * 60 * 60 * 1000,
+                        ],
+                      },
+                    },
                   },
                 },
                 {$match:{issubscreener:0}},
