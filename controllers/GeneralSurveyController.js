@@ -580,15 +580,15 @@ exports.tmp_out0List = [
 		 
 	// for count 
 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizens",
-    //     foreignField: "citizenId",
-    //     as: "citizens",
-    //   },
-    // },
-    // {
+    {
+      $lookup: {
+        localField: "citizenId",
+        from: "citizens",
+        foreignField: "citizenId",
+        as: "citizens",
+      },
+    },
+    // // {
     //   $lookup: {
     //     localField: "citizenId",
     //     from: "eyetests",
@@ -596,30 +596,30 @@ exports.tmp_out0List = [
     //     as: "eyetests",
     //   },
     // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizendetails",
-    //     foreignField: "citizenId",
-    //     as: "citizendetails",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "hemoglobins",
-    //     foreignField: "citizenId",
-    //     as: "hemoglobins",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
+    {
+      $lookup: {
+        localField: "citizenId",
+        from: "citizendetails",
+        foreignField: "citizenId",
+        as: "citizendetails",
+      },
+    },
+    {
+      $lookup: {
+        localField: "citizenId",
+        from: "hemoglobins",
+        foreignField: "citizenId",
+        as: "hemoglobins",
+      },
+    },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
     // {
     //   $lookup: {
     //     localField: "caseId",
@@ -660,6 +660,19 @@ exports.tmp_out0List = [
         as: "screeners",
       },
     },
+
+
+    
+    { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+    { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
+     { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
+    { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
+
     {
       $project: {
         issubscreener: '$screeners.issubscreener',
@@ -757,7 +770,7 @@ exports.tmp_out0List = [
                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
+                 { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
                 { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
