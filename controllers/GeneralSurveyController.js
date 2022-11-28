@@ -688,14 +688,14 @@ exports.tmp_out0List = [
           as: "citizens",
         },
       },
-      {
-        $lookup: {
-          localField: "citizenId",
-          from: "eyetests",
-          foreignField: "citizenId",
-          as: "eyetests",
-        },
-      },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "eyetests",
+      //     foreignField: "citizenId",
+      //     as: "eyetests",
+      //   },
+      // },
       {
         $lookup: {
           localField: "citizenId",
@@ -720,14 +720,14 @@ exports.tmp_out0List = [
           as: "screeners",
         },
       },
-      {
-        $lookup: {
-          localField: "caseId",
-          from: "bloodglucosetests",
-          foreignField: "caseId",
-          as: "bloodglucosetests",
-        },
-      },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "bloodglucosetests",
+      //     foreignField: "caseId",
+      //     as: "bloodglucosetests",
+      //   },
+      // },
       // {
       //   $lookup: {
       //     localField: "caseId",
@@ -758,7 +758,7 @@ exports.tmp_out0List = [
                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
-                { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
+                // { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
                 { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
@@ -798,11 +798,11 @@ exports.tmp_out0List = [
                     Gender: "$citizens.sex",
                     // Address: "$citizen.address",
                     ScreenerId: "$citizens.screenerId",
-                    leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
-                    reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
-                    hemoglobins: "$hemoglobins.hemoglobin",
-                    unit: "$bloodglucosetests.bloodglucose",
-                    btype: "$bloodglucosetests.type",
+                    // leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
+                    // reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
+                    // hemoglobins: "$hemoglobins.hemoglobin",
+                    // unit: "$bloodglucosetests.bloodglucose",
+                    // btype: "$bloodglucosetests.type",
                     // leukocytes: "$urinetests.leukocytes",
                     // nitrite: "$urinetests.nitrite",
                     // urobilinogen: "$urinetests.urobilinogen",
