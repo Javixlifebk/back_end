@@ -224,85 +224,17 @@ exports.tmp_out0List = [
 		// if(!size){
 		//   size=10;
 		// }
-		   const query = {}
-		   query.skip = 1000 * (5 - 1)
+		  //  const query = {}
+		  //  query.skip = size * (pageNo - 1)
+		  //  query.limit = parseInt(size)
+		  //  console.log(query);
+       const query = {}
+		   query.skip = size * (pageNo - 1)
 		   query.limit = parseInt(size)
 		   console.log(query);
 		 
 	// for count 
 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizens",
-    //     foreignField: "citizenId",
-    //     as: "citizens",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "eyetests",
-    //     foreignField: "citizenId",
-    //     as: "eyetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizendetails",
-    //     foreignField: "citizenId",
-    //     as: "citizendetails",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "hemoglobins",
-    //     foreignField: "citizenId",
-    //     as: "hemoglobins",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "bloodglucosetests",
-    //     foreignField: "caseId",
-    //     as: "bloodglucosetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "urinetests",
-    //     foreignField: "caseId",
-    //     as: "urinetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lungfunctions",
-    //     foreignField: "caseId",
-    //     as: "lungfunctions",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lipidpaneltests",
-    //     foreignField: "caseId",
-    //     as: "lipidpaneltests",
-    //   },
-    // },
     {
       $lookup: {
         localField: "screenerId",
@@ -316,20 +248,13 @@ exports.tmp_out0List = [
         issubscreener: '$screeners.issubscreener',
         'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       }},
-    {$match:{'issubscreener':0,'isdeleted':false}},
-    // {$match:},
-
-	  { $group: { _id: null, count: { $sum: 1 } } }
-	  
+    {$match:{'issubscreener':0,'isdeleted':false}},	  
 		])
-
-		screenercountFinal = screenercount[0].count;
-		  console.log(screenercountFinal);
 	
-		
 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
 		  { $sort: { 'createdAt': -1 } },
+      {$match:{'createdAt':'2022-09-14T22:19:49.437+00:00:0'}},
      
       {
         $lookup: {
@@ -552,7 +477,7 @@ exports.tmp_out0List = [
 	   pages: pageNo,
 		// total: count,
 		size: size,
-		total:screenercountFinal,
+		total:screenercount.length,
 		data: screenerdata,
 		
 		}
