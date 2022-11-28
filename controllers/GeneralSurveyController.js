@@ -214,20 +214,122 @@ exports.tmp_out0List = [
 
 	async (req, res) => {
 		var screenerdata;
-	
+		var screenercount=0;
 		var screenercountFinal = 0 ;
 		const { pageNo, size} = req.body
 		   console.log(req.body);
-	
+		// if(!pageNo){
+		//   pageNo=1;
+		// }
+		// if(!size){
+		//   size=10;
+		// }
 		   const query = {}
 		   query.skip = size * (pageNo - 1)
 		   query.limit = parseInt(size)
 		   console.log(query);
+		 
+	// for count 
+	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizens",
+    //     foreignField: "citizenId",
+    //     as: "citizens",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "eyetests",
+    //     foreignField: "citizenId",
+    //     as: "eyetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "citizendetails",
+    //     foreignField: "citizenId",
+    //     as: "citizendetails",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "citizenId",
+    //     from: "hemoglobins",
+    //     foreignField: "citizenId",
+    //     as: "hemoglobins",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "screenerId",
+    //     from: "screeners",
+    //     foreignField: "screenerId",
+    //     as: "screeners",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "bloodglucosetests",
+    //     foreignField: "caseId",
+    //     as: "bloodglucosetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "urinetests",
+    //     foreignField: "caseId",
+    //     as: "urinetests",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "lungfunctions",
+    //     foreignField: "caseId",
+    //     as: "lungfunctions",
+    //   },
+    // },
+    // {
+    //   $lookup: {
+    //     localField: "caseId",
+    //     from: "lipidpaneltests",
+    //     foreignField: "caseId",
+    //     as: "lipidpaneltests",
+    //   },
+    // },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
+    {
+      $project: {
+        issubscreener: '$screeners.issubscreener',
+        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+      }},
+    {$match:{'issubscreener':0,'isdeleted':false}},
+    // {$match:},
+
+	  { $group: { _id: null, count: { $sum: 1 } } }
+	  
+		])
+
+		screenercountFinal = screenercount[0].count;
+		  console.log(screenercountFinal);
 	
+		
 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
 		  { $sort: { 'createdAt': -1 } },
-      
      
       {
         $lookup: {
@@ -304,9 +406,14 @@ exports.tmp_out0List = [
   
 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
+                // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
+                // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
+                // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
                 { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
                 { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
-               
+                // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
+                // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
+
                 {
                   $project: {
                     status: 1,
@@ -439,8 +546,6 @@ exports.tmp_out0List = [
 			  { $skip: query.skip },
 			  { $limit: query.limit },
 			])
-      screenercountFinal = screenerdata.length;
-		  console.log(screenercountFinal);
 	  response = {
 		message: 'data fatch successfully',
 		status: 1,
