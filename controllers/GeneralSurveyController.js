@@ -706,14 +706,14 @@ exports.tmp_out0List = [
       //     as: "citizendetails",
       //   },
       // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "hemoglobins",
-      //     foreignField: "citizenId",
-      //     as: "hemoglobins",
-      //   },
-      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "hemoglobins",
+          foreignField: "citizenId",
+          as: "hemoglobins",
+        },
+      },
       {
         $lookup: {
           localField: "screenerId",
@@ -759,7 +759,7 @@ exports.tmp_out0List = [
                 // { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
-                //  { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
+                  // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
                 { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
                 // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
@@ -776,7 +776,7 @@ exports.tmp_out0List = [
                     // severity_bmi: 1,
                     // severity_respiratory_rate: 1,
                     // severity: 1,
-                    // citizenId: 1,
+                    citizenId: 1,
                     // notes: 1,
                     // doctorId: 1,
                     // screenerId: 1,
@@ -802,7 +802,7 @@ exports.tmp_out0List = [
                     // ScreenerId: "$citizens.screenerId",
                     // leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
                     // reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
-                    // hemoglobins: "$hemoglobins.hemoglobin",
+                    hemoglobins: "$hemoglobins.hemoglobin",
                     // unit: "$bloodglucosetests.bloodglucose",
                     // btype: "$bloodglucosetests.type",
                     // leukocytes: "$urinetests.leukocytes",
