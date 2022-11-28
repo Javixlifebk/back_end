@@ -793,7 +793,7 @@ exports.tmp_out0List = [
                     // temperature: 1,
                     // referDocId: 1,
                     'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-                    // 'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+                    'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
                     Email: "$citizens.email",
                     aadhaar: '$citizens.aadhaar',
                     address: '$citizendetails.address',
@@ -849,17 +849,17 @@ exports.tmp_out0List = [
                     //     date: "$citizendetails.dateOfBirth",
                     //   },
                     // },
-                    // "issubscreenertype": {
-                    //   "$switch": {
-                    //     "branches": [
-                    //       { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
-                    //       { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
+                    "issubscreenertype": {
+                      "$switch": {
+                        "branches": [
+                          { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
+                          { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
 
-                    //     ],
-                    //     "default": "none"
-                    //   },
-                    // },
-                    'issubscreener': "$screeners.issubscreener",
+                        ],
+                        "default": "none"
+                      },
+                    },
+                    // 'issubscreener': "$screeners.issubscreener",
                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
                     height: 1,
