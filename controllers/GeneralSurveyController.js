@@ -670,7 +670,7 @@ exports.tmp_out0List = [
     }},
     // {$match:},
 
-	  // { $group: { _id: null, count: { $sum: 1 } } }
+	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
 
