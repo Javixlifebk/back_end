@@ -680,7 +680,7 @@ exports.tmp_out0List = [
 		
 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
-		  { $sort: { 'createdAt': -1 } },
+		  // { $sort: { 'createdAt': -1 } },
      
       {
         $lookup: {
@@ -880,7 +880,7 @@ exports.tmp_out0List = [
                     severity_temperature: 1,
                     severity_respiratory_rate: 1,
                     severity: 1,
-                    isdeleted:1,
+                    // isdeleted:1,
                     Age: {
                       $round: {
                         $divide: [
