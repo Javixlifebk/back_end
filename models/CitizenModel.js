@@ -17,6 +17,7 @@ var CitizenSchema = new mongoose.Schema({
 	Age : {type: String, required: false},
     pstatus : {type: Number, required: true , default: 0},
     isInstant: {type: Number, required: true , default: 0},
+	isdeleted: {type: Boolean, default: false},
     screenerId :{type:String,required:true},
 	isUnrefer: {type: Boolean, required: true, default: 0},
 }, {timestamps: true});
@@ -41,6 +42,7 @@ var CitizenDetailsSchema = new mongoose.Schema({
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     citizenId: {type: String, required: true},
 	isUnrefer: {type: Boolean, required: true, default: 0},
+	isdeleted: {type: Boolean, default: false},
 	caseStatus:{type: Number, required: false, default: 0}
 }, {timestamps: true});
 

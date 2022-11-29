@@ -664,14 +664,14 @@ exports.updateScreenerDeletedAuth = [
 			} else {
 
 
-				ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
+				ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
 					if (err) {
 						return apiResponse.ErrorResponse(res, err);
 					}
 					else {
 						if (resDoc) {
 
-							ScreenerModel.Screener.findOneAndUpdate({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
+							ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
 								if (ierr) {
 									return apiResponse.ErrorResponse(res, ierr);
 								}
