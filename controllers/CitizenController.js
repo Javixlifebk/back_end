@@ -1535,6 +1535,7 @@ exports.citizenListSearcherPagination = [
 
 					await CitizenModel.Citizen.aggregate([
 						queryP,
+						{$match:{'isdeleted':false}},
 						{ '$sort': { 'createdAt': -1 } },
 						{
 							'$lookup': {
@@ -1699,6 +1700,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 			CitizenModel.Citizen.aggregate([
 							queryP,
 							{'$sort':{'createdAt':-1}},
+							{$match:{'isdeleted':false}},
 							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
@@ -1752,6 +1754,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 								'screener.firstName':1,
 								'screener.lastName':1,
 								 'cases': 1,
+								 'isdeleted':1
 								//  {
             //     					'$filter' : {
             //         'input': '$cases',
@@ -2673,3 +2676,87 @@ exports.listcity = [
 
 ];
 
+	//update and add isdeleted variable in screener table
+exports.updateandCitizenScreener= [
+		(req, res) => { 
+			
+			// let id = req.params.id;
+	
+
+			// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+		  
+			CitizenModel.Citizen.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+
+		  
+			  .then((note) => {
+				if (!note) {
+				  return res.status(404).send({
+					message: "data not found with id " + req.params.id,
+				  });
+				}
+				res.send(note);
+			  })
+			  .catch((err) => {
+			  
+				if (err.kind === "ObjectId") {
+				  return res.status(404).send({
+					message: "data not found with id ",
+				  });
+				}
+				return res.status(500).send({
+				  message: "Error updating note with id ",
+				});
+			  });
+			   
+		}
+
+						
+	
+	];
+
+
+	
+exports.CitizenScreenerDeletedAuth = [
+	
+
+	(req, res) => {
+
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
+
+
+				CitizenModel.Citizen.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
+					if (err) {
+						return apiResponse.ErrorResponse(res, err);
+					}
+					else {
+						if (resDoc) {
+
+							CitizenModel.Citizen.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
+								if (ierr) {
+									return apiResponse.ErrorResponse(res, ierr);
+								}
+								else {
+									if (iresDoc) {
+
+										return apiResponse.successResponse(res, "Updated Successfullly.");
+									}
+									else apiResponse.ErrorResponse(res, "Invalid User");
+								}
+							});
+						}
+						else apiResponse.ErrorResponse(res, "Invalid User");
+					}
+				});
+
+
+
+			}
+		} catch (err) {
+
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}];
