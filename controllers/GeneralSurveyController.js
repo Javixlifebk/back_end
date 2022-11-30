@@ -741,6 +741,7 @@ exports.tmp_out0List = [
                     severity_pulse: 1,
                     severity_temperature: 1,
                     severity_respiratory_rate: 1,
+                    isdeleted:1,
                     severity: 1,
                     Age: {
                       $round: {
@@ -751,7 +752,10 @@ exports.tmp_out0List = [
                       },
                     },
                   },
+                 
                 },
+                {'$match':{issubscreener:0}},
+                {'$match':{isdeleted:false}},
 		  
 			]).skip(1000).limit(1000)
       .exec((err ,screenerdata) => {
