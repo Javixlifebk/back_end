@@ -212,7 +212,6 @@ exports.GeneralSurveyList = [
 
 exports.tmp_out0List = [
 
-
 	async (req, res) => {
 		var screenerdata;
 		var screenercount=0;
@@ -304,6 +303,21 @@ exports.tmp_out0List = [
     //     as: "lipidpaneltests",
     //   },
     // },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
+    {
+      $project: {
+        issubscreener: '$screeners.issubscreener',
+        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+      }},
+    {$match:{'issubscreener':0,'isdeleted':false}},
+    // {$match:},
 
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -315,8 +329,8 @@ exports.tmp_out0List = [
 		
 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
-		  // { $sort: { 'createdAt': -1 } },
-   
+		  { $sort: { 'createdAt': 1 } },
+     
       {
         $lookup: {
           localField: "citizenId",
@@ -405,6 +419,7 @@ exports.tmp_out0List = [
                     status: 1,
                     severity_bp: 1,
                     severity_spo2: 1,
+                    // issubscreener:"$screener.issubscreener",
                     severity_temperature: 1,
                     severity_pulse: 1,
                     severity_bmi: 1,
@@ -470,13 +485,12 @@ exports.tmp_out0List = [
                     non_hdl: "$lipidpaneltests.non_hdl",
                     lipidglucose: "$lipidpaneltests.glucose",
                     type: "$lipidpaneltests.type",
-                    
+                    caseId: 1,
                     createdAt: {
                       $dateToString: {
                         format: "%d-%m-%Y",
                         date: "$createdAt",
                       },
-                      
                     },
                     DOB: {
                       $dateToString: {
@@ -497,10 +511,25 @@ exports.tmp_out0List = [
                     'issubscreener': "$screeners.issubscreener",
                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                   
+                    height: 1,
+                    weight: 1,
+                    bmi: 1,
+                    bpsys: 1,
+                    bpdia: 1,
+                    spo2: 1,
+                    pulse: 1,
+                    temperature: 1,
+                    arm: 1,
                     Mobile: "$citizens.mobile",
                     // createdAt: 1,
-                  
+                    severity_bp: 1,
+                    severity_bmi: 1,
+                    severity_spo2: 1,
+                    severity_pulse: 1,
+                    severity_temperature: 1,
+                    severity_respiratory_rate: 1,
+                    severity: 1,
+                    isdeleted:1,
                     Age: {
                       $round: {
                         $divide: [
@@ -511,9 +540,9 @@ exports.tmp_out0List = [
                     },
                   },
                 },
-              
-                {'$match':{issubscreener:0}},
-                {'$match':{isdeleted:false}},
+                {$match:{issubscreener:0}},
+                {$match:{'isdeleted':false}},
+		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
 			])
