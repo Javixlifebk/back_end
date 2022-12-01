@@ -216,18 +216,18 @@ exports.tmp_out0List = [
 		var screenerdata;
 		var screenercount=0;
 		var screenercountFinal = 0 ;
-		// const { pageNo, size} = req.body
-		//    console.log(req.body);
+		const { pageNo, size} = req.body
+		   console.log(req.body);
 		// if(!pageNo){
 		//   pageNo=1;
 		// }
 		// if(!size){
 		//   size=10;
 		// }
-		  //  const query = {}
-		  //  query.skip = size * (pageNo - 1)
-		  //  query.limit = parseInt(size)
-		  //  console.log(query);
+		   const query = {}
+		   query.skip = size * (pageNo - 1)
+		   query.limit = parseInt(size)
+		   console.log(query);
 		 
 	// for count 
 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
@@ -329,8 +329,8 @@ exports.tmp_out0List = [
 		
 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
 	
-		  { $sort: { 'createdAt': 1 } },
-      {$limit:4000},
+		  { $sort: { 'createdAt': -1 } },
+     
      
       {
         $lookup: {
@@ -486,7 +486,7 @@ exports.tmp_out0List = [
                     non_hdl: "$lipidpaneltests.non_hdl",
                     lipidglucose: "$lipidpaneltests.glucose",
                     type: "$lipidpaneltests.type",
-                    caseId: 1,
+                   
                     createdAt: {
                       $dateToString: {
                         format: "%d-%m-%Y",
@@ -512,24 +512,10 @@ exports.tmp_out0List = [
                     'issubscreener': "$screeners.issubscreener",
                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                    height: 1,
-                    weight: 1,
-                    bmi: 1,
-                    bpsys: 1,
-                    bpdia: 1,
-                    spo2: 1,
-                    pulse: 1,
-                    temperature: 1,
-                    arm: 1,
+                  
                     Mobile: "$citizens.mobile",
                     // createdAt: 1,
-                    severity_bp: 1,
-                    severity_bmi: 1,
-                    severity_spo2: 1,
-                    severity_pulse: 1,
-                    severity_temperature: 1,
-                    severity_respiratory_rate: 1,
-                    severity: 1,
+                   
                     isdeleted:1,
                     Age: {
                       $round: {
@@ -544,15 +530,15 @@ exports.tmp_out0List = [
                 {$match:{issubscreener:0}},
                 {$match:{'isdeleted':false}},
 		  
-			  // { $skip: query.skip },
-			  // { $limit: query.limit },
+			  { $skip: query.skip },
+			  { $limit: query.limit },
 			])
 	  response = {
 		message: 'data fatch successfully',
 		status: 1,
-	  //  pages: pageNo,
+	   pages: pageNo,
 		// total: count,
-		// size: size,
+		size: size,
 		total:screenercountFinal,
 		data: screenerdata,
 		
