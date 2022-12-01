@@ -550,9 +550,9 @@ exports.tmp_out0List = [
 	  response = {
 		message: 'data fatch successfully',
 		status: 1,
-	   pages: pageNo,
+	  //  pages: pageNo,
 		// total: count,
-		size: size,
+		// size: size,
 		total:screenercountFinal,
 		data: screenerdata,
 		
