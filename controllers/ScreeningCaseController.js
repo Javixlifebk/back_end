@@ -889,16 +889,16 @@ exports.screeningcasesPaginationList = [
       {"$unwind":"$citizens"},
 
       {'$project':{
-        'citizenId':1,
+        'citizenId':{ $concat: ["'", "$citizenId", "'"] },
         'notes':1,
         'doctorId':1,
         'status':1,
-        'screenerId':1,
+        'screenerId':{ $concat: ["'", "$screenerId", "'"] },
         'height':1,
         'weight':1,
         'bmi':1,
       
-        'caseId':1,
+        'caseId':{ $concat: ["'", "$caseId", "'"] },
         'pulse':1,
         'respiratory_rate':1,
         'temperature':1,
