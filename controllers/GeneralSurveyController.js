@@ -163,7 +163,7 @@ exports.GeneralSurveyList = [
               as: "citizens",
             },
           },
-             
+        
           {'$lookup': {
             'localField':'citizenId',
             'from':'citizendetails',
@@ -171,6 +171,17 @@ exports.GeneralSurveyList = [
             'as':'info'	
            }
           },
+          {
+            $lookup: {
+              localField: "screenerId",
+              from: "screeners",
+              foreignField: "screenerId",
+              as: "screeners",
+            },
+          },
+             
+          // {'$unwind':{path:"$citizens", preserveNullAndEmptyArrays: true }},
+          {'$unwind':{path:"$screeners", preserveNullAndEmptyArrays: true }},
           // { $limit: 100 },
           {
             $project: {
@@ -186,11 +197,14 @@ exports.GeneralSurveyList = [
               NoOfChildrenFemales: 1,
               createdAt: 1,
               updatedAt: 1,
-								
+          
+              'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
 								address:'$info.address',
 								mobile:'$citizens.mobile',
-								firstName:'$citizens.firstName',
-								lastName:'$citizens.lastName',
+								// 'citizens.firstName':1,
+                "citizens.firstName":1,
+                 "citizens.lastName":1,
+							
 								aadhaar:'$citizens.aadhaar',
             },
           },
@@ -198,7 +212,7 @@ exports.GeneralSurveyList = [
           let user = users[0];
           if (user) {
             return apiResponse.successResponseWithData(res, "Found", users);
-          } else return apiResponse.ErrorResponse(res, "Not Found");
+          } 
         });
       }
     } catch (err) {
@@ -2206,11 +2220,11 @@ exports.tmp_out1List = [
           severity_bmi: 1,
           severity_respiratory_rate: 1,
           severity: 1,
-          citizenId: 1,
+          citizenId:{ $concat: [" '  ", "$citizenId", " '  "] },
           isdeleted:1,
           notes: 1,
           doctorId: 1,
-          screenerId: 1,
+          screenerId: { $concat: [" '  ", "$screenerId", " '  "] },
           height: 1,
           weight: 1,
           bmi: 1,
@@ -2218,7 +2232,7 @@ exports.tmp_out1List = [
           bpdia: 1,
           arm: 1,
           spo2: 1,
-          caseId: 1,
+          caseId:  { $concat: [" '  ", "$caseId", " '  "] },
           pulse: 1,
           respiratory_rate: 1,
           Age: {
