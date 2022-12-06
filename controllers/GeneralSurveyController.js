@@ -7,7 +7,7 @@ const tmp_out1Model = require("../models/tmp_out1Model");
 const ScreeningCaseModel = require("../models/ScreeningCase");
 const UserDetailsModel = require("../models/UserDetailsModel");
 const { body, query, validationResult } = require("express-validator");
-const moment = require('moment');
+const moment = require("moment");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
 const apiResponse = require("../helpers/apiResponse");
@@ -17,7 +17,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 const lipidcritical = require("../models/lipidcriticalcitizenModel");
-const url = require('url');
+const url = require("url");
 exports.addGeneralSurvey = [
   body("screenerId")
     .isLength({ min: 3 })
@@ -109,7 +109,6 @@ exports.addGeneralSurvey = [
         });
       }
     } catch (err) {
-
       return apiResponse.ErrorResponse(res, err);
     }
   },
@@ -163,13 +162,14 @@ exports.GeneralSurveyList = [
               as: "citizens",
             },
           },
-        
-          {'$lookup': {
-            'localField':'citizenId',
-            'from':'citizendetails',
-            'foreignField':'citizenId',
-            'as':'info'	
-           }
+
+          {
+            $lookup: {
+              localField: "citizenId",
+              from: "citizendetails",
+              foreignField: "citizenId",
+              as: "info",
+            },
           },
           {
             $lookup: {
@@ -179,9 +179,9 @@ exports.GeneralSurveyList = [
               as: "screeners",
             },
           },
-             
+
           // {'$unwind':{path:"$citizens", preserveNullAndEmptyArrays: true }},
-          {'$unwind':{path:"$screeners", preserveNullAndEmptyArrays: true }},
+          { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
           // { $limit: 100 },
           {
             $project: {
@@ -197,22 +197,24 @@ exports.GeneralSurveyList = [
               NoOfChildrenFemales: 1,
               createdAt: 1,
               updatedAt: 1,
-          
-              'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-								address:'$info.address',
-								mobile:'$citizens.mobile',
-								// 'citizens.firstName':1,
-                "citizens.firstName":1,
-                 "citizens.lastName":1,
-							
-								aadhaar:'$citizens.aadhaar',
+
+              screenerfullname: {
+                $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+              },
+              address: "$info.address",
+              mobile: "$citizens.mobile",
+              // 'citizens.firstName':1,
+              "citizens.firstName": 1,
+              "citizens.lastName": 1,
+
+              aadhaar: "$citizens.aadhaar",
             },
           },
         ]).then((users) => {
           let user = users[0];
           if (user) {
             return apiResponse.successResponseWithData(res, "Found", users);
-          } 
+          }
         });
       }
     } catch (err) {
@@ -221,131 +223,126 @@ exports.GeneralSurveyList = [
   },
 ];
 
-
 //pagination api
 
 exports.tmp_out0List = [
+  async (req, res) => {
+    var screenerdata;
+    var screenercount = 0;
+    var screenercountFinal = 0;
+    const { pageNo, size } = req.body;
+    console.log(req.body);
+    // if(!pageNo){
+    //   pageNo=1;
+    // }
+    // if(!size){
+    //   size=10;
+    // }
+    const query = {};
+    query.skip = size * (pageNo - 1);
+    query.limit = parseInt(size);
+    console.log(query);
 
-	async (req, res) => {
-		var screenerdata;
-		var screenercount=0;
-		var screenercountFinal = 0 ;
-		const { pageNo, size} = req.body
-		   console.log(req.body);
-		// if(!pageNo){
-		//   pageNo=1;
-		// }
-		// if(!size){
-		//   size=10;
-		// }
-		   const query = {}
-		   query.skip = size * (pageNo - 1)
-		   query.limit = parseInt(size)
-		   console.log(query);
-		 
-	// for count 
-	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizens",
-    //     foreignField: "citizenId",
-    //     as: "citizens",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "eyetests",
-    //     foreignField: "citizenId",
-    //     as: "eyetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizendetails",
-    //     foreignField: "citizenId",
-    //     as: "citizendetails",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "hemoglobins",
-    //     foreignField: "citizenId",
-    //     as: "hemoglobins",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "bloodglucosetests",
-    //     foreignField: "caseId",
-    //     as: "bloodglucosetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "urinetests",
-    //     foreignField: "caseId",
-    //     as: "urinetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lungfunctions",
-    //     foreignField: "caseId",
-    //     as: "lungfunctions",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lipidpaneltests",
-    //     foreignField: "caseId",
-    //     as: "lipidpaneltests",
-    //   },
-    // },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
+    // for count
+    screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizens",
+      //     foreignField: "citizenId",
+      //     as: "citizens",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "eyetests",
+      //     foreignField: "citizenId",
+      //     as: "eyetests",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizendetails",
+      //     foreignField: "citizenId",
+      //     as: "citizendetails",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "hemoglobins",
+      //     foreignField: "citizenId",
+      //     as: "hemoglobins",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "screenerId",
+      //     from: "screeners",
+      //     foreignField: "screenerId",
+      //     as: "screeners",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "bloodglucosetests",
+      //     foreignField: "caseId",
+      //     as: "bloodglucosetests",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "urinetests",
+      //     foreignField: "caseId",
+      //     as: "urinetests",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "lungfunctions",
+      //     foreignField: "caseId",
+      //     as: "lungfunctions",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "lipidpaneltests",
+      //     foreignField: "caseId",
+      //     as: "lipidpaneltests",
+      //   },
+      // },
+      {
+        $lookup: {
+          localField: "screenerId",
+          from: "screeners",
+          foreignField: "screenerId",
+          as: "screeners",
+        },
       },
-    },
-    {
-      $project: {
-        issubscreener: '$screeners.issubscreener',
-        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-      }},
-    {$match:{'issubscreener':0,'isdeleted':false}},
-    // {$match:},
+      {
+        $project: {
+          issubscreener: "$screeners.issubscreener",
+          isdeleted: 1,
+        },
+      },
+      { $match: { issubscreener: 0, isdeleted: false } },
+      // {$match:},
 
-	  { $group: { _id: null, count: { $sum: 1 } } }
-	  
-		])
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ]);
 
-		screenercountFinal = screenercount[0].count;
-		  console.log(screenercountFinal);
-	
-		
-	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
-	
-		  { $sort: { 'createdAt': -1 } },
-     
-     
+    screenercountFinal = screenercount[0].count;
+    console.log(screenercountFinal);
+
+    var screenerdata = await ScreeningCaseModel.ScreeningCase.aggregate([
+      { $sort: { createdAt: -1 } },
+
       {
         $lookup: {
           localField: "citizenId",
@@ -418,147 +415,157 @@ exports.tmp_out0List = [
           as: "lipidpaneltests",
         },
       },
-  
-		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-                { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
-                { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
-                { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
-                // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
 
+      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      {
+        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      },
+      // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
+      // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
+      // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
+      // { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
+      // { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
+
+      {
+        $project: {
+          status: 1,
+          severity_bp: 1,
+          severity_spo2: 1,
+          // issubscreener:"$screener.issubscreener",
+          severity_temperature: 1,
+          severity_pulse: 1,
+          severity_bmi: 1,
+          severity_respiratory_rate: 1,
+          severity: 1,
+          citizenId: { $concat: ["'", "$citizenId", "'"] },
+          notes: 1,
+          doctorId: 1,
+          // screenerId: { $concat: ["'", "$screenerId", "'"] },
+          height: 1,
+          weight: 1,
+          bmi: 1,
+          bpsys: 1,
+          bpdia: 1,
+          arm: 1,
+          spo2: 1,
+          caseId: { $concat: ["'", "$caseId", "'"] },
+          pulse: 1,
+          respiratory_rate: 1,
+          temperature: 1,
+          referDocId: 1,
+          fullname: {
+            $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+          },
+          screenerfullname: {
+            $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+          },
+          Email: "$citizens.email",
+          aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
+          address: "$citizendetails.address",
+          Gender: "$citizens.sex",
+          // Address: "$citizen.address",
+          ScreenerId: { $concat: ["'", "$citizens.screenerId", "'"] },
+          leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
+          reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
+          hemoglobins: "$hemoglobins.hemoglobin",
+          unit: "$bloodglucosetests.bloodglucose",
+          btype: "$bloodglucosetests.type",
+          leukocytes: "$urinetests.leukocytes",
+          nitrite: "$urinetests.nitrite",
+          urobilinogen: "$urinetests.urobilinogen",
+          protein: "$urinetests.protein",
+          blood: "$urinetests.blood",
+          specificGravity: "$urinetests.specificGravity",
+          ketone: "$urinetests.ketone",
+          bilirubin: "$urinetests.bilirubin",
+          PH: "$urinetests.ph",
+          urineglucose: "$urinetests.glucose",
+          fvc_predicted: "$lungfunctions.fvc_predicted",
+          fvc_actual: "$lungfunctions.fvc_actual",
+          fev1_predicted: "$lungfunctions.fev1_predicted",
+          fev1_actual: "$lungfunctions.fev1_actual",
+          fvc1_predicted: "$lungfunctions.fvc1_predicted",
+          fvc1_actual: "$lungfunctions.fvc1_actual",
+          pef_predicted: "$lungfunctions.pef_predicted",
+          pef_actual: "$lungfunctions.pef_actual",
+          fvc_predicted_percent: "$lungfunctions.fvc_predicted_percent",
+          fev1_predicted_percent: "$lungfunctions.fev1_predicted_percent",
+          fvc1_predicted_percent: "$lungfunctions.fvc1_predicted_percent",
+          pef_predicted_percent: "$lungfunctions.pef_predicted_percent",
+          cholesterol: "$lipidpaneltests.cholesterol",
+          hdlcholesterol: "$lipidpaneltests.hdlcholesterol",
+          triglycerides: "$lipidpaneltests.triglycerides",
+          ldl: "$lipidpaneltests.ldl",
+          tcl_hdl: "$lipidpaneltests.tcl_hdl",
+          ldl_hdl: "$lipidpaneltests.ldl_hdl",
+          non_hdl: "$lipidpaneltests.non_hdl",
+          lipidglucose: "$lipidpaneltests.glucose",
+          type: "$lipidpaneltests.type",
+
+          createdAt: {
+            $dateToString: {
+              format: "%d-%m-%Y",
+              date: "$createdAt",
+            },
+          },
+          DOB: {
+            $dateToString: {
+              format: "%d-%m-%Y",
+              date: "$citizendetails.dateOfBirth",
+            },
+          },
+          issubscreenertype: {
+            $switch: {
+              branches: [
                 {
-                  $project: {
-                    status: 1,
-                    severity_bp: 1,
-                    severity_spo2: 1,
-                    // issubscreener:"$screener.issubscreener",
-                    severity_temperature: 1,
-                    severity_pulse: 1,
-                    severity_bmi: 1,
-                    severity_respiratory_rate: 1,
-                    severity: 1,
-                    citizenId: { $concat: ["'", "$citizenId", "'"] },
-                    notes: 1,
-                    doctorId: 1,
-                    // screenerId: { $concat: ["'", "$screenerId", "'"] },
-                    height: 1,
-                    weight: 1,
-                    bmi: 1,
-                    bpsys: 1,
-                    bpdia: 1,
-                    arm: 1,
-                    spo2: 1,
-                    caseId:  { $concat: ["'", "$caseId", "'"] },
-                    pulse: 1,
-                    respiratory_rate: 1,
-                    temperature: 1,
-                    referDocId: 1,
-                    'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-                    'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-                    Email: "$citizens.email",
-                    aadhaar:  { $concat: ["'", "$citizens.aadhaar", "'"] },
-                    address: '$citizendetails.address',
-                    Gender: "$citizens.sex",
-                    // Address: "$citizen.address",
-                    ScreenerId: { $concat: ["'", "$citizens.screenerId", "'"] },
-                    leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
-                    reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
-                    hemoglobins: "$hemoglobins.hemoglobin",
-                    unit: "$bloodglucosetests.bloodglucose",
-                    btype: "$bloodglucosetests.type",
-                    leukocytes: "$urinetests.leukocytes",
-                    nitrite: "$urinetests.nitrite",
-                    urobilinogen: "$urinetests.urobilinogen",
-                    protein: "$urinetests.protein",
-                    blood: "$urinetests.blood",
-                    specificGravity: "$urinetests.specificGravity",
-                    ketone: "$urinetests.ketone",
-                    bilirubin: "$urinetests.bilirubin",
-                    PH: "$urinetests.ph",
-                    urineglucose: "$urinetests.glucose",
-                    fvc_predicted: "$lungfunctions.fvc_predicted",
-                    fvc_actual: "$lungfunctions.fvc_actual",
-                    fev1_predicted: "$lungfunctions.fev1_predicted",
-                    fev1_actual: "$lungfunctions.fev1_actual",
-                    fvc1_predicted: "$lungfunctions.fvc1_predicted",
-                    fvc1_actual: "$lungfunctions.fvc1_actual",
-                    pef_predicted: "$lungfunctions.pef_predicted",
-                    pef_actual: "$lungfunctions.pef_actual",
-                    fvc_predicted_percent: "$lungfunctions.fvc_predicted_percent",
-                    fev1_predicted_percent: "$lungfunctions.fev1_predicted_percent",
-                    fvc1_predicted_percent: "$lungfunctions.fvc1_predicted_percent",
-                    pef_predicted_percent: "$lungfunctions.pef_predicted_percent",
-                    cholesterol: "$lipidpaneltests.cholesterol",
-                    hdlcholesterol: "$lipidpaneltests.hdlcholesterol",
-                    triglycerides: "$lipidpaneltests.triglycerides",
-                    ldl: "$lipidpaneltests.ldl",
-                    tcl_hdl: "$lipidpaneltests.tcl_hdl",
-                    ldl_hdl: "$lipidpaneltests.ldl_hdl",
-                    non_hdl: "$lipidpaneltests.non_hdl",
-                    lipidglucose: "$lipidpaneltests.glucose",
-                    type: "$lipidpaneltests.type",
-                   
-                    createdAt: {
-                      $dateToString: {
-                        format: "%d-%m-%Y",
-                        date: "$createdAt",
-                      },
-                    },
-                    DOB: {
-                      $dateToString: {
-                        format: "%d-%m-%Y",
-                        date: "$citizendetails.dateOfBirth",
-                      },
-                    },
-                    "issubscreenertype": {
-                      "$switch": {
-                        "branches": [
-                          { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
-                          { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
-
-                        ],
-                        "default": "none"
-                      },
-                    },
-                    'issubscreener': "$screeners.issubscreener",
-                    // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-                    // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                  
-                    Mobile: "$citizens.mobile",
-                    // createdAt: 1,
-                   
-                    isdeleted:1,
-                    Age: {
-                      $round: {
-                        $divide: [
-                          { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                          365 * 24 * 60 * 60 * 1000,
-                        ],
-                      },
-                    },
-                  },
+                  case: { $eq: ["$screeners.issubscreener", 0] },
+                  then: "Sanyojika",
                 },
-                {$match:{issubscreener:0}},
-                {$match:{'isdeleted':false}},
-		  
-			  { $skip: query.skip },
-			  { $limit: query.limit },
-			])
-	  response = {
-		message: 'data fatch successfully',
-		status: 1,
-	   pages: pageNo,
-		// total: count,
-		size: size,
-		total:screenercountFinal,
-		data: screenerdata,
-		
-		}
-		res.json(response)
-	}
+                {
+                  case: { $eq: ["$screeners.issubscreener", 1] },
+                  then: "Sevika",
+                },
+              ],
+              default: "none",
+            },
+          },
+          issubscreener: "$screeners.issubscreener",
+          // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
+          // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
+
+          Mobile: "$citizens.mobile",
+          // createdAt: 1,
+
+          isdeleted: 1,
+          Age: {
+            $round: {
+              $divide: [
+                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                365 * 24 * 60 * 60 * 1000,
+              ],
+            },
+          },
+        },
+      },
+      { $match: { issubscreener: 0 } },
+      { $match: { isdeleted: false } },
+
+      { $skip: query.skip },
+      { $limit: query.limit },
+    ]);
+    response = {
+      message: "data fatch successfully",
+      status: 1,
+      pages: pageNo,
+      // total: count,
+      size: size,
+      total: screenercountFinal,
+      data: screenerdata,
+    };
+    res.json(response);
+  },
 ];
 // exports.tmp_out0List = [
 
@@ -636,7 +643,7 @@ exports.tmp_out0List = [
 //           as: "lipidpaneltests",
 //         },
 //       },
-  
+
 // 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
 //                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
 //                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
@@ -743,7 +750,7 @@ exports.tmp_out0List = [
 //                     'issubscreener': "$screeners.issubscreener",
 //                     // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
 //                     // 'Screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-                   
+
 //                     Mobile: "$citizens.mobile",
 //                     // createdAt: 1,
 //                     severity_bp: 1,
@@ -763,11 +770,11 @@ exports.tmp_out0List = [
 //                       },
 //                     },
 //                   },
-                 
+
 //                 },
 //                 {'$match':{issubscreener:0}},
 //                 {'$match':{isdeleted:false}},
-		  
+
 // 			]).skip(10).limit(100)
 //       .exec((err ,screenerdata) => {
 //         if (err) {
@@ -782,7 +789,7 @@ exports.tmp_out0List = [
 //           // size: size,
 //           data: screenerdata
 //           }
-          
+
 //           res.json(response)
 //         }
 //         })
@@ -802,7 +809,6 @@ exports.tmp_out0List = [
 //           errors.array()
 //         );
 //       } else {
-     
 
 //         ScreeningCaseModel.ScreeningCase
 //           .aggregate([
@@ -817,7 +823,7 @@ exports.tmp_out0List = [
 //                 as: "citizens",
 //               },
 //             },
-            
+
 //             {
 //               $lookup: {
 //                 localField: "citizenId",
@@ -834,7 +840,7 @@ exports.tmp_out0List = [
 //                 as: "citizendetails",
 //               },
 //             },
-           
+
 //             {
 //               $lookup: {
 //                 localField: "citizenId",
@@ -851,7 +857,7 @@ exports.tmp_out0List = [
 //                 as: "screeners",
 //               },
 //             },
-          
+
 //             {
 //               $lookup: {
 //                 localField: "caseId",
@@ -893,8 +899,7 @@ exports.tmp_out0List = [
 //                            { $unwind: { path:  "$screeners", preserveNullAndEmptyArrays: true } },
 //       { $unwind: { path: "$bloodglucosetests", preserveNullAndEmptyArrays: true } },
 //       { $unwind: { path: "$urinetests", preserveNullAndEmptyArrays: true } },
-            
-           
+
 //             {
 //               $project: {
 //                 status: 1,
@@ -934,9 +939,9 @@ exports.tmp_out0List = [
 //                 hemoglobins:"$hemoglobins.hemoglobin",
 //                 unit:"$bloodglucosetests.bloodglucose",
 //                 btype:"$bloodglucosetests.type",
-//                 leukocytes:"$urinetests.leukocytes", 
+//                 leukocytes:"$urinetests.leukocytes",
 //                 nitrite:"$urinetests.nitrite",
-//                 urobilinogen:"$urinetests.urobilinogen", 
+//                 urobilinogen:"$urinetests.urobilinogen",
 //                 protein:"$urinetests.protein",
 //                 blood:"$urinetests.blood",
 //                 specificGravity:"$urinetests.specificGravity",
@@ -964,8 +969,7 @@ exports.tmp_out0List = [
 //                 non_hdl:"$lipidpaneltests.non_hdl",
 //                 glucose:"$lipidpaneltests.glucose",
 //                 type:"$lipidpaneltests.type",
-  
-  
+
 //                 caseId:1,
 //                 createdAt: {
 //                     $dateToString: {
@@ -984,17 +988,17 @@ exports.tmp_out0List = [
 //                       "branches": [
 //                         { "case": { "$eq": ["$screeners.issubscreener", 0] }, "then": "Sanyojika" },
 //                         { "case": { "$eq": ["$screeners.issubscreener", 1] }, "then": "Sevika" },
-                       
+
 //                       ],
 //                       "default": "none"
 //                     },
 //                   },
 //                   'issubscreener':"$screeners.issubscreener",
 //                   // 'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-           
+
 //                 Mobile: "$citizens.mobile",
 //                 // createdAt: 1,
-               
+
 //                 severity: 1,
 //                 Age: { $round:{
 //                   $divide: [
@@ -1010,7 +1014,7 @@ exports.tmp_out0List = [
 //             let user = users[0];
 //             if (user) {
 //               return apiResponse.successResponseWithData(res, "Found", users);
-//             } 
+//             }
 //           });
 //       }
 //     } catch (err) {
@@ -1037,9 +1041,8 @@ exports.tmp_out0List = [
 // 		   query.skip = size * (pageNo - 1)
 // 		   query.limit = parseInt(size)
 // 		   console.log(query);
-		 
-// 	// for count 
 
+// 	// for count
 
 //   try {
 //     const errors = validationResult(req);
@@ -1134,23 +1137,22 @@ exports.tmp_out0List = [
 //     {
 //       $project: {
 //         issubscreener: '$screeners.issubscreener',
-//         'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+//         'isdeleted':1
 //       }},
 //     {$match:{'issubscreener':0,'isdeleted':false}},
 //     // {$match:},
 
 // 	  { $group: { _id: null, count: { $sum: 1 } } }
-	  
+
 // 		])
 
 // 		screenercountFinal = screenercount[0].count;
 // 		  console.log(screenercountFinal);
-	
-		
+
 // 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
-	
+
 // 		  { $sort: { 'createdAt': -1 } },
-     
+
 //       {
 //         $lookup: {
 //           localField: "citizenId",
@@ -1223,7 +1225,7 @@ exports.tmp_out0List = [
 //           as: "lipidpaneltests",
 //         },
 //       },
-  
+
 // 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
 //                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
 //                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
@@ -1257,7 +1259,7 @@ exports.tmp_out0List = [
 //                     aadhaar: '$citizens.aadhaar',
 //                     address: '$citizendetails.address',
 //                     Gender: "$citizens.sex",
-                   
+
 //                     leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
 //                     reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
 //                     hemoglobins: "$hemoglobins.hemoglobin",
@@ -1317,7 +1319,7 @@ exports.tmp_out0List = [
 //                       },
 //                     },
 //                     // issubscreener: "$screeners.issubscreener",
-               
+
 //                     height: 1,
 //                     weight: 1,
 //                     bmi: 1,
@@ -1341,10 +1343,10 @@ exports.tmp_out0List = [
 //                 },
 //                 // {$match:{issubscreener:0}},
 //                 {$match:{'isdeleted':false}},
-		  
+
 // 			  { $skip: query.skip },
 // 			  { $limit: query.limit },
-       
+
 //         { $out: "screenercase" }
 // 			])
 // 	  response = {
@@ -1355,15 +1357,15 @@ exports.tmp_out0List = [
 // 		size: size,
 // 		total:screenercountFinal,
 // 		data: screenerdata,
-		
+
 // 		}
 // 		res.json(response)
 
-//   } 
+//   }
 // }catch (err) {
 //     return apiResponse.ErrorResponse(res, "EXp:" + err);
 //   }
-  
+
 // 	}
 
 // ];
@@ -1385,8 +1387,8 @@ exports.tmp_out0List = [
 // 		   query.skip = size * (pageNo - 1)
 // 		   query.limit = parseInt(size)
 // 		   console.log(query);
-		 
-// 	// for count 
+
+// 	// for count
 // 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
 //     // {
 //     //   $lookup: {
@@ -1471,7 +1473,7 @@ exports.tmp_out0List = [
 //     {
 //       $project: {
 //         issubscreener: '$screeners.issubscreener',
-//         'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+//         'isdeleted':1
 //       }},
 //     {$match:{'issubscreener':0,
 //     'isdeleted':false
@@ -1479,17 +1481,16 @@ exports.tmp_out0List = [
 //     // {$match:},
 
 // 	  { $group: { _id: null, count: { $sum: 1 } } }
-	  
+
 // 		])
 
 // 		screenercountFinal = screenercount[0].count;
 // 		  console.log(screenercountFinal);
-	
-		
+
 // 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
-	
+
 // 		  { $sort: { 'createdAt': -1 } },
-     
+
 //       {
 //         $lookup: {
 //           localField: "citizenId",
@@ -1562,7 +1563,7 @@ exports.tmp_out0List = [
 //       //     as: "lipidpaneltests",
 //       //   },
 //       // },
-  
+
 // 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
 //                 //  { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
 //                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
@@ -1701,7 +1702,7 @@ exports.tmp_out0List = [
 //                 },
 //                 {$match:{issubscreener:0}},
 //                  {$match:{'isdeleted':false}},
-		  
+
 // 			  { $skip: query.skip },
 // 			  { $limit: query.limit },
 // 			])
@@ -1713,7 +1714,7 @@ exports.tmp_out0List = [
 // 		size: size,
 // 		total:screenercountFinal,
 // 		data: screenerdata,
-		
+
 // 		}
 // 		res.json(response)
 // 	}
@@ -1722,11 +1723,11 @@ exports.tmp_out0List = [
 // exports.tmp_out0List = [
 
 // 	async (req, res) => {
-	
+
 // 	var	screenerdata =  await ScreeningCaseModel.ScreeningCase.aggregate([
-	
+
 // 		  { $sort: { 'createdAt': -1 } },
-     
+
 //       {
 //         $lookup: {
 //           localField: "citizenId",
@@ -1799,7 +1800,7 @@ exports.tmp_out0List = [
 //       //     as: "lipidpaneltests",
 //       //   },
 //       // },
-  
+
 // 		             { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
 //                 { $unwind:  { path:"$citizendetails",preserveNullAndEmptyArrays: true } },
 //                 // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
@@ -1938,21 +1939,18 @@ exports.tmp_out0List = [
 //                 },
 //                 {$match:{issubscreener:0}},
 //                 {$match:{'isdeleted':false}},
-		  
-			
+
 // 			])
 // 	  response = {
 // 		message: 'data fatch successfully',
 // 		status: 1,
-	  
-	
+
 // 		data: screenerdata,
-		
+
 // 		}
 // 		res.json(response)
 // 	}
 // ];
-
 
 // exports.tmp_out1List = [
 //   //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
@@ -1985,10 +1983,10 @@ exports.tmp_out0List = [
 //           if (err) {
 //             response = { error: true, message: 'Error fetching data' }
 //           } else {
-      
+
 //         await tmp_out1Model
 //           .aggregate([
-           
+
 //             { $sort: { createdAt: -1 } },
 //             {
 //               $lookup: {
@@ -2104,78 +2102,75 @@ exports.tmp_out0List = [
 // ];
 
 exports.tmp_out1List = [
+  async (req, res) => {
+    var sevikadata;
+    var sevikacount = 0;
+    var sevikacountFinal = 0;
+    const { pageNo, size } = req.body;
+    console.log(req.body);
+    // if(!pageNo){
+    //   pageNo=1;
+    // }
+    // if(!size){
+    //   size=10;
+    // }
+    const query = {};
+    query.skip = size * (pageNo - 1);
+    query.limit = parseInt(size);
+    console.log(query);
 
-	async (req, res) => {
-		var sevikadata;
-		var sevikacount=0;
-		var sevikacountFinal = 0 ;
-		const { pageNo, size} = req.body
-		   console.log(req.body);
-		// if(!pageNo){
-		//   pageNo=1;
-		// }
-		// if(!size){
-		//   size=10;
-		// }
-		   const query = {}
-		   query.skip = size * (pageNo - 1)
-		   query.limit = parseInt(size)
-		   console.log(query);
-		 
-	// for count 
-	sevikacount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizens",
-    //     foreignField: "citizenId",
-    //     as: "citizens",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizendetails",
-    //     foreignField: "citizenId",
-    //     as: "citizendetails",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
-    {
-      $lookup: {
-        localField: "screenerId",
-        from: "screeners",
-        foreignField: "screenerId",
-        as: "screeners",
+    // for count
+    sevikacount = await ScreeningCaseModel.ScreeningCase.aggregate([
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizens",
+      //     foreignField: "citizenId",
+      //     as: "citizens",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizendetails",
+      //     foreignField: "citizenId",
+      //     as: "citizendetails",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "screenerId",
+      //     from: "screeners",
+      //     foreignField: "screenerId",
+      //     as: "screeners",
+      //   },
+      // },
+      {
+        $lookup: {
+          localField: "screenerId",
+          from: "screeners",
+          foreignField: "screenerId",
+          as: "screeners",
+        },
       },
-    },
-    {
-      $project: {
-        issubscreener: '$screeners.issubscreener',
-        isdeleted:1
-      }},
-    {$match:{issubscreener:1}},
-    {$match:{'isdeleted':false}},
-	
-	  { $group: { _id: null, count: { $sum: 1 } } }
-	  
-		])
+      {
+        $project: {
+          issubscreener: "$screeners.issubscreener",
+          isdeleted: 1,
+        },
+      },
+      { $match: { issubscreener: 1 } },
+      { $match: { isdeleted: false } },
 
-		sevikacountFinal = sevikacount[0].count;
-		  console.log(sevikacountFinal);
-	
-		
-	var	sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
-	
-		  { $sort: { 'createdAt': -1 } },
-		  {
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ]);
+
+    sevikacountFinal = sevikacount[0].count;
+    console.log(sevikacountFinal);
+
+    var sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
+      { $sort: { createdAt: -1 } },
+      {
         $lookup: {
           localField: "citizenId",
           from: "citizens",
@@ -2199,20 +2194,26 @@ exports.tmp_out1List = [
           as: "screeners",
         },
       },
-      { $unwind:{path: "$citizens" ,preserveNullAndEmptyArrays: true}},
-      { $unwind:{path: "$screeners" ,preserveNullAndEmptyArrays: true}},
-      { $unwind:{path: "$citizendetails" ,preserveNullAndEmptyArrays: true}},
-  
+      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
+      {
+        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      },
+
       {
         $project: {
           status: 1,
-          'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
-          'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+          fullname: {
+            $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+          },
+          screenerfullname: {
+            $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+          },
           severity_bp: 1,
           Email: "$citizens.email",
-          aadhaar:  { $concat: ["'", "$citizens.aadhaar", "'"] },
-          Mobile: '$citizens.mobile',
-          address: '$citizendetails.address',
+          aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
+          Mobile: "$citizens.mobile",
+          address: "$citizendetails.address",
           Gender: "$citizens.sex",
           severity_spo2: 1,
           severity_temperature: 1,
@@ -2220,8 +2221,8 @@ exports.tmp_out1List = [
           severity_bmi: 1,
           severity_respiratory_rate: 1,
           severity: 1,
-          citizenId:{ $concat: ["'", "$citizenId", "'"] },
-          isdeleted:1,
+          citizenId: { $concat: ["'", "$citizenId", "'"] },
+          isdeleted: 1,
           notes: 1,
           doctorId: 1,
           screenerId: { $concat: ["'", "$screenerId", "'"] },
@@ -2232,7 +2233,7 @@ exports.tmp_out1List = [
           bpdia: 1,
           arm: 1,
           spo2: 1,
-          caseId:  { $concat: ["'", "$caseId", "'"] },
+          caseId: { $concat: ["'", "$caseId", "'"] },
           pulse: 1,
           respiratory_rate: 1,
           Age: {
@@ -2245,8 +2246,8 @@ exports.tmp_out1List = [
           },
           temperature: 1,
           referDocId: 1,
-         
-          issubscreener: '$screeners.issubscreener',
+
+          issubscreener: "$screeners.issubscreener",
           createdAt: {
             $dateToString: {
               format: "%d-%m-%Y",
@@ -2262,145 +2263,158 @@ exports.tmp_out1List = [
         },
       },
 
-		  {$match:{issubscreener:1}},
-      {$match:{isdeleted:false}},
-			  { $skip: query.skip },
-			  { $limit: query.limit },
-			])
-	  response = {
-		message: 'data fatch successfully',
-		status: 1,
-	   pages: pageNo,
-		// total: count,
-		size: size,
-		total:sevikacountFinal,
-		data: sevikadata,
-		
-		}
-		res.json(response)
-	}
+      { $match: { issubscreener: 1 } },
+      { $match: { isdeleted: false } },
+      { $skip: query.skip },
+      { $limit: query.limit },
+    ]);
+    response = {
+      message: "data fatch successfully",
+      status: 1,
+      pages: pageNo,
+      // total: count,
+      size: size,
+      total: sevikacountFinal,
+      data: sevikadata,
+    };
+    res.json(response);
+  },
 ];
-
 
 exports.tmp_outList = [
   (req, res) => {
-    const { pageNo, size } = req.body
+    const { pageNo, size } = req.body;
     console.log(req.body);
     if (pageNo < 0 || pageNo === 0) {
       response = {
         error: true,
-        message: 'invalid page number, should start with 1',
-      }
-      return res.json(response)
+        message: "invalid page number, should start with 1",
+      };
+      return res.json(response);
     }
-    const query = {}
-    query.skip = size * (pageNo - 1)
-    query.limit = size
+    const query = {};
+    query.skip = size * (pageNo - 1);
+    query.limit = size;
     console.log(query);
 
     // Find some documents
     tmp_out1Model.count({}, async (err, totalCount) => {
       if (err) {
-        response = { error: true, message: 'Error fetching data' }
+        response = { error: true, message: "Error fetching data" };
       }
       tmp_out1Model.find({}, {}, query, async (err, data) => {
         // Mongo command to fetch all data from collection.
         // const post_id = data.post_id
         if (err) {
-          response = { error: true, message: 'Error fetching data' }
+          response = { error: true, message: "Error fetching data" };
         } else {
-          tmp_out1Model.aggregate([
-            { $sort: { 'createdAt': -1 } },
+          tmp_out1Model
+            .aggregate([
+              { $sort: { createdAt: -1 } },
 
-            { '$match': { severity: 2 } },
-            // {'$match':condition},
-            // {'$limit':1000},
-            {
-              '$lookup': {
-                'localField': 'citizenId',
-                'from': 'citizendetails',
-                'foreignField': 'citizenId',
-                'as': 'info'
-              }
-            },
-            {
-              '$lookup': {
-                'localField': 'citizenId',
-                'from': 'citizens',
-                'foreignField': 'citizenId',
-                'as': 'basic'
-              }
-            },
-            {
-              '$lookup': {
-                'localField': 'screenerId',
-                'from': 'screeners',
-                'foreignField': 'screenerId',
-                'as': 'screeners'
-              }
-            },
-            { "$unwind": "$screeners" },
-            { '$unwind': '$basic' },
+              { $match: { severity: 2 } },
+              // {'$match':condition},
+              // {'$limit':1000},
+              {
+                $lookup: {
+                  localField: "citizenId",
+                  from: "citizendetails",
+                  foreignField: "citizenId",
+                  as: "info",
+                },
+              },
+              {
+                $lookup: {
+                  localField: "citizenId",
+                  from: "citizens",
+                  foreignField: "citizenId",
+                  as: "basic",
+                },
+              },
+              {
+                $lookup: {
+                  localField: "screenerId",
+                  from: "screeners",
+                  foreignField: "screenerId",
+                  as: "screeners",
+                },
+              },
+              { $unwind: "$screeners" },
+              { $unwind: "$basic" },
 
-            { '$unwind': '$info' },
-            {
-              '$project': {
-                'fullname': { $concat: ["$basic.firstName", " ", "$basic.lastName"] },
-                'screenerId': 1,
-                'caseId': 1,
-                'citizenId': 1,
-                'hemoglobin': 1,
-                'notes': 1,
-                'createdAt': { $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
-                'basic.firstName': 1,
-                'basic.lastName': 1,
-                'basic.email': 1,
-                'basic.mobile': 1,
-                'basic.sex': 1,
-                'basic.javixId': 1,
-                'info.dateOfBirth': 1,
-                'info.dateOfOnBoarding': 1,
-                'info.bloodGroup': 1,
-                'info.country': 1,
-                'info.state': 1,
-                'info.district': 1,
-                'info.address': 1,
-                'info.pincode': 1,
-                'info.rating': 1,
-                'info.geolocations': 1,
-                'info.photo': 1,
-                'address': '$info.address',
-                'email': '$basic.email',
-                'mobile': '$basic.mobile',
-                'dateOfOnBoarding': { $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
-                'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
-                severity: 1
+              { $unwind: "$info" },
+              {
+                $project: {
+                  fullname: {
+                    $concat: ["$basic.firstName", " ", "$basic.lastName"],
+                  },
+                  screenerId: 1,
+                  caseId: 1,
+                  citizenId: 1,
+                  hemoglobin: 1,
+                  notes: 1,
+                  createdAt: {
+                    $dateToString: { format: "%d/%m/%Y", date: "$createdAt" },
+                  },
+                  "basic.firstName": 1,
+                  "basic.lastName": 1,
+                  "basic.email": 1,
+                  "basic.mobile": 1,
+                  "basic.sex": 1,
+                  "basic.javixId": 1,
+                  "info.dateOfBirth": 1,
+                  "info.dateOfOnBoarding": 1,
+                  "info.bloodGroup": 1,
+                  "info.country": 1,
+                  "info.state": 1,
+                  "info.district": 1,
+                  "info.address": 1,
+                  "info.pincode": 1,
+                  "info.rating": 1,
+                  "info.geolocations": 1,
+                  "info.photo": 1,
+                  address: "$info.address",
+                  email: "$basic.email",
+                  mobile: "$basic.mobile",
+                  dateOfOnBoarding: {
+                    $dateToString: {
+                      format: "%d/%m/%Y",
+                      date: "$info.dateOfOnBoarding",
+                    },
+                  },
+                  screenerfullname: {
+                    $concat: [
+                      "$screeners.firstName",
+                      " ",
+                      "$screeners.lastName",
+                    ],
+                  },
+                  severity: 1,
+                },
+              },
 
-              }
-            },
-            
-            { $skip: query.skip },
-            { $limit: query.limit },
-          ])
+              { $skip: query.skip },
+              { $limit: query.limit },
+            ])
             .exec((err, likeData) => {
               if (err) {
-                throw err
+                throw err;
               } else {
-                var totalPages = Math.ceil(totalCount / size)
+                var totalPages = Math.ceil(totalCount / size);
                 response = {
-                  message: 'data fatch successfully',
+                  message: "data fatch successfully",
                   status: 1,
                   pages: totalPages,
                   total: totalCount,
                   size: size,
                   data: likeData.reverse(),
-                }
+                };
 
-                res.json(response)
+                res.json(response);
               }
-            })
+            });
         }
-      })
-    })
-  }
+      });
+    });
+  },
 ];
