@@ -18,6 +18,7 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 const lipidcritical = require("../models/lipidcriticalcitizenModel");
 const url = require("url");
+const { timeEnd } = require("console");
 exports.addGeneralSurvey = [
   body("screenerId")
     .isLength({ min: 3 })
@@ -230,93 +231,21 @@ exports.tmp_out0List = [
     var screenerdata;
     var screenercount = 0;
     var screenercountFinal = 0;
-    // const { pageNo, size } = req.body;
-    // console.log(req.body);
+    const { pageNo, size } = req.body;
+    console.log(req.body);
     // if(!pageNo){
     //   pageNo=1;
     // }
     // if(!size){
     //   size=10;
     // }
-    // const query = {};
-    // query.skip = size * (pageNo - 1);
-    // query.limit = parseInt(size);
-    // console.log(query);
-
+    const query = {};
+    query.skip = size * (pageNo - 1);
+    query.limit = parseInt(size);
+    console.log(query);
+ 
     // for count
     screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizens",
-      //     foreignField: "citizenId",
-      //     as: "citizens",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "eyetests",
-      //     foreignField: "citizenId",
-      //     as: "eyetests",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizendetails",
-      //     foreignField: "citizenId",
-      //     as: "citizendetails",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "hemoglobins",
-      //     foreignField: "citizenId",
-      //     as: "hemoglobins",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "screenerId",
-      //     from: "screeners",
-      //     foreignField: "screenerId",
-      //     as: "screeners",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "caseId",
-      //     from: "bloodglucosetests",
-      //     foreignField: "caseId",
-      //     as: "bloodglucosetests",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "caseId",
-      //     from: "urinetests",
-      //     foreignField: "caseId",
-      //     as: "urinetests",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "caseId",
-      //     from: "lungfunctions",
-      //     foreignField: "caseId",
-      //     as: "lungfunctions",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "caseId",
-      //     from: "lipidpaneltests",
-      //     foreignField: "caseId",
-      //     as: "lipidpaneltests",
-      //   },
-      // },
       {
         $lookup: {
           localField: "screenerId",
@@ -332,17 +261,13 @@ exports.tmp_out0List = [
         },
       },
       { $match: { issubscreener: 0, isdeleted: false } },
-      // {$match:},
-
       { $group: { _id: null, count: { $sum: 1 } } },
     ]);
-
+    
     screenercountFinal = screenercount[0].count;
-    console.log(screenercountFinal);
 
     var screenerdata = await ScreeningCaseModel.ScreeningCase.aggregate([
       { $sort: { createdAt: 1 } },
-
       {
         $lookup: {
           localField: "citizenId",
@@ -552,15 +477,15 @@ exports.tmp_out0List = [
       { $match: { issubscreener: 0 } },
       { $match: { isdeleted: false } },
 
-      // { $skip: query.skip },
-      // { $limit: query.limit },
-    ]).skip(1900);
+      { $skip: query.skip },
+      { $limit: query.limit },
+    ])
     response = {
       message: "data fatch successfully",
       status: 1,
-      // pages: pageNo,
+      pages: pageNo,
       // total: count,
-      // size: size,
+      size: size,
       total: screenercountFinal,
       data: screenerdata,
     };
