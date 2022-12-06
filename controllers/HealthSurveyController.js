@@ -212,21 +212,37 @@ exports.addHealthSurvey = [
 								'localField':'citizenId',
 								'from':'citizens',
 								'foreignField':'citizenId',
-								'as':'basic'
+								'as':'citizens'
 							 }
 							},
+							{
+								$lookup: {
+								  localField: "screenerId",
+								  from: "screeners",
+								  foreignField: "screenerId",
+								  as: "screeners",
+								},
+							  },
+								 
+							  // {'$unwind':{path:"$citizens", preserveNullAndEmptyArrays: true }},
+							  {'$unwind':{path:"$screeners", preserveNullAndEmptyArrays: true }},
 							{'$project':{
 								createdAt:1,
-								address:'$info.address',
-								mobile:'$basic.mobile',
-								firstName:'$basic.firstName',
-								lastName:'$basic.lastName',
-								aadhaar:'$basic.aadhaar',
+								
+								screenerfullname: {
+									$concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+								  },
+								  address: "$info.address",
+								  mobile: "$citizens.mobile",
+								  // 'citizens.firstName':1,
+								  "citizens.firstName": 1,
+								  "citizens.lastName": 1,
+					
+								  aadhaar: "$citizens.aadhaar",
 								'healthsurveyId':1,
 								'familyId':1,
 								'screenerId':1,
 								'citizenId':1,
-								
 								'drinkingWaterSource':1,
 								'drinkingWaterDistance':1,
 								'isdrinkingWaterTreatmentRequired':1,
@@ -250,7 +266,7 @@ exports.addHealthSurvey = [
 								'smokingStatus':1,
 								'alcoholStatus': 1,
 								'tobaccoStatus': 1
-								
+
 								}
 							}
 						]
