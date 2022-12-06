@@ -341,7 +341,7 @@ exports.tmp_out0List = [
     console.log(screenercountFinal);
 
     var screenerdata = await ScreeningCaseModel.ScreeningCase.aggregate([
-      { $sort: { createdAt: -1 } },
+      { $sort: { createdAt: 1 } },
 
       {
         $lookup: {
