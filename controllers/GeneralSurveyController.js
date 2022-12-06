@@ -437,12 +437,12 @@ exports.tmp_out0List = [
               date: "$createdAt",
             },
           },
-          DOB: {
-            $dateToString: {
-              format: "%d-%m-%Y",
-              date: "$citizendetails.dateOfBirth",
-            },
-          },
+          // DOB: {
+          //   $dateToString: {
+          //     format: "%d-%m-%Y",
+          //     date: "$citizendetails.dateOfBirth",
+          //   },
+          // },
           issubscreenertype: {
             $switch: {
               branches: [
@@ -466,14 +466,14 @@ exports.tmp_out0List = [
           // createdAt: 1,
 
           isdeleted: 1,
-          Age: {
-            $round: {
-              $divide: [
-                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                365 * 24 * 60 * 60 * 1000,
-              ],
-            },
-          },
+          // Age: {
+          //   $round: {
+          //     $divide: [
+          //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+          //       365 * 24 * 60 * 60 * 1000,
+          //     ],
+          //   },
+          // },
         },
       },
       { $match: { issubscreener: 0 } },
