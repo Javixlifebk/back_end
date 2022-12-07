@@ -341,13 +341,13 @@ exports.tmp_out0List = [
         },
       },
 
-     /* { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
       {
         $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
       },
       { $unwind: { path: "$eyetests", preserveNullAndEmptyArrays: true } },
       { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
-      */
+      
       // { $unwind: { path: "$lipidpaneltests", preserveNullAndEmptyArrays: true } },
       // { $unwind: { path: "$lungfunctions", preserveNullAndEmptyArrays: true } },
       // { $unwind: { path: "$hemoglobins", preserveNullAndEmptyArrays: true } },
@@ -360,16 +360,16 @@ exports.tmp_out0List = [
           status: 1,
           severity_bp: 1,
           severity_spo2: 1,
-          // issubscreener:"$screener.issubscreener",
+          issubscreener:"$screener.issubscreener",
           severity_temperature: 1,
           severity_pulse: 1,
           severity_bmi: 1,
           severity_respiratory_rate: 1,
           severity: 1,
-          // citizenId: { $concat: ["'", "$citizenId", "'"] },
+          citizenId: { $concat: ["'", "$citizenId", "'"] },
           notes: 1,
           doctorId: 1,
-          // screenerId: { $concat: ["'", "$screenerId", "'"] },
+          screenerId: { $concat: ["'", "$screenerId", "'"] },
           height: 1,
           weight: 1,
           bmi: 1,
@@ -377,25 +377,25 @@ exports.tmp_out0List = [
           bpdia: 1,
           arm: 1,
           spo2: 1,
-          // caseId: { $concat: ["'", "$caseId", "'"] },
+          caseId: { $concat: ["'", "$caseId", "'"] },
           pulse: 1,
           respiratory_rate: 1,
           temperature: 1,
           referDocId: 1,
-          // fullname: {
-          //   $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
-          // },
-          // screenerfullname: {
-          //   $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
-          // },
+          fullname: {
+            $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+          },
+          screenerfullname: {
+            $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+          },
           Email: "$citizens.email",
-          // aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
+          aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
           address: "$citizendetails.address",
           Gender: "$citizens.sex",
-          // Address: "$citizen.address",
-          // ScreenerId: { $concat: ["'", "$citizens.screenerId", "'"] },
-          // leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
-          // reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
+          Address: "$citizen.address",
+          ScreenerId: { $concat: ["'", "$citizens.screenerId", "'"] },
+          leyeleft: { $concat: [" ", "$eyetests.leyetest", " "] },
+          reyeright: { $concat: [" ", "$eyetests.reyetest", " "] },
           hemoglobins: "$hemoglobins.hemoglobin",
           unit: "$bloodglucosetests.bloodglucose",
           btype: "$bloodglucosetests.type",
@@ -437,12 +437,12 @@ exports.tmp_out0List = [
               date: "$createdAt",
             },
           },
-          // DOB: {
-          //   $dateToString: {
-          //     format: "%d-%m-%Y",
-          //     date: "$citizendetails.dateOfBirth",
-          //   },
-          // },
+          DOB: {
+            $dateToString: {
+              format: "%d-%m-%Y",
+              date: "$citizendetails.dateOfBirth",
+            },
+          },
           issubscreenertype: {
             $switch: {
               branches: [
@@ -466,14 +466,14 @@ exports.tmp_out0List = [
           // createdAt: 1,
 
           isdeleted: 1,
-          // Age: {
-          //   $round: {
-          //     $divide: [
-          //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-          //       365 * 24 * 60 * 60 * 1000,
-          //     ],
-          //   },
-          // },
+          Age: {
+            $round: {
+              $divide: [
+                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                365 * 24 * 60 * 60 * 1000,
+              ],
+            },
+          },
         },
       },
       { $match: { issubscreener: 0 } },
