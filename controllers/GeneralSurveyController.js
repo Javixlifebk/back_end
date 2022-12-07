@@ -267,7 +267,7 @@ exports.tmp_out0List = [
     screenercountFinal = screenercount[0].count;
 
     var screenerdata = await ScreeningCaseModel.ScreeningCase.aggregate([
-      { $sort: { createdAt: 1 } },
+      { $sort: { createdAt: -1 } },
       {
         $lookup: {
           localField: "citizenId",
