@@ -18,7 +18,8 @@ exports.send = function (from, to, subject, html)
 	return transporter.sendMail({
 		from: "Verify Admin <verify@javixlife.org>", // sender address e.g. no-reply@xyz.com or "Fred Foo 👻" <foo@example.com>
 		to: to, // list of receivers e.g. bar@example.com, baz@example.com
-		cc: "info@javixlife.com,akashsaboti@gmail.com,manishkumar.singhps1408@gmail.com",
+		cc: "info@javixlife.com",
+		// ,akashsaboti@gmail.com,manishkumar.singhps1408@gmail.com
 		subject: subject, // Subject line e.g. 'Hello ✔'
 		//text: text, // plain text body e.g. Hello world?
 		html: html // html body e.g. '<b>Hello world?</b>'
