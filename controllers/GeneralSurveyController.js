@@ -1082,7 +1082,6 @@ exports.tmp_out0List1 = [
     query.skip = size * (pageNo - 1);
     query.limit = parseInt(size);
 
-
     var screenerdata = await ScreeningCaseModel.ScreeningCase.aggregate([
       {
         $lookup: {
