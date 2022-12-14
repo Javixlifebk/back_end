@@ -50,7 +50,7 @@ exports.register = [
 					.custom((value) => {
 						
 						if(value!=null && value!="" && value!=undefined){
-						if(value.length!=10 || value[0]==='0' || isNaN(value)){
+						if(value.length!=10 || value ==='0' || isNaN(value)){
 						return Promise.reject("Phone no. should have 10 digits with no preceeding zero!");
 					}
 				}
