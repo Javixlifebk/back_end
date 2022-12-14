@@ -355,7 +355,7 @@ exports.download = [
     // },
     //{$limit:10},
     ])
-    console.log(gsurvey);
+    // console.log(gsurvey);
    
     let gserveyArr = [];
     if(gsurvey.length>0){
@@ -367,10 +367,10 @@ exports.download = [
           elemetObj.screenerfullname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
         }  
         
-        elemetObj.screenerId = row.screenerId;
-        elemetObj.citizenId = row.citizenId[row.citizenId.length-1];
+        elemetObj.screenerId = "'"+row.screenerId+"'";
+        elemetObj.citizenId = "' "+row.citizenId[row.citizenId.length-1]+" '";
         elemetObj._id = row._id;
-        elemetObj.familyId = row.familyId;
+        elemetObj.familyId = "'"+row.familyId+"'";
         elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
         elemetObj.nameHead = row.nameHead;
       elemetObj.ageHead=row.ageHead,
@@ -388,7 +388,8 @@ exports.download = [
         if(row.citizens && row.citizens.length>0){ 
           let fullname = "";
           for(let k=0;k<row.citizens.length;k++){
-            fullname = fullname+" , "+row.citizens[k].firstName+" "+row.citizens[k].lastName;    
+            fullname = fullname+" "+row.citizens[k].firstName+" "+row.citizens[k].lastName+",";  
+            fullname.replace(/^\,s+/, '');  
           }
           elemetObj.fullname = fullname ;
           //elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
@@ -506,7 +507,7 @@ exports.GeneralSurveyList = [
             $project: {
               screenerId: 1,
               familyId: 1,
-              citizenId: 1,
+              citizenId: { $slice: [ "$citizenId", -1 ] },
               noOfFamilyMembers: 1,
               nameHead: 1,
               ageHead: 1,
@@ -520,13 +521,13 @@ exports.GeneralSurveyList = [
               screenerfullname: {
                 $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
               },
-              address: "$info.address",
-              mobile: "$citizens.mobile",
+              address: { $slice: [ "$info.address", -1 ] },
+              mobile: { $slice: [ "$citizens.mobile", -1 ] },
               // 'citizens.firstName':1,
               "citizens.firstName": 1,
               "citizens.lastName": 1,
 
-              aadhaar: "$citizens.aadhaar",
+              aadhaar: { $slice: [  "$citizens.aadhaar", -1 ] },
             },
           },
         ]).then((users) => {
