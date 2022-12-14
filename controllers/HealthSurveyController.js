@@ -12,7 +12,47 @@ const mailer = require("../helpers/mailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
+const json2csv = require('json2csv').parse;
+const path = require("path")
 
+const fs = require('fs');
+
+const fields = [
+'createdAt',
+'screenerfullname',
+			
+'address',
+'mobile',
+'firstName',
+'lastName',
+'aadhaar',
+'healthsurveyId',
+'familyId',
+'screenerId',
+'citizenId',
+'drinkingWaterSource',
+'drinkingWaterDistance',
+'isdrinkingWaterTreatmentRequired',
+'NoOfPersonUsingToilets',
+'NonUsageOfToilets',
+'DistanceOfSubcenters',
+'DistanceOfPrimaryHealthcenters',
+'DistanceOfCommunityHealthcenters',
+'DistanceOfDistrictHospitals',
+'DistanceOfPathologyLab',
+'DistanceOfMedicalStore',
+'StatusOfDeliveryOfChildren',
+'StatusOfVaccinationOfChildren',
+'StatusOfFemaleRelatedProblem',
+'CentrallyIssuedHealthInsurance',
+'StateIssuedHealthInsurance',
+'PersonalHealthInsurance',
+'bpStatus',
+'hbTestStatusFemale',
+'sugarTestStatus',
+'smokingStatus',
+'alcoholStatus',
+'tobaccoStatus'];
 exports.addHealthSurvey = [
     
 	body("screenerId").isLength({ min: 3 }).trim().withMessage("Invalid Screener Login Id!").custom((value) => {
@@ -182,6 +222,104 @@ exports.addHealthSurvey = [
 
 // ];
 
+exports.healthsurveydownload = [ 
+	async (req, res,err) => {
+	  // await GeneralSurveyModel.find({re},function (res,err ){
+		
+	
+	   
+	 const students= await HealthSurveyModel.aggregate([
+		// {'$match':condition},
+		{'$limit':100000},
+		{'$lookup': {
+			'localField':'citizenId',
+			'from':'citizendetails',
+			'foreignField':'citizenId',
+			'as':'info'	
+		 }
+		},
+		{'$lookup': {
+			'localField':'citizenId',
+			'from':'citizens',
+			'foreignField':'citizenId',
+			'as':'citizens'
+		 }
+		},
+		{
+			$lookup: {
+			  localField: "screenerId",
+			  from: "screeners",
+			  foreignField: "screenerId",
+			  as: "screeners",
+			},
+		  },
+			 
+		  // {'$unwind':{path:"$citizens", preserveNullAndEmptyArrays: true }},
+		  {'$unwind':{path:"$screeners", preserveNullAndEmptyArrays: true }},
+		{'$project':{
+			createdAt:1,
+			
+			screenerfullname: {
+				$concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+			  },
+			  address: "$info.address",
+			  mobile: "$citizens.mobile",
+			  // 'citizens.firstName':1,
+			  "citizens.firstName": 1,
+			  "citizens.lastName": 1,
+
+			  aadhaar: "$citizens.aadhaar",
+			'healthsurveyId':1,
+			'familyId':1,
+			'screenerId':1,
+			'citizenId':1,
+			'drinkingWaterSource':1,
+			'drinkingWaterDistance':1,
+			'isdrinkingWaterTreatmentRequired':1,
+			'NoOfPersonUsingToilets':1,
+			'NonUsageOfToilets':1,
+			'DistanceOfSubcenters':1,
+			'DistanceOfPrimaryHealthcenters':1,
+			'DistanceOfCommunityHealthcenters':1,
+			'DistanceOfDistrictHospitals':1,
+			'DistanceOfPathologyLab':1,
+			'DistanceOfMedicalStore':1,
+			'StatusOfDeliveryOfChildren': 1,
+			'StatusOfVaccinationOfChildren': 1,
+			'StatusOfFemaleRelatedProblem':1,
+			'CentrallyIssuedHealthInsurance':1,
+			'StateIssuedHealthInsurance': 1,
+			'PersonalHealthInsurance': 1,
+			'bpStatus':1,
+			'hbTestStatusFemale': 1,
+			'sugarTestStatus':1,
+			'smokingStatus':1,
+			'alcoholStatus': 1,
+			'tobaccoStatus': 1
+
+			}
+		}
+	  ])
+	 
+	 
+  
+		  let csv
+		  csv = json2csv(students,{fields});
+	   
+		  const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"healthsurvey"+".csv")
+		  console.log("+++++",filePath);
+		  fs.writeFile(filePath, csv, function (err) {
+			if (err) {
+			  return res.json(err).status(500);
+			}
+			  return res.json(req.protocol + '://' + req.get('host')+"/exports/csv-" +"healthsurvey"+ ".csv");
+		})
+	 
+	
+		}
+	 
+	
+  ]
  exports.HealthSurveyList=[
 //  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
 // 	// sanitizeBody("familyId").escape(),
@@ -235,8 +373,8 @@ exports.addHealthSurvey = [
 								  address: "$info.address",
 								  mobile: "$citizens.mobile",
 								  // 'citizens.firstName':1,
-								  "citizens.firstName": 1,
-								  "citizens.lastName": 1,
+								  firstname:"$citizens.firstName",
+								  lastName:"$citizens.lastName",
 					
 								  aadhaar: "$citizens.aadhaar",
 								'healthsurveyId':1,

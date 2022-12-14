@@ -6,12 +6,44 @@ const UserDetailsModel = require("../models/UserDetailsModel");
 const { body,query,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
+
 const apiResponse = require("../helpers/apiResponse");
 const utility = require("../helpers/utility");
 const mailer = require("../helpers/mailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
+const json2csv = require('json2csv').parse;
+const path = require("path")
+
+const fs = require('fs');
+
+const fields = [
+'createdAt',
+'screenerfullname',
+'address',
+'mobile',
+'firstName',
+'lastName',
+'aadhaar',
+'socioeconomicsurveyId',
+'familyId',
+'screenerId',
+'citizenId',
+'noOfEarners',
+'nameOfEarners',
+'ageOfEarners',
+'occupationOfEarners',
+'isBankAccount',
+'statusOfHouse',
+'totalIncome',
+'foodExpense',
+'healthExpense',
+'educationExpense',
+'intoxicationExpense',
+'conveyanceExpense',
+'cultivableLand',
+];
 
 exports.addSocioEconomicSurvey = [
     
@@ -106,59 +138,96 @@ exports.addSocioEconomicSurvey = [
 		}
 	}];
 
-// exports.HealthSurveyList=[
-//  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
-// 	// sanitizeBody("familyId").escape(),
-	
-//     (req, res) => { 
-			
-// 		try {
-// 			const errors = validationResult(req);
-// 			if (!errors.isEmpty()) {
-// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 			}else {
-// 				var condition={};
-// 				if(req.body.familyId!='' && req.body.familyId!=undefined && req.body.familyId!=null){
-// 					condition['familyId']=req.body.familyId;
-// 				}
-				
-// 			GeneralSurveyModel.GeneralSurvey.aggregate([
-// 							{'$match':condition},
-// 							{'$limit':100000},
-// 							{'$project':{
-								 
-// 								 'screenerId':1,
-// 								 'familyId':1,
-// 								 'citizenId':1,
-// 								 'noOfFamilyMembers':1,
-// 								 'nameHead':1,
-// 								 'ageHead':1,
-// 								 'NoOfAdultMales':1,
-// 								 'NoOfAdultFemales':1,
-// 								 'NoOfChildrenMales':1,
-// 								 'NoOfChildrenFemales':1,
-// 								 'createdAt':1,
-// 								 'updatedAt':1
-// 								}
-// 							}
-// 						]
-// 				).then(users => {
-					
-// 					let user=users[0];
-// 					if (user) {
-// 							return apiResponse.successResponseWithData(res,"Found", users);
-// 					}
-// 					else return apiResponse.ErrorResponse(res,"Not Found");
-					
-// 				});
-// 			}
-// 		} catch (err) {
-			
-// 			return apiResponse.ErrorResponse(res,"EXp:"+err);
-// 		}
-// 	}
 
-// ];
+
+
+exports.sociosurveydownload = [ 
+	async (req, res,err) => {
+	  // await GeneralSurveyModel.find({re},function (res,err ){
+		
+	
+	   
+	 const students= await SocioEconomicSurveyModel.aggregate([
+		// {'$match':condition},
+		{'$limit':100000},
+		{'$lookup': {
+			'localField':'citizenId',
+			'from':'citizendetails',
+			'foreignField':'citizenId',
+			'as':'info'	
+		 }
+		},
+		{'$lookup': {
+			'localField':'citizenId',
+			'from':'citizens',
+			'foreignField':'citizenId',
+			'as':'citizens'
+		 }
+		},
+		{
+			$lookup: {
+			  localField: "screenerId",
+			  from: "screeners",
+			  foreignField: "screenerId",
+			  as: "screeners",
+			},
+		  },
+			 
+		  {'$unwind':{path:"$citizens", preserveNullAndEmptyArrays: true }},
+		  {'$unwind':{path:"$screeners", preserveNullAndEmptyArrays: true }},
+		{'$project':{
+			createdAt:1,
+			screenerfullname: {
+				$concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+			  },
+			  address: "$info.address",
+			  mobile: "$citizens.mobile",
+			  // 'citizens.firstName':1,
+			  firstName:"$citizens.firstName",
+			  lastName:"$citizens.lastName",
+
+			  aadhaar: "$citizens.aadhaar",
+			
+			 
+			'socioeconomicsurveyId':1,
+						'familyId':1,
+						'screenerId':1,
+						'citizenId':1,
+						'noOfEarners':1,
+						'nameOfEarners':1,
+						'ageOfEarners':1,
+						'occupationOfEarners':1,
+						'isBankAccount': 1,
+						'statusOfHouse': 1,
+						'totalIncome':1,
+						'foodExpense':1,
+						'healthExpense':1,
+						'educationExpense':1,
+						'intoxicationExpense':1,
+						'conveyanceExpense':1,
+						'cultivableLand': 1
+			}
+		}
+	  ])
+	 
+	 
+		  let csv
+		  csv = json2csv(students,{fields});
+	   
+		  const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"socioeconomicsurvey"+".csv")
+		  console.log("+++++",filePath);
+		  fs.writeFile(filePath, csv, function (err) {
+			if (err) {
+			  return res.json(err).status(500);
+			}
+			  return res.json(req.protocol + '://' + req.get('host')+"/exports/csv-" +"socioeconomicsurvey"+ ".csv");
+		})
+	 
+	
+		}
+	 
+	
+  ]
 exports.SocieSurveyList=[
  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
 	// sanitizeBody("familyId").escape(),
@@ -175,7 +244,7 @@ exports.SocieSurveyList=[
 					condition['familyId']=req.body.familyId;
 				}
 				
-				SocioEconomicSurveyModel.aggregate([
+				 SocioEconomicSurveyModel.aggregate([
 							{'$match':condition},
 							{'$limit':100000},
 							{'$lookup': {
@@ -192,8 +261,7 @@ exports.SocieSurveyList=[
 								'as':'citizens'
 							 }
 							},
-							{
-								$lookup: {
+							{	$lookup: {
 								  localField: "screenerId",
 								  from: "screeners",
 								  foreignField: "screenerId",

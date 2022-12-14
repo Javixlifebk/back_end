@@ -12,6 +12,7 @@ const WomenReproductiveHistoryController = require("../controllers/WomenReproduc
 var routerCitizen = express.Router();
 routerCitizen.post("/addprofile", CitizenController.addProfile);
 routerCitizen.post("/citizenList", CitizenController.citizenList);
+routerCitizen.post("/citizensearchList", CitizenController.searchcitizendata);
 routerCitizen.post("/updateAddcitizen", CitizenController.updateAddcitizen);
 routerCitizen.post("/citizenReferList", CitizenController.updateReferAuth);
 routerCitizen.post("/citizenNewList", CitizenController.citizenNewList);

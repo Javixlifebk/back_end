@@ -6,6 +6,17 @@ const tmp_out0Model = require("../models/tmp_out0Model");
 const tmp_out1Model = require("../models/tmp_out1Model");
 const ScreeningCaseModel = require("../models/ScreeningCase");
 const UserDetailsModel = require("../models/UserDetailsModel");
+const screenerReport1 = require("../models/screenerscreeningModel");
+const sevikaReport1 = require("../models/screeningsevikaModel");
+// import { Parser } from 'json2csv';
+const json2csv = require('json2csv').parse;
+const csvWriter = require('csv-writer');
+const path = require("path")
+
+const fs = require('fs');
+
+
+
 const { body, query, validationResult } = require("express-validator");
 const moment = require("moment");
 const { sanitizeBody } = require("express-validator");
@@ -19,6 +30,24 @@ const { constants } = require("../helpers/constants");
 const lipidcritical = require("../models/lipidcriticalcitizenModel");
 const url = require("url");
 const { timeEnd } = require("console");
+const fields = ['_id','screenerId',
+  'familyId','citizenId',
+  'noOfFamilyMembers',
+  'nameHead',
+  'ageHead',
+  'NoOfAdultMales',
+   'NoOfAdultFemales',
+  'NoOfChildrenMales',
+  'NoOfChildrenFemales',
+  'createdAt',
+  'updatedAt',
+  'screenerfullname',
+  'address',
+  'fullname',
+  'mobile',
+  'aadhaar'];
+
+
 exports.addGeneralSurvey = [
   body("screenerId")
     .isLength({ min: 3 })
@@ -224,9 +253,182 @@ exports.searchdata=[
     }
   },
 ]
-// app.use('/', (req, res, next) => {
 
-// });
+// exports.download = [ 
+//   async (req, res) => {
+
+//    GeneralSurveyModel.find({}, function (err, gsurvey) {
+//       if (err) {
+//         return res.status(500).json({ err });
+//       }
+//       else {
+//         let csv
+//         csv = json2csv(gsurvey,{fields});
+     
+//         const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"generalsurvey"+".csv")
+//         console.log("+++++",filePath);
+//         fs.writeFile(filePath, csv, function (err) {
+//           if (err) {
+//             return res.json(err).status(500);
+//           }
+//             return res.json("/exports/csv-" +"generalsurvey"+ ".csv");
+        
+//         });
+  
+//       }
+//     })
+//   }
+// ]
+
+exports.download = [ 
+  async (req, res,err) => {
+    // await GeneralSurveyModel.find({re},function (res,err ){
+      
+  
+     
+   const gsurvey= await GeneralSurveyModel.aggregate([
+    
+    { $sort: { createdAt: -1 } },
+    {
+      $lookup: {
+        localField: "citizenId",
+        from: "citizens",
+        foreignField: "citizenId",
+        as: "citizens",
+      },
+    },
+
+    {
+      $lookup: {
+        localField: "citizenId",
+        from: "citizendetails",
+        foreignField: "citizenId",
+        as: "citizendetails",
+      },
+    },
+    {
+      $lookup: {
+        localField: "screenerId",
+        from: "screeners",
+        foreignField: "screenerId",
+        as: "screeners",
+      },
+    },
+    // { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
+    // { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+  
+    // {
+    //   $project: {
+    //     _id:1,
+    //     screenerId: 1,
+    //   //  'citizenId':1,
+    //    citizenId: { $slice: [ "$citizenId", -1 ] } ,
+    //     familyId: 1,
+    //     noOfFamilyMembers: 1,
+    //     nameHead: 1,
+    //     ageHead: 1,
+    //     NoOfAdultMales: 1,
+    //     NoOfAdultFemales: 1,
+    //     NoOfChildrenMales: 1,
+    //     NoOfChildrenFemales: 1,
+    //     createdAt: 1,
+    //     updatedAt: 1,
+
+    //     screenerfullname: {
+    //       $concat: 
+    //       ["$screeners.firstName", " ", "$screeners.lastName"],
+    //     },
+    //     address:  { $slice: [ "$info.address", -1 ] },
+    //     // mobile:   { $slice: [ "$citizens.mobile", -1 ] },
+    //     // 'citizens.firstName':1,
+    //     screenerfullname: {
+    //       $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+    //     },
+        
+         
+    //   //  fullname:1,
+    //     // firstName:'$citizens.firstName',
+    //     // lastName:'$citizens.lastName',
+    //       // citizenfullName: [ '$citizens.firstName'+""+'$citizens.lastName'] ,
+    //     // aadhaar: { $slice: [ "$citizens.aadhaar", -1 ] },
+    //   },
+    // },
+    //{$limit:10},
+    ])
+    console.log(gsurvey);
+   
+    let gserveyArr = [];
+    if(gsurvey.length>0){
+      for(let i=0;i<gsurvey.length;i++){
+        let row = gsurvey[i];
+        let elemetObj = {};
+        elemetObj.screenerfullname = "";
+        if(row.screeners && row.screeners.length>0){   
+          elemetObj.screenerfullname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
+        }  
+        
+        elemetObj.screenerId = row.screenerId;
+        elemetObj.citizenId = row.citizenId[row.citizenId.length-1];
+        elemetObj._id = row._id;
+        elemetObj.familyId = row.familyId;
+        elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
+        elemetObj.nameHead = row.nameHead;
+      elemetObj.ageHead=row.ageHead,
+       elemetObj.NoOfAdultMales=row.NoOfAdultMales,
+       elemetObj.NoOfAdultFemales=row.NoOfAdultFemales,
+       elemetObj.NoOfChildrenMales=row.NoOfChildrenMales,
+       elemetObj.NoOfChildrenFemales=row.NoOfChildrenFemales,
+       elemetObj.createdAt=row.createdAt,
+      updatedAt=row.updatedAt,
+
+       elemetObj.fullname = "";
+        elemetObj.gender = "";
+        elemetObj.mobile = "";
+        elemetObj.aadhaar = "";
+        if(row.citizens && row.citizens.length>0){ 
+          let fullname = "";
+          for(let k=0;k<row.citizens.length;k++){
+            fullname = fullname+" , "+row.citizens[k].firstName+" "+row.citizens[k].lastName;    
+          }
+          elemetObj.fullname = fullname ;
+          //elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
+          // elemetObj.gender = row.citizens[0].sex;    
+          elemetObj.mobile = row.citizens[0].mobile;    
+          elemetObj.aadhaar = row.citizens[0].aadhaar;  
+        }  
+      
+        elemetObj.dateOfBirth = "";    
+        elemetObj.address = "";
+        if(row.citizendetails && row.citizendetails.length>0){    
+          elemetObj.dateOfBirth = row.citizendetails[0].dateOfBirth;    
+          elemetObj.address = row.citizendetails[0].address;    
+        }
+
+        gserveyArr.push(elemetObj);
+      }
+    }
+
+
+
+        let csv
+        csv = json2csv(gserveyArr,{fields});
+     
+        const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"generalsurvey"+".csv")
+        console.log("+++++",gserveyArr);
+        fs.writeFile(filePath, csv, function (err) {
+          if (err) {
+            return res.json(err).status(500);
+          }
+            return res.json(req.protocol + '://' + req.get('host')+"/exports/csv-" +"generalsurvey"+ ".csv");
+      })
+   
+  
+      }
+   
+  
+]
+
+
 
 exports.GeneralSurveyList = [
   //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
@@ -339,6 +541,8 @@ exports.GeneralSurveyList = [
     }
   },
 ];
+
+
 
 //pagination api
 
@@ -867,8 +1071,6 @@ exports.tmpTestData= [
 ];
 
 
-
-
 exports.tmp_out1List = [
   async (req, res) => {
     var sevikadata;
@@ -1051,26 +1253,7 @@ exports.tmp_out1List = [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+///screener report
 
 exports.tmp_out0List1 = [
   async (req, res) => {
@@ -1158,9 +1341,9 @@ exports.tmp_out0List1 = [
         },
       },
       { $match: { isdeleted: false } },
-      { $sort: { createdAt: -1 } },
-      { $skip: query.skip },
-      { $limit: query.limit },
+       { $sort: { createdAt: -1 } },
+       { $skip: query.skip },
+       { $limit: query.limit },
     ])
 
     let screenersNewArr = [];
@@ -1172,12 +1355,13 @@ exports.tmp_out0List1 = [
 
         elemetObj.issubscreener = "";
         elemetObj.screenerfullname = "";
-        if(row.screeners.length>0){        
+        if(row.screeners && row.screeners.length>0){   
+            
           elemetObj.issubscreener = row.screeners[0].issubscreener;    
           elemetObj.screenerfullname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
         }  
         
-        elemetObj._id = row._id;
+        elemetObj.unique_id = row._id;
         elemetObj.status = row.status;
         elemetObj.severity_bp = row.severity_bp;
         elemetObj.severity_spo2 = row.severity_spo2;
@@ -1212,7 +1396,7 @@ exports.tmp_out0List1 = [
         elemetObj.gender = "";
         elemetObj.mobile = "";
         elemetObj.aadhaar = "";
-        if(row.citizens.length>0){ 
+        if(row.citizens && row.citizens.length>0){ 
           elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
           elemetObj.gender = row.citizens[0].sex;    
           elemetObj.mobile = row.citizens[0].mobile;    
@@ -1224,13 +1408,13 @@ exports.tmp_out0List1 = [
 
         elemetObj.leyetest = "";
         elemetObj.reyetest = "";
-        if(row.eyetests.length>0){        
+        if(row.eyetests && row.eyetests.length>0){        
           elemetObj.leyetest = row.eyetests[0].leyetest;
           elemetObj.reyetest = row.eyetests[0].reyetest;
         }
         elemetObj.dateOfBirth = "";    
         elemetObj.address  = "";
-        if(row.citizendetails.length>0){
+        if(row.citizendetails && row.citizendetails.length>0){
 
           var today = new Date();
           var birthDate = new Date(row.citizendetails[0].dateOfBirth);
@@ -1247,16 +1431,16 @@ exports.tmp_out0List1 = [
 
         // Hemoglobin datat
         elemetObj.hemoglobin = "";
-        if(row.hemoglobins.length>0){
+        if(row.hemoglobins && row.hemoglobins.length>0){
           elemetObj.hemoglobin = row.hemoglobins[0].hemoglobin;    
         }
 
         // Blood glucoese data
         elemetObj.bloodglucose = "";
-        elemetObj.type = "";
-        if(row.bloodglucosetests.length>0){
+        elemetObj.bloodglucose_type = "";
+        if(row.bloodglucosetests && row.bloodglucosetests.length>0){
           elemetObj.bloodglucose = row.bloodglucosetests[0].bloodglucose;    
-          elemetObj.type = row.bloodglucosetests[0].type;    
+          elemetObj.bloodglucose_type = row.bloodglucosetests[0].type;    
         }
 
         // Blood urinetest data
@@ -1269,9 +1453,10 @@ exports.tmp_out0List1 = [
         elemetObj.specificGravity = "";
         elemetObj.ketone = "";
         elemetObj.bilirubin = "";
-        elemetObj.glucose = "";
+        elemetObj.urine_glucose = "";
         elemetObj.notes = "";
-        if(row.urinetests.length>0){
+        elemetObj.PH = "";
+        if(row.urinetests && row.urinetests.length>0){
           elemetObj.leukocytes = row.urinetests[0].leukocytes;
           elemetObj.nitrite = row.urinetests[0].nitrite;
           elemetObj.urobilinogen = row.urinetests[0].urobilinogen;
@@ -1280,10 +1465,11 @@ exports.tmp_out0List1 = [
           elemetObj.specificGravity = row.urinetests[0].specificGravity;
           elemetObj.ketone = row.urinetests[0].ketone;
           elemetObj.bilirubin = row.urinetests[0].bilirubin;
-          elemetObj.glucose = row.urinetests[0].glucose;
+          elemetObj.urine_glucose = row.urinetests[0].glucose;
           elemetObj.notes = row.urinetests[0].notes;
+          elemetObj.PH = row.urinetests[0].ph;
         }
-
+        // PH: "$urinetests.ph",
 
         // Blood lungfunctions data
 
@@ -1299,7 +1485,7 @@ exports.tmp_out0List1 = [
         elemetObj.fev1_predicted_percent = "";
         elemetObj.fvc1_predicted_percent = "";
         elemetObj.pef_predicted_percent = "";
-        if(row.lungfunctions.length>0){
+        if(row.lungfunctions && row.lungfunctions.length>0){
           elemetObj.fvc_predicted = row.lungfunctions[0].fvc_predicted;
           elemetObj.fvc_actual = row.lungfunctions[0].fvc_actual;
           elemetObj.fev1_predicted = row.lungfunctions[0].fev1_predicted;
@@ -1325,14 +1511,14 @@ exports.tmp_out0List1 = [
         elemetObj.tcl_hdl = "";
         elemetObj.ldl_hdl = "";
         elemetObj.non_hdl = "";
-        elemetObj.glucose = "";
-        elemetObj.type = "";
+        elemetObj.lipid_glucose = "";
+        elemetObj.lipid_type = "";
         elemetObj.severity_ldl = "";
         elemetObj.severity_triglycerides = "";
         elemetObj.severity_hdlcholesterol = "";
         elemetObj.severity_cholesterol = "";
 
-         if(row.lipidpaneltests.length>0){
+         if(row.lipidpaneltests && row.lipidpaneltests.length>0){
           elemetObj.cholesterol = row.lipidpaneltests[0].cholesterol;
           elemetObj.hdlcholesterol = row.lipidpaneltests[0].hdlcholesterol;
           elemetObj.triglycerides = row.lipidpaneltests[0].triglycerides;
@@ -1340,24 +1526,356 @@ exports.tmp_out0List1 = [
           elemetObj.tcl_hdl = row.lipidpaneltests[0].tcl_hdl;
           elemetObj.ldl_hdl = row.lipidpaneltests[0].ldl_hdl;
           elemetObj.non_hdl = row.lipidpaneltests[0].non_hdl;
-          elemetObj.glucose = row.lipidpaneltests[0].glucose;
-          elemetObj.type = row.lipidpaneltests[0].type;
+          elemetObj.lipid_glucose = row.lipidpaneltests[0].glucose;
+          elemetObj.lipid_type = row.lipidpaneltests[0].type;
           elemetObj.severity_ldl = row.lipidpaneltests[0].severity_ldl;
           elemetObj.severity_triglycerides = row.lipidpaneltests[0].severity_triglycerides;
           elemetObj.severity_hdlcholesterol = row.lipidpaneltests[0].severity_hdlcholesterol;
           elemetObj.severity_cholesterol = row.lipidpaneltests[0].severity_cholesterol;
          }
-
          if(elemetObj.issubscreener==0){
-            screenersNewArr.push(elemetObj);
-         }else{
-          recordsCount = recordsCount-1;
+              screenersNewArr.push(elemetObj);
+          }else{
+            recordsCount = recordsCount-1;
+          }
+
+          elemetObj.screenerUniqueId = row._id;
+
+         let isExists = await screenerReport1.find({screenerUniqueId:row._id});
+         console.log(isExists.length);
+
+        if(isExists.length==0){
+          await screenerReport1.create(elemetObj);
          }
+
+        
       }
     }
 
     var recordsCount = await ScreeningCaseModel.ScreeningCase.find({ isdeleted: false }).countDocuments();
+    //var recordsCount = 0;
+    var totalPages = Math.ceil(recordsCount/size);
+    response = {
+      message: "data fatch successfully",
+      status: 1,
+      pages: pageNo,
+      totalPages : totalPages,
+      total: recordsCount,
+      size: size,
+      total: 0,
+      data: screenersNewArr,
+    };
+    res.json(response);
+  }catch(err){
+    console.log(err);
+    res.json([]);
+  }
 
+  },
+];
+
+//sevika report
+exports.tmp_out1List1 = [
+  async (req, res) => {
+    try{
+    var sevikadata;
+    var screenercount = 0;
+    var screenercountFinal = 0;
+    const { pageNo, size } = req.body;
+    const query = {};
+    query.skip = size * (pageNo - 1);
+    query.limit = parseInt(size);
+
+    console.log("================Report")
+    var sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizens",
+          foreignField: "citizenId",
+          as: "citizens",
+        },
+      },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "eyetests",
+      //     foreignField: "citizenId",
+      //     as: "eyetests",
+      //   },
+      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizendetails",
+          foreignField: "citizenId",
+          as: "citizendetails",
+        },
+      },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "hemoglobins",
+      //     foreignField: "citizenId",
+      //     as: "hemoglobins",
+      //   },
+      // },
+      {
+        $lookup: {
+          localField: "screenerId",
+          from: "screeners",
+          foreignField: "screenerId",
+          as: "screeners",
+        },
+      },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "bloodglucosetests",
+      //     foreignField: "caseId",
+      //     as: "bloodglucosetests",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "urinetests",
+      //     foreignField: "caseId",
+      //     as: "urinetests",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "lungfunctions",
+      //     foreignField: "caseId",
+      //     as: "lungfunctions",
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     localField: "caseId",
+      //     from: "lipidpaneltests",
+      //     foreignField: "caseId",
+      //     as: "lipidpaneltests",
+      //   },
+      // },
+      { $match: { isdeleted: false } },
+       { $sort: { createdAt: -1 } },
+       { $skip: query.skip },
+       { $limit: query.limit },
+    ])
+
+    let screenersNewArr = [];
+
+    if(sevikadata.length>0){
+      for(let i=0;i<sevikadata.length;i++){
+        let row = sevikadata[i];
+        let elemetObj = {};
+
+        elemetObj.issubscreener = "";
+        elemetObj.screenerfullname = "";
+        if(row.screeners && row.screeners.length>0){   
+            
+          elemetObj.issubscreener = row.screeners[0].issubscreener;    
+          elemetObj.screenerfullname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
+        }  
+        
+        elemetObj.unique_id = row._id;
+        elemetObj.status = row.status;
+        elemetObj.severity_bp = row.severity_bp;
+        elemetObj.severity_spo2 = row.severity_spo2;
+        elemetObj.severity_temperature = row.severity_temperature;
+        elemetObj.severity_pulse = row.severity_pulse;
+        elemetObj.severity_bmi = row.severity_bmi;
+        elemetObj.severity_respiratory_rate = row.severity_respiratory_rate;
+        elemetObj.severity = row.severity;
+        elemetObj.citizenId = row.citizenId;
+        elemetObj.notes = row.notes;
+        elemetObj.doctorId = row.doctorId;
+        elemetObj.screenerId = row.screenerId;
+        elemetObj.height = row.height;
+        elemetObj.weight = row.weight;
+        elemetObj.bmi = row.bmi;
+        elemetObj.bpsys = row.bpsys;
+        elemetObj.bpdia = row.bpdia;
+        elemetObj.arm = row.arm;
+        elemetObj.spo2 = row.spo2;
+        elemetObj.caseId = row.caseId;
+        elemetObj.pulse = row.pulse;
+        elemetObj.respiratory_rate = row.respiratory_rate;
+        elemetObj.temperature = row.temperature;
+        elemetObj.referDocId = row.referDocId;
+        elemetObj.createdAt = row.createdAt;
+        elemetObj.updatedAt = row.updatedAt;
+        elemetObj.isUnrefer = row.isUnrefer;
+        elemetObj.isdeleted = row.isdeleted;  
+
+
+        elemetObj.fullname = "";
+        elemetObj.gender = "";
+        elemetObj.mobile = "";
+        elemetObj.aadhaar = "";
+        elemetObj.email = "";
+        if(row.citizens && row.citizens.length>0){ 
+          elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
+          elemetObj.gender = row.citizens[0].sex;    
+          elemetObj.mobile = row.citizens[0].mobile;    
+          elemetObj.aadhaar = row.citizens[0].aadhaar;  
+          elemetObj.email = row.citizens[0].email;  
+        }  
+
+        
+
+
+        // elemetObj.leyetest = "";
+        // elemetObj.reyetest = "";
+        // if(row.eyetests && row.eyetests.length>0){        
+        //   elemetObj.leyetest = row.eyetests[0].leyetest;
+        //   elemetObj.reyetest = row.eyetests[0].reyetest;
+        // }
+        elemetObj.dateOfBirth = "";    
+        elemetObj.address  = "";
+        if(row.citizendetails && row.citizendetails.length>0){
+
+          var today = new Date();
+          var birthDate = new Date(row.citizendetails[0].dateOfBirth);
+          var age = today.getFullYear() - birthDate.getFullYear();
+          var m = today.getMonth() - birthDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+              age--;
+          }
+
+          elemetObj.age = age;    
+          elemetObj.dateOfBirth = row.citizendetails[0].dateOfBirth;    
+          elemetObj.address = row.citizendetails[0].address;    
+        }
+
+        // Hemoglobin datat
+        // elemetObj.hemoglobin = "";
+        // if(row.hemoglobins && row.hemoglobins.length>0){
+        //   elemetObj.hemoglobin = row.hemoglobins[0].hemoglobin;    
+        // }
+
+        // // Blood glucoese data
+        // elemetObj.bloodglucose = "";
+        // elemetObj.bloodglucose_type = "";
+        // if(row.bloodglucosetests && row.bloodglucosetests.length>0){
+        //   elemetObj.bloodglucose = row.bloodglucosetests[0].bloodglucose;    
+        //   elemetObj.bloodglucose_type = row.bloodglucosetests[0].type;    
+        // }
+
+        // Blood urinetest data
+
+        // elemetObj.leukocytes = "";
+        // elemetObj.nitrite = "";
+        // elemetObj.urobilinogen = "";
+        // elemetObj.protein = "";
+        // elemetObj.blood = "";
+        // elemetObj.specificGravity = "";
+        // elemetObj.ketone = "";
+        // elemetObj.bilirubin = "";
+        // elemetObj.urine_glucose = "";
+        // elemetObj.notes = "";
+        // elemetObj.PH = "";
+        // if(row.urinetests && row.urinetests.length>0){
+        //   elemetObj.leukocytes = row.urinetests[0].leukocytes;
+        //   elemetObj.nitrite = row.urinetests[0].nitrite;
+        //   elemetObj.urobilinogen = row.urinetests[0].urobilinogen;
+        //   elemetObj.protein = row.urinetests[0].protein;
+        //   elemetObj.blood = row.urinetests[0].blood;
+        //   elemetObj.specificGravity = row.urinetests[0].specificGravity;
+        //   elemetObj.ketone = row.urinetests[0].ketone;
+        //   elemetObj.bilirubin = row.urinetests[0].bilirubin;
+        //   elemetObj.urine_glucose = row.urinetests[0].glucose;
+        //   elemetObj.notes = row.urinetests[0].notes;
+        //   elemetObj.PH = row.urinetests[0].ph;
+        // }
+        
+
+        // Blood lungfunctions data
+
+        // elemetObj.fvc_predicted = "";
+        // elemetObj.fvc_actual = "";
+        // elemetObj.fev1_predicted = "";
+        // elemetObj.fev1_actual = "";
+        // elemetObj.fvc1_predicted = "";
+        // elemetObj.fvc1_actual = "";
+        // elemetObj.pef_predicted = "";
+        // elemetObj.pef_actual = "";
+        // elemetObj.fvc_predicted_percent = "";
+        // elemetObj.fev1_predicted_percent = "";
+        // elemetObj.fvc1_predicted_percent = "";
+        // elemetObj.pef_predicted_percent = "";
+        // if(row.lungfunctions && row.lungfunctions.length>0){
+        //   elemetObj.fvc_predicted = row.lungfunctions[0].fvc_predicted;
+        //   elemetObj.fvc_actual = row.lungfunctions[0].fvc_actual;
+        //   elemetObj.fev1_predicted = row.lungfunctions[0].fev1_predicted;
+        //   elemetObj.fev1_actual = row.lungfunctions[0].fev1_actual;
+        //   elemetObj.fvc1_predicted = row.lungfunctions[0].fvc1_predicted;
+        //   elemetObj.fvc1_actual = row.lungfunctions[0].fvc1_actual;
+        //   elemetObj.pef_predicted = row.lungfunctions[0].pef_predicted;
+        //   elemetObj.pef_actual = row.lungfunctions[0].pef_actual;
+        //   elemetObj.fvc_predicted_percent = row.lungfunctions[0].fvc_predicted_percent;
+        //   elemetObj.fev1_predicted_percent = row.lungfunctions[0].fev1_predicted_percent;
+        //   elemetObj.fvc1_predicted_percent = row.lungfunctions[0].fvc1_predicted_percent;
+        //   elemetObj.pef_predicted_percent = row.lungfunctions[0].pef_predicted_percent;
+
+        // }
+
+
+         // Blood lipidpaneltests data
+         
+        // elemetObj.cholesterol = "";
+        // elemetObj.hdlcholesterol = "";
+        // elemetObj.triglycerides = "";
+        // elemetObj.ldl = "";
+        // elemetObj.tcl_hdl = "";
+        // elemetObj.ldl_hdl = "";
+        // elemetObj.non_hdl = "";
+        // elemetObj.lipid_glucose = "";
+        // elemetObj.lipid_type = "";
+        // elemetObj.severity_ldl = "";
+        // elemetObj.severity_triglycerides = "";
+        // elemetObj.severity_hdlcholesterol = "";
+        // elemetObj.severity_cholesterol = "";
+
+        //  if(row.lipidpaneltests && row.lipidpaneltests.length>0){
+        //   elemetObj.cholesterol = row.lipidpaneltests[0].cholesterol;
+        //   elemetObj.hdlcholesterol = row.lipidpaneltests[0].hdlcholesterol;
+        //   elemetObj.triglycerides = row.lipidpaneltests[0].triglycerides;
+        //   elemetObj.ldl = row.lipidpaneltests[0].ldl;
+        //   elemetObj.tcl_hdl = row.lipidpaneltests[0].tcl_hdl;
+        //   elemetObj.ldl_hdl = row.lipidpaneltests[0].ldl_hdl;
+        //   elemetObj.non_hdl = row.lipidpaneltests[0].non_hdl;
+        //   elemetObj.lipid_glucose = row.lipidpaneltests[0].glucose;
+        //   elemetObj.lipid_type = row.lipidpaneltests[0].type;
+        //   elemetObj.severity_ldl = row.lipidpaneltests[0].severity_ldl;
+        //   elemetObj.severity_triglycerides = row.lipidpaneltests[0].severity_triglycerides;
+        //   elemetObj.severity_hdlcholesterol = row.lipidpaneltests[0].severity_hdlcholesterol;
+        //   elemetObj.severity_cholesterol = row.lipidpaneltests[0].severity_cholesterol;
+        //  }
+         if(elemetObj.issubscreener==1){
+              screenersNewArr.push(elemetObj);
+          }else{
+            recordsCount = recordsCount-1;
+          }
+
+          elemetObj.screenerUniqueId = row._id;
+
+         let isExists = await sevikaReport1.find({screenerUniqueId:row._id});
+         console.log(isExists.length);
+
+        if(isExists.length==0){
+          await sevikaReport1.create(elemetObj);
+         }
+
+        
+      }
+    }
+
+    var recordsCount = await ScreeningCaseModel.ScreeningCase.find({ isdeleted: false }).countDocuments();
+    //var recordsCount = 0;
     var totalPages = Math.ceil(recordsCount/size);
     response = {
       message: "data fatch successfully",
