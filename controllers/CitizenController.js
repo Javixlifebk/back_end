@@ -1479,7 +1479,60 @@ exports.citizenCasesList = [
 		}
 	},
 ];
-
+exports.searchcitizendata=[
+	async (req, res) => {
+	  try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+		  return apiResponse.validationErrorWithData(
+			res,
+			"Validation Error.",
+			errors.array()
+		  );
+		} else {
+  
+		  const allTasks = await CitizenModel.Citizen.find({citizenId : req.body.citizenId})
+		  var condition = {};
+		  if (
+			req.body.familyId != "" &&
+			req.body.familyId != undefined &&
+			req.body.familyId != null
+		  ) {
+			condition["familyId"] = req.body.familyId;
+		  }
+		  if (
+			req.body.citizenId != "" &&
+			req.body.citizenId != undefined &&
+			req.body.citizenId != null
+		  ) {
+			condition["citizenId"] = req.body.citizenId;
+		  }
+		  if (
+			req.body.screenerId != "" &&
+			req.body.screenerId != undefined &&
+			req.body.screenerId != null
+		  ) {
+			condition["screenerId"] = req.body.screenerId;
+		  }
+  
+		 await CitizenModel.Citizen.aggregate([
+			{ $match: condition },
+			
+			{ $sort: { createdAt: -1 } },
+			
+			
+		  ]).then((users) => {
+			let user = users[0];
+			if (user) {
+			  return apiResponse.successResponseWithData(res, "Found", users ,allTasks );
+			}
+		  });
+		}
+	  } catch (err) {
+		return apiResponse.ErrorResponse(res, "EXp:" + err);
+	  }
+	},
+  ]
 
 // -------------------display refer list data end--------------
 exports.citizenListSearcherPagination = [
