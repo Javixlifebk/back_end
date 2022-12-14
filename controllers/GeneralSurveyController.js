@@ -368,7 +368,7 @@ exports.download = [
         }  
         
         elemetObj.screenerId = "'"+row.screenerId+"'";
-        elemetObj.citizenId = "' "+row.citizenId[row.citizenId.length-1]+" '";
+        elemetObj.citizenId = "'"+row.citizenId[row.citizenId.length-1]+" '";
         elemetObj._id = row._id;
         elemetObj.familyId = "'"+row.familyId+"'";
         elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
