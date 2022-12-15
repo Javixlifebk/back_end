@@ -15,8 +15,6 @@ const path = require("path")
 
 const fs = require('fs');
 
-
-
 const { body, query, validationResult } = require("express-validator");
 const moment = require("moment");
 const { sanitizeBody } = require("express-validator");
@@ -33,10 +31,10 @@ const { timeEnd } = require("console");
 const fields = ['_id','screenerId',
   'familyId','citizenId',
   'noOfFamilyMembers',
-  'Headofname',
+  'nameoffamilyhead',
   'ageHead',
   'NoOfAdultMales',
-   'NoOfAdultFemales',
+  'NoOfAdultFemales',
   'NoOfChildrenMales',
   'NoOfChildrenFemales',
   'createdAt',
@@ -254,31 +252,7 @@ exports.searchdata=[
   },
 ]
 
-// exports.download = [ 
-//   async (req, res) => {
 
-//    GeneralSurveyModel.find({}, function (err, gsurvey) {
-//       if (err) {
-//         return res.status(500).json({ err });
-//       }
-//       else {
-//         let csv
-//         csv = json2csv(gsurvey,{fields});
-     
-//         const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"generalsurvey"+".csv")
-//         console.log("+++++",filePath);
-//         fs.writeFile(filePath, csv, function (err) {
-//           if (err) {
-//             return res.json(err).status(500);
-//           }
-//             return res.json("/exports/csv-" +"generalsurvey"+ ".csv");
-        
-//         });
-  
-//       }
-//     })
-//   }
-// ]
 
 exports.download = [ 
   async (req, res,err) => {
@@ -372,7 +346,7 @@ exports.download = [
         elemetObj._id = row._id;
         elemetObj.familyId = "'"+row.familyId+"'";
         elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
-        elemetObj.Headofname = row.nameHead;
+        elemetObj.nameoffamilyhead = row.nameHead;
         elemetObj.ageHead=row.ageHead,
        elemetObj.NoOfAdultMales=row.NoOfAdultMales,
        elemetObj.NoOfAdultFemales=row.NoOfAdultFemales,
@@ -429,6 +403,90 @@ exports.download = [
   
 ]
 
+
+// exports.updateandgsurvey= [
+//   (req, res) => { 
+    
+//     // let id = req.params.id;
+
+
+//     // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+    
+//     ScreenerModel.Screener.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+
+    
+//       .then((note) => {
+//       if (!note) {
+//         return res.status(404).send({
+//         message: "data not found with id " + req.params.id,
+//         });
+//       }
+//       res.send(note);
+//       })
+//       .catch((err) => {
+      
+//       if (err.kind === "ObjectId") {
+//         return res.status(404).send({
+//         message: "data not found with id ",
+//         });
+//       }
+//       return res.status(500).send({
+//         message: "Error updating note with id ",
+//       });
+//       });
+       
+//   }
+
+          
+
+// ];
+
+
+
+// exports.updategsurveyDeletedAuth = [
+
+
+// (req, res) => {
+
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+//     } else {
+
+
+//       ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
+//         if (err) {
+//           return apiResponse.ErrorResponse(res, err);
+//         }
+//         else {
+//           if (resDoc) {
+
+//             ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
+//               if (ierr) {
+//                 return apiResponse.ErrorResponse(res, ierr);
+//               }
+//               else {
+//                 if (iresDoc) {
+
+//                   return apiResponse.successResponse(res, "Updated Successfullly.");
+//                 }
+//                 else apiResponse.ErrorResponse(res, "Invalid User");
+//               }
+//             });
+//           }
+//           else apiResponse.ErrorResponse(res, "Invalid User");
+//         }
+//       });
+
+
+
+//     }
+//   } catch (err) {
+
+//     return apiResponse.ErrorResponse(res, "EXp:" + err);
+//   }
+// }];
 
 
 exports.GeneralSurveyList = [
