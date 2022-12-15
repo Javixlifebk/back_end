@@ -41,7 +41,7 @@ const fields = ['_id','screenerId',
   'NoOfChildrenFemales',
   'createdAt',
   'updatedAt',
-  'screenerfullname',
+  'sevikaname',
   'address',
   'familymembername',
   'mobile',
@@ -362,9 +362,9 @@ exports.download = [
       for(let i=0;i<gsurvey.length;i++){
         let row = gsurvey[i];
         let elemetObj = {};
-        elemetObj.screenerfullname = "";
+        elemetObj.sevikaname = "";
         if(row.screeners && row.screeners.length>0){   
-          elemetObj.screenerfullname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
+          elemetObj.sevikaname = row.screeners[0].firstName+" "+row.screeners[0].lastName;  
         }  
         
         elemetObj.screenerId = "'"+row.screenerId+"'";
@@ -373,7 +373,7 @@ exports.download = [
         elemetObj.familyId = "'"+row.familyId+"'";
         elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
         elemetObj.Headofname = row.nameHead;
-      elemetObj.ageHead=row.ageHead,
+        elemetObj.ageHead=row.ageHead,
        elemetObj.NoOfAdultMales=row.NoOfAdultMales,
        elemetObj.NoOfAdultFemales=row.NoOfAdultFemales,
        elemetObj.NoOfChildrenMales=row.NoOfChildrenMales,
