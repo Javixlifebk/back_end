@@ -33,7 +33,7 @@ const { timeEnd } = require("console");
 const fields = ['_id','screenerId',
   'familyId','citizenId',
   'noOfFamilyMembers',
-  'nameHead',
+  'Headofname',
   'ageHead',
   'NoOfAdultMales',
    'NoOfAdultFemales',
@@ -43,7 +43,7 @@ const fields = ['_id','screenerId',
   'updatedAt',
   'screenerfullname',
   'address',
-  'fullname',
+  'familymembername',
   'mobile',
   'aadhaar'];
 
@@ -372,7 +372,7 @@ exports.download = [
         elemetObj._id = row._id;
         elemetObj.familyId = "'"+row.familyId+"'";
         elemetObj.noOfFamilyMembers = row.noOfFamilyMembers;
-        elemetObj.nameHead = row.nameHead;
+        elemetObj.Headofname = row.nameHead;
       elemetObj.ageHead=row.ageHead,
        elemetObj.NoOfAdultMales=row.NoOfAdultMales,
        elemetObj.NoOfAdultFemales=row.NoOfAdultFemales,
@@ -381,21 +381,21 @@ exports.download = [
        elemetObj.createdAt=row.createdAt,
       updatedAt=row.updatedAt,
 
-       elemetObj.fullname = "";
+       elemetObj.familymembername = "";
         elemetObj.gender = "";
         elemetObj.mobile = "";
         elemetObj.aadhaar = "";
         if(row.citizens && row.citizens.length>0){ 
-          let fullname = "";
+          let familymembername = "";
           for(let k=0;k<row.citizens.length;k++){
-            fullname = fullname+" "+row.citizens[k].firstName+" "+row.citizens[k].lastName+",";  
-            fullname.replace(/^\,s+/, '');  
+            familymembername = familymembername+" "+row.citizens[k].firstName+" "+row.citizens[k].lastName+",";  
+            familymembername.replace(/^\,s+/, '');  
           }
-          elemetObj.fullname = fullname ;
+          elemetObj.familymembername = familymembername ;
           //elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
           // elemetObj.gender = row.citizens[0].sex;    
-          elemetObj.mobile = row.citizens[0].mobile;    
-          elemetObj.aadhaar = row.citizens[0].aadhaar;  
+          elemetObj.mobile =row.citizens[0].mobile; 
+          elemetObj.aadhaar =row.citizens[0].aadhaar;  
         }  
       
         elemetObj.dateOfBirth = "";    

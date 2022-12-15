@@ -26,8 +26,7 @@ const fields = [
 'screenerfullname',
 'address',
 'mobile',
-'firstName',
-'lastName',
+'familymembername',
 'aadhaar',
 'drinkingWaterSource',
 'drinkingWaterDistance',
@@ -400,17 +399,17 @@ exports.healthsurveydownload = [
 
 
 
-			   elemetObj.fullname = "";
+			   elemetObj.familymembername = "";
 				elemetObj.gender = "";
 				elemetObj.mobile = "";
 				elemetObj.aadhaar = "";
 				if(row.citizens && row.citizens.length>0){ 
-				  let fullname = "";
+				  let familymembername = "";
 				  for(let k=0;k<row.citizens.length;k++){
-					fullname = fullname+" "+row.citizens[k].firstName+" "+row.citizens[k].lastName+",";  
-					fullname.replace(/^\,s+/, '');  
+					familymembername = familymembername+" "+row.citizens[k].firstName+" "+row.citizens[k].lastName+",";  
+					familymembername.replace(/^\,s+/, '');  
 				  }
-				  elemetObj.fullname = fullname ;
+				  elemetObj.familymembername = familymembername ;
 				  //elemetObj.fullname = row.citizens[0].firstName+" "+row.citizens[0].lastName;    
 				  // elemetObj.gender = row.citizens[0].sex;    
 				  elemetObj.mobile = row.citizens[0].mobile;    
