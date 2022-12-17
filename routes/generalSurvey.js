@@ -12,4 +12,6 @@ routerGSurvey.post("/lungtestCase", GeneralSurveyController.tmpTestData);
 routerGSurvey.post("/screenersevika", GeneralSurveyController.tmp_out1List);
 routerGSurvey.post("/criticallipid", GeneralSurveyController.tmp_outList);
 routerGSurvey.get('/download', GeneralSurveyController.download);
+routerGSurvey.post('/updateadddeletegsurvey', GeneralSurveyController.updateandgsurvey);
+routerGSurvey.post('/deletegsurveybyid', GeneralSurveyController.updategsurveyDeletedAuth);
 module.exports = routerGSurvey;
