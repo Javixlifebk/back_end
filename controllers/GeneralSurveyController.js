@@ -288,6 +288,8 @@ exports.download = [
         as: "screeners",
       },
     },
+    {$match:{isdeleted:false}},
+
     // { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
     // { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
   
@@ -404,89 +406,104 @@ exports.download = [
 ]
 
 
-// exports.updateandgsurvey= [
-//   (req, res) => { 
-    
-//     // let id = req.params.id;
-
-
-//     // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
-    
-//     ScreenerModel.Screener.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
-
-    
-//       .then((note) => {
-//       if (!note) {
-//         return res.status(404).send({
-//         message: "data not found with id " + req.params.id,
-//         });
-//       }
-//       res.send(note);
-//       })
-//       .catch((err) => {
+exports.updateandgsurvey= [
+  (req, res) => { 
+    GeneralSurveyModel.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+      .then((note) => {
+      if (!note) {
+        return res.status(404).send({
+        message: "data not found with id " + req.params.id,
+        });
+      }
+      res.send(note);
+      })
+      .catch((err) => {
       
-//       if (err.kind === "ObjectId") {
-//         return res.status(404).send({
-//         message: "data not found with id ",
-//         });
-//       }
-//       return res.status(500).send({
-//         message: "Error updating note with id ",
-//       });
-//       });
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+        message: "data not found with id ",
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating note with id ",
+      });
+      });
        
-//   }
+  }
 
           
 
-// ];
+];
 
 
 
-// exports.updategsurveyDeletedAuth = [
+exports.updategsurveyDeletedAuth = [
+  // (req, res) => { 
+  //   GeneralSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, {upsert:false, multi:true})
+  //     .then((note) => {
+  //     if (!note) {
+  //       return res.status(404).send({
+  //       message: "data not found with id " ,
+  //       });
+  //     }
+  //     res.send(note);
+  //     })
+  //     .catch((err) => {
+      
+  //     if (err.kind === "ObjectId") {
+  //       return res.status(404).send({
+  //       message: "data not found with id ",
+  //       });
+  //     }
+  //     return res.status(500).send({
+  //       message: "Error updating note with id ",
+  //     });
+  //     });
+       
+  // }
+
+(req, res) => {
+
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+    } else {
 
 
-// (req, res) => {
+      GeneralSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (err, resDoc) {
+        if (err) {
+          return apiResponse.ErrorResponse(res, err);
+        }
+        else {
+          if (resDoc) {
 
-//   try {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-//     } else {
+            GeneralSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } },function (ierr, iresDoc) {
+              if (ierr) {
+                return apiResponse.ErrorResponse(res, ierr);
+              }
+              else {
+                if (iresDoc) {
 
-
-//       ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted': req.body.isdeleted } }, function (err, resDoc) {
-//         if (err) {
-//           return apiResponse.ErrorResponse(res, err);
-//         }
-//         else {
-//           if (resDoc) {
-
-//             ScreenerModel.Screener.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (ierr, iresDoc) {
-//               if (ierr) {
-//                 return apiResponse.ErrorResponse(res, ierr);
-//               }
-//               else {
-//                 if (iresDoc) {
-
-//                   return apiResponse.successResponse(res, "Updated Successfullly.");
-//                 }
-//                 else apiResponse.ErrorResponse(res, "Invalid User");
-//               }
-//             });
-//           }
-//           else apiResponse.ErrorResponse(res, "Invalid User");
-//         }
-//       });
+                  return apiResponse.successResponse(res, "Updated Successfullly.");
+                }
+                else apiResponse.ErrorResponse(res, "Invalid User");
+              }
+            });
+          }
+          else apiResponse.ErrorResponse(res, "Invalid User");
+        }
+      });
 
 
 
-//     }
-//   } catch (err) {
+    }
+  } catch (err) {
 
-//     return apiResponse.ErrorResponse(res, "EXp:" + err);
-//   }
-// }];
+    return apiResponse.ErrorResponse(res, "EXp:" + err);
+  }
+}
+];
 
 
 exports.GeneralSurveyList = [
@@ -504,7 +521,7 @@ exports.GeneralSurveyList = [
         );
       } else {
 
-        const allTasks = await GeneralSurveyModel.find({nameHead : req.body.nameHead})
+        // const allTasks = await GeneralSurveyModel.find({nameHead : req.body.nameHead})
         var condition = {};
         if (
           req.body.familyId != "" &&
@@ -575,6 +592,7 @@ exports.GeneralSurveyList = [
               NoOfChildrenFemales: 1,
               createdAt: 1,
               updatedAt: 1,
+              isdeleted:1,
 
               screenerfullname: {
                 $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
@@ -584,14 +602,16 @@ exports.GeneralSurveyList = [
               // 'citizens.firstName':1,
               "citizens.firstName": 1,
               "citizens.lastName": 1,
-
+              
               aadhaar: { $slice: [  "$citizens.aadhaar", -1 ] },
             },
           },
+          {$match:{isdeleted:false}},
+
         ]).then((users) => {
           let user = users[0];
           if (user) {
-            return apiResponse.successResponseWithData(res, "Found", users ,allTasks );
+            return apiResponse.successResponseWithData(res, "Found", users );
           }
         });
       }

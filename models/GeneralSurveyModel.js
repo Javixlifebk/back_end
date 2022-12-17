@@ -14,6 +14,7 @@ var GeneralSurveySchema = new mongoose.Schema({
 	NoOfChildrenMales:{type: String,required:false},
 	NoOfChildrenFemales:{type: String,required:false},
 	screenerId:{type: String, required: true},
+	isdeleted:{type: Boolean, required: true}
 }, {timestamps: true});
 var GeneralSurvey= mongoose.model("GeneralSurvey", GeneralSurveySchema);
 module.exports =GeneralSurvey;
