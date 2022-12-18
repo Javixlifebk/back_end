@@ -350,7 +350,7 @@ exports.healthsurveydownload = [
 				as: "screeners",
 			  },
 			},
-		
+			{$match:{isdeleted:false}},
 			])
 			// console.log(hsurvey);
 		   
@@ -393,6 +393,7 @@ exports.healthsurveydownload = [
 			   elemetObj.alcoholStatus=row.alcoholStatus,
 			   elemetObj.tobaccoStatus=row.tobaccoStatus,
 			   elemetObj.createdAt=row.createdAt,
+			   elemetObj.isdeleted=row.isdeleted,
 
 
 
@@ -447,7 +448,7 @@ exports.healthsurveydownload = [
 	 
 	
   ]
- exports.HealthSurveyList=[
+exports.HealthSurveyList=[
 //  //    body("familyId").isLength({ min: 3 }).trim().withMessage("Invalid familyId!"),
 // 	// sanitizeBody("familyId").escape(),
 	
@@ -531,11 +532,13 @@ exports.healthsurveydownload = [
 								'sugarTestStatus':1,
 								'smokingStatus':1,
 								'alcoholStatus': 1,
-								'tobaccoStatus': 1
+								'tobaccoStatus': 1,
+								'isdeleted':1
 
 								}
 							},
 							{$sort:{'createdAt':-1}},
+							{$match:{isdeleted:false}},
 						]
 				).then(users => {
 					
@@ -554,3 +557,80 @@ exports.healthsurveydownload = [
 	}
 
 ];
+
+
+// -----------------add in health survey collection isdeleted field--------------------
+exports.updateAddHealthsurvey= [
+	(req, res) => { 
+	  HealthSurveyModel.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+		.then((note) => {
+		if (!note) {
+		  return res.status(404).send({
+		  message: "data not found with id " + req.params.id,
+		  });
+		}
+		res.send(note);
+		})
+		.catch((err) => {
+		
+		if (err.kind === "ObjectId") {
+		  return res.status(404).send({
+		  message: "data not found with id ",
+		  });
+		}
+		return res.status(500).send({
+		  message: "Error updating note with id ",
+		});
+		});
+		 
+	}
+  
+  ];
+  
+  // -----------------update in health survey collection isdeleted true or false field--------------------
+  
+exports.updateHealthSurveyDeleted= [
+  
+  (req, res) => {
+  
+	try {
+	  const errors = validationResult(req);
+	  if (!errors.isEmpty()) {
+		return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+	  } else {
+  
+  
+		HealthSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (err, resDoc) {
+		  if (err) {
+			return apiResponse.ErrorResponse(res, err);
+		  }
+		  else {
+			if (resDoc) {
+  
+			  HealthSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } },function (ierr, iresDoc) {
+				if (ierr) {
+				  return apiResponse.ErrorResponse(res, ierr);
+				}
+				else {
+				  if (iresDoc) {
+  
+					return apiResponse.successResponse(res, "Updated Successfullly.");
+				  }
+				  else apiResponse.ErrorResponse(res, "Invalid User");
+				}
+			  });
+			}
+			else apiResponse.ErrorResponse(res, "Invalid User");
+		  }
+		});
+  
+  
+  
+	  }
+	} catch (err) {
+  
+	  return apiResponse.ErrorResponse(res, "EXp:" + err);
+	}
+  }
+  ];
+  
