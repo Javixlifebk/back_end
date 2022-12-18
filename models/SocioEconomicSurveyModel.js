@@ -20,6 +20,7 @@ var SocioEconomicSurveySchema = new mongoose.Schema({
 	conveyanceExpense:{type: String,required:false},
 	cultivableLand:{type: String,required:false},
 	screenerId:{type: String, required: true},
+	isdeleted:{type: Boolean, required: true}
 }, {timestamps: false});
 var SocioEconomicSurvey= mongoose.model("SocioEconomicSurvey", SocioEconomicSurveySchema);
 module.exports =SocioEconomicSurvey;

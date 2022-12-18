@@ -205,9 +205,11 @@ exports.sociosurveydownload = [
 						'educationExpense':1,
 						'intoxicationExpense':1,
 						'conveyanceExpense':1,
-						'cultivableLand': 1
+						'cultivableLand': 1,
+						"isdeleted":1
 			}
-		}
+		},
+		{'$match':{"isdeleted":false}}
 	  ])
 	 
 	 
@@ -288,7 +290,7 @@ exports.SocieSurveyList=[
 								'socioeconomicsurveyId':1,
 											'familyId':1,
 											'screenerId':1,
-											'citizenId':1,
+											citizenId:'$citizenId',
 											'noOfEarners':1,
 											'nameOfEarners':1,
 											'ageOfEarners':1,
@@ -301,9 +303,12 @@ exports.SocieSurveyList=[
 											'educationExpense':1,
 											'intoxicationExpense':1,
 											'conveyanceExpense':1,
-											'cultivableLand': 1
+											'cultivableLand': 1,
+											"isdeleted":1
 								}
-							}
+							},
+							// {'$match':{"isdeleted":false}}
+							{'$match':{"isdeleted":false}},
 						]
 				).then(users => {
 					
@@ -322,3 +327,79 @@ exports.SocieSurveyList=[
 	}
 
 ];
+
+
+// -----------------add in sociosurvey collection isdeleted field--------------------
+exports.updateAddSocioSurvey= [
+	(req, res) => { 
+		SocioEconomicSurveyModel.update({},{$set : {"isdeleted": false}}, {upsert:false, multi:true})
+		.then((note) => {
+		if (!note) {
+		  return res.status(404).send({
+		  message: "data not found with id " + req.params.id,
+		  });
+		}
+		res.send(note);
+		})
+		.catch((err) => {
+		
+		if (err.kind === "ObjectId") {
+		  return res.status(404).send({
+		  message: "data not found with id ",
+		  });
+		}
+		return res.status(500).send({
+		  message: "Error updating note with id ",
+		});
+		});
+		 
+	}
+  
+  ];
+  
+  // -----------------update in sociosurvey collection isdeleted true or false field--------------------
+  
+  exports.updateSocioSurveyDeleted = [
+  
+  (req, res) => {
+  
+	try {
+	  const errors = validationResult(req);
+	  if (!errors.isEmpty()) {
+		return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+	  } else {
+  
+  
+		SocioEconomicSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } }, function (err, resDoc) {
+		  if (err) {
+			return apiResponse.ErrorResponse(res, err);
+		  }
+		  else {
+			if (resDoc) {
+  
+				SocioEconomicSurveyModel.updateMany({ 'screenerId': req.body.screenerId }, { '$set': { 'isdeleted':req.body.isdeleted } },function (ierr, iresDoc) {
+				if (ierr) {
+				  return apiResponse.ErrorResponse(res, ierr);
+				}
+				else {
+				  if (iresDoc) {
+  
+					return apiResponse.successResponse(res, "Updated Successfullly.");
+				  }
+				  else apiResponse.ErrorResponse(res, "Invalid User");
+				}
+			  });
+			}
+			else apiResponse.ErrorResponse(res, "Invalid User");
+		  }
+		});
+  
+  
+  
+	  }
+	} catch (err) {
+  
+	  return apiResponse.ErrorResponse(res, "EXp:" + err);
+	}
+  }
+  ];
