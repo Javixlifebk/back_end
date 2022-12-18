@@ -30,6 +30,7 @@ var HealthSurveySchema = new mongoose.Schema({
 	alcoholStatus:{type: Array,required:false},
 	tobaccoStatus:{type: Array,required:false},
 	screenerId:{type: String, required: true},
+	isdeleted:{type: Boolean, required: true}
 }, {timestamps: true});
 var HealthSurvey= mongoose.model("HealthSurvey", HealthSurveySchema);
 module.exports =HealthSurvey;
