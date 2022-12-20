@@ -7,7 +7,7 @@ routerGSurvey.post("/addGeneralSurvey", GeneralSurveyController.addGeneralSurvey
 routerGSurvey.post("/GeneralSurveyList", GeneralSurveyController.GeneralSurveyList);
 routerGSurvey.post("/searchdata", GeneralSurveyController.searchdata);
 routerGSurvey.post("/screeningScreenercase", GeneralSurveyController.tmp_out0List1);
-routerGSurvey.post("/screeningScreener", GeneralSurveyController.tmpTestData);
+routerGSurvey.post("/screeningScreener", GeneralSurveyController.tmp_out0List);
 routerGSurvey.post("/sevikaScreeningcase", GeneralSurveyController.tmp_out1List1);
 routerGSurvey.post("/lungtestCase", GeneralSurveyController.tmpTestData);
 routerGSurvey.post("/screenersevika", GeneralSurveyController.tmp_out1List);
