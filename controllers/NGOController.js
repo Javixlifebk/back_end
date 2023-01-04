@@ -4,6 +4,7 @@ const { body,query,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
 const apiResponse = require("../helpers/apiResponse");
+const Imgupload = require('../middlewares/navbarLogo');
 const utility = require("../helpers/utility");
 const jwt = require("jsonwebtoken");
 const { constants } = require("../helpers/constants");
@@ -29,9 +30,9 @@ exports.addProfile = [
 	body("dateOfRegistration").isLength({ min: 10, max:10 }).trim().withMessage("Enter NGO Registration Date format 'yyyy-mm-dd' !").custom((value) => {
 			return utility.isDate(value);
 		}).withMessage("Enter NGO Registration Date format 'yyyy-mm-dd' !"),								
-	body("dateOfOnBoarding").isLength({ min: 10, max:10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
-			return utility.isDate(value);
-		}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),	
+	// body("dateOfOnBoarding").isLength({ min: 10, max:10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
+	// 		return utility.isDate(value);
+	// 	}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),	
 	body("country").isLength({ min: 3 }).trim().withMessage("Enter Country !").isAlpha().withMessage("Country name must not contain number !"),	
 	body("state").isLength({ min: 3 }).trim().withMessage("Enter State !"),	
 	body("district").isLength({ min: 3 }).trim().withMessage("Enter District !"),	
@@ -42,7 +43,9 @@ exports.addProfile = [
 	sanitizeBody("ownerName").escape(),
 	sanitizeBody("mobileNo").escape(),
 	sanitizeBody("email").escape(),
-	
+	// sanitizeBody("image").escape(),
+	// sanitizeBody("client_logo").escape(),
+
 	sanitizeBody("ngoRegistrationNo").escape(),
 	sanitizeBody("dateOfRegistration").escape(),
 	sanitizeBody("dateOfOnBoarding").escape(),
@@ -53,8 +56,23 @@ exports.addProfile = [
 	sanitizeBody("photo").escape(),
 	
 	(req, res) => { 
+
+		console.log("===============================================>",req.body);
 			
 		try {
+			// Imgupload(req,res);
+			// let dataObj = {}
+
+			// if(req.files['image']){ 
+			// const profileImage =req.files['image'][0].path; 
+			// dataObj.image = profileImage; 
+			// }
+		
+			// if(req.files['client_logo']){
+			// const bannerImage = req.files['client_logo'][0].path;  
+			// dataObj.client_logo = bannerImage; 
+			// }
+
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -70,9 +88,13 @@ exports.addProfile = [
 							owner:req.body.ownerName,
 							mobile: req.body.mobileNo,
 							email: req.body.email,
-							ngoLoginId: ngoLoginId
+							ngoLoginId: ngoLoginId,
+							javixid:ngoLoginId,
+								
+
 					};
 					var actionNGO=new NGOModel.NGO(recNGO);
+					console.log(actionNGO);
 					actionNGO.save(function(_error)
 					{
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
@@ -92,9 +114,13 @@ exports.addProfile = [
 									isDefault: false,
 									rating : 0,
 									ngoId: ID,
-									photo: req.body.photo
+									photo: req.body.photo,
+							// 		image:dataObj.image,
+							// client_logo:dataObj.client_logo,
+
 								};
 								var actionNGODetails=new NGOModel.NGODetails(recDetails);
+								
 								actionNGODetails.save(function(_ierror)
 								{
 									if(_ierror){ apiResponse.ErrorResponse(res, "Sorry:"+_ierror);}
@@ -109,7 +135,7 @@ exports.addProfile = [
 					
 			}
 		} catch (err) {
-			
+			console.log(err);
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];

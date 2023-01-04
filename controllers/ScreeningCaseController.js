@@ -50,6 +50,7 @@ exports.addScreening = [
   // body("referDocId").isLength({ min: 1 }).trim().withMessage("Enter refDoctor Id !"),
 
   sanitizeBody("citizenId").escape(),
+  // sanitizeBody("ngoName").escape(),
   sanitizeBody("notes").escape(),
   sanitizeBody("doctorId").escape(),
   sanitizeBody("status").escape(),
@@ -90,6 +91,7 @@ exports.addScreening = [
 
         var recScreener = {
           citizenId: req.body.citizenId,
+          ngoId:req.body.ngoId,
           notes: req.body.notes,
           doctorId: req.body.doctorId,
           status: req.body.status,
@@ -576,11 +578,13 @@ exports.screeningList=[
 								'as':'screeners'	
 							 }
 							},
+              { '$match': { isdeleted:false,'ngoId':req.body.ngoId}},
 
 							{'$project':{
 								'citizenId':1,
 								'notes':1,
 								'doctorId':1,
+              'ngoId':1,
 								'status':1,
 								'screenerId':1,
 								'height':1,
@@ -626,12 +630,14 @@ exports.screeningList=[
 								'screeners.mobile':1,
 								'screeners.mobile1':1,
 								'screeners.sex':1,
-								'screeners.ngoId':1,
+								// 'screeners.ngoId':1,
               firstName: "$citizens.firstName",
                 lastname:"$citizens.lastName",
                 ScreenerFirstName:"$screeners.firstName",
                 ScreenerLastName:"$screeners.lastName",
-							}}
+							}
+             
+            },
 				]).then(users => {
 					
 					let user=users[0];
@@ -695,11 +701,11 @@ exports.screeningcasesPaginationList=[
    console.log(query);
    
    // Find some documents
-   ScreeningCaseModel.ScreeningCase.count({isdeleted:false}, async (err, totalCount) => {
+   ScreeningCaseModel.ScreeningCase.count({isdeleted:false,'ngoId':req.body.ngoId}, async (err, totalCount) => {
    if (err) {
      response = { error: true, message: 'Error fetching data' }
    }
-   ScreeningCaseModel.ScreeningCase.find({isdeleted:false}, {}, query, async (err, data) => {
+   ScreeningCaseModel.ScreeningCase.find({isdeleted:false,'ngoId':req.body.ngoId}, {}, query, async (err, data) => {
      // Mongo command to fetch all data from collection.
      // const post_id = data.post_id
      if (err) {
@@ -745,6 +751,7 @@ exports.screeningcasesPaginationList=[
           'citizenId':1,
           'notes':1,
           'doctorId':1,
+          'ngoId':1,
           'status':1,
           'screenerId':1,
           'height':1,
@@ -790,7 +797,7 @@ exports.screeningcasesPaginationList=[
       }
       ,{ $skip: query.skip },
         { $limit: query.limit },
-        {$match:{isdeleted:false}}
+        {$match:{isdeleted:false,'ngoId':req.body.ngoId}}
   ])
        .exec((err, likeData) => {
        if (err) {
@@ -840,12 +847,12 @@ exports.screeningcasesPaginationList = [
 		{
 			'$project': {
 				
-				isdeleted:1
-				
+				isdeleted:1,
+				ngoId:1
 			}
 		},
 	 
-	  { '$match': { isdeleted:false}},
+	  { '$match': { isdeleted:false,'ngoId':req.body.ngoId}},
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
@@ -897,7 +904,7 @@ exports.screeningcasesPaginationList = [
         'height':1,
         'weight':1,
         'bmi':1,
-      
+        'ngoId':1,
         'caseId':{ $concat: ["'", "$caseId", "'"] },
         'pulse':1,
         'respiratory_rate':1,
@@ -937,7 +944,8 @@ exports.screeningcasesPaginationList = [
       }
     },
 		//   { $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
-		{ '$match': { isdeleted:false}},
+		{ '$match': { isdeleted:false,'ngoId':req.body.ngoId}},
+
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -979,6 +987,7 @@ exports.screeningListCount = [
           status,
           caseId,
           citizenId,
+          ngoId,
           date,
           severity_bp,
           severity_spo2,
@@ -1168,13 +1177,17 @@ exports.screeningListCount = [
 
         ScreeningCaseModel.ScreeningCase.aggregate([
           andcond,
+          {$match:{ngoId:req.body.ngoId}},
+          {$project:{
+            ngoId:1
+          }},
           { $count: "count" },
         ]).then((users) => {
           let user = users[0];
           if (user) {
             return apiResponse.successResponseWithData(res, "Found", users);
           } else
-            return apiResponse.successResponseWithData(res, "Found", [
+            return apiResponse.successResponseWithData(res, "Not Found", [
               {
                 count: 0,
               },
@@ -1211,6 +1224,7 @@ exports.addDetailScreening = [
       } else {
         var recScreening = {
           caseId: req.body.caseId,
+          ngoId:req.body.ngoId,
           fever: req.body.fever,
           abdomenpain: req.body.abdomenpain,
           diarrhea: req.body.diarrhea,
@@ -1292,6 +1306,7 @@ exports.screeningDetailsList = [
 
         ScreeningCaseModel.ScreeningCaseDetails.aggregate([
           andcond,
+          {$match:{ ngoId:req.body.ngoId}},
           {
             $project: {
               fever: 1,
@@ -1299,6 +1314,7 @@ exports.screeningDetailsList = [
               diarrhea: 1,
               hypertension: 1,
               caseId: 1,
+              ngoId: 1,
               backneckpain: 1,
             },
           },
@@ -1521,6 +1537,7 @@ exports.screeningEncounters = [
             $project: {
               citizenId: 1,
               notes: 1,
+              ngoId:1,
               doctorId: 1,
               status: 1,
               screenerId: 1,
@@ -1745,7 +1762,7 @@ exports.screenerCasesList = [
         );
       } else {
         ScreeningCaseModel.ScreeningCase.aggregate([
-          { $match:{ screenerId: req.body.screenerId } },
+          { $match:{ screenerId: req.body.screenerId ,ngoId:req.body.ngoId} },
           // {$match:{issubscreener:1}},162480116265360010
           { $sort: { createdAt: -1 } },
           {
@@ -1773,6 +1790,7 @@ exports.screenerCasesList = [
               notes: 1,
               doctorId: 1,
               status: 1,
+              ngoId:1,
               screenerId: 1,
               height: 1,
               weight: 1,
@@ -1827,7 +1845,7 @@ exports.sevikaCasesList = [
       } else {
         tmp_out1Model.aggregate([
           { $sort: { createdAt: -1 } },
-          { $match:{ screenerId: req.body.screenerId } },
+          { $match:{ screenerId: req.body.screenerId,ngoId:req.body.ngoId } },
           {
             $lookup: {
               localField: "citizenId",
@@ -1850,6 +1868,7 @@ exports.sevikaCasesList = [
               citizenId: 1,
               notes: 1,
               doctorId: 1,
+              ngoId:1,
               status: 1,
               screenerId: 1,
               height: 1,
@@ -1959,6 +1978,7 @@ exports.addSymptoms = [
           citizenId: req.body.citizenId,
           data: req.body.data,
           caseId: req.body.caseId,
+          ngoId: req.body.ngoId,
         };
         var actionSymptoms = new SymptomsModel.Symptoms(recSymptoms);
         actionSymptoms.save(function (_error) {
@@ -2007,6 +2027,7 @@ exports.SymptomsList = [
         }
         SymptomsModel.Symptoms.aggregate([
           { $match: condition },
+          {$match:{ngoId: req.body.ngoId}},
           { $limit: 100000 },
           {
             $project: {
@@ -2014,6 +2035,7 @@ exports.SymptomsList = [
               caseId: 1,
               citizenId: 1,
               data: 1,
+              ngoId:1,
               createdAt: 1,
             },
           },
@@ -2044,6 +2066,7 @@ exports.screeningListSeverity = [
         var notes,
           doctorId,
           referDocId,
+          ngoId,
           screenerId,
           status,
           caseId,
@@ -2235,6 +2258,7 @@ exports.screeningListSeverity = [
 
         ScreeningCaseModel.ScreeningCase.aggregate([
           andcond,
+          {$match:{ngoId: req.body.ngoId}},
           {
             $project: {
               citizenId: 1,
@@ -2248,6 +2272,7 @@ exports.screeningListSeverity = [
               bpsys: 1,
               bpdia: 1,
               arm: 1,
+              ngoId:1,
               spo2: 1,
               caseId: 1,
               pulse: 1,
@@ -2897,7 +2922,7 @@ exports.lipid = [
         severity_bp: 1,
         isdeleted:1,
         severity_bmi: 1,
-        
+        ngoId:1,
         Age: {
           $round: {
             $divide: [
@@ -2909,7 +2934,7 @@ exports.lipid = [
       },
     },
     { $match: { Age: { $gte: 40 } } },
-    { $match: { 'isdeleted':false } },
+    { $match: { 'isdeleted':false ,ngoId:req.body.ngoId} },
     { $match: { severity_bp: 2, severity_bmi: 2 }},
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
@@ -3115,6 +3140,7 @@ exports.lipid = [
           severity_respiratory_rate: 1,
           severity: 1,
           isdeleted:1,
+          ngoId:1,
           // Age:"$lipidcritical.Age"
           Age: {
             $round: {
@@ -3127,7 +3153,7 @@ exports.lipid = [
         },
       },
        { $match: { Age: { $gte: 40 } } },
-       { $match: { isdeleted:false } },
+       { $match: { isdeleted:false ,ngoId:req.body.ngoId} },
       { $match: { severity_bp: 2, severity_bmi: 2 }},
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -3436,6 +3462,7 @@ exports.screeningSevika = [
             {
               $project: {
                 citizenId: 1,
+                ngoId:1,
                 FirstName: "$citizens.firstName",
                 LastName: "$citizens.lastName",
                 Email: "$citizens.email",
@@ -3527,6 +3554,7 @@ exports.lipidcritical = [
             {
               $project: {
                 citizenId: 1,
+                ngoId:1,
                 FirstName: "$citizens.firstName",
                 LastName: "$citizens.lastName",
                 Email: "$citizens.email",

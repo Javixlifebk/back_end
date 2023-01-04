@@ -5,6 +5,7 @@ mongoose.set('useCreateIndex', true);
 var EyeTestSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
 	leyetest: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	reyetest: {type: String, required: true},
 	notes: {type: String, required: false},
 	citizenId: {type: String, required: true},

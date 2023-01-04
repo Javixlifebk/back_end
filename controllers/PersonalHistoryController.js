@@ -105,7 +105,8 @@ exports.addPersonalHistory = [
 								religion:req.body.religion,
 								citizenId:req.body.citizenId,
 								doctorId:req.body.doctorId,
-								screenerId:req.body.screenerId
+								screenerId:req.body.screenerId,
+								ngoId:req.body.ngoId,
 					};
 					var actionPersonal=new PersonalHistoryModel.PersonalHistory(recPersonal);
 					actionPersonal.save(function(_error)
@@ -298,6 +299,7 @@ exports.PersonalHistoryList=[
 								'highesteducation':1,
 								'maritalstatus':1,
 								'ocupation':1,
+								'ngoId':1,
 								'iscurrentlyworking':1,
 								'hoursweek':1,
 								'notworking':1,

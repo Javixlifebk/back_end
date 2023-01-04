@@ -14,7 +14,8 @@ exports.ngoList=[
 			
 		try {
 			NGOModel.NGO.aggregate([
-							{'$match':{'ngoId':{$ne:"-1"}}},
+						//  {'$match':{'ngoId':{$ne:"-1"}}},
+						 {'$match':{'ngoLoginId':req.body.ngoLoginId}},
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'ngoId',
@@ -23,7 +24,15 @@ exports.ngoList=[
 								'as':'info'	
 							 }
 							},
+							{'$lookup': {
+								'localField':'ngoLoginId',
+								'from':'logos',
+								'foreignField':'ngoId',
+								'as':'logo'	
+							 }
+							},
 							{'$unwind':'$info'},
+							{'$unwind':'$logo'},
 							{'$project':{
 								 
 								 'ngoId':1,
@@ -43,7 +52,12 @@ exports.ngoList=[
 								 'info.state':1,
 								 'info.district':1,
 								 'info.address':1,
-								 'info.photo':1
+								 'info.photo':1,
+								//  logo1:'$logo.image',
+								 
+								 logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.image"]},
+								 client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]},
+                                //  http://javixlife.org:3010/profile/
 								 
 								}
 							}
@@ -71,6 +85,90 @@ exports.ngoList=[
 
 ];
 
+exports.findByNgoId=[
+    (req, res) => { 
+			
+		try {
+			NGOModel.NGO.aggregate([
+							
+							{'$limit':100000},
+						
+							{'$match':{'ngoLoginId':req.body.ngoLoginId}},
+							{'$project':{
+								 
+								 'ngoId':1,
+								 'name':1,
+								 'owner':1,
+								 'mobile':1,
+								 'email':1,
+								 'ngoLoginId':1,
+								 'createdAt':1,
+								
+								}
+							}
+						]
+				).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						
+							return apiResponse.successResponseWithData(res,"Found", users);
+						
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+
+
+
+
+// ----------ngoId listing-----------------
+exports.allNgoList=[
+    (req, res) => { 
+			
+		try {
+			NGOModel.NGO.aggregate([
+							// {'$match':{'ngoId':{$ne:"-1"}}},
+						
+							
+							{'$project':{
+								 'ngoId':1,
+								 'name':1,
+								 'owner':1,
+								 'mobile':1,
+								 'email':1,
+								 'ngoLoginId':1,
+								 'createdAt':1,
+
+								}
+							}
+						]
+				).then(users => {
+					
+					// let user=users[0];
+					if (users) {
+						
+							return apiResponse.successResponseWithData(res,"Found", users);
+						
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
 exports.ngoProfile=[
 	 //body("ngoId").isLength({ min: 1 }).trim().withMessage("Invalid Ngo Id Credential!"),
 	

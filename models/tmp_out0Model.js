@@ -12,6 +12,7 @@ var tmp_out0Schema = new mongoose.Schema(
     severity_bmi: { type: String, required: true },
     severity_respiratory_rate: { type: String, required: true },
     severity: { type: String, required: true },
+    ngoId :{type:String,required:false},
     citizenId: { type: String, required: true },
     notes: { type: String, required: true },
     doctorId: { type: String, required: true },

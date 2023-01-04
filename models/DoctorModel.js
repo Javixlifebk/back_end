@@ -1,12 +1,9 @@
 var mongoose = require("mongoose");
-mongoose.set('useNewUrlParser', true);
-// mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+
 /*  Collection Name : Doctor */
 var DoctorSchema = new mongoose.Schema({
 	doctorId: {type: String, required: true},
-	userId:{type:String, required:true},
-	ngoId:{type:String, required:true},
+	ngoId :{type:String,required:false},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	sex: {type: String, required: true},
@@ -19,8 +16,7 @@ var DoctorSchema = new mongoose.Schema({
     statteMedicalCouncil: {type:String,required:false},
     experience: {type:String,required:true},
     referenceName: {type:String,required:false},
-    type: {type:String,required:false},
-	ismapped: {type: Boolean, required: true, default: 0},
+    type: {type:String,required:false}
 }, {timestamps: true});
 
 // doctorLoginId=>{User=>userId}
@@ -28,12 +24,11 @@ module.exports.Doctor = mongoose.model("Doctors", DoctorSchema);
 
 /*  Collection Name : DoctorDetails */
 var DoctorDetailsSchema = new mongoose.Schema({
-	userId:{type:String, required:true},
-	ngoId:{type:String, required:true},
 	doctorDetailId: {type: String, required: true},
 	dateOfBirth: {type: Date, required: true,default:Date.now()},
     dateOfOnBoarding: {type: Date, required: true,default:Date.now()},
     qualification: {type: String, required:true},
+	ngoId :{type:String,required:false},
     specialisation: {type: String, required:true},
 	country: {type: String, required: true},
     state: {type: String, required:true},
@@ -111,7 +106,8 @@ var DoctorTransactionDetailsSchema = new mongoose.Schema({
 	transactionId: {type: String, required: true},
 	recordId: {type: String, required: true},
     comments: {type: String, required: true},
-    isError: {type: String, required: true}
+    isError: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	}, {timestamps: true});
 module.exports.DoctorTransactionDetails = mongoose.model("DoctorTransactionDetails", DoctorTransactionDetailsSchema);
 //recordId=>{DoctorRecordsSchema=>recordId}

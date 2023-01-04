@@ -3,9 +3,23 @@ const CitizenModel = require("../models/CitizenModel");
 const DoctorModel = require("../models/DoctorModel");
 const ScreenerModel = require("../models/ScreenerModel");
 const NGOModel = require("../models/NGOModel");
+const EyeTest = require("../models/EyeTestModel");
 const PharmacyModel = require("../models/PharmacyModel");
+const lipidcritical = require("../models/lipidcriticalcitizenModel");
+const HeartTest = require("../models/HeartTestModel");
+const SickleCellModel = require("../models/SickleCellModel");
+const ThalassemiaModel = require("../models/ThalassemiaModel");
+const LungFunctionTest = require("../models/LungFunctionTest");
 const PrescriptionModel = require("../models/PrescriptionModel");
-
+const GeneralSurveyModel=require("../models/GeneralSurveyModel");
+const HealthSurveyModel=require("../models/HealthSurveyModel")
+const HemoglobinModel = require("../models/HemoglobinModel");
+const LabTestCaseModel = require("../models/LabTestModel");
+const VisualExamModel = require("../models/VisualExamModel");
+const MedicalAllergyModel = require("../models/MedicalAllergyModel");
+const MedicalHistoryModel = require("../models/MedicalHistoryModel");
+const SocioEconomicSurveyModel=require("../models/SocioEconomicSurveyModel")
+const PersonalHistoryModel = require("../models/PersonalHistoryModel");
 const { body, query, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 //helper file to prepare responses.
@@ -36,54 +50,54 @@ exports.listGraph = [
       } else {
         var graph = [];
 
-        ScreenerModel.Screener.find({isdeleted:false})
-          .countDocuments()
+        ScreenerModel.Screener.find({ngoId: req.body.ngoId,})
+        .countDocuments()
           .then((screeners) => {
             graph.push({ Screeners: screeners });
-            DoctorModel.Doctor.find({})
+            DoctorModel.Doctor.find({ngoId: req.body.ngoId})
               .countDocuments()
               .then((doctors) => {
                 graph.push({ Doctors: doctors });
 
-                NGOModel.NGO.find({})
+                NGOModel.NGO.find({ngoLoginId: req.body.ngoLoginId,})
                   .countDocuments()
                   .then((ngos) => {
                     graph.push({ NGO: ngos });
 
-                    PrescriptionModel.Prescription.find({})
+                    PrescriptionModel.Prescription.find({ngoId: req.body.ngoId,})
                       .countDocuments()
                       .then((prescription) => {
                         graph.push({ Prescription: prescription });
 
                         tmp_out0
-                          .find({ issubscreener: 0 })
+                          .find({ issubscreener: 0,ngoId: req.body.ngoId})
                           .countDocuments()
                           .then((sanyojika) => {
                             graph.push({ Sanyojika: sanyojika });
                             tmp_out1
-                              .find({ issubscreener: 1 })
+                              .find({ issubscreener: 1 ,ngoId: req.body.ngoId})
                               .countDocuments()
                               .then((sevika) => {
                                 graph.push({ Sevika: sevika });
 
-                                CitizenModel.Citizen.find({})
+                                CitizenModel.Citizen.find({ngoId: req.body.ngoId,})
                                   .countDocuments()
                                   .then((citizens) => {
                                     graph.push({ Citizen: citizens });
-                                    PharmacyModel.Pharmacy.find({})
+                                    PharmacyModel.Pharmacy.find({ngoId: req.body.ngoId})
                                       .countDocuments()
                                       .then((pharmacies) => {
                                         graph.push({ Pharmacy: pharmacies });
 
                                         ScreeningCaseModel.ScreeningCase.find(
-                                          {isdeleted:false}
+                                          {isdeleted:false,ngoId: req.body.ngoId,}
                                         )
                                           .countDocuments()
                                           .then((cases) => {
                                             graph.push({ Screening: cases });
 
                                             ScreeningCaseModel.ScreeningCase.find(
-                                              { status: "2" }
+                                              { status: "2",ngoId: req.body.ngoId }
                                             )
                                               .countDocuments()
                                               .then((nonprescription) => {
@@ -94,7 +108,7 @@ exports.listGraph = [
 
                                                 ScreenerModel.Screener.find({
                                                   issubscreener: 1,
-                                                  ngoId: "rakesh",
+                                                  ngoId: req.body.ngoId,
                                                 })
                                                   .countDocuments()
                                                   .then((mapsevika) => {
@@ -105,7 +119,7 @@ exports.listGraph = [
                                                     ScreenerModel.Screener.find(
                                                       {
                                                         issubscreener: 0,
-                                                        ngoId: "rakesh",
+                                                        ngoId: req.body.ngoId,
                                                       }
                                                     )
                                                       .countDocuments()
@@ -116,7 +130,8 @@ exports.listGraph = [
                                                         });
 
                                                         DoctorModel.Doctor.find(
-                                                          { ismapped: true }
+                                                          {
+                                                            ngoId: req.body.ngoId,}
                                                         )
                                                           .countDocuments()
                                                           .then((mapdoctor) => {
@@ -125,7 +140,7 @@ exports.listGraph = [
                                                                 mapdoctor,
                                                             });
 															CitizenModel.Citizen.find(
-																{ isUnrefer: false, }
+																{ isUnrefer: false, ngoId: req.body.ngoId,}
 															  )
 																.countDocuments().limit(1000)
 																.then((citizenprescibeCount) => {
@@ -134,7 +149,7 @@ exports.listGraph = [
 																	  citizenprescibeCount,
 																  });
 																  CitizenModel.Citizen.find(
-																	{ isUnrefer: true, }
+																	{ isUnrefer: true, ngoId: req.body.ngoId }
 																  )
 																	.countDocuments().limit(1000)
 																	.then((citizenrefer) => {
@@ -142,15 +157,15 @@ exports.listGraph = [
 																		citizenrefer:
 																		  citizenrefer,
 																	  });
-                                                            ScreenerModel.Screener.aggregate(
-                                                              [
-                                                                {
-                                                                  $lookup: {
-                                                                    localField:
-                                                                      "screenerLoginId",
-                                                                    from: "users",
-                                                                    foreignField:
-                                                                      "userId",
+                                         ScreenerModel.Screener.aggregate(
+                                           [
+                                               {
+                                                  $lookup: {
+                                                    localField:
+                                                       "screenerLoginId",
+                                                             from: "users",
+                                                               foreignField:
+                                                                 "userId",
                                                                     as: "users",
                                                                   },
                                                                 },
@@ -166,6 +181,7 @@ exports.listGraph = [
                                                                 {
                                                                   $match: {
                                                                     "isdeleted": false,
+                                                                    ngoId: req.body.ngoId,
                                                                   },
                                                                 },
                                                                 {
@@ -227,3 +243,328 @@ exports.listGraph = [
     }
   },
 ];
+
+exports.updateNgoIdAllData= [
+  (req, res) => { 
+    
+    // let id = req.params.id;
+
+
+    // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+    
+    // ScreeningCaseModel.ScreeningCase.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    lipidcritical.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    
+      .then((note) => {
+      if (!note) {
+        return res.status(404).send({
+        message: "data not found with id " + req.params.id,
+        });
+      }
+      res.send(note);
+      })
+      .catch((err) => {
+      
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+        message: "data not found with id ",
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating note with id ",
+      });
+      });
+       
+  }
+
+          
+
+];
+
+exports.updateNgoIdAlltmpout0= [
+  (req, res) => { 
+    
+    // let id = req.params.id;
+
+
+    // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+    
+    // ScreeningCaseModel.ScreeningCase.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    tmp_out0.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    
+      .then((note) => {
+      if (!note) {
+        return res.status(404).send({
+        message: "data not found with id " + req.params.id,
+        });
+      }
+      res.send(note);
+      })
+      .catch((err) => {
+      
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+        message: "data not found with id ",
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating note with id ",
+      });
+      });
+       
+  }
+
+          
+
+];
+exports.updateNgoIdAlltmpout1= [
+  (req, res) => { 
+    
+    // let id = req.params.id;
+
+
+    // const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+    
+    // ScreeningCaseModel.ScreeningCase.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    tmp_out1.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+    
+      .then((note) => {
+      if (!note) {
+        return res.status(404).send({
+        message: "data not found with id " + req.params.id,
+        });
+      }
+      res.send(note);
+      })
+      .catch((err) => {
+      
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+        message: "data not found with id ",
+        });
+      }
+      return res.status(500).send({
+        message: "Error updating note with id ",
+      });
+      });
+       
+  }
+
+          
+
+];
+
+exports.updateNgoIdAllcase = [
+  (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      } else {
+        var graph = [];
+//screener
+        ScreenerModel.Screener.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+          .then((screeners) => {
+            graph.push({ Screeners: screeners });
+//doctor          
+  DoctorModel.Doctor.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+              .then((doctors) => {
+                graph.push({ Doctors: doctors })
+
+//DoctorDetails          
+                 DoctorModel.DoctorDetails.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+              .then((DoctorDetails) => {
+                graph.push({ DoctorDetails: DoctorDetails })
+
+                
+//prescription
+                    PrescriptionModel.Prescription.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                      .then((prescription) => {
+                        graph.push({ Prescription: prescription });
+
+//  screeningscreener                       
+                       tmp_out0.
+                        update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                          .then((sanyojika) => {
+                            graph.push({ Sanyojika: sanyojika });
+// screeningsevika                          
+                            tmp_out1.
+                            update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                              .then((sevika) => {
+                                graph.push({ Sevika: sevika });
+//citizen
+                                CitizenModel.Citizen.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                  .then((citizens) => {
+                                    graph.push({ Citizen: citizens });
+
+//CitizenDetails
+                                CitizenModel.CitizenDetails.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                .then((CitizenDetails) => {
+                                  graph.push({ CitizenDetails: CitizenDetails });
+                                
+  //CitizenRecords
+                                  CitizenModel.CitizenRecords.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                .then((CitizenRecords) => {
+                                  graph.push({ CitizenRecords: CitizenRecords });
+                                  
+//pharmacy                                    
+                                    PharmacyModel.Pharmacy.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                      .then((pharmacies) => {
+                                        graph.push({ Pharmacy: pharmacies });
+//generalsurvey
+                                      GeneralSurveyModel.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                        .then((general) => {
+                                          graph.push({ general: general });
+//health survey
+                                   HealthSurveyModel.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                          .then((health) => {
+                                            graph.push({ health: health });
+//SocioEconomicSurveyModel
+                                         SocioEconomicSurveyModel.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                            .then((socio) => {
+                                              graph.push({ socio: socio });
+//eyetest
+                                EyeTest.EyeTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                         .then((EyeTest) => {
+                                           graph.push({ EyeTest: EyeTest });
+ //hemoglobin
+                                HemoglobinModel.Hemoglobin.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                .then(( Hemoglobin) => {
+                                  graph.push({  Hemoglobin:  Hemoglobin });
+//hearttest
+                                HeartTest.HeartTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                .then(( HeartTest) => {
+                                  graph.push({  HeartTest:  HeartTest });
+ //LabTest
+                         LabTestCaseModel.LabTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                .then(( LabTest) => {
+                                  graph.push({  LabTest:  LabTest });
+
+//LipidPanelTest
+                         LabTestCaseModel.LipidPanelTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                         .then(( LipidPanelTest) => {
+                           graph.push({  LipidPanelTest:  LipidPanelTest });
+//  /DrugTest
+                           LabTestCaseModel.DrugTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                         .then(( DrugTest) => {
+                           graph.push({  DrugTest:  DrugTest });
+
+//BloodGlucoseTest
+                     LabTestCaseModel.BloodGlucoseTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                         .then(( BloodGlucoseTest) => {
+                           graph.push({  BloodGlucoseTest:  BloodGlucoseTest });
+
+//SickleCell
+                      SickleCellModel.SickleCell.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                     .then(( SickleCell) => {
+                       graph.push({  SickleCell:  SickleCell });
+                   
+//LungFunction
+                LungFunctionTest.LungFunction.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                      .then(( LungFunction) => {
+                        graph.push({  LungFunction:  LungFunction });
+
+//UrineTest
+                  LabTestCaseModel.UrineTest.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                .then(( UrineTest) => {
+                  graph.push({  UrineTest:  UrineTest });
+              
+//Thalassemia
+               ThalassemiaModel.Thalassemia.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                  .then(( Thalassemia) => {
+                     graph.push({  Thalassemia:  Thalassemia });
+
+//MedicalAllergy
+                     MedicalAllergyModel.MedicalAllergy.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+               .then(( MedicalAllergy) => {
+                  graph.push({  MedicalAllergy:  MedicalAllergy });
+
+//MedicalHistory
+                  MedicalHistoryModel.MedicalHistory.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+               .then(( MedicalHistory) => {
+                  graph.push({  MedicalHistory:  MedicalHistory });
+
+ //PersonalHistory
+                  PersonalHistoryModel.PersonalHistory.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+               .then(( PersonalHistory) => {
+                  graph.push({  PersonalHistory:  PersonalHistory });
+
+//PharmacyDetails
+                  PharmacyModel.PharmacyDetails.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+               .then(( PharmacyDetails) => {
+                  graph.push({  PharmacyDetails:  PharmacyDetails });
+
+ //VisualExam
+                VisualExamModel.VisualExam.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+               .then(( VisualExam) => {
+                  graph.push({  VisualExam:  VisualExam });
+
+//ScreenerDetails
+                  ScreenerModel.ScreenerDetails.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                .then(( ScreenerDetails) => {
+                   graph.push({  ScreenerDetails:  ScreenerDetails });
+                  
+                  
+// cases                                   
+                                       ScreeningCaseModel.ScreeningCase.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+                                          .then((cases) => {
+                                            graph.push({ Screening: cases });
+                                                   
+                                                              
+                                                                if (graph) {
+                                                                  return apiResponse.successResponseWithData(
+                                                                    res,
+                                                                    "Found",
+                                                                    graph
+                                                                  );
+                                                                } else
+                                                                  return apiResponse.ErrorResponse(
+                                                                    res,
+                                                                    "Not Found"
+                                                                  );
+                                                              }
+                                                            );
+                                                          });
+                                                      });
+                                                  });
+										                          		});
+                                              });
+                                          });
+                                        });
+                                      });
+                                    });
+                                    });
+                                  });
+                                });
+                                  });
+                                });
+                                });
+                                });
+                              });
+                            });
+                          });
+                        });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+										});
+                  }                      
+       
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "EXp:" + err);
+    }
+  },
+];
+
+
+

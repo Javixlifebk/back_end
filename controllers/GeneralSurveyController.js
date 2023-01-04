@@ -46,102 +46,202 @@ const fields = ['_id','screenerId',
   'aadhaar'];
 
 
-exports.addGeneralSurvey = [
-  body("screenerId")
-    .isLength({ min: 3 })
-    .trim()
-    .withMessage("Invalid Screener Login Id!")
-    .custom((value) => {
-      return ScreenerModel.Screener.findOne({ screenerId: value }).then(
-        (user) => {
-          if (user) {
-          } else {
-            return Promise.reject("Screener Not Found !");
+
+  exports.addGeneralSurvey = [
+    body("screenerId")
+      .isLength({ min: 3 })
+      .trim()
+      .withMessage("Invalid Screener Login Id!")
+      .custom((value) => {
+        return ScreenerModel.Screener.findOne({ screenerId: value }).then(
+          (user) => {
+            if (user) {
+            } else {
+              return Promise.reject("Screener Not Found !");
+            }
           }
-        }
-      );
-    }),
-  // body("citizenId").isLength({ min: 3 }).trim().withMessage("Invalid Citizen Id!").custom((value) => {
-  // 		return CitizenModel.Citizen.findOne({citizenId : value}).then((user) => {
-  // 			if (user) {}
-  // 			else{
-  // 				return Promise.reject("CitizenId Not Found !");
-  // 			}
-  // 		});
-  // 	}),
-  //body("notes").isLength({ min: 3 }).trim().withMessage("Enter notes!"),
-  // body("noOfFamilyMembers").isLength({ min: 1 }).trim().withMessage("Enter Number of Family Members!"),
-  // body("nameHead").isLength({ min: 1}).trim().withMessage("Enter Name of Head of the Family!"),
-  // body("ageHead").isLength({ min: 1 }).trim().withMessage("Enter Age of Head of the Family!"),
-  // body("NoOfAdultMales").isLength({ min: 1}).trim().withMessage("Enter Number of Adult Males in Family Members!"),
-  // body("NoOfAdultFemales").isLength({ min: 1 }).trim().withMessage("Enter Number of Adult Females in Family Members!"),
-  // body("NoOfChildrenMales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Males in Family Members!"),
-  // body("NoOfChildrenFemales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Females in Family Members!"),
-
-  sanitizeBody("screenerId").escape(),
-  //sanitizeBody("citizenId").escape(),
-  //sanitizeBody("notes").escape(),
-  //sanitizeBody("image").escape(),
-  //sanitizeBody("caseId").escape(),
-
-  (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return apiResponse.validationErrorWithData(
-          res,
-          "Validation Error.",
-          errors.array()
         );
-      } else {
-        var ID = utility.uID();
-        var ID1 = utility.uID();
-        var tcid = req.body.citizenId;
-        var arr = [];
-        var tempcid = tcid.split(",");
-        for (var x = 0; x < tempcid.length; x++) {
-          arr.push(tempcid[x]);
-        }
-        if (
-          req.body.familyId != undefined &&
-          req.body.familyId != "" &&
-          req.body.familyId != null
-        ) {
-          ID1 = req.body.familyId;
-        }
-        var recGeneralSurvey = {
-          generalsurveyId: ID,
-          familyId: ID1,
-          screenerId: req.body.screenerId,
-          citizenId: arr,
-          noOfFamilyMembers: req.body.noOfFamilyMembers,
-          nameHead: req.body.nameHead,
-          ageHead: req.body.ageHead,
-          NoOfAdultMales: req.body.NoOfAdultMales,
-          NoOfAdultFemales: req.body.NoOfAdultFemales,
-          NoOfChildrenMales: req.body.NoOfChildrenMales,
-          NoOfChildrenFemales: req.body.NoOfChildrenFemales,
-          ngoId :0,
-        };
-
-        var actionGeneralSurvey = new GeneralSurveyModel(recGeneralSurvey);
-        actionGeneralSurvey.save(function (_error) {
-          if (_error) {
-            return apiResponse.ErrorResponse(res, "Sorry:" + _error);
-          } else {
-            return apiResponse.successResponseWithData(
-              res,
-              "Successfully Submitted"
-            );
-            //return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
+      }),
+    // body("citizenId").isLength({ min: 3 }).trim().withMessage("Invalid Citizen Id!").custom((value) => {
+    // 		return CitizenModel.Citizen.findOne({citizenId : value}).then((user) => {
+    // 			if (user) {}
+    // 			else{
+    // 				return Promise.reject("CitizenId Not Found !");
+    // 			}
+    // 		});
+    // 	}),
+    //body("notes").isLength({ min: 3 }).trim().withMessage("Enter notes!"),
+    // body("noOfFamilyMembers").isLength({ min: 1 }).trim().withMessage("Enter Number of Family Members!"),
+    // body("nameHead").isLength({ min: 1}).trim().withMessage("Enter Name of Head of the Family!"),
+    // body("ageHead").isLength({ min: 1 }).trim().withMessage("Enter Age of Head of the Family!"),
+    // body("NoOfAdultMales").isLength({ min: 1}).trim().withMessage("Enter Number of Adult Males in Family Members!"),
+    // body("NoOfAdultFemales").isLength({ min: 1 }).trim().withMessage("Enter Number of Adult Females in Family Members!"),
+    // body("NoOfChildrenMales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Males in Family Members!"),
+    // body("NoOfChildrenFemales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Females in Family Members!"),
+  
+    sanitizeBody("screenerId").escape(),
+    //sanitizeBody("citizenId").escape(),
+    //sanitizeBody("notes").escape(),
+    //sanitizeBody("image").escape(),
+    //sanitizeBody("caseId").escape(),
+  
+    (req, res) => {
+      try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return apiResponse.validationErrorWithData(
+            res,
+            "Validation Error.",
+            errors.array()
+          );
+        } else {
+          var ID = utility.uID();
+          var ID1 = utility.uID();
+          var tcid = req.body.citizenId;
+          var arr = [];
+          var tempcid = tcid.split(",");
+          for (var x = 0; x < tempcid.length; x++) {
+            arr.push(tempcid[x]);
           }
-        });
+          if (
+            req.body.familyId != undefined &&
+            req.body.familyId != "" &&
+            req.body.familyId != null
+          ) {
+            ID1 = req.body.familyId;
+          }
+          var recGeneralSurvey = {
+            generalsurveyId: ID,
+            familyId: ID1,
+            screenerId: req.body.screenerId,
+            citizenId: arr,
+            noOfFamilyMembers: req.body.noOfFamilyMembers,
+            nameHead: req.body.nameHead,
+            ageHead: req.body.ageHead,
+            NoOfAdultMales: req.body.NoOfAdultMales,
+            NoOfAdultFemales: req.body.NoOfAdultFemales,
+            NoOfChildrenMales: req.body.NoOfChildrenMales,
+            NoOfChildrenFemales: req.body.NoOfChildrenFemales,
+            ngoId :req.body.ngoId,
+          };
+  
+          var actionGeneralSurvey = new GeneralSurveyModel(recGeneralSurvey);
+          actionGeneralSurvey.save(function (_error) {
+            if (_error) {
+              return apiResponse.ErrorResponse(res, "Sorry:" + _error);
+            } else {
+              return apiResponse.successResponseWithData(
+                res,
+                "Successfully Submitted"
+              );
+              //return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
+            }
+          });
+        }
+      } catch (err) {
+        return apiResponse.ErrorResponse(res, err);
       }
-    } catch (err) {
-      return apiResponse.ErrorResponse(res, err);
-    }
-  },
-];
+    },
+  ];
+
+// exports.addGeneralSurvey = [
+//   body("screenerId")
+  
+//     .isLength({ min: 3 })
+//     .trim()
+//     .withMessage("Invalid Screener Login Id!")
+//     .custom((value) => {
+//       return ScreenerModel.Screener.findOne({ screenerId: value }).then(
+//         (user) => {
+//           if (user) {
+//           } else {
+//             return Promise.reject("Screener Not Found !");
+//           }
+//         }
+//       );
+//     }),
+//   // body("citizenId").isLength({ min: 3 }).trim().withMessage("Invalid Citizen Id!").custom((value) => {
+//   // 		return CitizenModel.Citizen.findOne({citizenId : value}).then((user) => {
+//   // 			if (user) {}
+//   // 			else{
+//   // 				return Promise.reject("CitizenId Not Found !");
+//   // 			}
+//   // 		});
+//   // 	}),
+//   //body("notes").isLength({ min: 3 }).trim().withMessage("Enter notes!"),
+//   // body("noOfFamilyMembers").isLength({ min: 1 }).trim().withMessage("Enter Number of Family Members!"),
+//   // body("nameHead").isLength({ min: 1}).trim().withMessage("Enter Name of Head of the Family!"),
+//   // body("ageHead").isLength({ min: 1 }).trim().withMessage("Enter Age of Head of the Family!"),
+//   // body("NoOfAdultMales").isLength({ min: 1}).trim().withMessage("Enter Number of Adult Males in Family Members!"),
+//   // body("NoOfAdultFemales").isLength({ min: 1 }).trim().withMessage("Enter Number of Adult Females in Family Members!"),
+//   // body("NoOfChildrenMales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Males in Family Members!"),
+//   // body("NoOfChildrenFemales").isLength({ min: 1}).trim().withMessage("Enter Number of Children Females in Family Members!"),
+
+//   sanitizeBody("screenerId").escape(),
+//   //sanitizeBody("citizenId").escape(),
+//   //sanitizeBody("notes").escape(),
+//   //sanitizeBody("image").escape(),
+//   //sanitizeBody("caseId").escape(),
+
+//   (req, res) => {
+//     try {
+//       const errors = validationResult(req);
+//       if (!errors.isEmpty()) {
+//         return apiResponse.validationErrorWithData(
+//           res,
+//           "Validation Error.",
+//           errors.array()
+//         );
+//       } else {
+//         console.log(req.body);
+//         var ID = utility.uID();
+//         var ID1 = utility.uID();
+//         var tcid = req.body.citizenId;
+//         var arr = [];
+//         var tempcid = tcid.split(",");
+//         for (var x = 0; x < tempcid.length; x++) {
+//           arr.push(tempcid[x]);
+//         }
+//         if (
+//           req.body.familyId != undefined &&
+//           req.body.familyId != "" &&
+//           req.body.familyId != null
+//         ) {
+//           ID1 = req.body.familyId;
+//         }
+//         var recGeneralSurvey = {
+//           generalsurveyId: ID,
+//           familyId: ID1,
+//           screenerId: req.body.screenerId,
+//           citizenId: arr,
+//           noOfFamilyMembers: req.body.noOfFamilyMembers,
+//           nameHead: req.body.nameHead,
+//           ageHead: req.body.ageHead,
+//           NoOfAdultMales: req.body.NoOfAdultMales,
+//           NoOfAdultFemales: req.body.NoOfAdultFemales,
+//           NoOfChildrenMales: req.body.NoOfChildrenMales,
+//           NoOfChildrenFemales: req.body.NoOfChildrenFemales,
+//           ngoId :req.body.ngoId,
+//         };
+
+//         var actionGeneralSurvey = new GeneralSurveyModel(recGeneralSurvey);
+//         actionGeneralSurvey.save(function (_error) {
+//           if (_error) {
+//             return apiResponse.ErrorResponse(res, "Sorry:" + _error);
+//           } else {
+//             return apiResponse.successResponseWithData(
+//               res,
+//               "Successfully Submitted"
+//             );
+//             //return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
+//           }
+//         });
+//       }
+//     } catch (err) {
+//       return apiResponse.ErrorResponse(res, err);
+//     }
+//   },
+// ];
 exports.searchdata=[
   async (req, res) => {
     try {
@@ -226,7 +326,7 @@ exports.searchdata=[
               NoOfChildrenFemales: 1,
               createdAt: 1,
               updatedAt: 1,
-
+              'ngoId':1,
               screenerfullname: {
                 $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
               },
@@ -289,7 +389,7 @@ exports.download = [
         as: "screeners",
       },
     },
-    {$match:{isdeleted:false}},
+    {$match:{isdeleted:false,'ngoId':req.body.ngoId}},
 
     // { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
     // { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
@@ -562,6 +662,7 @@ exports.GeneralSurveyList = [
               citizenId: { $slice: [ "$citizenId", -1 ] },
               noOfFamilyMembers: 1,
               nameHead: 1,
+              'ngoId':1,
               ageHead: 1,
               NoOfAdultMales: 1,
               NoOfAdultFemales: 1,
@@ -583,7 +684,7 @@ exports.GeneralSurveyList = [
               aadhaar: { $slice: [  "$citizens.aadhaar", -1 ] },
             },
           },
-          {$match:{isdeleted:false}},
+          {$match:{isdeleted:false,'ngoId':req.body.ngoId}},
 
         ]).then((users) => {
           let user = users[0];
@@ -944,9 +1045,10 @@ exports.tmp_out0List = [
     {
       $project: {
         issubscreener: '$screeners.issubscreener',
-        'isdeleted':1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        'isdeleted':1,
+        "ngoId":1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       }},
-    {$match:{'issubscreener':0,'isdeleted':false}},
+    {$match:{'issubscreener':0,'isdeleted':false,'ngoId':req.body.ngoId}},
     // {$match:},
 
 	  { $group: { _id: null, count: { $sum: 1 } } }
@@ -1051,6 +1153,7 @@ exports.tmp_out0List = [
                     severity_spo2: 1,
                     // issubscreener:"$screener.issubscreener",
                     severity_temperature: 1,
+                    'ngoId':1,
                     severity_pulse: 1,
                     severity_bmi: 1,
                     severity_respiratory_rate: 1,
@@ -1171,7 +1274,7 @@ exports.tmp_out0List = [
                   },
                 },
                 {$match:{issubscreener:0}},
-                {$match:{'isdeleted':false}},
+                {$match:{'isdeleted':false,'ngoId':req.body.ngoId}},
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -1339,6 +1442,7 @@ exports.tmpTestData= [
           height: 1,
           weight: 1,
           bmi: 1,
+          'ngoId':1,
           bpsys: 1,
           bpdia: 1,
           arm: 1,
@@ -1512,10 +1616,11 @@ exports.tmp_out1List = [
         $project: {
           issubscreener: "$screeners.issubscreener",
           isdeleted: 1,
+          ngoId:1
         },
       },
       { $match: { issubscreener: 1 } },
-      { $match: { isdeleted: false } },
+      { $match: { isdeleted: false ,'ngoId':req.body.ngoId} },
 
       { $group: { _id: null, count: { $sum: 1 } } },
     ]);
@@ -1571,6 +1676,7 @@ exports.tmp_out1List = [
           address: "$citizendetails.address",
           Gender: "$citizens.sex",
           severity_spo2: 1,
+          'ngoId':1,
           severity_temperature: 1,
           severity_pulse: 1,
           severity_bmi: 1,
@@ -1619,7 +1725,7 @@ exports.tmp_out1List = [
       },
 
       { $match: { issubscreener: 1 } },
-      { $match: { isdeleted: false } },
+      { $match: { isdeleted: false,'ngoId':req.body.ngoId } },
       { $skip: query.skip },
       { $limit: query.limit },
     ]);

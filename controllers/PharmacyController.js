@@ -66,6 +66,7 @@ exports.addPharmacy = [
 					
 					var recPharmacy={
 							pharmacyId: ID,
+							ngoId:req.body.ngoId,
 							name: req.body.pharmacyName,
 							owner:req.body.ownerName,
 							mobile: req.body.mobileNo,
@@ -93,6 +94,7 @@ exports.addPharmacy = [
 									isDefault: false,
 									rating : 0,
 									pharmacyId: ID,
+
 									photo:req.body.photo
 								};
 								var actionPharmacyDetails=new PharmacyModel.PharmacyDetails(recDetails);
@@ -254,7 +256,7 @@ exports.pharmacyList=[
 			
 		try {
 			PharmacyModel.Pharmacy.aggregate([
-							{'$match':{'pharmacyId':{$ne:"-1"}}},
+							{'$match':{'pharmacyId':{$ne:"-1"},'ngoId':req.body.ngoId}},
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'pharmacyId',
@@ -269,6 +271,7 @@ exports.pharmacyList=[
 								 
 								 'pharmacyId':1,
 								 'name':1,
+								 'ngoId':1,
 								 'owner':1,
 								 'mobile':1,
 								 'email':1,
@@ -333,6 +336,7 @@ exports.pharmacyProfile=[
 								 'pharmacyId':1,
 								 'name':1,
 								 'owner':1,
+								 'ngoId':1,
 								 'mobile':1,
 								 'email':1,
 								 'createdAt':1,

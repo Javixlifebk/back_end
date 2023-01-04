@@ -5,6 +5,7 @@ mongoose.set('useCreateIndex', true);
 var VisualExamsSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
 	image: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	notes: {type: String, required: false},
 	citizenId: {type: String, required: true},
 	screenerId: {type: String, required: true},

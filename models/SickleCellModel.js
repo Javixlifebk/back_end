@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 
 var SickleCellSchema = new mongoose.Schema({
 	status: {type: Number, required: true , default: 1},
+	ngoId :{type:String,required:false},
 	SickleCell: {type: Number, required: false},
 	caseId:{type:String,required:true},
 	notes: {type:String,required:false},
