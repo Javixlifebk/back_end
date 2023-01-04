@@ -52,7 +52,7 @@ exports.listGraph = [
       } else {
         var graph = [];
 
-        ScreenerModel.Screener.find({ngoId: req.body.ngoId,})
+        ScreenerModel.Screener.find({ngoId: req.body.ngoId,issubscreener: 0})
         .countDocuments()
           .then((screeners) => {
             graph.push({ Screeners: screeners });
