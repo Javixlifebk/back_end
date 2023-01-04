@@ -8,6 +8,7 @@ var WomenReproductiveHistorySchema = new mongoose.Schema({
 	miscarriages: {type: Number, required: false},
 	children: {type: Number, required: false},
 	menopauseage: {type: Number, required: false},
+	ngoId :{type:String,required:false},
 	citizenId: {type: String, required: true},
 	doctorId: {type: String, required: false},
 	screenerId: {type: String, required: false},

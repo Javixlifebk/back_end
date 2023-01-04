@@ -107,7 +107,8 @@ exports.addWomenReproductiveHistory = [
 								misseddays:req.body.misseddays,
 								citizenId:req.body.citizenId,
 								doctorId:req.body.doctorId,
-								screenerId:req.body.doctorId
+								screenerId:req.body.doctorId,
+								ngoId:req.body.ngoId,
 					};
 					var actionWomen=new WomenReproductiveHistoryModel.WomenReproductiveHistory(recWomen);
 					actionWomen.save(function(_error)
@@ -295,6 +296,7 @@ exports.WomenHistoryList=[
 								'doctorId':1,
 								'ageoffirstperiod':1,
 								'pregnancies':1,
+								'ngoId':1,
 								'miscarriages':1,
 								'children':1,
 								'menopauseage':1,

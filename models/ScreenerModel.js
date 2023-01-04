@@ -16,7 +16,7 @@ var ScreenerSchema = new mongoose.Schema({
     ngoId :{type:String,required:false},
     parentId :{type:String,required:false},
 	ismapped:{type:Boolean,required:false,default:0},
-	isdeleted:{type: Boolean, required: true},
+	isdeleted:{type: Boolean, required: false},
     issubscreener: {type:Number,required:false, default:0} //0 is false(screener) and 1 is true(sevika)
 }, {timestamps: true});
 
@@ -34,6 +34,7 @@ var ScreenerDetailsSchema = new mongoose.Schema({
     specialisation: {type: String, required:true},
 	country: {type: String, required: true},
     state: {type: String, required:true},
+	ngoId :{type:String,required:false},
     district: {type: String, required:true},
     address: {type: String, required:true},
 	pincode: {type: String},
@@ -41,7 +42,7 @@ var ScreenerDetailsSchema = new mongoose.Schema({
     rating : {type: Number, required: true, default: 0},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     screenerId: {type: String, required: true},
-	isdeleted:{type: Boolean, required: true}
+	isdeleted:{type: Boolean, required: false ,default:false}
 }, {timestamps: true});
 // screenerId=>{ScreenerSchema=>screenerId}
 module.exports.ScreenerDetails = mongoose.model("ScreenerDetails", ScreenerDetailsSchema);

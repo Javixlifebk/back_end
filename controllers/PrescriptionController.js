@@ -81,7 +81,8 @@ exports.addPrescription = [
 							dose:req.body.dose,
 							preparation:req.body.preparation,
 							route:req.body.route,
-							cause:req.body.cause
+							cause:req.body.cause,
+							ngoId:req.body.ngoId,
 
 					};
 					var actionPrescription=new PrescriptionModel.Prescription(recPrescription);
@@ -397,6 +398,7 @@ exports.prescriptionList=[
 
 			PrescriptionModel.Prescription.aggregate([
 							andcond,
+							{$match:{ngoId:req.body.ngoId}},
 							{'$lookup': {
 								'localField':'doctorId',
 								'from':'doctors',
@@ -432,12 +434,21 @@ exports.prescriptionList=[
 								'as':'screeners'	
 							 }
 							},
+							{'$lookup': {
+								'localField':'ngoId',
+								'from':'logos',
+								'foreignField':'ngoId',
+								'as':'logo'	
+							 }
+							},
 							{$unwind:"$citizens"},
+							{$unwind:"$logo"},
 							{'$project':{
 								'prescriptionId':1,
 								'citizenId':1,
 								'recordId':1,
 								'doctorId':1,
+								'ngoId':1,
 								'status':1,
 								'screenerId':1,
 								'comments':1,
@@ -480,7 +491,9 @@ exports.prescriptionList=[
 								'doctordetails.qualification':1,
 								'doctordetails.specialisation':1,
 								'doctordetails.state':1,
-								'doctordetails.district':1
+								'doctordetails.district':1,
+								// 'logo.client_logo':1,
+								client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]}
 							}}
 				]).then(users => {
 					

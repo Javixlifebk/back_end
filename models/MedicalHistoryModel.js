@@ -3,6 +3,7 @@ var MedicalHistorySchema = new mongoose.Schema({
 	diabetes: {type: String, required: false},
 	high_bp: {type: String, required: false},
 	high_cholestrol: {type: String, required: false},
+	ngoId :{type:String,required:false},
 	goiter: {type: String, required: false},
 	cancer: {type: String, required: false},
 	leukemia: {type: String, required: false},

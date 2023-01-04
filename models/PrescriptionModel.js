@@ -7,6 +7,7 @@ var PrescriptionSchema = new mongoose.Schema({
 	prescriptionId: {type: String, required: true},
 	doctorId: {type: String, required: false},
 	caseId: {type: String, required: true},
+    ngoId :{type:String,required:false},
 	citizenId: {type: String, required: true},
 	screenerId: {type: String, required: true},
 	recordId: {type: String, required: false},

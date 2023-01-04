@@ -6,6 +6,7 @@ var lipidcriticalSchema = new mongoose.Schema(
   {
     citizenId:{type: String, required: true},
     FirstName:{type: String, required: true},
+    ngoId :{type:String,required:false},
     LastName:{type: String, required: true},
     Email:{type: String, required: true},
     Gender:{type: String, required: true},

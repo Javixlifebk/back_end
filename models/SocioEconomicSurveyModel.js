@@ -7,6 +7,7 @@ var SocioEconomicSurveySchema = new mongoose.Schema({
 	citizenId:{type: Array, required: true},
 	familyId:{type: String, required: true},
 	noOfEarners:{type: String, required: false},
+	ngoId :{type:String,required:false},
 	nameOfEarners:{type: String,required:false},
 	ageOfEarners:{type: String,required:false},
 	occupationOfEarners:{type: String,required:false},
@@ -20,7 +21,7 @@ var SocioEconomicSurveySchema = new mongoose.Schema({
 	conveyanceExpense:{type: String,required:false},
 	cultivableLand:{type: String,required:false},
 	screenerId:{type: String, required: true},
-	isdeleted:{type: Boolean, required: true}
+	isdeleted:{type: Boolean, default:false, required: true}
 }, {timestamps: false});
 var SocioEconomicSurvey= mongoose.model("SocioEconomicSurvey", SocioEconomicSurveySchema);
 module.exports =SocioEconomicSurvey;

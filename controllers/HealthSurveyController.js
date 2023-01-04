@@ -141,7 +141,8 @@ exports.addHealthSurvey = [
 											sugarTestStatus:req.body.sugarTestStatus,
 											smokingStatus:req.body.smokingStatus,
 											alcoholStatus: req.body.alcoholStatus,
-											tobaccoStatus: req.body.tobaccoStatus
+											tobaccoStatus: req.body.tobaccoStatus,
+											ngoId :req.body.ngoId,
 									};
 
 									var actionHealthSurvey=new HealthSurveyModel(recHealthSurvey);
@@ -350,7 +351,7 @@ exports.healthsurveydownload = [
 				as: "screeners",
 			  },
 			},
-			{$match:{isdeleted:false}},
+			{$match:{isdeleted:false,'ngoId':req.body.ngoId}},
 			])
 			// console.log(hsurvey);
 		   
@@ -508,6 +509,7 @@ exports.HealthSurveyList=[
 								aadhaar: "$citizens.aadhaar",
 								'healthsurveyId':1,
 								'familyId':1,
+								'ngoId':1,
 								'screenerId':1,
 								'citizenId':1,
 								'drinkingWaterSource':1,
@@ -538,7 +540,7 @@ exports.HealthSurveyList=[
 								}
 							},
 							{$sort:{'createdAt':-1}},
-							{$match:{isdeleted:false}},
+							{$match:{isdeleted:false,'ngoId':req.body.ngoId}},
 						]
 				).then(users => {
 					

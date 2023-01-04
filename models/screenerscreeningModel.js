@@ -6,6 +6,7 @@ var screenerReport = new mongoose.Schema(
   {
     issubscreener:{type:String},
     screenerfullname:{type:String},
+    ngoId :{type:String,required:false},
     status:{type:String},
     severity_bp:{type:String},
     severity_spo2:{type:String},

@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 var RequestUpdatesSchema = new mongoose.Schema({
 	recId: {type: String, required: true},
 	userId: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	updateQuery: {type: String, required: true},
 	by: {type: String, required: true},
 	roleId: {type: Number, required: true, default: 0},

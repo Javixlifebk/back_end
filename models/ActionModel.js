@@ -8,6 +8,7 @@ var ActionSchema = new mongoose.Schema({
 	linkName:{type: String, required: true},
 	linkURL:{type: String, required: true},
 	parentId:{type: String,required:true},
+	ngoId :{type:String,required:false},
 	type:{type: String,required:true},
 	isActive: {type: Boolean, required: true, default: 1},
 }, {timestamps: true});

@@ -6,6 +6,7 @@ mongoose.set('useCreateIndex', true);
 
 var LungFunctionSchema = new mongoose.Schema({
 	status: {type: Number, required: true , default: 1},
+	ngoId :{type:String,required:false},
 	fvc_predicted: {type: Number, required: false},
 	fvc_actual: {type: Number, required: false},
 	fev1_predicted: {type: Number, required: false},

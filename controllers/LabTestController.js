@@ -68,6 +68,7 @@ exports.addLabTest = [
 				var userId = req.body.userId;
 
 				var recLabTest = {
+					ngoId:req.body.ngoId,
 					ChagasAb: req.body.ChagasAb,
 					Chikungunya: req.body.Chikungunya,
 					Chlamydia: req.body.Chlamydia,
@@ -137,11 +138,12 @@ exports.LabTestList = [
 			} else {
 
 				LabTestCaseModel.LabTest.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ $match: { "caseId": req.body.caseId,ngoId:req.body.ngoId } },
 
 					{
 						'$project': {
 							'status': 1,
+							'ngoId':1,
 							'ChagasAb': 1,
 							'Chikungunya': 1,
 							'Chlamydia': 1,
@@ -239,6 +241,7 @@ exports.addDrugTest = [
 
 				var recDrugTest = {
 					caseId: req.body.caseId,
+					ngoId:req.body.ngoId,
 					status: req.body.status,
 					Amphetamine: req.body.Amphetamine,
 					Barbiturates: req.body.Barbiturates,
@@ -286,11 +289,12 @@ exports.DrugTestList = [
 			} else {
 
 				LabTestCaseModel.DrugTest.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ $match: { "caseId": req.body.caseId,ngoId:req.body.ngoId } },
 
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'Amphetamine': 1,
 							'Barbiturates': 1,
@@ -304,6 +308,7 @@ exports.DrugTestList = [
 							'Opiate': 1,
 							'Oxycodone': 1,
 							'Phencyclidine': 1,
+						
 							'Propoxyphene': 1,
 							'TricyclicAntidepressant': 1,
 							'createdAt': 1
@@ -366,6 +371,7 @@ exports.addLipidPanelTest = [
 
 				var recLipidPanelTest = {
 					caseId: req.body.caseId,
+					ngoId:req.body.ngoId,
 					status: req.body.status,
 					cholesterol: req.body.cholesterol,
 					hdlcholesterol: req.body.hdlcholesterol,
@@ -408,11 +414,12 @@ exports.LipidPanelTestList = [
 			} else {
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ $match: { "caseId": req.body.caseId ,ngoId:req.body.ngoId} },
 
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'cholesterol': 1,
 							'hdlcholesterol': 1,
@@ -470,7 +477,7 @@ exports.LipidPanelHDLGreenList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 0 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 0 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -481,10 +488,10 @@ exports.LipidPanelHDLGreenList = [
 					response = { error: true, message: 'Error fetching data' }
 				} else {
 					LabTestCaseModel.LipidPanelTest.aggregate([
-						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// {$match:{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 						// gt greater than and lt less than eq equal too
-						// { '$match': { severity_hdlcholesterol: 0 } },
-						// {'$match':{$and:[{severity_hdlcholesterol:0},{ hdlcholesterol : { $gt :  80, $lt : 100}}]}},
+						// { $match: { severity_hdlcholesterol: 0 } },
+						// {$match:{$and:[{severity_hdlcholesterol:0},{ hdlcholesterol : { $gt :  80, $lt : 100}}]}},
 						// { $sort: { createdAt: -1 } },
 						{
 							$lookup: {
@@ -526,6 +533,7 @@ exports.LipidPanelHDLGreenList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_hdlcholesterol': 1,
 								'cholesterol': 1,
@@ -547,7 +555,7 @@ exports.LipidPanelHDLGreenList = [
 
 							}
 						},
-						{ '$match': { severity_hdlcholesterol: 0 } },
+						{ $match: { severity_hdlcholesterol: 0 ,ngoId:req.body.ngoId} },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -595,7 +603,7 @@ exports.LipidPanelHDLDefaultList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 3 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 3 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -606,8 +614,8 @@ exports.LipidPanelHDLDefaultList = [
 					response = { error: true, message: 'Error fetching data' }
 				} else {
 					LabTestCaseModel.LipidPanelTest.aggregate([
-						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-						// { '$match': { severity_hdlcholesterol: 3 } },
+						// {$match:{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $match: { severity_hdlcholesterol: 3 } },
 						// { $sort: { createdAt: -1 } },
 						{
 							$lookup: {
@@ -649,6 +657,7 @@ exports.LipidPanelHDLDefaultList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_hdlcholesterol': 1,
 								'cholesterol': 1,
@@ -670,7 +679,7 @@ exports.LipidPanelHDLDefaultList = [
 
 							}
 						},
-						{ '$match': { severity_hdlcholesterol: 3 } },
+						{ $match: { severity_hdlcholesterol: 3,ngoId:req.body.ngoId } },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -720,7 +729,7 @@ exports.LipidPanelHDLAmberList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 1 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 1 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -731,8 +740,8 @@ exports.LipidPanelHDLAmberList = [
 					response = { error: true, message: 'Error fetching data' }
 				} else {
 					LabTestCaseModel.LipidPanelTest.aggregate([
-						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-						// { '$match': { severity_hdlcholesterol: 1 } },
+						// {$match:{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $match: { severity_hdlcholesterol: 1 } },
 						// { $sort: { createdAt: -1 } },
 						{
 							$lookup: {
@@ -774,6 +783,7 @@ exports.LipidPanelHDLAmberList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_hdlcholesterol': 1,
 								'cholesterol': 1,
@@ -795,7 +805,7 @@ exports.LipidPanelHDLAmberList = [
 
 							}
 						},
-						{ '$match': { severity_hdlcholesterol: 1 } },
+						{ $match: { severity_hdlcholesterol: 1,ngoId:req.body.ngoId } },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -844,7 +854,7 @@ exports.LipidPanelHDLRedList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 2 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_hdlcholesterol: 2,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -855,7 +865,7 @@ exports.LipidPanelHDLRedList = [
 					response = { error: true, message: 'Error fetching data' }
 				} else {
 					LabTestCaseModel.LipidPanelTest.aggregate([
-						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// {$match:{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
 						// { $sort: { createdAt: -1 } },
 						{
 							$lookup: {
@@ -894,10 +904,11 @@ exports.LipidPanelHDLRedList = [
 						{ '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
-						// { '$match': { severity_hdlcholesterol: 2 } },
+						// { $match: { severity_hdlcholesterol: 2 } },
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_hdlcholesterol': 1,
 								'cholesterol': 1,
@@ -919,7 +930,7 @@ exports.LipidPanelHDLRedList = [
 
 							}
 						},
-						{ '$match': { severity_hdlcholesterol: 2 } },
+						{ $match: { severity_hdlcholesterol: 2 ,ngoId:req.body.ngoId} },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -971,7 +982,7 @@ exports.LipidPaneltriglyGreenList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 3 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 0,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -984,8 +995,8 @@ exports.LipidPaneltriglyGreenList = [
 
 
 					LabTestCaseModel.LipidPanelTest.aggregate([
-						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-						// { '$match': { severity_triglycerides: 3 } },
+						// {$match:{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
+						// { $match: { severity_triglycerides: 3 } },
 						{$sort:{'createdAt':-1} },
 						{
 							$lookup: {
@@ -1027,6 +1038,7 @@ exports.LipidPaneltriglyGreenList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								// 'severity_hdlcholesterol':1,
@@ -1049,7 +1061,7 @@ exports.LipidPaneltriglyGreenList = [
 
 							}
 						},
-						{ '$match': { severity_triglycerides: 3 } },
+						{ '$match': { severity_triglycerides: 0,ngoId:req.body.ngoId } },
 						// { '$sort': { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -1092,7 +1104,7 @@ exports.LipidPaneltriglyLDefaultList = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-					{ '$match': { severity_triglycerides: 3 } },
+					{ '$match': { severity_triglycerides: 3 ,ngoId:req.body.ngoId} },
 					{ $sort: { createdAt: -1 } },
 					{
 						$lookup: {
@@ -1134,6 +1146,7 @@ exports.LipidPaneltriglyLDefaultList = [
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'severity_triglycerides': 1,
 							'cholesterol': 1,
@@ -1198,7 +1211,7 @@ exports.LipidPaneltriglyAmberList = [
 		console.log("17-11-2022");
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 1 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 1,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1211,7 +1224,7 @@ exports.LipidPaneltriglyAmberList = [
 
 					LabTestCaseModel.LipidPanelTest.aggregate([
 						// {'$match':{'$or':[{'severity_hdlcholesterol':req.body.severity_hdlcholesterol}]}},
-						{ '$match': { severity_triglycerides: 1 } },
+						{ '$match': { severity_triglycerides: 1 ,ngoId:req.body.ngoId} },
 					
 						{
 							$lookup: {
@@ -1252,6 +1265,7 @@ exports.LipidPaneltriglyAmberList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								'cholesterol': 1,
@@ -1274,7 +1288,7 @@ exports.LipidPaneltriglyAmberList = [
 							},
 							
 						},
-						{ '$match': { severity_triglycerides: 1 } },
+						// { '$match': { severity_triglycerides: 1 } },
 						// {$sort : {
 						// 	"sortKey" : {
 						// 	   "createdAt" : -1
@@ -1331,7 +1345,7 @@ exports.LipidPaneltriglyRedList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 2 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_triglycerides: 2,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1388,6 +1402,7 @@ exports.LipidPaneltriglyRedList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								'cholesterol': 1,
@@ -1409,7 +1424,7 @@ exports.LipidPaneltriglyRedList = [
 
 							}
 						},
-						{ '$match': { severity_triglycerides: 2 } },
+						{ '$match': { severity_triglycerides: 2 ,ngoId:req.body.ngoId} },
 						// { $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -1461,7 +1476,7 @@ exports.LipidPanelCholesterolGreenList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 0 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 0 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1518,6 +1533,7 @@ exports.LipidPanelCholesterolGreenList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_cholesterol': 1,
 								// 'severity_hdlcholesterol':1,
@@ -1540,7 +1556,7 @@ exports.LipidPanelCholesterolGreenList = [
 
 							}
 						},
-						{ '$match': { severity_cholesterol: 0 } },
+						{ '$match': { severity_cholesterol: 0,ngoId:req.body.ngoId } },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -1626,6 +1642,7 @@ exports.LipidPanelCholesterolLDefaultList = [
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'severity_cholesterol': 1,
 							'cholesterol': 1,
@@ -1693,7 +1710,7 @@ exports.LipidPanelCholesterolAmberList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 1 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 1,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1748,6 +1765,7 @@ exports.LipidPanelCholesterolAmberList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_cholesterol': 1,
 								'cholesterol': 1,
@@ -1773,7 +1791,7 @@ exports.LipidPanelCholesterolAmberList = [
 
 							}
 						},
-						{ '$match': { severity_cholesterol: 1 } },
+						{ '$match': { severity_cholesterol: 1,ngoId:req.body.ngoId } },
 						{ '$sort': { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -1823,7 +1841,7 @@ exports.LipidPanelCholesterolRedList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 2 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_cholesterol: 2 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1877,6 +1895,7 @@ exports.LipidPanelCholesterolRedList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_cholesterol': 1,
 								'cholesterol': 1,
@@ -1900,7 +1919,7 @@ exports.LipidPanelCholesterolRedList = [
 								'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 							}
 						},
-						{ '$match': { severity_cholesterol: 2 } },
+						{ '$match': { severity_cholesterol: 2,ngoId:req.body.ngoId } },
 						{ '$sort': { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -1953,7 +1972,7 @@ exports.LipidPanelTestldlGreenList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 0 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 0,ngoId:req.body.ngoId }, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -2007,6 +2026,7 @@ exports.LipidPanelTestldlGreenList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								'cholesterol': 1,
@@ -2029,7 +2049,7 @@ exports.LipidPanelTestldlGreenList = [
 
 							}
 						},
-						{ '$match': { severity_ldl: 0 } },
+						{ '$match': { severity_ldl: 0,ngoId:req.body.ngoId } },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -2133,6 +2153,7 @@ exports.LipidPanelTestldlDefaultList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								'cholesterol': 1,
@@ -2154,7 +2175,7 @@ exports.LipidPanelTestldlDefaultList = [
 
 							}
 						},
-						{ '$match': { severity_ldl: 3 } },
+						{ '$match': { severity_ldl: 3 ,ngoId:req.body.ngoId} },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -2204,7 +2225,7 @@ exports.LipidPanelTestldlAmberList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 1 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 1 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -2261,6 +2282,7 @@ exports.LipidPanelTestldlAmberList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_ldl': 1,
 								'severity_triglycerides': 1,
@@ -2283,7 +2305,7 @@ exports.LipidPanelTestldlAmberList = [
 
 							}
 						},
-						{ '$match': { severity_ldl: 1 } },
+						{ '$match': { severity_ldl: 1,ngoId:req.body.ngoId } },
 						// { $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -2334,7 +2356,7 @@ exports.LipidPanelTestldlRedList = [
 		console.log(query);
 
 		// Find some documents
-		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 2 }, async (err, totalCount) => {
+		LabTestCaseModel.LipidPanelTest.count({ severity_ldl: 2 ,ngoId:req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -2390,6 +2412,7 @@ exports.LipidPanelTestldlRedList = [
 						{
 							'$project': {
 								'caseId': 1,
+								'ngoId':1,
 								'status': 1,
 								'severity_triglycerides': 1,
 								'cholesterol': 1,
@@ -2413,7 +2436,7 @@ exports.LipidPanelTestldlRedList = [
 
 							}
 						},
-						{ '$match': { severity_ldl: 2 } },
+						{ '$match': { severity_ldl: 2 ,ngoId:req.body.ngoId} },
 						{ $sort: { 'createdAt': -1 } },
 						{ $skip: query.skip },
 						{ $limit: query.limit },
@@ -2455,7 +2478,7 @@ exports.LipidPanelTestldlRedcount = [
 
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
-					{ '$match': { severity_triglycerides: 2 } },
+					{ '$match': { severity_triglycerides: 2,ngoId:req.body.ngoId } },
 					{
 
 						'$group': {
@@ -2509,7 +2532,8 @@ exports.addBloodGlucoseTest = [
 					caseId: req.body.caseId,
 					status: req.body.status,
 					bloodglucose: req.body.bloodglucose,
-					type: req.body.type
+					type: req.body.type,
+					ngoId:req.body.ngoId,
 				};
 
 				var actionBloodGlucoseTestCase = new LabTestCaseModel.BloodGlucoseTest(recBloodGlucoseTest);
@@ -2568,7 +2592,7 @@ exports.BloodGlucoseTestList = [
 				LabTestCaseModel.BloodGlucoseTest.aggregate([
 					andcond,
 					// {$and:
-					// {'$match':{$and:{ bloodglucose : { $gt :  80, $lt : 100}}}},
+					{'$match':{ngoId:req.body.ngoId}},
 					{
 						$lookup: {
 							from: "screeningcases",
@@ -2596,6 +2620,7 @@ exports.BloodGlucoseTestList = [
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'bloodglucose': 1,
 							'type': 1,
@@ -2652,13 +2677,14 @@ exports.BloodGlucoseTestAmberList = [
 	
 		{
 			'$project': {
-				
+				ngoId:1,
+				severity:1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				
 			}
 		},
 	 
-		{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+		{ $match: {severity:1,ngoId:req.body.ngoId} },
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
@@ -2711,6 +2737,7 @@ exports.BloodGlucoseTestAmberList = [
 		  {
 			  '$project': {
 				  'caseId': 1,
+				  'ngoId':1,
 				  'status': 1,
 				  'bloodglucose': { $toInt: "$bloodglucose" },
 				  'severity': 1,
@@ -2725,7 +2752,7 @@ exports.BloodGlucoseTestAmberList = [
 			  }
 		  },
 		//   { $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
-		{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+		{ $match: { severity:1,ngoId:req.body.ngoId } },
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -2769,13 +2796,14 @@ exports.BloodGlucoseTestGreenList = [
 	
 		{
 			'$project': {
-				
+				ngoId:1,
+				severity:1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				
 			}
 		},
 	 
-		{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+		{ $match: { severity:0,ngoId:req.body.ngoId } },
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
@@ -2828,6 +2856,7 @@ exports.BloodGlucoseTestGreenList = [
 		  {
 			  '$project': {
 				  'caseId': 1,
+				  'ngoId':1,
 				  'status': 1,
 				  'bloodglucose': { $toInt: "$bloodglucose" },
 				  'severity': 1,
@@ -2842,7 +2871,7 @@ exports.BloodGlucoseTestGreenList = [
 			  }
 		  },
 		//   { $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
-		{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+		{ $match: { severity:0,ngoId:req.body.ngoId } },
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -2906,6 +2935,7 @@ exports.BloodGlucoseGreenCount=[
 		{
 			'$project': {
 				'caseId': 1,
+				'ngoId':1,
 				'status': 1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				'type': 1,
@@ -2919,7 +2949,7 @@ exports.BloodGlucoseGreenCount=[
 				'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 			}
 		},
-		{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
+		{ $match: { severity:0 ,ngoId:req.body.ngoId} },
 		{ $group: { _id: null, count: { $sum: 1 } } },
 		
 			
@@ -2991,6 +3021,7 @@ exports.BloodGlucoseAmberCount=[
 		{
 			'$project': {
 				'caseId': 1,
+				'ngoId':1,
 				'status': 1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				'type': 1,
@@ -3004,7 +3035,7 @@ exports.BloodGlucoseAmberCount=[
 				'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 			}
 		},
-		{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
+		{ $match: { severity:1,ngoId:req.body.ngoId} },
 
 		{ $group: { _id: null, count: { $sum: 1 } } },
 		
@@ -3078,6 +3109,7 @@ exports.BloodGlucoseRedCount=[
 		{
 			'$project': {
 				'caseId': 1,
+				'ngoId':1,
 				'status': 1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				'type': 1,
@@ -3091,7 +3123,7 @@ exports.BloodGlucoseRedCount=[
 				'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 			}
 		},
-		{ '$match': { bloodglucose: { $gt: 125 } }, },
+		{ '$match': {severity:2,ngoId:req.body.ngoId}, },
 		{ $group: { _id: null, count: { $sum: 1 } } },
 		
 			
@@ -3143,13 +3175,14 @@ exports.BloodGlucoseTestRedList = [
 	
 		{
 			'$project': {
-				
+				ngoId:1,
+				severity:1,
 				'bloodglucose': { $toInt: "$bloodglucose" },
 				
 			}
 		},
 	 
-	  { '$match': { bloodglucose: { $gt: 125 } }},
+	  { '$match': {severity:2,ngoId:req.body.ngoId }},
 	  { $group: { _id: null, count: { $sum: 1 } } }
 	  
 		])
@@ -3202,6 +3235,7 @@ exports.BloodGlucoseTestRedList = [
 		  {
 			  '$project': {
 				  'caseId': 1,
+				  'ngoId':1,
 				  'status': 1,
 				  'bloodglucose': { $toInt: "$bloodglucose" },
 				  'severity': 1,
@@ -3216,7 +3250,7 @@ exports.BloodGlucoseTestRedList = [
 			  }
 		  },
 		//   { $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
-		{ '$match': { bloodglucose: { $gt: 125 } }},
+		{ '$match': { severity:2,ngoId:req.body.ngoId }},
 		  
 			  { $skip: query.skip },
 			  { $limit: query.limit },
@@ -3263,7 +3297,8 @@ exports.addSickleCell = [
 					SickleCell: req.body.SickleCell,
 					caseId: req.body.caseId,
 					notes: req.body.notes,
-					status: req.body.status
+					status: req.body.status,
+					ngoId:req.body.ngoId,
 				};
 
 				var actionSickleCell = new SickleCellModel.SickleCell(recSickleCell);
@@ -3297,13 +3332,14 @@ exports.SickleCellList = [
 			} else {
 
 				SickleCellModel.SickleCell.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ '$match': { "caseId": req.body.caseId ,ngoId:req.body.ngoId} },
 
 					{
 						'$project': {
 							'status': 1,
 							'SickleCell': 1,
 							'caseId': 1,
+							'ngoId':1,
 							'notes': 1,
 							'createdAt': 1
 						}
@@ -3354,7 +3390,8 @@ exports.addThalassemia = [
 					Thalassemia: req.body.Thalassemia,
 					caseId: req.body.caseId,
 					notes: req.body.notes,
-					status: req.body.status
+					status: req.body.status,
+					ngoId:req.body.ngoId,
 				};
 
 				var actionThalassemia = new ThalassemiaModel.Thalassemia(recThalassemia);
@@ -3388,13 +3425,14 @@ exports.ThalassemiaList = [
 			} else {
 
 				ThalassemiaModel.Thalassemia.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ '$match': { "caseId": req.body.caseId,ngoId:req.body.ngoId } },
 
 					{
 						'$project': {
 							'status': 1,
 							'Thalassemia': 1,
 							'caseId': 1,
+							'ngoId':1,
 							'notes': 1,
 							'createdAt': 1
 						}
@@ -3471,7 +3509,8 @@ exports.addLungFunctionTest = [
 					fvc1_predicted_percent: req.body.fvc1_predicted_percent,
 					pef_predicted_percent: req.body.pef_predicted_percent,
 					caseId: req.body.caseId,
-					status: req.body.status
+					status: req.body.status,
+					ngoId:req.body.ngoId,
 				};
 
 				var actionLung = new LungFunctionTest.LungFunction(recLung);
@@ -3505,11 +3544,12 @@ exports.LungTestList = [
 			} else {
 
 				LungFunctionTest.LungFunction.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ '$match': { "caseId": req.body.caseId ,ngoId:req.body.ngoId} },
 
 					{
 						'$project': {
 							'status': 1,
+							'ngoId':1,
 							'fvc_predicted': 1,
 							'fvc_actual': 1,
 							'fev1_predicted': 1,
@@ -3552,103 +3592,103 @@ exports.LungTestList = [
 
 
 //Graphs
-exports.bloodGlucoseCount = [
+// exports.bloodGlucoseCount = [
 
 
 
-	async (req, res) => {
+// 	async (req, res) => {
 
-		// try {
-		// 	const errors = validationResult(req);
-		// 	if (!errors.isEmpty()) {
-		// 		return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-		// 	} else {
-				var redCount=0;
-				var greenCount =0;
-				var amberCount =0;
+// 		// try {
+// 		// 	const errors = validationResult(req);
+// 		// 	if (!errors.isEmpty()) {
+// 		// 		return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 		// 	} else {
+// 				var redCount=0;
+// 				var greenCount =0;
+// 				var amberCount =0;
 
-				// LabTestCaseModel.BloodGlucoseTest.aggregate([
-				// 	{
+// 				// LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 				// 	{
 
-				// 		'$group': {
-				// 			'_id': "$severity",
-				// 			'count': { '$sum': 1 }
-				// 		},
+// 				// 		'$group': {
+// 				// 			'_id': "$severity",
+// 				// 			'count': { '$sum': 1 }
+// 				// 		},
 
-				// 	}
-				// ])
-				greenCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 				// 	}
+// 				// ])
+// 				greenCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
 	
-					{
-						'$project': {
+// 					{
+// 						'$project': {
+// 							'ngoId':1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
 							
-							'bloodglucose': { $toInt: "$bloodglucose" },
-							
-						}
-					},
+// 						}
+// 					},
 				 
-					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } } },
-				  { $group: { _id: null, count: { $sum: 1 } } }
+// 					{ $match: { bloodglucose: { $gt: 80, $lt: 100 } ,ngoId:req.body.ngoId} },
+// 				  { $group: { _id: null, count: { $sum: 1 } } }
 				  
-					])
-					  bloodcountGreen = greenCount[0].count;
-						console.log(bloodcountGreen);
+// 					])
+// 					  bloodcountGreen = greenCount[0].count;
+// 						console.log(bloodcountGreen);
 
-			redCount=await LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 			redCount=await LabTestCaseModel.BloodGlucoseTest.aggregate([
 	
-				{
-					'$project': {
+// 				{
+// 					'$project': {
+// 						'ngoId':1,
+// 						'bloodglucose': { $toInt: "$bloodglucose" },
 						
-						'bloodglucose': { $toInt: "$bloodglucose" },
-						
-					}
-				},
+// 					}
+// 				},
 			 
-			  { '$match': { bloodglucose: { $gt: 125 } }},
-			  { $group: { _id: null, count: { $sum: 1 } } }
+// 			  { '$match': { bloodglucose: { $gt: 125 } ,ngoId:req.body.ngoId}},
+// 			  { $group: { _id: null, count: { $sum: 1 } } }
 			  
-				])
-					  bloodcountRed = redCount[0].count;
-					  console.log(bloodcountRed);
+// 				])
+// 					  bloodcountRed = redCount[0].count;
+// 					  console.log(bloodcountRed);
 
-				 amberCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
+// 				 amberCount= await LabTestCaseModel.BloodGlucoseTest.aggregate([
 	
-					{
-						'$project': {
+// 					{
+// 						'$project': {
+// 							'ngoId':1,
+// 							'bloodglucose': { $toInt: "$bloodglucose" },
 							
-							'bloodglucose': { $toInt: "$bloodglucose" },
-							
-						}
-					},
+// 						}
+// 					},
 				 
-					{ $match: { bloodglucose: { $gte: 100, $lte: 125 } } },
-				  { $group: { _id: null, count: { $sum: 1 } } }
+// 					{ $match: { bloodglucose: { $gte: 100, $lte: 125 },ngoId:req.body.ngoId } },
+// 				  { $group: { _id: null, count: { $sum: 1 } } }
 				  
-					])
-					  bloodcountAmber = amberCount[0].count;
-					  console.log(bloodcountAmber);
+// 					])
+// 					  bloodcountAmber = amberCount[0].count;
+// 					  console.log(bloodcountAmber);
 
-					  response = {
-						message: 'data fatch successfully',
-						status: 1,
-						 totalRed: bloodcountRed,
-						 totalGreen:bloodcountGreen,
-						 totalAmber:bloodcountAmber,
+// 					  response = {
+// 						message: 'data fatch successfully',
+// 						status: 1,
+// 						 totalRed: bloodcountRed,
+// 						 totalGreen:bloodcountGreen,
+// 						 totalAmber:bloodcountAmber,
 						
 						
-					  }
+// 					  }
 					  
-					  res.json(response)
+// 					  res.json(response)
 
-					// }
+// 					// }
 				
-		// } catch (err) {
+// 		// } catch (err) {
 
-		// 	return apiResponse.ErrorResponse(res, "EXp:" + err);
-		// }
-	}
+// 		// 	return apiResponse.ErrorResponse(res, "EXp:" + err);
+// 		// }
+// 	}
 
-];
+// ];
 
 // exports.bloodGlucoseCount = [
 
@@ -3738,45 +3778,53 @@ exports.bloodGlucoseCount = [
 // 	}
 
 // ];
-// exports.bloodGlucoseCount = [
+exports.bloodGlucoseCount = [
 
 
 
-// 	(req, res) => {
+	(req, res) => {
 
-// 		try {
-// 			const errors = validationResult(req);
-// 			if (!errors.isEmpty()) {
-// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 			} else {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			} else {
 
 
-// 				LabTestCaseModel.BloodGlucoseTest.aggregate([
-// 					{
+				LabTestCaseModel.BloodGlucoseTest.aggregate([
+					{
+						'$project': {
+							'severity':1,
+							'ngoId':1
+						}
+					},
+					{$match:{'ngoId':req.body.ngoId}},
+					{
 						
-// 						'$group': {
-// 							'_id': "$severity",
-// 							'count': { '$sum': 1 }
-// 						},
+						'$group': {
+							'_id': "$severity",
+							'count': { '$sum': 1 }
+						},
 						
-// 					}
-// 				]).then(users => {
+					},
+					
+				]).then(users => {
 
-// 					let user = users[0];
-// 					if (user) {
-// 						return apiResponse.successResponseWithData(res, "Found", users);
-// 					}
-// 					else return apiResponse.ErrorResponse(res, "Not Found");
+					let user = users[0];
+					if (user) {
+						return apiResponse.successResponseWithData(res, "Found", users);
+					}
+					else return apiResponse.ErrorResponse(res, "Not Found");
 
-// 				});
-// 			}
-// 		} catch (err) {
+				});
+			}
+		} catch (err) {
 
-// 			return apiResponse.ErrorResponse(res, "EXp:" + err);
-// 		}
-// 	}
+			return apiResponse.ErrorResponse(res, "EXp:" + err);
+		}
+	}
 
-// ];
+];
 
 //Urine Test
 
@@ -3820,7 +3868,8 @@ exports.addUrineTest = [
 					ketone: req.body.ketone,
 					bilirubin: req.body.bilirubin,
 					glucose: req.body.glucose,
-					notes: req.body.notes
+					notes: req.body.notes,
+					ngoId:req.body.ngoId,
 				};
 
 				var actionUrineTestCase = new LabTestCaseModel.UrineTest(recUrineTest);
@@ -3854,11 +3903,12 @@ exports.UrineTestList = [
 			} else {
 
 				LabTestCaseModel.UrineTest.aggregate([
-					{ '$match': { "caseId": req.body.caseId } },
+					{ '$match': { "caseId": req.body.caseId ,ngoId:req.body.ngoId} },
 
 					{
 						'$project': {
 							'caseId': 1,
+							'ngoId':1,
 							'status': 1,
 							'leukocytes': 1,
 							'nitrite': 1,
@@ -3915,11 +3965,19 @@ exports.reyeTestCount = [
 
 				EyeTest.EyeTest.aggregate([
 					{
+						'$project': {
+							'severity_reye':1,
+							'ngoId':1
+						}
+					},
+					{$match:{ngoId:req.body.ngoId}},
+					{
 						'$group': {
 							'_id': "$severity_reye",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+					
 				]).then(users => {
 
 					let user = users[0];
@@ -3954,11 +4012,20 @@ exports.leyeTestCount = [
 
 				EyeTest.EyeTest.aggregate([
 					{
+						'$project': {
+							'severity_leye':1,
+							'ngoId':1
+						}
+					},
+					{$match:{'ngoId':req.body.ngoId}},
+					{
+
 						'$group': {
 							'_id': "$severity_leye",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+					
 				]).then(users => {
 
 					let user = users[0];
@@ -3993,11 +4060,23 @@ exports.hemoTestCount = [
 
 				HemoglobinModel.Hemoglobin.aggregate([
 					{
+						'$project': {
+							'severity':1,
+							'ngoId':1
+						}
+					},
+					{ '$match': { ngoId:req.body.ngoId }},
+					{
+						
 						'$group': {
 							'_id': "$severity",
 							'count': { '$sum': 1 }
-						}
-					}
+						},
+						
+					},
+					
+				 
+				
 				]).then(users => {
 
 					let user = users[0];
@@ -4032,11 +4111,19 @@ exports.cholesterolTestCount = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					{
+						'$project': {
+							'severity_cholesterol':1,
+							'ngoId':1
+						}
+					},
+					{ $match: { ngoId:req.body.ngoId }},
+					{
 						'$group': {
 							'_id': "$severity_cholesterol",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+					
 				]).then(users => {
 
 					let user = users[0];
@@ -4070,11 +4157,19 @@ exports.hdlcholesterolTestCount = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					{
+						'$project': {
+							'severity_hdlcholesterol':1,
+							'ngoId':1
+						}
+					},
+					{$match: { ngoId:req.body.ngoId }},
+					{
 						'$group': {
 							'_id': "$severity_hdlcholesterol",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+					
 				]).then(users => {
 
 					let user = users[0];
@@ -4109,11 +4204,19 @@ exports.triglyceridesTestCount = [
 
 				LabTestCaseModel.LipidPanelTest.aggregate([
 					{
+						'$project': {
+							'severity_triglycerides':1,
+							'ngoId':1
+						}
+					},
+					{ $match: { ngoId:req.body.ngoId }},
+					{
 						'$group': {
 							'_id': "$severity_triglycerides",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+					
 				]).then(users => {
 
 					let user = users[0];
@@ -4145,14 +4248,25 @@ exports.ldlTestCount = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
 
-
+				console.log("req.body.ngoId===========>",req.body.ngoId);
 				LabTestCaseModel.LipidPanelTest.aggregate([
+				
+					{
+						'$project': {
+							'severity_ldl':1,
+							'ngoId':1
+						}
+					},
+					{ $match: { 'ngoId':req.body.ngoId }},
 					{
 						'$group': {
 							'_id': "$severity_ldl",
 							'count': { '$sum': 1 }
 						}
-					}
+					},
+				
+			
+				
 				]).then(users => {
 
 					let user = users[0];

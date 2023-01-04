@@ -102,6 +102,7 @@ exports.HeartTestList=[
 								 'caseId':1,
 								 'citizenId':1,
 								 'notes':1,
+								 'ngoId':1,
 								 'url':1,
 								 'createdAt':1,
 								 'basic.firstName':1,
