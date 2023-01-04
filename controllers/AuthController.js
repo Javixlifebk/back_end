@@ -137,7 +137,7 @@ exports.register = [
 							
 						}
 					);
-
+					user.save();
 					var userDetails = new UserDetailsModel(
 						{
 							userId: req.body.userName,
@@ -156,6 +156,7 @@ exports.register = [
 
 						}
 					);
+					userDetails.save();
 					// Html email body
 					let html = "<p>Please Confirm your Account.</p><p>OTP: "+otp+"</p>";
 					//Send confirmation email
@@ -169,47 +170,51 @@ exports.register = [
 					if(num!=undefined && num!="" && num!=null ){
 						 fireSms(otp,num);
 					}
+					
+					
 
-					mailer.send(
-						constants.confirmEmails.from, 
-						req.body.email,
-						"Confirm Account",
-						html
-					).then(function(){
-						// Save user.
-						user.save(function (err) {
-							if (err) { return apiResponse.ErrorResponse(res, err); }
+					return apiResponse.successResponseWithData(res,"Registration Success.",user );
+
+					// mailer.send(
+					// 	constants.confirmEmails.from, 
+					// 	req.body.email,
+					// 	"Confirm Account",
+					// 	html
+					// ).then(function(){
+					// 	// Save user.
+					// 	user.save(function (err) {
+					// 		if (err) { return apiResponse.ErrorResponse(res, err); }
 							
 			
-							//return apiResponse.successResponseWithData(res,"Registration Success.", userData);
+					// 		//return apiResponse.successResponseWithData(res,"Registration Success.", userData);
 
-						});
+					// 	});
 
-						userDetails.save(function (err) {
+					// 	userDetails.save(function (err) {
 
-							if (err) { return apiResponse.ErrorResponse(res, err); }
-							let userData = {
-								_id: user._id,
-								userId: user.userId,
-								ngoId: user.ngoId,
-								userName: user.userName,
-								firstName: userDetails.firstName,
-								lastName: userDetails.lastName,
-								email: userDetails.email,
-								phoneNo:userDetails.phoneNo,
-								phoneNo1:userDetails.phoneNo1,
-								logo:userDetails.logo,
-								client_logo:userDetails.client_logo,	
+					// 		if (err) { return apiResponse.ErrorResponse(res, err); }
+					// 		let userData = {
+					// 			_id: user._id,
+					// 			userId: user.userId,
+					// 			ngoId: user.ngoId,
+					// 			userName: user.userName,
+					// 			firstName: userDetails.firstName,
+					// 			lastName: userDetails.lastName,
+					// 			email: userDetails.email,
+					// 			phoneNo:userDetails.phoneNo,
+					// 			phoneNo1:userDetails.phoneNo1,
+					// 			logo:userDetails.logo,
+					// 			client_logo:userDetails.client_logo,	
 
-							};
+					// 		};
 							
 
-							return apiResponse.successResponseWithData(res,"Registration Success.", userData);
-						});
+					// 		return apiResponse.successResponseWithData(res,"Registration Success.", userData);
+					// 	});
 						
-					}).catch(err => {
-						return apiResponse.ErrorResponse(res,err);
-					}) ;
+					// }).catch(err => {
+					// 	return apiResponse.ErrorResponse(res,err);
+					// }) ;
 				});
 			}
 		} catch (err) {
