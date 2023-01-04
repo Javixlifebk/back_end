@@ -16,6 +16,7 @@ var tmp_out1Schema = new mongoose.Schema(
     citizenId: { type: String, required: true },
     notes: { type: String, required: true },
     doctorId: { type: String, required: true },
+    ngoId :{type:String,required:false},
     screenerId: { type: String, required: true },
     height: { type: String, required: true },
     weight: { type: String, required: true },

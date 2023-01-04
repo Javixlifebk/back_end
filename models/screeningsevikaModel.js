@@ -7,6 +7,7 @@ var sevikaReport = new mongoose.Schema(
     issubscreener:{type:String},
     screenerfullname:{type:String},
     status:{type:String},
+    ngoId :{type:String,required:false},
     severity_bp:{type:String},
     severity_spo2:{type:String},
     severity_temperature:{type:String},

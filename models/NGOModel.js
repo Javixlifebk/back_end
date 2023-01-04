@@ -9,7 +9,9 @@ var NGOSchema = new mongoose.Schema({
 	owner: {type: String, required: true},
 	mobile: {type: String, required: true},
 	email: {type: String, required: true},
-	ngoLoginId: {type: String, required: true}
+	ngoLoginId: {type: String, required: true},
+	javixid:{type:String}
+	
 }, {timestamps: true});
 
 // ngoLoginId=>{User=>userId}
@@ -18,6 +20,7 @@ module.exports.NGO = mongoose.model("Ngos", NGOSchema);
 /* Collection Name: NgoDetails */
 var NGODetailsSchema = new mongoose.Schema({
 	ngoDetailId: {type: String, required: true},
+
 	ngoRegistrationNo: {type: String, required: true},
 	dateOfRegistration: {type: Date, required: true, default:Date.now()},
 	dateOfOnBoarding: {type: Date, required: true,default:Date.now()},
@@ -30,6 +33,8 @@ var NGODetailsSchema = new mongoose.Schema({
     isDefault: {type: Boolean, required: true, default: false},
     rating : {type: Number, required: true, default: 0},
     ngoId: {type: String, required: true},
+	image: {type: String, required: false},
+	client_logo: {type: String, required: false}
 }, {timestamps: true});
 // ngoId=>{NGOSchema=>ngoId}
 module.exports.NGODetails = mongoose.model("NgoDetails", NGODetailsSchema);
@@ -61,7 +66,7 @@ module.exports.NGOTransactionTypes = mongoose.model("NgoTransactionTypes", NGOTr
 /* Collection Name: NgoTransactions */
 var NGOTransactionSchema = new mongoose.Schema({
 	transactionId: {type: Number, required: true},
-	ngoId: {type: Number, required: true},
+	ngoId: {type: String, required: true},
 	statusId: {type: Number, required: true},
 	typeId: {type: String, required: true},
 	InteractionParty: {type: String, required: true},
@@ -74,6 +79,7 @@ module.exports.NGOTransactions = mongoose.model("NgoTransactions", NGOTransactio
 /* Collection Name: NgoTransactionStatus */
 var NGOTransactionStatusSchema = new mongoose.Schema({
 	statusId: {type: String, required: true},
+	ngoId: {type: String, required: true},
 	status: {type: String, required: true},
 	text: {type: String, required: true}
 	

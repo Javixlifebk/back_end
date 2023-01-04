@@ -6,6 +6,7 @@ var HealthSurveySchema = new mongoose.Schema({
 	healthsurveyId:{type: String, required: true},
 	citizenId:{type: Array, required: true},
 	familyId:{type: String, required: true},
+	ngoId :{type:String,required:false},
 	drinkingWaterSource:{type: String, required: false},
 	drinkingWaterDistance:{type: String,required:false},
 	isdrinkingWaterTreatmentRequired:{type: String,required:false},
@@ -30,7 +31,7 @@ var HealthSurveySchema = new mongoose.Schema({
 	alcoholStatus:{type: Array,required:false},
 	tobaccoStatus:{type: Array,required:false},
 	screenerId:{type: String, required: true},
-	isdeleted:{type: Boolean, required: true}
+	isdeleted:{type: Boolean,default:false, required: true}
 }, {timestamps: true});
 var HealthSurvey= mongoose.model("HealthSurvey", HealthSurveySchema);
 module.exports =HealthSurvey;

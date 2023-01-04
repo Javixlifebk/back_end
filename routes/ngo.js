@@ -10,8 +10,11 @@ routerNGO.post("/updateNGODetails", NGOController.updateNGODetails);
 routerNGO.post("/updateNGOFinal", NGOController.updateNGOFinal);
 routerNGO.post("/updateNGODetailsFinal", NGOController.updateNGODetailsFinal);
 routerNGO.post("/ngoList", NGOList.ngoList);
+routerNGO.post("/ngoFindbyId", NGOList.findByNgoId);
+routerNGO.post("/allngoList", NGOList.allNgoList);
 routerNGO.post("/ngoById", NGOList.ngoProfile);
 routerNGO.post("/screenerList", ScreenerList.screenerList);
+routerNGO.post("/screenerLists", ScreenerList.screenerlists);
 routerNGO.post("/sevikaList", ScreenerList.sevikalist);
 routerNGO.post("/approvescreenerList", ScreenerList.updatescreenerList);
 routerNGO.post("/addscreener", ScreenerList.updateAddmappedscreener);
@@ -28,6 +31,8 @@ routerNGO.post("/screenerNgo", ScreenerList.updateAddscreener);
 
 
 routerNGO.post("/screenerById", ScreenerList.screenerProfile);
+routerNGO.post("/screenerListById", ScreenerList.screenerListById);
+routerNGO.post("/sevikaListById", ScreenerList.sevikaListById);
 routerNGO.post("/screener/addprofile", ScreenerController.addProfile);
 routerNGO.post("/screener/updateScreener", ScreenerController.updateScreener);
 routerNGO.post("/screener/updateScreenerDetails", ScreenerController.updateScreenerDetails);

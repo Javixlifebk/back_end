@@ -69,7 +69,9 @@ exports.addRole = [
 				var roleModel = new RoleModel(
 						{
 							roleId : req.body.roleId,
-							roleName:req.body.roleName
+							roleName:req.body.roleName,
+							ngoId:req.body.ngoId,
+
 						}
 					);
 				roleModel.save(function (err) {
@@ -113,7 +115,8 @@ exports.addAction = [
 							linkName:req.body.linkName,
 							linkURL:req.body.linkURL,
 							parentId:pID,
-							type:type
+							type:type,
+							ngoId:req.body.ngoId,
 							
 						}
 					);

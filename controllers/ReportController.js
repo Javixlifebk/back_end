@@ -220,18 +220,20 @@ exports.createProfileReport = [
 					if(req.body.roleId==='2'){
 
 						var screenerId=req.body.userId;
+						var ngoId=req.body.ngoId;
 					
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/screenerProfile.html', 'utf8');
 						var token=req.body.token;
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/ngo/screenerById',
+					  url: 'http://javixlife.org:3010/api/ngo/screenerById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
 					   { userId: screenerId,
-					   token: token } };
+					   token: token ,
+					ngoId:ngoId} };
 
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
@@ -272,7 +274,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -295,11 +297,12 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/ngo/ngoById',
+					  url: 'http://javixlife.org:3010/api/ngo/ngoById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
 					   { userId: ngoId,
+						ngoId: ngoId,
 					   token: token } };
 
 					request(options, function (error, response, body) {
@@ -341,7 +344,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -359,18 +362,20 @@ exports.createProfileReport = [
 					if(req.body.roleId==='1'){
 
 						var doctorId=req.body.userId;
+						var ngoId=req.body.ngoId;
 					
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/doctorProfile.html', 'utf8');
 						var token=req.body.token;
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/doctor/doctorById',
+					  url: 'http://javixlife.org:3010/api/doctor/doctorById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
 					   { userId: doctorId,
-					   token: token } };
+					   token: token ,
+					ngoId:ngoId} };
 
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
@@ -411,7 +416,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -429,18 +434,20 @@ exports.createProfileReport = [
 if(req.body.roleId==='4'){
 
 						var pharmacyId=req.body.userId;
+						var ngoId=req.body.ngoId;
 					
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/pharmacyProfile.html', 'utf8');
 						var token=req.body.token;
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/pharmacy/pharmacyById',
+					  url: 'http://javixlife.org:3010/api/pharmacy/pharmacyById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
 					   { userId: pharmacyId,
-					   token: token } };
+					   token: token ,
+					   ngoId: ngoId} };
 
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
@@ -481,7 +488,7 @@ if(req.body.roleId==='4'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -499,18 +506,20 @@ if(req.body.roleId==='4'){
 if(req.body.roleId==='6'){
 
 						var citizenId=req.body.userId;
+						var ngoId=req.body.ngoId;
 					
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/citizenProfile.html', 'utf8');
 						var token=req.body.token;
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/citizenById',
+					  url: 'http://javixlife.org:3010/api/citizen/citizenById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
 					   { userId: citizenId,
-					   token: token } };
+					   token: token ,
+					   ngoId: ngoId} };
 
 					request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
@@ -551,7 +560,7 @@ if(req.body.roleId==='6'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -593,17 +602,20 @@ exports.createCaseReport = [
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
+				console.log("case report",req.body);
 						var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
 						var token="hgaghsagf";
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/screening/getCaseDetails',
+					  url: 'http://javixlife.org:3010/api/screening/getCaseDetails',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId
+					   { caseId: caseId,
+						ngoId: ngoId
 					   } };
 
 					   //LaBtESTS
@@ -611,107 +623,120 @@ exports.createCaseReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getHemoglobinList',
+					  url: 'http://javixlife.org:3010/api/labtest/getHemoglobinList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getEyeTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getEyeTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getVisualExamList',
+					  url: 'http://javixlife.org:3010/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getBloodGlucoseTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getBloodGlucoseTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options5 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getLipidPanelTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getLipidPanelTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options6 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getDrugTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getDrugTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options7 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getLabTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getLabTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:token
+					   { caseId: caseId,token:token,
+						ngoId: ngoId
 					   } };
 
 					   var options8 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getSickleCell',
+					  url: 'http://javixlife.org:3010/api/labtest/getSickleCell',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId
+					   { caseId: caseId,
+						ngoId: ngoId
 					   } };
 
 					   var options9 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getThalassemia',
+					  url: 'http://javixlife.org:3010/api/labtest/getThalassemia',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId
+					   { caseId: caseId,
+						ngoId: ngoId
 					   } };
 
 					   var options10 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getLungTest',
+					  url: 'http://javixlife.org:3010/api/labtest/getLungTest',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId
+					   { caseId: caseId,
+						ngoId: ngoId
 					   } };
 
 					   var options11 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getHeartTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getHeartTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:'adsdasdadasda'
+					   { caseId: caseId,token:'adsdasdadasda',
+					   ngoId: ngoId
 					   } };
 
 					   var options12 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/labtest/getUrineTestList',
+					  url: 'http://javixlife.org:3010/api/labtest/getUrineTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:'adsdasdadasda'
+					   { caseId: caseId,token:'adsdasdadasda',
+					   ngoId: ngoId
 					   } };
 
 					   var options13 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/screening/SymptomsList',
+					  url: 'http://javixlife.org:3010/api/screening/SymptomsList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId,token:'adsdasdadasda'
+					   { caseId: caseId,token:'adsdasdadasda',
+					   ngoId: ngoId
 					   } };
 
 
@@ -1009,7 +1034,7 @@ exports.createCaseReport = [
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
-					        	val.filename="http://143.244.136.145:3010/reports/"+temp1[temp1.length-1];
+					        	val.filename="http://javixlife.org:3010/reports/"+temp1[temp1.length-1];
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
@@ -1084,16 +1109,18 @@ exports.createMedicalHistoryReport = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 						var citizenId=req.body.citizenId;
+						var ngoId=req.body.ngoId;
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/history.html', 'utf8');
 						//var token="hgaghsagf";
 
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/getHistoryAllergy',
+					  url: 'http://javixlife.org:3010/api/citizen/getHistoryAllergy',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { citizenId: citizenId
+					   { citizenId: citizenId,
+						ngoId: ngoId
 					   } };
 
 					   //LaBtESTS
@@ -1101,35 +1128,39 @@ exports.createMedicalHistoryReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/getHistoryMedical',
+					  url: 'http://javixlife.org:3010/api/citizen/getHistoryMedical',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { citizenId: citizenId
+					   { citizenId: citizenId,
+						ngoId: ngoId
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/getHistoryWomen',
+					  url: 'http://javixlife.org:3010/api/citizen/getHistoryWomen',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { citizenId: citizenId
+					   { citizenId: citizenId,
+						ngoId: ngoId
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/getHistoryFamily',
+					  url: 'http://javixlife.org:3010/api/citizen/getHistoryFamily',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { citizenId: citizenId
+					   { citizenId: citizenId,
+						ngoId: ngoId
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/citizen/getHistoryPersonal',
+					  url: 'http://javixlife.org:3010/api/citizen/getHistoryPersonal',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { citizenId: citizenId
+					   { citizenId: citizenId,
+						ngoId: ngoId
 					   } };
 
 
@@ -1349,7 +1380,7 @@ exports.createMedicalHistoryReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1393,22 +1424,20 @@ exports.createPrescriptionReport = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 						var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/prescription.html', 'utf8');
 						//var token="hgaghsagf";
 						// console.log(html);
 
 					var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/doctor/prescriptionlist',
+					  url: 'http://javixlife.org:3010/api/doctor/prescriptionlist',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
-					   { caseId: caseId
+					   { caseId: caseId,
+						ngoId: ngoId
 					   } };
 
-					   
-					   
-					   
-					  			
 					  			
 					  			request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
@@ -1480,7 +1509,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://143.244.136.145:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://javixlife.org:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 

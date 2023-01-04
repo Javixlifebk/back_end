@@ -64,7 +64,8 @@ exports.addVisualExam = [
 											citizenId:req.body.citizenId,
 											notes: req.body.notes,
 											image: image,
-											caseId:req.body.caseId
+											caseId:req.body.caseId,
+											ngoId:req.body.ngoId,
 									};
 
 									var actionVisualExam=new VisualExamModel.VisualExam(recVisualExam);
@@ -145,6 +146,7 @@ exports.VisualExamList=[
 								 'citizenId':1,
 								 'notes':1,
 								 'image':1,
+								 'ngoId':1,
 								 'createdAt':1,
 								 'basic.firstName':1,
 								 'basic.lastName':1,

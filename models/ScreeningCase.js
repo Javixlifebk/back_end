@@ -6,6 +6,7 @@ var mongoose = require("mongoose");
 var ScreeningCaseSchema = new mongoose.Schema({
 	citizenId: {type: String, required: true},
 	doctorId: {type: String, required: false},
+	ngoId :{type:String,required:false},
 	screenerId: {type: String, required: false},
 	notes: {type: String, required: false},
 	status: {type: Number, required: true , default: 1},
@@ -31,6 +32,7 @@ var ScreeningCaseSchema = new mongoose.Schema({
     caseId:{type:String,required:true},
 	isUnrefer: {type: Boolean, required: true, default: false},
 	// caseId:{type:String,required:true},
+	ngoId :{type:String,required:false},
 	isdeleted:{type: Boolean,default: false},
 
 }, {timestamps: true});
@@ -40,15 +42,30 @@ ScreeningCaseSchema.pre("save",function(){
 	if(this.temperature.length!=0 && isNaN(parseInt(this.temperature))==false)
 					 { 
 					   this.temperature=parseFloat(this.temperature);
-					   if(this.temperature>=102.38 || this.temperature<=95) 
+					//    if(this.temperature>=102.38 || this.temperature<=95) 
+					//    	 {
+					//    	 	this.severity_temperature=2;
+					//    	  }
+					//    else if(this.temperature>=100.4 || this.temperature<96.98) 
+					//    	 {
+					//    	 	this.severity_temperature=1;
+					//    	 }
+					//    else if( this.temperature>=97.7 || this.temperature<=99.5) 
+					//    	 {
+					//    	 	this.severity_temperature=0; 
+					//    	 }
+
+
+
+							if((this.temperature>=94 && this.temperature<=94.9) || (this.temperature>=102.1 && this.temperature<=105)) 
 					   	 {
 					   	 	this.severity_temperature=2;
 					   	  }
-					   else if(this.temperature>=100.4 || this.temperature<96.98) 
+					   else if((this.temperature>=95 && this.temperature<=96.4) || (this.temperature>=99.1 && this.temperature<=102) ) 
 					   	 {
 					   	 	this.severity_temperature=1;
 					   	 }
-					   else if( this.temperature>=97.7 || this.temperature<=99.5) 
+					   else if( this.temperature>=96.5 && this.temperature<=99) 
 					   	 {
 					   	 	this.severity_temperature=0; 
 					   	 }
@@ -58,33 +75,56 @@ ScreeningCaseSchema.pre("save",function(){
 	if(this.spo2.length!=0 && isNaN(parseInt(this.spo2))==false)
 					 { 
 					   this.spo2=parseFloat(this.spo2);
-					   if(this.spo2>100 || this.spo2<90) 
-					   	{
-					   	 	this.severity_spo2=2;
-					   	 }
-					   else if(this.spo2>=90 && this.spo2<=94)
-					   	{
-					   	 	this.severity_spo2=1;
-					   	 }
-					   else if( this.spo2>=95 || this.spo2<=100)
-					   	{
-					   	 	this.severity_spo2=0;
-					   	 }
+					//    if(this.spo2>100 || this.spo2<90) 
+					//    	{
+					//    	 	this.severity_spo2=2;
+					//    	 }
+					//    else if(this.spo2>=90 && this.spo2<=94)
+					//    	{
+					//    	 	this.severity_spo2=1;
+					//    	 }
+					//    else if( this.spo2>=95 || this.spo2<=100)
+					//    	{
+					//    	 	this.severity_spo2=0;
+					//    	 }
+					if(this.spo2>=30 && this.spo2<=91) 
+					{
+						 this.severity_spo2=2;
+					 }
+				else if(this.spo2>=92 && this.spo2<=94)
+					{
+						 this.severity_spo2=1;
+					 }
+				else if( this.spo2>=95 && this.spo2<=100)
+					{
+						 this.severity_spo2=0;
+					 }
+
+						 
 					   
 					 }
 	if(this.pulse.length!=0 && isNaN(parseInt(this.pulse))==false)
 					 { 
 					   this.pulse=parseFloat(this.pulse);
-					   if(this.pulse>100 || this.pulse<60) {
-					   	 	this.severity_pulse=2;
-					   	 }
-					   else if(this.pulse>=100 || this.pulse<=60) {
-					   	 	this.severity_pulse=1;
-					   	 }
-					   else if( this.pulse>60 || this.pulse<=99) {
-					   	 	this.severity_pulse=0;
-					   	 }
+					//    if(this.pulse>100 || this.pulse<60) {
+					//    	 	this.severity_pulse=2;
+					//    	 }
+					//    else if(this.pulse>=100 || this.pulse<=60) {
+					//    	 	this.severity_pulse=1;
+					//    	 }
+					//    else if( this.pulse>60 || this.pulse<=99) {
+					//    	 	this.severity_pulse=0;
+					//    	 }
 					   
+					if((this.pulse>=40 && this.pulse<=59) || (this.pulse>=121 && this.pulse<=200)) {
+						this.severity_pulse=2;
+					}
+			   else if((this.pulse>=60 && this.pulse<=69) || (this.pulse>=81 && this.pulse<=120)) {
+						this.severity_pulse=1;
+					}
+			   else if( this.pulse>=70 && this.pulse<=80) {
+						this.severity_pulse=0;
+					}
 					 }
 	if(this.respiratory_rate.length!=0 && isNaN(parseInt(this.respiratory_rate))==false)
 					 { this.respiratory_rate=parseFloat(this.respiratory_rate);
@@ -104,13 +144,41 @@ ScreeningCaseSchema.pre("save",function(){
 					 { 
 					   this.bpsys=parseInt(this.bpsys);
 					   this.bpdia=parseInt(this.bpdia);
-					   if(this.bpsys>=160 || this.bpdia<=70 || this.bpdia>=90 || this.bpsys<=100) {
+					//    if(this.bpsys>=160 || this.bpdia<=70 || this.bpdia>=90 || this.bpsys<=100) {
+					//    	 	this.severity_bp=2;
+					//    	 }
+					//    else if(this.bpsys>=130 || this.bpdia<=75 || this.bpdia>=85 || this.bpsys<=110) {
+					//    	 	this.severity_bp=1;
+					//    	 }
+					//    else if(this.bpsys>=120 && this.bpdia<=80) {
+					//    	 	this.severity_bp=0;
+					//    	 }
+					   
+					if(
+						(
+							(this.bpsys>=60 && this.bpsys<=69) || 
+							(this.bpsys>=160 && this.bpsys<=300)
+							) || 
+							(
+								(this.bpdia>=30 && this.bpdia<=59) ||
+						        (this.bpdia>=90 && this.bpdia<=200)
+							)
+					) {
 					   	 	this.severity_bp=2;
 					   	 }
-					   else if(this.bpsys>=130 || this.bpdia<=75 || this.bpdia>=85 || this.bpsys<=110) {
+					   else if(
+							(
+							(this.bpsys>=70 && this.bpsys<=114) || 
+							(this.bpsys>=129 && this.bpsys<=159)
+							) || 
+							(
+								(this.bpdia>=60 && this.bpdia<=69) ||
+						        (this.bpdia>=81 && this.bpdia<=89)
+							)
+						   ) {
 					   	 	this.severity_bp=1;
 					   	 }
-					   else if(this.bpsys>=120 && this.bpdia<=80) {
+					   else if((this.bpsys>=115 && this.bpsys<=128) || (this.bpdia>=70 && this.bpdia<=80)) {
 					   	 	this.severity_bp=0;
 					   	 }
 					   
@@ -118,15 +186,25 @@ ScreeningCaseSchema.pre("save",function(){
 	if(this.bmi.length!=0 && isNaN(parseInt(this.bmi))==false)
 					 { 
 					   this.bmi=parseFloat(this.bmi);
-					   if(this.bmi>=18.5 && this.bmi<=24.9) {
-					   	 	this.severity_bmi=0;
-					   	 }
-					   else if((this.bmi>=24.9 && this.bmi<=29.9) || (this.bmi<=18.5)) {
-					   	 	this.severity_bmi=1;
-					   	 }
-					   else {
-					   	 	this.severity_bmi=2;
-					   	 }
+					//    if(this.bmi>=18.5 && this.bmi<=24.9) {
+					//    	 	this.severity_bmi=0;
+					//    	 }
+					//    else if((this.bmi>=24.9 && this.bmi<=29.9) || (this.bmi<=18.5)) {
+					//    	 	this.severity_bmi=1;
+					//    	 }
+					//    else {
+					//    	 	this.severity_bmi=2;
+					//    	 }
+
+					if(this.bmi>=18.5 && this.bmi<=24.9) {
+						this.severity_bmi=0;
+					}
+			   else if((this.bmi>=18 && this.bmi<=18.4) || (this.bmi>=25 && this.bmi<=28)) {
+						this.severity_bmi=1;
+					}
+			   else if((this.bmi>=12 && this.bmi<=17.9) || (this.bmi>=28.1 && this.bmi<=60)) {
+						this.severity_bmi=2;
+					}
 					 }
 	var temp=(this.severity_bmi*4.76*0.5)+(this.severity_respiratory_rate*9.52*0.5)+(this.severity_pulse*14.28*0.5)+(this.severity_temperature*19.04*0.5)+
 	(this.severity_spo2*23.80*0.5)+(this.severity_bp*28.60*0.5);
@@ -154,6 +232,7 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
     hypertension: {type: String},
 	caseId:{type:String,required:true},
 	issubscreener:{type:String},
+	ngoId :{type:String,required:false},
 	isdeleted:{type: Boolean,default: false},
 	isUnrefer: {type: Boolean, required: true, default: false},
 }, {timestamps: true});

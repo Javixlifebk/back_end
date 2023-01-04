@@ -4,6 +4,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 var FamilyHistorySchema = new mongoose.Schema({
 	fatherlivingage: {type: Number, required: false},
+	ngoId :{type:String,required:false},
 	fatherlivinghealth: {type: String, required: false},
 	fatherdeceasedage: {type: Number, required: false},
 	fatherdeceasedcause: {type: String, required: false},

@@ -4,6 +4,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 var LoggedInScreenerSchema = new mongoose.Schema({
 	screenerId: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	isLoggedIn: {type: Boolean, required: true, default: false},
 	inDate: {type: Date, required: true, default: Date.now()},
 	outDate: {type: Date, required: true, default: Date.now()}

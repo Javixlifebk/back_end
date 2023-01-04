@@ -116,7 +116,8 @@ exports.addFamilyHistory = [
 								problempaternal:req.body.problempaternal,
 								citizenId:req.body.citizenId,
 								doctorId:req.body.doctorId,
-								screenerId:req.body.screenerId
+								screenerId:req.body.screenerId,
+								ngoId:req.body.ngoId,
 					};
 					var actionFamily=new FamilyHistoryModel.FamilyHistory(recFamily);
 					actionFamily.save(function(_error)
@@ -339,6 +340,7 @@ exports.FamilyHistoryList=[
 								'citizenId':1,
 								'doctorId':1,
 								'screenerId':1,
+								'ngoId':1,
 								'createdAt':1,
 								 'citizen.firstName':1,
 								 'citizen.lastName':1,

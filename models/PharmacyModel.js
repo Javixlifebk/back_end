@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 /* Collection Name: Pharmacy */
 var PharmacySchema = new mongoose.Schema({
 	pharmacyId: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	name: {type: String, required: true},
 	owner: {type: String, required: true},
 	mobile: {type: String, required: true},
@@ -25,6 +26,7 @@ var PharmacyDetailsSchema = new mongoose.Schema({
     state: {type: String, required:true},
     district: {type: String, required:true},
     address: {type: String, required:true},
+	ngoId :{type:String,required:false},
     photo: {type: String},
     isDefault: {type: Boolean, required: true, default: false},
     rating : {type: Number, required: true, default: 0},

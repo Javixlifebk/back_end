@@ -2,6 +2,7 @@ const UserModel = require("../models/UserModel");
 const UserDetailsModel = require("../models/UserDetailsModel");
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
+const Imgupload = require('../middlewares/navbarLogo');
 //helper file to prepare responses.
 const apiResponse = require("../helpers/apiResponse");
 const utility = require("../helpers/utility");
@@ -58,9 +59,9 @@ exports.register = [
 			return UserDetailsModel.findOne({'$or':[{phoneNo : value},{phoneNo1 : value}]}).then((user) => {
 				if(value!=null && value!="" && value!=undefined){
 					
-				if (user) {
-					return Promise.reject("Phone No already in use");
-				}
+				// if (user) {
+				// 	return Promise.reject("Phone No already in use");
+				// }
 			}
 			});
 		}),
@@ -77,9 +78,9 @@ exports.register = [
 			return UserDetailsModel.findOne({'$or':[{phoneNo : value},{phoneNo1 : value}]}).then((user) => {
 				if(value!=null && value!="" && value!=undefined){
 					
-				if (user) {
-					return Promise.reject("Phone No 1 already in use");
-				}
+				// if (user) {
+				// 	return Promise.reject("Phone No 1 already in use");
+				// }
 			}
 			});
 		}),
@@ -94,10 +95,24 @@ exports.register = [
 	sanitizeBody("phoneNo").escape(),
 	sanitizeBody("phoneNo1").escape(),
 	sanitizeBody("roleId").escape(),
+	// sanitizeBody("logo").escape(),
+	// sanitizeBody("client_logo").escape(),
 	// Process request after validation and sanitization.
 	(req, res) => {
 		try {
-			// Extract the validation errors from a request.
+	// 		 Imgupload(req,res);
+    // let dataObj = {}
+
+    // if(req.files['logo']){ 
+    //   const profileImage =req.files['logo'][0].path; 
+    //   dataObj.logo = profileImage; 
+    // }
+ 
+    // if(req.files['client_logo']){
+    //   const bannerImage = req.files['client_logo'][0].path;  
+    //   dataObj.client_logo = bannerImage; 
+    // }
+	// 		// Extract the validation errors from a request.
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				// Display sanitized values/errors messages.
@@ -111,12 +126,15 @@ exports.register = [
 					// Create User object with escaped and trimmed data
 					var user = new UserModel(
 						{
+							status:1,//if added from admin
 							userId:req.body.userName,
+							ngoId:req.body.ngoId,
 							roleId: req.body.roleId,
 							userName:req.body.userName,
 							email: req.body.email,
 							password: hash,
-							confirmOTP: otp
+							confirmOTP: otp,
+							
 						}
 					);
 
@@ -127,7 +145,15 @@ exports.register = [
 							lastName: req.body.lastName,
 							email: req.body.email,
 							phoneNo:req.body.phoneNo,
-							phoneNo1:req.body.phoneNo1			
+							phoneNo1:req.body.phoneNo1,
+							// logo:dataObj.logo,
+							// client_logo:dataObj.client_logo,	
+
+							// below code when added from admin isBlocked isExpired  isUnActive
+							isBlocked:0,
+							isExpired:0,
+							isUnActive:0
+
 						}
 					);
 					// Html email body
@@ -165,12 +191,15 @@ exports.register = [
 							let userData = {
 								_id: user._id,
 								userId: user.userId,
+								ngoId: user.ngoId,
 								userName: user.userName,
 								firstName: userDetails.firstName,
 								lastName: userDetails.lastName,
 								email: userDetails.email,
 								phoneNo:userDetails.phoneNo,
-								phoneNo1:userDetails.phoneNo1
+								phoneNo1:userDetails.phoneNo1,
+								logo:userDetails.logo,
+								client_logo:userDetails.client_logo,	
 
 							};
 							
@@ -227,11 +256,14 @@ exports.login = [
 								 'isConfirmed':1,
 								 'status':1,
 								 'roleId':1,
+								 'ngoId':1,
 								 'userId':1,
 								 'info.firstName':1,
 								 'info.lastName':1,
 								 'info.phoneNo':1,
-								 'info.phoneNo1':1
+								 'info.phoneNo1':1,
+								 'info.logo':1,
+								 'info.client_logo':1
 								}
 							}
 						]
@@ -252,7 +284,7 @@ exports.login = [
 					
 	
 	var options = { method: 'POST',
-					  url: 'http://143.244.136.145:3010/api/login/getjavixid',
+					  url: 'http://javixlife.org:3010/api/login/getjavixid',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -284,7 +316,8 @@ exports.login = [
 											email: user.email,
 											userId:user.userId,
 											roleId:user.roleId,
-											javixid:datass,
+											ngoId:user.ngoId,
+											javixid:datass,													
 											phoneNo:user.info.phoneNo,
 											phoneNo1:user.info.phoneNo1
 											
@@ -480,6 +513,7 @@ exports.authListByStatus=[
 								 'status':1,
 								 'roleId':1,
 								 'userId':1,
+								 'ngoId':1,
 								 'info.firstName':1,
 								 'info.lastName':1,
 								 'info.isBlocked':1,

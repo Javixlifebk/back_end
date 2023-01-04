@@ -114,6 +114,7 @@ exports.mappingList=[
 								 'screenerId':1,
 								 'parentScreenerId':1,
 								 'createdAt':1,
+								 'ngoId':1,
 								 'child.firstName':1,
 								 'child.lastName':1,
 								 'child.screenerLoginId':1,
