@@ -102,9 +102,9 @@ exports.addProfile = [
 		}),
 
 	//body("dateOfBirth").isLength({ min: 10, max:10 }),
-	body("dateOfOnBoarding").isLength({ min: 10, max: 10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
-		return utility.isDate(value);
-	}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),
+	// body("dateOfOnBoarding").isLength({ min: 10, max: 10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
+	// 	return utility.isDate(value);
+	// }).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),
 
 	// body("country").isLength({ min: 2 }).trim().withMessage("Enter Country !").isAlpha().withMessage("Country name must not contain number !"),	
 	//body("state").isLength({ min: 2 }).trim().withMessage("Enter State !"),	
@@ -138,6 +138,8 @@ exports.addProfile = [
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			} else {
+
+				console.log("123455",req.body)
 				var passwordGenrated = req.body.mobileNo;
 				var javixId = null;
 
@@ -164,6 +166,7 @@ exports.addProfile = [
 						ID = req.body.citizenId;
 					}
 					var recCitizen = {
+						ngoId:req.body.ngoId,
 						citizenId: ID,
 						firstName: req.body.firstName,
 						lastName: req.body.lastName,
@@ -176,7 +179,8 @@ exports.addProfile = [
 						citizenLoginId: citizenLoginId,
 						aadhaar: req.body.aadhaar,
 						raadhaar: req.body.raadhaar,
-						screenerId: screenerId
+						screenerId: screenerId,
+						// isUnrefer:
 					};
 					var actionCitizen = new CitizenModel.Citizen(recCitizen);
 					actionCitizen.save(function (_error) {
@@ -194,7 +198,9 @@ exports.addProfile = [
 								address: req.body.address,
 								pincode: req.body.pincode,
 								rating: 0,
+								ngoId:req.body.ngoId,
 								citizenId: ID,
+								// isUnrefer:0,
 								photo: req.body.photo
 							};
 							var actionCitizenDetails = new CitizenModel.CitizenDetails(recDetails);
@@ -209,11 +215,13 @@ exports.addProfile = [
 										{
 											userId: citizenLoginId,
 											roleId: 6,
+											ngoId:req.body.ngoId,
 											userName: citizenLoginId,
 											email: req.body.email,
 											password: hashPassword,
 											confirmOTP: 0000,
-											status: 1
+											status: 1,
+											
 										}
 									);
 
@@ -224,6 +232,7 @@ exports.addProfile = [
 											lastName: req.body.lastName,
 											email: citizenLoginId,
 											phoneNo: req.body.mobileNo,
+											ngoId:req.body.ngoId,
 											photo: req.body.photo
 										}
 									);
@@ -237,7 +246,9 @@ exports.addProfile = [
 										var userResponse = {
 											roleId: 6,
 											userId: citizenLoginId,
+											ngoId:req.body.ngoId,
 											citizenId: ID,
+											// isUnrefer:true,
 											status: 1
 
 										};
@@ -423,6 +434,7 @@ exports.citizenList = [
 						'$project': {
 
 							'screenerId': 1,
+							'ngoId':1,
 							'firstName': 1,
 							'lastName': 1,
 							'sex': 1,
@@ -911,7 +923,7 @@ exports.citizenRefers = [
 
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { 'isUnrefer': true } },
+					{ '$match': { 'isUnrefer': true,ngoId:req.body.ngoId} },
 
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 100 },
@@ -958,19 +970,20 @@ exports.citizenRefers = [
 							'citizenId': 1,
 							'javixId': 1,
 							'aadhaar': 1,
+							'ngoId':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
-							'cases': 1,
-							// 					 {
-							//     					'$filter' : {
-							//         'input': '$cases',
-							//         'as' : 'cases_field',
-							//          'cond': { '$and': [
-							//             {'$eq': ['$$cases_field.status',1]}
-							//         ]}
-							//     }
-							// },
+							'cases': 
+												 {
+							    					'$filter' : {
+							        'input': '$cases',
+							        'as' : 'cases_field',
+							         'cond': { '$and': [
+							            {'$eq': ['$$cases_field.status',1]}
+							        ]}
+							    }
+							},
 							'info.dateOfBirth': 1,
 							'info.dateOfOnBoarding': 1,
 							'info.bloodGroup': 1,
@@ -993,11 +1006,11 @@ exports.citizenRefers = [
 
 					let user = users[0];
 
-					for (var i = 0; i < users.length; i++) {
-						if (users[i].cases.length > 0)
-							users[i].cases = users[i].cases[users[i].cases.length - 1];
-						//console.dir(users[i]);
-					}
+					// for (var i = 0; i < users.length; i++) {
+					// 	if (users[i].cases.length > 0)
+					// 		users[i].cases = users[i].cases[users[i].cases.length - 1];
+					// 	//console.dir(users[i]);
+					// }
 
 					if (user) {
 						for (i = 0; i < users.length; i++) {
@@ -1043,7 +1056,7 @@ exports.citizenRefersCount = [
 
 	async (req, res) => {
 	await CitizenModel.Citizen.aggregate([
-						{ '$match': { 'isUnrefer': true } },
+						{ '$match': { 'isUnrefer': true ,ngoId:req.body.ngoId} },
 
 					// { '$sort': { 'createdAt': -1 } },
 					{ '$limit': 1000 },
@@ -1090,6 +1103,7 @@ exports.citizenRefersCount = [
 							'citizenId': 1,
 							'javixId': 1,
 							'aadhaar': 1,
+							'ngoId':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
@@ -1160,7 +1174,7 @@ exports.CitizenPrescribe = [
 			} else {
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { 'isUnrefer': false } },
+					{ '$match': { 'isUnrefer': false ,'ngoId':req.body.ngoId} },
 
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 1000 },
@@ -1207,6 +1221,8 @@ exports.CitizenPrescribe = [
 							'isInstant': 1,
 							'citizenId': 1,
 							'javixId': 1,
+							
+							'ngoId':1,
 							'aadhaar': 1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
@@ -1333,6 +1349,7 @@ exports.CitizenPrescribeCount = [
 					'pstatus': 1,
 					'isInstant': 1,
 					'citizenId': 1,
+					'ngoId':1,
 					'javixId': 1,
 					'aadhaar': 1,
 					'raadhaar': 1,
@@ -1453,6 +1470,7 @@ exports.citizenCasesList = [
 							respiratory_rate: 1,
 							temperature: 1,
 							referDocId: 1,
+							'ngoId':1,
 							createdAt: 1,
 							'fullname': { $concat: ["$citizens.firstName", " ", "$citizens.lastName"] },
 							"citizens.firstName": 1,
@@ -1557,7 +1575,7 @@ exports.citizenListSearcherPagination = [
 		console.log(query);
 
 		// Find some documents
-		await CitizenModel.Citizen.count({ }, async (err, totalCount) => {
+		await CitizenModel.Citizen.count({ 'isdeleted':false,'ngoId':req.body.ngoId}, async (err, totalCount) => {
 			if (err) {
 				response = { error: true, message: 'Error fetching data' }
 			}
@@ -1589,6 +1607,7 @@ exports.citizenListSearcherPagination = [
 					await CitizenModel.Citizen.aggregate([
 						queryP,
 						{$match:{'isdeleted':false}},
+						{$match:{'ngoId':req.body.ngoId}},
 						{ '$sort': { 'createdAt': -1 } },
 						{
 							'$lookup': {
@@ -1618,11 +1637,11 @@ exports.citizenListSearcherPagination = [
 						{ '$unwind': '$screener' },
 						{
 							'$project': {
-
 								'screenerId': 1,
 								'fullname': { $concat: ["$firstName", " ", "$lastName"] },
 								'firstName': 1,
 								'lastName': 1,
+								'ngoId':1,
 								'sex': 1,
 								'mobile': 1,
 								'email': 1,
@@ -1644,20 +1663,12 @@ exports.citizenListSearcherPagination = [
 								'info.pincode': 1,
 								'info.rating': 1,
 								'info.geolocations': 1,
-								'info.photo': 1,
+								photo:'$info.photo',
 								'screener.firstName': 1,
 								'screener.lastName': 1,
 								'screenerfullname': { $concat: ["$screener.firstName", " ", "$screener.lastName"] },
 								'cases': 1,
-								//  {
-								//     					'$filter' : {
-								//         'input': '$cases',
-								//         'as' : 'cases_field',
-								//          'cond': { '$and': [
-								//             {'$eq': ['$$cases_field.status',1]}
-								//         ]}
-								//     }
-								// }
+								
 
 							}
 							
@@ -1753,7 +1764,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 			CitizenModel.Citizen.aggregate([
 							queryP,
 							{'$sort':{'createdAt':-1}},
-							{$match:{'isdeleted':false}},
+							
 							{'$limit':1000},
 							{'$lookup': {
 								'localField':'citizenId',
@@ -1788,6 +1799,7 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
 								 'pstatus':1,
 								 'isInstant':1,
 								 'citizenId':1,
+								 'ngoId':1,
 								 'javixId':1,
                                  'aadhaar':1,
                                  'raadhaar':1,
@@ -1819,7 +1831,8 @@ queryP={'$match':{'$or':[{'firstName':{$regex: ".*" + req.body.v + ".*",$options
             // }
 								 
 								}
-							}
+							},
+							{$match:{'isdeleted':false,ngoId:req.body.ngoId}},
 						]
 				).then(users => {
 					
@@ -1916,6 +1929,7 @@ exports.citizenById = [
 							'citizenId': 1,
 							'javixId': 1,
 							'aadhaar': 1,
+							'ngoId':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
@@ -2041,7 +2055,8 @@ exports.addDocuments = [
 					status: req.body.status,
 					recordUrl: req.body.recordUrl,
 					type: req.body.type,
-					description: req.body.description
+					description: req.body.description,
+					ngoId:req.body.ngoId,
 				};
 				var actionCitizen = new CitizenModel.CitizenRecords(recCitizenRecord);
 				actionCitizen.save(function (_error) {
@@ -2119,6 +2134,7 @@ exports.recordList = [
 							'doctorId': 1,
 							'status': 1,
 							'type': 1,
+							'ngoId':1,
 							'createdAt': 1,
 							'info.firstName': 1,
 							'info.lastName': 1,
@@ -2252,7 +2268,8 @@ exports.updateCitizen = [
 					//aadhaar:req.body.aadhaar,
 					mobile: req.body.mobileNo,
 					email: req.body.email,
-					isInstant: 2
+					isInstant: 2,
+					
 
 
 				};
@@ -2270,7 +2287,8 @@ exports.updateCitizen = [
 								firstName: req.body.firstName,
 								lastName: req.body.lastName,
 								phoneNo: req.body.mobileNo,
-								email: req.body.email
+								email: req.body.email,
+							
 
 							};
 							UserDetailsModel.findOneAndUpdate({ userId: req.body.citizenLoginId }, { $set: userRec }, function (_derr, _dnewrecs) {
@@ -2304,7 +2322,8 @@ exports.updateCitizen = [
 								firstName: req.body.firstName,
 								lastName: req.body.lastName,
 								phoneNo: req.body.mobileNo,
-								email: req.body.email
+								email: req.body.email,
+								
 
 							};
 							UserDetailsModel.findOneAndUpdate({ userId: req.body.citizenLoginId }, { $set: userRec }, function (_derr, _dnewrecs) {
@@ -2575,6 +2594,7 @@ exports.citizenNewList = [
 							'citizenId': 1,
 							'javixId': 1,
 							'aadhaar': 1,
+							'ngoId':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
@@ -2690,6 +2710,7 @@ exports.listcity = [
 							'javixId': 1,
 							'aadhaar': 1,
 							'raadhaar': 1,
+							'ngoId':1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
 							'info.dateOfBirth': 1,
@@ -2767,6 +2788,42 @@ exports.updateandCitizenScreener= [
 	
 	];
 
+exports.updateNgoIdData= [
+		(req, res) => { 
+			
+			// let id = req.params.id;
+	
+
+			// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+		  
+			CitizenModel.Citizen.update({},{$set : {"ngoId":"rakesh"}}, {upsert:false, multi:true})
+
+		  
+			  .then((note) => {
+				if (!note) {
+				  return res.status(404).send({
+					message: "data not found with id " + req.params.id,
+				  });
+				}
+				res.send(note);
+			  })
+			  .catch((err) => {
+			  
+				if (err.kind === "ObjectId") {
+				  return res.status(404).send({
+					message: "data not found with id ",
+				  });
+				}
+				return res.status(500).send({
+				  message: "Error updating note with id ",
+				});
+			  });
+			   
+		}
+
+						
+	
+	];
 
 	
 exports.CitizenScreenerDeletedAuth = [

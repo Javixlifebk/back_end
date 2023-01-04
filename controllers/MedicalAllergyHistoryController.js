@@ -86,7 +86,8 @@ exports.addAllergy = [
 							citizenId:req.body.citizenId,
 							//allergydate: utility.toYYmmdd(req.body.allergydate),
 							allergies: req.body.allergies,
-							allergyType: req.body.allergyType
+							allergyType: req.body.allergyType,
+							ngoId:req.body.ngoId,
 					};
 					var actionAllergy=new MedicalAllergyModel.MedicalAllergy(recAllergy);
 					actionAllergy.save(function(_error)
@@ -227,7 +228,8 @@ exports.addHistory = [
 							other:req.body.other,
 							citizenId:req.body.citizenId,
 							doctorId:req.body.doctorId,
-							screenerId:req.body.screenerId
+							screenerId:req.body.screenerId,
+							ngoId:req.body.ngoId,
 					};
 					var actionHistory=new MedicalHistoryModel.MedicalHistory(recHistory);
 					actionHistory.save(function(_error)
@@ -305,6 +307,7 @@ exports.historyAllergyList=[
 								 
 								 'citizenId':1,
 								 'doctorId':1,
+								 'ngoId':1,
 								 'screenerId':1,
 								 'allergies':1,
 								 'allergyType':1,
@@ -411,6 +414,7 @@ exports.historyMedicalList=[
 							 }
 							},
 							{'$project':{
+								'ngoId':1,
 								 'citizenId':1,
 								 'screenerId':1,
 								 'doctorId':1,

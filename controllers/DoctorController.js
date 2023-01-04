@@ -61,6 +61,147 @@ var timeslotsMapping ={
 48:"23:30-0:00"
 }
 
+// exports.addProfile = [
+    
+// 	body("userId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
+// 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
+// 	body("firstName").isLength({ min: 3 }).trim().withMessage("Enter First Name!"),
+// 	body("lastName").isLength({ min: 3 }).trim().withMessage("Enter Last Name!"),
+// 	body("sex").isLength({ min: 3 }).trim().withMessage("Enter Sex!"),
+// 	body("mobileNo").isLength({ min: 10,max:10 }).trim().withMessage("Mobile no can't be empty!")
+// 					.isNumeric().withMessage("Mobile no must be 10 digits!"),
+// 	body("email").isLength({ min: 3 }).trim().withMessage("Enter email")
+// 				  .isEmail().withMessage("Email must be a valid email address.").custom((value) => {
+// 			return DoctorModel.Doctor.findOne({email : value}).then((user) => {
+// 				if (user) {
+// 					return Promise.reject("E-mail already in use");
+// 				}
+// 			});
+// 		}),
+	
+// 	body("dateOfBirth").isLength({ min: 10, max:10 }).trim().withMessage("Enter Date of birth format 'yyyy-mm-dd' !").custom((value) => {
+// 			return utility.isDate(value);
+// 		}),
+// 	body("dateOfOnBoarding").isLength({ min: 10, max:10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
+// 			return utility.isDate(value);
+// 		}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),
+// 	body("qualification").isLength({ min: 2 }).trim().withMessage("Enter Qualification !"),	
+// 	body("specialisation").isLength({ min: 2 }).trim().withMessage("Enter Specialization !"),
+	
+// 	body("country").isLength({ min: 2 }).trim().withMessage("Enter Country !").isAlpha().withMessage("Country name must not contain number !"),	
+// 	body("state").isLength({ min: 2 }).trim().withMessage("Enter State !"),	
+// 	body("district").isLength({ min: 2 }).trim().withMessage("Enter District !"),	
+// 	body("address").isLength({ min: 3 }).trim().withMessage("Enter Address !"),	
+// 	// body("experience").isLength({ min: 3 }).trim().withMessage("Enter Experiece as X Years !"),	
+// 	body("medicalRegNo").isLength({ min: 3 }).trim().withMessage("Enter Vailid (length 3+) medical Registration No !"),	
+
+
+// 	// medicalRegNo: {type:String,required:true},
+//  //    yearOfReg: {type:String,required:false},
+//  //    statteMedicalCouncil: {type:String,required:false},
+//  //    experience: {type:String,required:true},
+//  //    referenceName: {type:String,required:false}
+// 	//body("signature").isLength({ min: 3 }).trim().withMessage("Enter Signature !"),	
+	
+// 	sanitizeBody("userId").escape(),
+// 	sanitizeBody("ngoName").escape(),
+// 	sanitizeBody("firstName").escape(),
+// 	sanitizeBody("lastName").escape(),
+// 	sanitizeBody("sex").escape(),
+// 	sanitizeBody("mobileNo").escape(),
+// 	sanitizeBody("email").escape(),
+// 	sanitizeBody("signature").escape(),
+	
+// 	sanitizeBody("dateOfBirth").escape(),
+// 	sanitizeBody("dateOfOnBoarding").escape(),
+// 	sanitizeBody("qualification").escape(),
+// 	sanitizeBody("specialisation").escape(),
+// 	sanitizeBody("country").escape(),
+// 	sanitizeBody("state").escape(),
+// 	sanitizeBody("district").escape(),
+// 	sanitizeBody("address").escape(),
+// 	sanitizeBody("pincode").escape(),
+// 	sanitizeBody("photo").escape(),
+// 	sanitizeBody("medicalRegNo").escape(),
+// 	sanitizeBody("yearOfReg").escape(),
+// 	sanitizeBody("statteMedicalCouncil").escape(),
+// 	// sanitizeBody("experience").escape(),
+// 	sanitizeBody("referenceName").escape(),
+// 	sanitizeBody("type").escape(),
+
+// 	(req, res) => { 
+			
+// 		try {
+// 			const errors = validationResult(req);
+// 			if (!errors.isEmpty()) {
+// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 			}else {
+// 				    var dobEscape=req.body.dateOfBirth.replace(/-/g, ''); 
+// 					var ngoRowNo="00";
+// 					var randThree=utility.randomNumber(3);
+// 					var doctorLoginId=req.body.state+"/"+req.body.district.substring(0, 2)+"/"+ngoRowNo+"/"+req.body.firstName.substring(0, 1)+""+req.body.lastName.substring(0, 1)+""+dobEscape+"/"+randThree;
+// 					var ID=utility.uID();
+					
+					
+// 					var recDoctor={
+// 							doctorId:ID,
+// 							ngoId:ID,
+// 							firstName:req.body.firstName,
+// 							lastName: req.body.lastName,
+// 							sex: req.body.sex,
+// 							mobile:req.body.mobileNo,
+// 							email:req.body.email,
+// 							doctorLoginId:req.body.userId,
+// 							signature:req.body.signature,
+// 							medicalRegNo:req.body.medicalRegNo,
+// 							yearOfReg:req.body.yearOfReg,
+// 							statteMedicalCouncil:req.body.statteMedicalCouncil,
+// 							experience:req.body.experience,
+// 							referenceName:req.body.referenceName,
+// 							type:req.body.type
+// 					};
+// 					var actionDoctor=new DoctorModel.Doctor(recDoctor);
+// 					actionDoctor.save(function(_error)
+// 					{
+// 						if(_error){ apiResponse.ErrorResponse(res, "Sorry-A:"+_error);}
+// 						else
+// 						{
+// 								var iID=utility.uID();
+// 								var recDetails = {
+// 									doctorDetailId: iID,
+// 									dateOfBirth: req.body.dateOfBirth,
+// 									dateOfOnBoarding:req.body.dateOfOnBoarding ,
+// 									qualification:req.body.qualification ,
+// 									specialisation:req.body.specialisation ,
+// 									country:req.body.country  ,
+// 									state:req.body.state  ,
+// 									district:req.body.district  ,
+// 									address: req.body.address ,
+// 									pincode:req.body.pincode,
+// 									rating : 0,
+// 									doctorId: ID,
+// 									photo: req.body.photo
+// 								};
+// 								var actionDoctorDetails=new DoctorModel.DoctorDetails(recDetails);
+// 								actionDoctorDetails.save(function(_ierror)
+// 								{
+// 									if(_ierror){ apiResponse.ErrorResponse(res, "Sorry-B:"+_ierror);}
+// 									else
+// 									{
+// 										return apiResponse.successResponseWithData(res,"Successfully Submitted");
+// 									}
+// 								});
+// 						}
+// 					}
+// 					);
+					
+// 			}
+// 		} catch (err) {
+			
+// 			return apiResponse.ErrorResponse(res,err);
+// 		}
+// 	}];
+
 exports.addProfile = [
     
 	body("userId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
@@ -92,7 +233,7 @@ exports.addProfile = [
 	body("state").isLength({ min: 2 }).trim().withMessage("Enter State !"),	
 	body("district").isLength({ min: 2 }).trim().withMessage("Enter District !"),	
 	body("address").isLength({ min: 3 }).trim().withMessage("Enter Address !"),	
-	body("experience").isLength({ min: 3 }).trim().withMessage("Enter Experiece as X Years !"),	
+	// body("experience").isLength({ min: 3 }).trim().withMessage("Enter Experiece as X Years !"),	
 	body("medicalRegNo").isLength({ min: 3 }).trim().withMessage("Enter Vailid (length 3+) medical Registration No !"),	
 
 
@@ -111,6 +252,7 @@ exports.addProfile = [
 	sanitizeBody("mobileNo").escape(),
 	sanitizeBody("email").escape(),
 	sanitizeBody("signature").escape(),
+	sanitizeBody("ngoName").escape(),
 	
 	sanitizeBody("dateOfBirth").escape(),
 	sanitizeBody("dateOfOnBoarding").escape(),
@@ -145,6 +287,7 @@ exports.addProfile = [
 					
 					var recDoctor={
 							doctorId:ID,
+							ngoId :req.body.ngoId,
 							firstName:req.body.firstName,
 							lastName: req.body.lastName,
 							sex: req.body.sex,
@@ -168,6 +311,7 @@ exports.addProfile = [
 								var iID=utility.uID();
 								var recDetails = {
 									doctorDetailId: iID,
+									ngoId :req.body.ngoId,
 									dateOfBirth: req.body.dateOfBirth,
 									dateOfOnBoarding:req.body.dateOfOnBoarding ,
 									qualification:req.body.qualification ,
@@ -200,6 +344,8 @@ exports.addProfile = [
 			return apiResponse.ErrorResponse(res,err);
 		}
 	}];
+
+
 
 
 exports.updateSignature = [
@@ -273,7 +419,7 @@ exports.doctorList=[
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 			DoctorModel.Doctor.aggregate([
-							{'$match':{'doctorId':{$ne:"-1"}}},
+							{'$match':{'doctorId':{$ne:"-1"},ngoId:req.body.ngoId}},
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'doctorId',
@@ -293,6 +439,7 @@ exports.doctorList=[
 							{'$project':{
 								 
 								 'doctorId':1,
+								 'ngoId':1,
 								 'firstName':1,
 								 'lastName':1,
 								 'sex':1,
@@ -305,6 +452,7 @@ exports.doctorList=[
 								 'statteMedicalCouncil':1,
 								 'experience':1,
 								 'referenceName':1,
+								
 								 'type':1,
 								 'createdAt':1,
 								 'info.dateOfBirth':1,
@@ -374,6 +522,7 @@ exports.doctorById=[
 							{'$project':{
 								 
 								 'doctorId':1,
+								 'ngoId':1,
 								 'firstName':1,
 								 'lastName':1,
 								 'sex':1,
@@ -387,6 +536,7 @@ exports.doctorById=[
 								 'experience':1,
 								 'referenceName':1,
 								 'type':1,
+								
 								 'createdAt':1,
 								 'info.dateOfBirth':1,
 								 'info.dateOfOnBoarding':1,
@@ -412,6 +562,79 @@ exports.doctorById=[
 							users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
 							users[i].info.dateOfBirth=utility.toDDmmyy(users[i].info.dateOfBirth);
 						}
+							return apiResponse.successResponseWithData(res,"Found", users);
+					}
+					else return apiResponse.ErrorResponse(res,"Not Found");
+					
+				});
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}
+
+];
+
+exports.doctorListById=[
+    
+	
+    (req, res) => { 
+			
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+			DoctorModel.Doctor.aggregate([
+							{'$match':{'doctorLoginId':req.body.doctorLoginId}},
+							{'$lookup': {
+								'localField':'doctorId',
+								'from':'doctordetails',
+								'foreignField':'doctorId',
+								'as':'info'	
+							 }
+							},
+							{'$unwind':'$info'},
+							{'$project':{
+								 
+								 'doctorId':1,
+								 'ngoId':1,
+								 'firstName':1,
+								 'lastName':1,
+								 'sex':1,
+								 'mobile':1,
+								 'email':1,
+								 'doctorLoginId':1,
+								 'signature':1,
+								 'medicalRegNo':1,
+								 'yearOfReg':1,
+								 'statteMedicalCouncil':1,
+								 'experience':1,
+								 'referenceName':1,
+								 'type':1,
+								
+								 'createdAt':1,
+								 'info.dateOfBirth':1,
+								 'info.dateOfOnBoarding':1,
+								 'info.qualification':1,
+								 'info.specialisation':1,
+								 'info.country':1,
+								 'info.state':1,
+								 'info.district':1,
+								 'info.address':1,
+								 'info.pincode':1,
+								 'info.rating':1,
+								 'info.photo':1
+								 
+								}
+							}
+						]
+				).then(users => {
+					
+					let user=users[0];
+					if (user) {
+						
 							return apiResponse.successResponseWithData(res,"Found", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");
@@ -546,6 +769,7 @@ exports.addDoctorSchedules = [
 					
 					var recDoctor={
 							doctorId:req.body.doctorId,
+							ngoId:req.body.ngoId,
 							day:req.body.day,
 							timeslots: req.body.timeslots
 					};
@@ -558,6 +782,7 @@ exports.addDoctorSchedules = [
 						{
 							var responseSlot={
 								doctorId:recDoctor.doctorId,
+								ngoId:req.body.ngoId,
 								timeslots:timeslotsMapping[recDoctor.timeslots],
 								day:dayMapping[recDoctor.day]
 							};	
@@ -655,6 +880,7 @@ exports.getDoctorScheduleList=[
 								'timeslots':1,
 								'day':1,
 								'doctorId':1,
+								'ngoId':1,
 								'createdAt':1,
 								'doctors.firstName':1,
 								'doctors.lastName':1,
@@ -969,7 +1195,7 @@ exports.updateAddmapped= [
 			// }
 		];
 
-		exports.doctorUnMappedList=[
+exports.doctorUnMappedList=[
 			body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 			// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
 			// sanitizeBody("isUnrefer").escape(),
@@ -982,7 +1208,7 @@ exports.updateAddmapped= [
 					}else {
 					
 						DoctorModel.Doctor.aggregate([
-						 {'$match':{'ismapped':false}},
+						 {'$match':{ngoId:"0"}},
 									{'$sort':{'createdAt':-1}},
 									{'$limit':100},
 
@@ -1040,11 +1266,12 @@ exports.updateAddmapped= [
 					}else {
 					
 						DoctorModel.Doctor.aggregate([
-						 {'$match':{'ismapped':true}},
+						 {'$match':{'ngoId':req.body.ngoId}},
 									{'$sort':{'createdAt':-1}},
 									{'$limit':100},
 
 									{'$project':{
+					
 										'doctorId':1,
 										'ngoId':1,
 										'ismapped':1,

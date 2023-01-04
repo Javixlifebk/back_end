@@ -112,7 +112,8 @@ exports.addSocioEconomicSurvey = [
 											educationExpense:req.body.educationExpense,
 											intoxicationExpense:req.body.intoxicationExpense,
 											conveyanceExpense: req.body.conveyanceExpense,
-											cultivableLand: req.body.cultivableLand
+											cultivableLand: req.body.cultivableLand,
+											ngoId :req.body.ngoId,
 									};
 
 									var actionSocioEconomicSurvey=new SocioEconomicSurveyModel(recSocioEconomicSurvey);
@@ -191,6 +192,7 @@ exports.sociosurveydownload = [
 			 
 			'socioeconomicsurveyId':1,
 						'familyId':1,
+						'ngoId':1,
 						'screenerId':1,
 						'citizenId':1,
 						'noOfEarners':1,
@@ -209,7 +211,7 @@ exports.sociosurveydownload = [
 						"isdeleted":1
 			}
 		},
-		{'$match':{"isdeleted":false}}
+		{'$match':{"isdeleted":false ,'ngoId':req.body.ngoId}}
 	  ])
 	 
 	 
@@ -289,6 +291,7 @@ exports.SocieSurveyList=[
 								 
 								'socioeconomicsurveyId':1,
 											'familyId':1,
+											'ngoId':1,
 											'screenerId':1,
 											citizenId:'$citizenId',
 											'noOfEarners':1,
@@ -308,7 +311,7 @@ exports.SocieSurveyList=[
 								}
 							},
 							// {'$match':{"isdeleted":false}}
-							{'$match':{"isdeleted":false}},
+							{'$match':{"isdeleted":false,'ngoId':req.body.ngoId}},
 						]
 				).then(users => {
 					

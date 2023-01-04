@@ -58,7 +58,8 @@ exports.addEyeTest = [
 							notes: req.body.notes,
 							leyetest: req.body.leyetest,
 							reyetest: req.body.reyetest,
-							caseId:req.body.caseId
+							caseId:req.body.caseId,
+							ngoId:req.body.ngoId,
 					};
 					var actionEyeTest=new EyeTest.EyeTest(recEyeTest);
 					actionEyeTest.save(function(_error)
@@ -121,6 +122,7 @@ exports.EyeTestList=[
 								 'screenerId':1,
 								 'caseId':1,
 								 'citizenId':1,
+								 'ngoId':1,
 								 'notes':1,
 								 'leyetest':1,
 								 'reyetest':1,

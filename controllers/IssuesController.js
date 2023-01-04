@@ -47,7 +47,8 @@ exports.issueAdd = [
 							issueNo:issueNo,
 							userId:req.body.userId,
 							issue: req.body.issue,
-							issueDetails:req.body.issueDetails
+							issueDetails:req.body.issueDetails,
+							ngoId:req.body.ngoId,
 							
 						}
 					);
@@ -94,6 +95,7 @@ exports.issuesByUser = [
 								for(var i=0;i<issues.length;i++){
 						var temp={			
                 "status": issues[i].status ,
+				"ngoId": issues[i].ngoId ,
                 "_id": issues[i]._id,
                 "issueNo": issues[i].issueNo,
                 "userId": issues[i].userId,
@@ -145,6 +147,7 @@ exports.issuesAll = [
 								for(var i=0;i<issues.length;i++){
 						var temp={			
                 "status": issues[i].status ,
+				"ngoId": issues[i].ngoId ,
                 "_id": issues[i]._id,
                 "issueNo": issues[i].issueNo,
                 "userId": issues[i].userId,

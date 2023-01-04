@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 
 var UserDetailsSchema = new mongoose.Schema({
 	userId: {type: String, required: true},
+	ngoId :{type:String,required:false},
 	isBlocked: {type: Boolean, required: true, default: 0},
 	isExpired: {type: Boolean, required: true, default: 0},
 	isUnActive: {type: Boolean, required: true, default: 0},
@@ -9,7 +10,9 @@ var UserDetailsSchema = new mongoose.Schema({
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	phoneNo: {type: String},
-	phoneNo1: {type: String, required: false}
+	phoneNo1: {type: String, required: false},
+	logo:{type: String, required: false},
+	client_logo:{type: String, required: false},
 	
 }, {timestamps: true});
 

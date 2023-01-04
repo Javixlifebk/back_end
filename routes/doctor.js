@@ -6,6 +6,7 @@ var routerDoctor = express.Router();
 routerDoctor.post("/addprofile", DoctorController.addProfile);
 routerDoctor.post("/doctorList", DoctorController.doctorList);
 routerDoctor.post("/doctorById", DoctorController.doctorById);
+routerDoctor.post("/doctorListById", DoctorController.doctorListById);
 routerDoctor.post("/doctormapped", DoctorController.doctorMapped);
 
 routerDoctor.get("/countprescription",PrescriptionController.countPrescriptionDetails);
