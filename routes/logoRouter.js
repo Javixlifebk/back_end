@@ -10,7 +10,7 @@ const router = require('express').Router()
 // use routers
 router.post('/addbanner', bannerController.addLogos)
 
-router.get('/allbanner', bannerController.getAllBanner)
+router.post('/getLogo', bannerController.getLogo)
 
 
 router.get('/:id', bannerController.getOneBanner)

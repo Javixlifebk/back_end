@@ -57,14 +57,18 @@ const addLogos = async (req, res) => {
 
 // 2. get all banner
 
-const getAllBanner = async (req, res,count) => {
+const getLogo = async (req, res,count) => {
 
-    let banner = await Logo.find({})
-    banner.forEach(function(element, i, banner){ 
-        banner[i]['image'] =  req.protocol + '://' + req.get('host')+'/'+ element['image'];
-        banner[i]['icon'] =  req.protocol + '://' + req.get('host')+'/'+ element['icon'];
-        
-    });
+
+    let banner = await Logo.aggregate([
+     {$match:{'ngoId':req.body.ngoId}} ,
+{
+  '$project':{
+    client_logo: {$concat: ["http://",req.headers.host,"/profile/","$client_logo"]},
+  }
+}
+    ])
+ 
     res.status(200).send(banner)
 
 }
@@ -189,7 +193,7 @@ const deleteBanner = async (req, res) => {
 
 module.exports = {
     addLogos,
-    getAllBanner,
+    getLogo,
     updateBanner,
     deleteBanner,
     // upload,
