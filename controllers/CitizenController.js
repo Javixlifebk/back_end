@@ -277,7 +277,7 @@ exports.addProfile = [
 			return apiResponse.ErrorResponse(res, err);
 		}
 	}];
-// ---------------------new created api for refer button-----------
+// ---------------------new created api for refer and prscribe button-----------
 exports.updateReferAuth = [
 
 
@@ -339,6 +339,8 @@ exports.updateReferAuth = [
 			return apiResponse.ErrorResponse(res, "EXp:" + err);
 		}
 	}];
+
+
 
 
 exports.citizenList = [
@@ -523,20 +525,7 @@ exports.citizenList = [
 exports.updateAddcitizen = [
 	(req, res) => {
 
-		/*CitizenModel.CitizenDetails.findAndModify(
-			{
-			  update: { $Age: { 
-				$round: {
-					$divide: [
-					  { $subtract: [new Date(), $dateOfBirth] },
-					  365 * 24 * 60 * 60 * 1000,
-					],
-				  },
-			} },
-			  upsert: true
-			}
-		 )
-*/
+	
 		CitizenModel.CitizenDetails.updateMany(
 			{},
 			[
@@ -587,323 +576,7 @@ exports.updateAddcitizen = [
 
 	}
 ]
-// exports.updateAddAgeLipid = [
-// 	(req, res) => {
 
-// 		// let id = req.params.id;
-
-
-// 		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
-
-//     ScreeningCaseModel.ScreeningCase.aggregate( [
-//       {
-//         $set: {
-
-//            totalHomework: { $sum: "$homework" },
-//            totalQuiz: { $sum: "$quiz" },
-//            Age: {
-//             $round: {
-//               $divide: [
-//                 { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-//                 365 * 24 * 60 * 60 * 1000,
-//               ],
-//             },
-//           },
-//         }
-//       },
-
-//     ] )
-
-
-// 			.then((note) => {
-// 				if (!note) {
-// 					return res.status(404).send({
-// 						message: "data not found with id " + req.params.id,
-// 					});
-// 				}
-// 				res.send(note);
-// 			})
-// 			.catch((err) => {
-
-// 				if (err.kind === "ObjectId") {
-// 					return res.status(404).send({
-// 						message: "data not found with id ",
-// 					});
-// 				}
-// 				return res.status(500).send({
-// 					message: "Error updating note with id ",
-// 				});
-// 			});
-
-// 	}
-
-// 	// (req, res) => { 
-
-// 	// 	try {
-// 	// 		const errors = validationResult(req);
-// 	// 		if (!errors.isEmpty()) {
-// 	// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 	// 		}else {
-
-
-// 	// 			CitizenModel.Citizen.update({},{$set : {"isUnrefer": false}}, {upsert:false, multi:true})
-
-
-// 	// 			return apiResponse.successResponseWithData(res,"Successfully Updated");
-
-
-// 	// 		}
-// 	// 	} catch (err) {
-
-// 	// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
-// 	// 	}
-// 	// }
-// ];
-
-// --------------------display refer list cases start-----------------
-// exports.citizenRefers=[
-// 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
-// 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
-// 	// sanitizeBody("isUnrefer").escape(),
-//     (req, res) => { 
-
-// 		try {
-// 			const errors = validationResult(req);
-// 			if (!errors.isEmpty()) {
-// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 			}else {
-
-
-
-
-
-
-// 				ScreeningCaseModel.ScreeningCase.aggregate([
-// 				 {'$match':{'isUnrefer':true}},
-// 							{'$sort':{'createdAt':-1}},
-// 							{'$limit':100},
-// 							{'$lookup': {
-// 								'localField':'citizenId',
-// 								'from':'citizendetails',
-// 								'foreignField':'citizenId',
-// 								'as':'info'	
-// 							 }
-// 							},
-// 							{'$lookup': {
-// 								'localField':'citizenId',
-// 								'from':'citizens',
-// 								'foreignField':'citizenId',
-// 								'as':'citizens'
-// 							 }
-// 							},
-// 							{'$lookup': {
-//                                                                 'localField':'screenerId',
-//                                                                 'from':'screeners',
-//                                                                 'foreignField':'screenerId',
-//                                                                 'as':'screeners'
-//                                                          }
-//                                                         },
-// 							{'$unwind':'$info'},
-// 							{'$unwind':'$citizens'},
-// 							 {'$unwind':'$screeners'},
-// 							{'$project':{
-// 								'fullname': {$concat: ["$citizens.firstName", " ", "$citizens.lastName"]},
-// 								 'screenerfullname': {$concat: ["$screeners.firstName", " ", "$screeners.lastName"]},
-//                                  'aadhaar':'$citizens.aadhaar',
-//                                  'raadhaar':'$citizens.raadhaar',
-// 								 'citizenLoginId':'$citizens.citizenLoginId',
-// 								 'createdAt':1,
-// 								 citizenId: 1,
-// 								 notes: 1,
-// 								 doctorId: 1,
-// 								 status: 1,
-// 								 isUnrefer:1,
-// 								 screenerId: 1,
-// 								 height: 1,
-// 								 weight: 1,
-// 								 bmi: 1,
-// 								 bpsys: 1,
-// 								 bpdia: 1,
-// 								 arm: 1,
-// 								 spo2: 1,
-// 								 caseId: 1,
-// 								 pulse: 1,
-// 								 respiratory_rate: 1,
-// 								 temperature: 1,
-// 								 referDocId: 1,
-// 								 createdAt: 1,
-// 								 severity_bp: 1,
-// 								 severity_spo2: 1,
-// 								 severity_temperature: 1,
-// 								 severity_pulse: 1,
-// 								 severity_bmi: 1,
-// 								 severity_respiratory_rate: 1,
-// 								 severity: 1,
-// 								 "citizens.email": 1,
-// 								 "citizens.mobile": 1,
-// 								 "citizens.sex": 1,
-// 								 "info.dateOfBirth": 1,
-// 								 "screeners.email": 1,
-// 								 "screeners.mobile": 1,
-// 								 "screeners.mobile1": 1,
-// 								 "screeners.sex": 1,
-// 								 "screeners.ngoId": 1,
-// 			// 					 'cases': {
-// 			// 						
-//             //     					'$filter' : {
-//             //         'input': '$cases',
-//             //         'as' : 'cases_field',
-//             //          'cond': { '$and': [
-//             //             {'$eq': ['$$cases_field.status',1]}
-//             //         ]}
-//             //     }
-//             // },
-// 							DOB:'$info.dateOfBirth',
-// 							'info.dateOfOnBoarding':{$ifNull: [ "$info.dateOfOnBoarding", "Unspecified"]},
-// 							bloodGroup:'$info.bloodGroup',
-// 							country:'$info.country',
-// 							state:'$info.state',
-// 							district:'$info.district',
-// 							address:'$info.address',
-// 								 'info.pincode':1,
-// 								 'info.rating':1,
-// 								 'info.geolocations':1,
-// 								 'info.photo':{$ifNull: [ "$info.photo", "Unspecified"]},
-
-// 								// 'screener.firstName':1,
-// 								// 'screener.lastName':1,
-
-
-// 								}
-// 							}
-// 						]
-// 				).then(users => {
-
-// 					let user=users[0];
-
-// 					// for(var i=0;i<users.length;i++){
-// 					// 	if(users[i].cases.length>0) 
-// 					// 	users[i].cases=users[i].cases[users[i].cases.length-1];
-// 					// 	//console.dir(users[i]);
-// 					// }
-
-// 					if (user) {
-// 						for(i=0;i<users.length;i++){
-// 						let temp=users[i];
-// 						var ddate="";
-// 						users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
-// 						users[i].createdAt=utility.toDDmmyy(users[i].createdAt);
-// 						//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
-
-// 					  	if(temp.info.dateOfBirth!=null && temp.info.dateOfBirth!=undefined && temp.info.dateOfBirth!=""){
-
-// 					  	
-// 					  	}
-// 					  	else{
-// 					  		temp.info.dateOfBirth=ddate;
-// 					  		users[i]=temp;
-// 					  	}
-// 					  }
-// 							return apiResponse.successResponseWithData(res,"Found", users);
-// 					}
-// 					else return apiResponse.ErrorResponse(res,"Not Found");
-
-// 				});
-// 			}
-// 		} catch (err) {
-
-// 			return apiResponse.ErrorResponse(res,"EXp:"+err);
-// 		}
-// 	}
-
-//     // (req, res) => { 
-
-// 	// 	try {
-// 	// 		const errors = validationResult(req);
-// 	// 		if (!errors.isEmpty()) {
-// 	// 			return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-// 	// 		}else {
-// 	// 		CitizenModel.Citizen.aggregate([
-// 	// 						{'$match':{'$or':[{'citizenId':req.body.citizenId},{'isUnrefer':req.body.isUnrefer},{'pstatus':req.body.pstatus}]}},
-// 	// 						{'$limit':100000},
-// 	// 						{'$lookup': {
-// 	// 							'localField':'citizenId',
-// 	// 							'from':'citizendetails',
-// 	// 							'foreignField':'citizenId',
-// 	// 							'as':'info'	
-// 	// 						 }
-// 	// 						},
-// 	// 						// {'$lookup': {
-// 	// 						// 	'localField':'citizenId',
-// 	// 						// 	'from':'screeningcases',
-// 	// 						// 	'foreignField':'citizenId',
-// 	// 						// 	'as':'cases'	
-// 	// 						//  }
-// 	// 						// },
-// 	// 						{'$unwind':'$info'},
-// 	// 						{'$project':{
-
-// 	// 							 'screenerId':1,
-// 	// 							 'firstName':1,
-// 	// 							 'lastName':1,
-// 	// 							 'sex':1,
-// 	// 							 'mobile':1,
-// 	// 							 'email':1,
-// 	// 							 'pstatus':1,
-// 	// 							 'isInstant':1,
-// 	// 							 'citizenId':1,
-// 	// 							 'javixId':1,
-//     //                              'aadhaar':1,
-//     //                              'raadhaar':1,
-// 	// 							 'isUnrefer':1,
-// 	// 							 'citizenLoginId':1,
-// 	// 							 'createdAt':1,
-// 	// 							 'info.dateOfBirth':1,
-// 	// 							 'info.dateOfOnBoarding':1,
-// 	// 							 'info.bloodGroup':1,
-// 	// 							 'info.country':1,
-// 	// 							 'info.state':1,
-// 	// 							 'info.district':1,
-// 	// 							 'info.address':1,
-// 	// 							 'info.pincode':1,
-// 	// 							 'info.rating':1,
-// 	// 							 'info.geolocations':1,
-// 	// 							 'info.photo':1,
-// 	// 							 'cases.caseId':1,
-// 	// 							 'cases.status':1
-
-// 	// 							}
-// 	// 						}
-// 	// 					]
-// 	// 			).then(users => {
-
-// 	// 				let user=users[0];
-// 	// 				if (user) {
-// 	// 						var cdate="";
-// 	// 						user.info.dateOfOnBoarding=utility.toDDmmyy(user.info.dateOfOnBoarding);
-// 	// 						user.createdAt=utility.toDDmmyy(user.createdAt);
-
-// 	// 				  	if(user.info.dateOfBirth!=null && user.info.dateOfBirth!=undefined && user.info.dateOfBirth!=""){
-// 	// 				  		cdate=user.info.dateOfBirth.toISOString().split('T')[0];
-// 	// 				  		var adate=new Date(cdate);
-// 	// 				  		user.info.dateOfBirth=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
-// 	// 				  	}
-// 	// 				  	else{
-// 	// 				  		user.info.dateOfBirth=cdate;
-// 	// 				  	}
-// 	// 						return apiResponse.successResponseWithData(res,"Found", users);
-// 	// 				}
-// 	// 				else return apiResponse.ErrorResponse(res,"Not Found");
-
-// 	// 			});
-// 	// 		}
-// 	// 	} catch (err) {
-
-// 	// 		return apiResponse.ErrorResponse(res,"EXp:"+err);
-// 	// 	}
-// 	// }
-
-// ];
 // ==============================display refer list citizens===============
 exports.citizenRefers = [
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
@@ -923,7 +596,7 @@ exports.citizenRefers = [
 
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { 'isUnrefer': true,ngoId:req.body.ngoId} },
+					{ '$match': { 'isUnrefer': 1,ngoId:req.body.ngoId} },//isunrefer 1 showing data refer list
 
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 100 },
@@ -1174,7 +847,7 @@ exports.CitizenPrescribe = [
 			} else {
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { 'isUnrefer': false ,'ngoId':req.body.ngoId} },
+					{ '$match': { 'isUnrefer': 2 ,'ngoId':req.body.ngoId} },//isunrefer status 2 showing in prscribe
 
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 1000 },
@@ -1306,7 +979,7 @@ exports.CitizenPrescribe = [
 exports.CitizenPrescribeCount = [
 	async (req, res) => {
 		await 	CitizenModel.Citizen.aggregate([
-			{ '$match': { 'isUnrefer': false } },
+			{ '$match': { 'isUnrefer': 2 } },
             {$limit:1000},
 			{
 				'$lookup': {
@@ -2367,7 +2040,7 @@ exports.updateCitizen = [
 ];
 
 
-// ---==-----add ismapped 
+// ---==-----add ismapped update all
 exports.updateCitizenR = [
 
 	(req, res) => {
@@ -2825,7 +2498,138 @@ exports.updateNgoIdData= [
 	
 	];
 
+	// exports.updateIsrefer= [
+	// 	(req, res) => { 
+			
+	// 		// let id = req.params.id;
 	
+
+	// 		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+		  
+	// 		// CitizenModel.Citizen.updateOne({'isUnrefer':true},{$set : {"isUnrefer":1}}, {upsert:false, multi:true})
+	// 		CitizenModel.Citizen.update({'isUnrefer':true}, { $set: {"isUnrefer":1}})
+	// 		// CitizenModel.Citizen.find({'isUnrefer':true})
+	// 		  .then((note) => {
+	// 			if (!note) {
+	// 			  return res.status(404).send({
+	// 				message: "data not found with id " + req.params.id,
+	// 			  });
+	// 			}
+	// 			res.send(note);
+	// 		  })
+	// 		  .catch((err) => {
+			  
+	// 			if (err.kind === "ObjectId") {
+	// 			  return res.status(404).send({
+	// 				message: "data not found with id ",
+	// 			  });
+	// 			}
+	// 			return res.status(500).send({
+	// 			  message: "Error updating note with id ",
+	// 			});
+	// 		  });
+			   
+	// 	}
+
+						
+	
+	// ];
+
+
+	exports.updateIsrefer = [
+
+
+		// body("citizenId").custom((value) => {
+		// 	return CitizenModel.Citizen.findOne({ citizenId: value }).then((user) => {
+		// 		if (user) { }
+		// 		else return Promise.reject("Invalid User Selection");
+		// 	});
+		// }),
+		// body("status").isLength({ min: 1,max:1 }).trim().withMessage("Invalid Status!").isNumeric().withMessage("status 0-9"),
+		// body("pstatus").isLength({ min: 1,max:1 }).trim().withMessage("Blocked Status 0|1!").isNumeric().withMessage("isBlocked should be 0|1"),
+		// // body("isInstant").isLength({ min: 1,max:1 }).trim().withMessage("Expired Status 0|1!").isNumeric().withMessage("isExpired should be 0|1"),
+		// body("isUnrefer").isLength({ min: 1, max: 1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
+	
+		// sanitizeBody("citizenId").escape(),
+		// // sanitizeBody("status").escape(),
+		// sanitizeBody("pstatus").escape(),
+		// sanitizeBody("isInstant").escape(),
+		// sanitizeBody("isUnrefer").escape(),
+	
+		(req, res) => {
+	
+			try {
+				const errors = validationResult(req);
+				if (!errors.isEmpty()) {
+					return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+				} else {
+	
+
+				
+	
+								CitizenModel.Citizen.findOneAndUpdate( {citizenId:req.body.citizenId},{ '$set': { 'isUnrefer': req.body.isUnrefer} }, function (ierr, iresDoc) {
+									if (ierr) {
+										return apiResponse.ErrorResponse(res, ierr);
+									}
+									else {
+										if (iresDoc) {
+	
+											return apiResponse.successResponse(res, "Updated Successfullly.");
+										}
+										else apiResponse.ErrorResponse(res, "Invalid User");
+									}
+								});
+							
+						
+				
+	
+	
+				}
+			} catch (err) {
+	
+				return apiResponse.ErrorResponse(res, "EXp:" + err);
+			}
+		}];
+	
+
+exports.updateallIsrefer = [
+
+	(req, res) => { 
+			
+		// let id = req.params.id;
+
+
+		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+	  
+		CitizenModel.Citizen.update({},{$set : {"isUnrefer":0}}, {upsert:false, multi:true})
+
+	  
+		  .then((note) => {
+			if (!note) {
+			  return res.status(404).send({
+				message: "data not found with id " + req.params.id,
+			  });
+			}
+			res.send(note);
+		  })
+		  .catch((err) => {
+		  
+			if (err.kind === "ObjectId") {
+			  return res.status(404).send({
+				message: "data not found with id ",
+			  });
+			}
+			return res.status(500).send({
+			  message: "Error updating note with id ",
+			});
+		  });
+		   
+	}
+
+			
+		];
+		
+
 exports.CitizenScreenerDeletedAuth = [
 	
 
