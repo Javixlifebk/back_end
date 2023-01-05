@@ -571,6 +571,13 @@ exports.screeningList=[
 								'as':'citizendetails'	
 							 }
 							},
+              {'$lookup': {
+								'localField':'ngoId',
+								'from':'logos',
+								'foreignField':'ngoId',
+								'as':'logo'	
+							 }
+							},
 							{'$lookup': {
 								'localField':'screenerId',
 								'from':'screeners',
@@ -578,6 +585,7 @@ exports.screeningList=[
 								'as':'screeners'	
 							 }
 							},
+              {$unwind:"$logo"},
               { '$match': { isdeleted:false,'ngoId':req.body.ngoId}},
 
 							{'$project':{
@@ -588,6 +596,7 @@ exports.screeningList=[
 								'status':1,
 								'screenerId':1,
 								'height':1,
+                client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]},
 								'weight':1,
 								'bmi':1,
 								'bpsys':1,

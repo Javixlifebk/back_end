@@ -20,7 +20,7 @@ var CitizenSchema = new mongoose.Schema({
     isInstant: {type: Number, required: true , default: 0},
 	isdeleted: {type: Boolean, default: false},
     screenerId :{type:String,required:true},
-	isUnrefer: {type: Boolean, required: false,default:0},
+	isUnrefer: {type: Number, required: true , default: 0}, //0 for citizen list
 }, {timestamps: true});
 
 
@@ -43,7 +43,7 @@ var CitizenDetailsSchema = new mongoose.Schema({
 	Age : {type: String, required: false},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     citizenId: {type: String, required: true},
-	isUnrefer: {type: Boolean, required: false, default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	isdeleted: {type: Boolean, default: false},
 	caseStatus:{type: Number, required: false, default: 0}
 }, {timestamps: true});
@@ -58,7 +58,7 @@ var CitizenTransactionTypeSchema = new mongoose.Schema({
 	type: {type: String, required: true},
 	text: {type: String, required: true,default:''},
 	InteractionPartyName: {type: String, required: true},
-	isUnrefer: {type: Boolean, required: false ,default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	Age : {type: String, required: false},
 
 	}, {timestamps: true});
@@ -72,7 +72,7 @@ var CitizenTransactionSchema = new mongoose.Schema({
 	ngoId :{type:String,required:false},
 	typeId: {type: String, required: true},
 	InteractionParty: {type: String, required: true},
-	isUnrefer: {type: Boolean, required: false ,default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	Age : {type: String, required: false},
 
 	}, {timestamps: true});
@@ -85,7 +85,7 @@ var CitizenTransactionStatusSchema = new mongoose.Schema({
 	statusId: {type: String, required: true},
 	status: {type: String, required: true},
 	text: {type: String, required: true,},
-	isUnrefer: {type: Boolean, required: false,default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	Age : {type: String, required: false},
 
     
@@ -98,7 +98,7 @@ module.exports.CitizenTransactionStatus = mongoose.model("CitizenTransactionStat
 var CitizenRecordsSchema = new mongoose.Schema({
 	recordUrl: {type: String, required: true},
 	doctorId: {type: String, required: false},
-	isUnrefer: {type: Boolean, required: false, default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	Age : {type: String, required: false},
 	screenerId: {type: String, required: false},
 	ngoId :{type:String,required:false},
@@ -120,7 +120,7 @@ var CitizenTransactionDetailsSchema = new mongoose.Schema({
 	ngoId :{type:String,required:false},
     comments: {type: String, required: true},
     isError: {type: String, required: true},
-	isUnrefer: {type: Boolean, required: false, default:0},
+	isUnrefer: {type: Number, required: true , default: 0},
 	Age : {type: String, required: false},
 
 	}, {timestamps: true});
