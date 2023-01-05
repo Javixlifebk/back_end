@@ -104,11 +104,11 @@
 	<!-- <div style="text-align: center; margin-bottom: 10px;">PortaClinic <img class="center" width=100px height=50px src="../../public/images/logo.png">
 	</div> -->
 	<!-- <div style="text-align: center;">PortaClinic By JaviX Life</div> -->
-	<div style="text-align: center; margin-bottom: 10px;">PortaClinic <img class="center" width=100px height=50px src=http://javixlife.org:3010/profile/profile-1672315442000.jpeg>
+	<div style="text-align: center; margin-bottom: 10px;">PortaClinic <img class="center" width=100px height=50px src=http://javixlife.org:3010/profile/profile-1672853250387.png>
 	</div>
 	<!-- <div><h1 style="color: red;">javix</h1></div> -->
 	{{#each prescription}}
-	<img class="center" width=100px height=50px src={{this.client_logo}}>
+	<img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}>
 	<h4>
 		<center>Prescription</center>
 	</h4>
@@ -271,8 +271,13 @@
 	</div>
 	{{/each}}
 	<div style='height:10px'>&nbsp;</div>
-	<footer>Disclaimer: The Report is only for general health screening and wellness awareness. These tests are not
-		specific to the individual health conditions. Please correlate clinically.</footer>
+	<!-- <footer>Disclaimer: The Report is only for general health screening and wellness awareness. These tests are not
+		specific to the individual health conditions. Please correlate clinically.</footer> -->
+		<div>
+			<h5 align='center'>--- End of Report ---</h5>
+			 <h3 align='center'>DISCLAIMER</h3>
+			 <h5 align='center'>The Report is only for general health screening and wellness awareness. These tests are not specific to the individual health conditions. Please correlate clinically</h5>
+		   </div>
 
 </body>
 
