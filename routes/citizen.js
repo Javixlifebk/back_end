@@ -15,6 +15,8 @@ routerCitizen.post("/citizenList", CitizenController.citizenList);
 routerCitizen.post("/citizensearchList", CitizenController.searchcitizendata);
 routerCitizen.post("/updateAddcitizen", CitizenController.updateAddcitizen);
 routerCitizen.post("/citizenReferList", CitizenController.updateReferAuth);
+routerCitizen.post("/updateIsrefer", CitizenController.updateIsrefer);
+routerCitizen.post("/updateallisrefer", CitizenController.updateallIsrefer)
 routerCitizen.post("/citizenNewList", CitizenController.citizenNewList);
 routerCitizen.post("/citizenById", CitizenController.citizenById);
 routerCitizen.post("/citizenl", CitizenController.listcity);
@@ -45,7 +47,8 @@ routerCitizen.post("/citizenPrescribe", CitizenController.CitizenPrescribe);
 routerCitizen.post("/citizenup", CitizenController.updateCitizenR);
 routerCitizen.post("/CitizenScreenerDeletedAuth", CitizenController.CitizenScreenerDeletedAuth);
 routerCitizen.post("/updateandCitizenScreener", CitizenController.updateandCitizenScreener);
-routerCitizen.post("/updateNgoID", CitizenController.updateNgoIdData)
+routerCitizen.post("/updateNgoID", CitizenController.updateNgoIdData);
+
 
 routerCitizen.post("/getHistoryAllergy", MedicalAllergyHistoryController.historyAllergyList);
 routerCitizen.post("/getHistoryMedical", MedicalAllergyHistoryController.historyMedicalList);
