@@ -43,10 +43,13 @@
     </head>
 
     <body>
-    	<div style="text-align: center;">PortaClinic By JaviX Life</div>
-    	<img class="center" width=200px height=100px src=http://143.244.136.145:3010/profile/arogya.jpg>
-		<h2><center>Patient Report</center></h2>
+    	<!-- <div style="text-align: center;">PortaClinic By JaviX Life</div> -->
+		<div style="text-align: center;">PortaClinic By <img class="center" width=100px height=50px  style="margin-bottom: 10px;" src=http://javixlife.org:3010/profile/profile-1672315442000.jpeg>
+		</div>
+		
 		{{#each users}}
+		<img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}>
+		<h2><center>Patient Report</center></h2>
 			
 			<div class='divBorder'>
 			
@@ -618,7 +621,11 @@
 		
 		
 		{{/each}}
-
+   <footer>
+    <h5 align='center'>--- End of Report ---</h5>
+     <h3 align='center'>DISCLAIMER</h3>
+     <h5 align='center'>The Report is only for general health screening and wellness awareness. These tests are not specific to the individual health conditions. Please correlate clinically</h5>
+   </footer>
 		
     </body>
 	<script>
