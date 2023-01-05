@@ -142,7 +142,7 @@ exports.listGraph = [
                                                                 mapdoctor,
                                                             });
 															CitizenModel.Citizen.find(
-																{ isUnrefer: false, ngoId: req.body.ngoId,}
+																{ isUnrefer: 2, ngoId: req.body.ngoId,}
 															  )
 																.countDocuments().limit(1000)
 																.then((citizenprescibeCount) => {
@@ -151,7 +151,7 @@ exports.listGraph = [
 																	  citizenprescibeCount,
 																  });
 																  CitizenModel.Citizen.find(
-																	{ isUnrefer: true, ngoId: req.body.ngoId }
+																	{ isUnrefer: 1, ngoId: req.body.ngoId }
 																  )
 																	.countDocuments().limit(1000)
 																	.then((citizenrefer) => {
