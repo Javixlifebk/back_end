@@ -66,7 +66,7 @@ exports.listGraph = [
                   .then((ngos) => {
                     graph.push({ NGO: ngos });
 
-                    PrescriptionModel.Prescription.find({ngoId: req.body.ngoId,})
+                    CitizenModel.Citizen.find({ngoId: req.body.ngoId,'isUnrefer':2})
                       .countDocuments()
                       .then((prescription) => {
                         graph.push({ Prescription: prescription });
