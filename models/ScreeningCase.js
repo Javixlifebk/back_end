@@ -30,7 +30,7 @@ var ScreeningCaseSchema = new mongoose.Schema({
     severity_respiratory_rate: {type:Number, default:0, required:false},   //0-green, 1-amber, 2-red , 0-Default
     severity: {type:Number, default:0, required:false},   //0-green, 1-amber, 2-red , 0-Default
     caseId:{type:String,required:true},
-	isUnrefer: {type: Boolean, required: true, default: false},
+	isUnrefer: {type: String, required: false, default: 0},
 	// caseId:{type:String,required:true},
 	ngoId :{type:String,required:false},
 	isdeleted:{type: Boolean,default: false},
@@ -234,7 +234,7 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
 	issubscreener:{type:String},
 	ngoId :{type:String,required:false},
 	isdeleted:{type: Boolean,default: false},
-	isUnrefer: {type: Boolean, required: true, default: false},
+	isUnrefer: {type: String, required: false, default: 0},
 }, {timestamps: true});
 
 module.exports.ScreeningCaseDetails = mongoose.model("ScreeningCaseDetails", ScreeningCaseDetailsSchema);
