@@ -37,6 +37,10 @@ let uploadFile = multer({
     { 
       name: 'client_logo', 
       maxCount: 1 
+    },
+    { 
+      name: 'javixLogo', 
+      maxCount: 1 
     }
   ]
 )

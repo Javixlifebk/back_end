@@ -17,6 +17,7 @@ var gsurvey = require("./generalSurvey");
 var hsurvey = require("./healthSurvey");
 var sesurvey = require("./socioeconomicsurvey");
 var logo = require("./logoRouter");
+var Jlogo = require("./JlogoRoute");
 var app = express();
 
 app.use("/auth/", authRouter);
@@ -37,4 +38,5 @@ app.use("/generalsurvey/",gsurvey);
 app.use("/healthsurvey/",hsurvey);
 app.use("/socioeconomicsurvey/",sesurvey);
 app.use("/logo/",logo);
+app.use("/Jlogo/",Jlogo);
 module.exports = app;
