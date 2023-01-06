@@ -2,7 +2,9 @@
 const db = require('../models/logoModel')
 const Imgupload =  require('../middlewares/navbarLogo');
 // image Upload
+const apiResponse = require("../helpers/apiResponse");
 const multer = require('multer')
+const { body, query, validationResult } = require("express-validator");
 const path = require('path')
 
 
@@ -44,11 +46,14 @@ const addLogos = async (req, res) => {
     }
 
     const banner = await Logo.create(info)
-
+ if(banner){
     res.status(200).send(banner)
     console.log(banner)
+  }
+   
+    
 }catch(err){
-
+res.status(400)
 }
 
 }
@@ -59,19 +64,38 @@ const addLogos = async (req, res) => {
 
 const getLogo = async (req, res,count) => {
 
+	try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+    } else {
 
-    let banner = await Logo.aggregate([
+await Logo.aggregate([
      {$match:{'ngoId':req.body.ngoId}} ,
 {
   '$project':{
     client_logo: {$concat: ["http://",req.headers.host,"/profile/","$client_logo"]},
   }
 }
-    ])
- 
-    res.status(200).send(banner)
+    ]).then(banner => {
+					
+    let user=banner[0];
+    if (user) {
+    return apiResponse.successResponseWithData(res,"Found", banner);
+  }
+  else return apiResponse.ErrorResponse(res,"Not Found");
 
+    // res.status(200).send(banner)
+  
+})
+    }
+}catch (err) {
+		
+  return apiResponse.ErrorResponse(res, "EXp:" + err);
 }
+}
+
+
 
 // 3. get single banner
 
