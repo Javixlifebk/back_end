@@ -428,6 +428,13 @@ exports.prescriptionList=[
 							 }
 							},
 							{'$lookup': {
+								'localField':'doctorId',
+								'from':'doctordocs',
+								'foreignField':'doctorId',
+								'as':'doctordocs'	
+							 }
+							},
+							{'$lookup': {
 								'localField':'screenerId',
 								'from':'screeners',
 								'foreignField':'screenerId',
@@ -441,6 +448,7 @@ exports.prescriptionList=[
 								'as':'logo'	
 							 }
 							},
+							{$unwind:"$doctordocs"},
 							{$unwind:"$citizens"},
 							{$unwind:"$logo"},
 							{'$project':{
@@ -466,6 +474,7 @@ exports.prescriptionList=[
 								'createdAt':1,
 								'tests':1,
 								'doctors.firstName':1,
+								'doctors.doctorLoginId':1,
 								'doctors.lastName':1,
 								'doctors.email':1,
 								'doctors.mobile':1,
@@ -493,6 +502,9 @@ exports.prescriptionList=[
 								'doctordetails.state':1,
 								'doctordetails.district':1,
 								// 'logo.client_logo':1,
+								// photo: {$concat: ["http://",req.headers.host,"/profile/","$doctordocs.photo"]},
+								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doctordocs.signature"]},
+                               
 								client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]}
 							}}
 				]).then(users => {

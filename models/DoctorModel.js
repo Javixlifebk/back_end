@@ -22,6 +22,17 @@ var DoctorSchema = new mongoose.Schema({
 // doctorLoginId=>{User=>userId}
 module.exports.Doctor = mongoose.model("Doctors", DoctorSchema);
 
+var DoctorDocSchema = new mongoose.Schema({
+	doctorId: {type: String, required: true},
+	ngoId:{type:String,required:true},
+	doctorLoginId:{type:String,required:true},
+	photo: {type: String, required: true},
+	signature: {type: String, required: true},
+}, {timestamps: true});
+
+// doctorLoginId=>{User=>userId}
+module.exports.doctorDoc = mongoose.model("DoctorDocs", DoctorDocSchema);
+
 /*  Collection Name : DoctorDetails */
 var DoctorDetailsSchema = new mongoose.Schema({
 	doctorDetailId: {type: String, required: true},
@@ -35,7 +46,7 @@ var DoctorDetailsSchema = new mongoose.Schema({
     district: {type: String, required:true},
     address: {type: String, required:true},
 	pincode: {type: String},
-	photo: {type: String},
+	photo: {type: String,required: false},
     rating : {type: Number, required: true, default: 0},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
     doctorId: {type: String, required: true}
