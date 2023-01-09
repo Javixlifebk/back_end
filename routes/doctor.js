@@ -4,6 +4,9 @@ const PrescriptionController = require("../controllers/PrescriptionController");
 
 var routerDoctor = express.Router();
 routerDoctor.post("/addprofile", DoctorController.addProfile);
+routerDoctor.post("/addDoctorDoc", DoctorController.adddoctorImg);
+routerDoctor.post("/findone", DoctorController.doctorByIddoc);
+routerDoctor.post("/addDoctorDoc", DoctorController.adddoctorImg);
 routerDoctor.post("/doctorList", DoctorController.doctorList);
 routerDoctor.post("/doctorById", DoctorController.doctorById);
 routerDoctor.post("/doctorListById", DoctorController.doctorListById);

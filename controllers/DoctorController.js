@@ -8,7 +8,7 @@ const apiResponse = require("../helpers/apiResponse");
 const utility = require("../helpers/utility");
 const jwt = require("jsonwebtoken");
 const { constants } = require("../helpers/constants");
-
+const Imgupload =  require('../middlewares/navbarLogo');
 var dayMapping = {1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"};
 var timeslotsMapping ={
 	1:"0:00-0:30",
@@ -60,6 +60,89 @@ var timeslotsMapping ={
 47:"23:00-23:30",
 48:"23:30-0:00"
 }
+
+
+exports.doctorByIddoc = [
+	async (req, res) => {
+
+		
+    try {
+		
+	DoctorModel.Doctor.aggregate([
+		{$match:{'doctorLoginId':req.body.doctorLoginId}},
+			{$project:{
+				doctorId:1
+			}}
+		]).then(users => {
+			res.status(200).send(users)
+		})
+
+		
+   
+    
+}catch(err){
+res.status(400)
+}
+
+}]
+
+
+exports.adddoctorImg = [
+	async (req, res) => {
+
+		
+    try {
+		
+		// var getID="";
+
+
+     await Imgupload(req,res);
+    let dataObj = {}
+
+    if(req.files['photo']){ 
+      const profileImage =req.files['photo'][0].filename; 
+      dataObj.photo = profileImage; 
+    }
+ 
+    if(req.files['signature']){
+      const bannerImage = req.files['signature'][0].filename;  
+      dataObj.signature = bannerImage; 
+    }
+    
+
+ console.log(dataObj);
+
+ console.log(req.body.doctorLoginId);
+ var getID = await DoctorModel.Doctor.aggregate([
+	 {$match:{'doctorLoginId':req.body.doctorLoginId}},
+		 {$project:{
+			 doctorId:1
+		 }}
+	 ])
+console.log(getID[0].doctorId);
+
+    let info = {
+        photo:dataObj.photo,
+        signature:dataObj.signature,
+        ngoId: req.body.ngoId,
+		doctorId:getID[0].doctorId,
+        doctorLoginId:req.body.doctorLoginId,
+      
+    }
+	
+    const banner = await DoctorModel.doctorDoc.create(info)
+ if(banner){
+    res.status(200).send(banner)
+    console.log(banner)
+  }
+   
+    
+}catch(err){
+res.status(400)
+}
+
+}]
+
 
 // exports.addProfile = [
     
@@ -145,7 +228,7 @@ var timeslotsMapping ={
 					
 // 					var recDoctor={
 // 							doctorId:ID,
-// 							ngoId:ID,
+// 							ngoId:req.body.ngoId,
 // 							firstName:req.body.firstName,
 // 							lastName: req.body.lastName,
 // 							sex: req.body.sex,
@@ -220,12 +303,12 @@ exports.addProfile = [
 			});
 		}),
 	
-	body("dateOfBirth").isLength({ min: 10, max:10 }).trim().withMessage("Enter Date of birth format 'yyyy-mm-dd' !").custom((value) => {
-			return utility.isDate(value);
-		}),
-	body("dateOfOnBoarding").isLength({ min: 10, max:10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
-			return utility.isDate(value);
-		}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),
+	// body("dateOfBirth").isLength({ min: 10, max:10 }).trim().withMessage("Enter Date of birth format 'yyyy-mm-dd' !").custom((value) => {
+	// 		return utility.isDate(value);
+	// 	}),
+	// body("dateOfOnBoarding").isLength({ min: 10, max:10 }).trim().withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !").custom((value) => {
+	// 		return utility.isDate(value);
+	// 	}).withMessage("Enter Onboarding Date format 'yyyy-mm-dd' !"),
 	body("qualification").isLength({ min: 2 }).trim().withMessage("Enter Qualification !"),	
 	body("specialisation").isLength({ min: 2 }).trim().withMessage("Enter Specialization !"),
 	
@@ -252,7 +335,7 @@ exports.addProfile = [
 	sanitizeBody("mobileNo").escape(),
 	sanitizeBody("email").escape(),
 	sanitizeBody("signature").escape(),
-	sanitizeBody("ngoName").escape(),
+	
 	
 	sanitizeBody("dateOfBirth").escape(),
 	sanitizeBody("dateOfOnBoarding").escape(),
@@ -294,7 +377,7 @@ exports.addProfile = [
 							mobile:req.body.mobileNo,
 							email:req.body.email,
 							doctorLoginId:req.body.userId,
-							signature:req.body.signature,
+							// signature:req.body.signature,
 							medicalRegNo:req.body.medicalRegNo,
 							yearOfReg:req.body.yearOfReg,
 							statteMedicalCouncil:req.body.statteMedicalCouncil,
@@ -323,7 +406,7 @@ exports.addProfile = [
 									pincode:req.body.pincode,
 									rating : 0,
 									doctorId: ID,
-									photo: req.body.photo
+									// photo: req.body.photo
 								};
 								var actionDoctorDetails=new DoctorModel.DoctorDetails(recDetails);
 								actionDoctorDetails.save(function(_ierror)
@@ -409,7 +492,7 @@ exports.doctorList=[
     body("userId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
 	// body("ngoId").isLength({ min: 3 }).trim().withMessage("Invalid Credential!"),
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
-	sanitizeBody("userId").escape(),
+	// sanitizeBody("userId").escape(),
 	
     (req, res) => { 
 			
@@ -435,6 +518,14 @@ exports.doctorList=[
 								'as':'online'	
 							 }
 							},
+							{'$lookup': {
+								'localField':'doctorLoginId',
+								'from':'doctordocs',
+								'foreignField':'doctorLoginId',
+								'as':'doc'	
+							 }
+							},
+							{'$unwind':'$doc'},
 							{'$unwind':'$info'},
 							{'$project':{
 								 
@@ -446,7 +537,8 @@ exports.doctorList=[
 								 'mobile':1,
 								 'email':1,
 								 'doctorLoginId':1,
-								 'signature':1,
+								 photo: {$concat: ["http://",req.headers.host,"/profile/","$doc.photo"]},
+								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doc.signature"]},
 								 'medicalRegNo':1,
 								 'yearOfReg':1,
 								 'statteMedicalCouncil':1,
@@ -518,6 +610,14 @@ exports.doctorById=[
 								'as':'info'	
 							 }
 							},
+							{'$lookup': {
+								'localField':'doctorId',
+								'from':'doctordocs',
+								'foreignField':'doctorId',
+								'as':'doc'	
+							 }
+							},
+							{'$unwind':'$doc'},
 							{'$unwind':'$info'},
 							{'$project':{
 								 
@@ -529,7 +629,8 @@ exports.doctorById=[
 								 'mobile':1,
 								 'email':1,
 								 'doctorLoginId':1,
-								 'signature':1,
+								 photo: {$concat: ["http://",req.headers.host,"/profile/","$doc.photo"]},
+								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doc.signature"]},
 								 'medicalRegNo':1,
 								 'yearOfReg':1,
 								 'statteMedicalCouncil':1,
@@ -548,7 +649,7 @@ exports.doctorById=[
 								 'info.address':1,
 								 'info.pincode':1,
 								 'info.rating':1,
-								 'info.photo':1
+								 
 								 
 								}
 							}

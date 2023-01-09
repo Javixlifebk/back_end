@@ -186,7 +186,7 @@
 
 
 			</tr>
-			{{#each this.doctors}}
+			{{#each doctors}}
 			<tr>
 				<td>
 					<div class='label'>Doctor Name</div>
@@ -219,15 +219,16 @@
 		<table border=0 width='100%' cellpadding=8px cellspacing=0px>
 
 
-			{{#each this.doctors}}
+			
 			<tr>
 				<td>
 					<div class='label'>Doctors Signature </div>
 				</td>
 				<td>
-					<img src={{this.signature}} width=200px height=100px>
+					<img src={{this.signature}} width=150px height=90px>
 				</td>
 			</tr>
+			{{#each this.doctors}}
 			<tr>
 				<td>
 					<div class='label'>Doctor Experience</div>
