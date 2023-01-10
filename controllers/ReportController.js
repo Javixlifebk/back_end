@@ -20,6 +20,8 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+// const { Logo } = require("../models/logoModel");
+// const Logo = db.Logo
 var users;
 var global_labs=[];
 
@@ -738,6 +740,14 @@ exports.createCaseReport = [
 					   { caseId: caseId,token:'adsdasdadasda',
 					   ngoId: ngoId
 					   } };
+					   var options14 = { method: 'POST',
+					   url: 'http://javixlife.org:3010/api/test/getByCaseId',
+					   headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+					   form: 
+						{ caseId: caseId,
+						ngoId: ngoId
+						} };
 
 
 					   //eND lAB tESTS
@@ -755,8 +765,9 @@ exports.createCaseReport = [
 					  				'drug':"",
 					  				'rapid':"",
 					  				'symptoms':"",
-					  				'urine':""};
-					   request(options1, function (error1, response1, body1) {
+					  				'urine':"",
+								       "breasttest":""};
+					   request( options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
 					  			status1=JSON.parse(body1).status;
 					  			if(status1==1){
@@ -768,6 +779,14 @@ exports.createCaseReport = [
 					  			if(status2==1){
 					  				labs.eye=JSON.parse(body2).data.data;
 					  				}
+							 request(options14, function (error2, response2, body2) {
+									if (error2) return apiResponse.ErrorResponse(res, error2);
+										status2=JSON.parse(body2).status;
+										if(status2==1){
+										labs.breasttest=JSON.parse(body2).data.data;
+
+										console.log(labs.breasttest);
+												}
 					  				request(options3, function (error3, response3, body3) {
 					  		if (error3) return apiResponse.ErrorResponse(res, error3);
 					  			status3=JSON.parse(body3).status;
@@ -1070,6 +1089,7 @@ exports.createCaseReport = [
 					  		});
 
 							});
+						});
 					  			
 
 					  		});
@@ -1085,6 +1105,7 @@ exports.createCaseReport = [
 				
 					
 			}
+		
 		} catch (err) {
 			
 			return apiResponse.ErrorResponse(res,"EXp:"+err);
