@@ -18,6 +18,7 @@ var hsurvey = require("./healthSurvey");
 var sesurvey = require("./socioeconomicsurvey");
 var logo = require("./logoRouter");
 var Jlogo = require("./JlogoRoute");
+var breastItest = require("./BreastIRoute");
 var app = express();
 
 app.use("/auth/", authRouter);
@@ -39,4 +40,5 @@ app.use("/healthsurvey/",hsurvey);
 app.use("/socioeconomicsurvey/",sesurvey);
 app.use("/logo/",logo);
 app.use("/Jlogo/",Jlogo);
+app.use("/test/",breastItest);
 module.exports = app;
