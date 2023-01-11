@@ -174,13 +174,13 @@ exports.ngoProfile=[
 	
 	body("token").isLength({ min: 1 }).trim().withMessage("Invalid Token!"),
 	sanitizeBody("ngoId").escape(),
-	sanitizeBody("userId").escape(),
+	// sanitizeBody("userId").escape(),
 	sanitizeBody("token").escape(),
     (req, res) => { 
 			
 			try {
 			NGOModel.NGO.aggregate([
-							{'$match':{'$or':[{'ngoId':req.body.ngoId},{'ngoLoginId':req.body.userId}]}},
+							{'$match':{'ngoLoginId':req.body.ngoLoginId}},
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'ngoId',
@@ -189,12 +189,22 @@ exports.ngoProfile=[
 								'as':'info'	
 							 }
 							},
+							{'$lookup': {
+								'localField':'ngoLoginId',
+								'from':'logos',
+								'foreignField':'ngoId',
+								'as':'logos'	
+							 }
+							},
 							{'$unwind':'$info'},
+							{'$unwind':'$logos'},
 							{'$project':{
 								 
 								 'ngoId':1,
 								 'name':1,
+								 "client_logo": {$concat: ["http://",req.headers.host,"/profile/","$logos.client_logo"]},
 								 'owner':1,
+								 "ngoLoginId":1,
 								 'mobile':1,
 								 'email':1,
 								 'createdAt':1,

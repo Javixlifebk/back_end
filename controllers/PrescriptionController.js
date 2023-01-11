@@ -388,6 +388,7 @@ exports.prescriptionList=[
 						arraymatch.push(matchfield);
 						matchfield={};
 					}
+					// matchfield["ngoId"]=req.body.ngoId;
 					var andcond={'$match':{'$and':arraymatch}};
 					if (arraymatch.length===0){
 						andcond={'$match':{}};
@@ -448,9 +449,16 @@ exports.prescriptionList=[
 								'as':'logo'	
 							 }
 							},
-							{$unwind:"$doctordocs"},
-							{$unwind:"$citizens"},
-							{$unwind:"$logo"},
+							
+
+							// {$unwind:{ path: "$doctors", preserveNullAndEmptyArrays: true }},
+							{$unwind:{ path: "$doctordocs", preserveNullAndEmptyArrays: true }},
+							{$unwind:{ path: "$citizens", preserveNullAndEmptyArrays: true }},
+							// {$unwind:{ path: "$citizendetails", preserveNullAndEmptyArrays: true }},
+							{$unwind:{ path: "$logo", preserveNullAndEmptyArrays: true }},
+							// {$unwind:{ path: "$doctordetails", preserveNullAndEmptyArrays: true }},
+							{$unwind:{ path: "$screeners", preserveNullAndEmptyArrays: true }},
+					
 							{'$project':{
 								'prescriptionId':1,
 								'citizenId':1,
@@ -501,12 +509,9 @@ exports.prescriptionList=[
 								'doctordetails.specialisation':1,
 								'doctordetails.state':1,
 								'doctordetails.district':1,
-								// 'logo.client_logo':1,
-								// photo: {$concat: ["http://",req.headers.host,"/profile/","$doctordocs.photo"]},
 								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doctordocs.signature"]},
-                               
-								client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]}
-							}}
+								 client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]}
+							}},
 				]).then(users => {
 					
 					let user=users[0];
