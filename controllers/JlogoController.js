@@ -8,9 +8,7 @@ const path = require('path')
 
 // create main Model
 const Logo = db.Jlogo
-// const Review = db.reviews
 
-// main work
 
 // 1. create product
 
@@ -24,15 +22,7 @@ const addJLogos = async (req, res) => {
       dataObj.javixLogo = profileImage; 
     }
  
-    // if(req.files['client_logo']){
-    //   const bannerImage = req.files['client_logo'][0].filename;  
-    //   dataObj.client_logo = bannerImage; 
-    // }
-    // 'http://javixlife.org:3010/profile/'+req.file.filename
-//     let imgArr = [];
-//     req.files.forEach(element => {
-//      imgArr[element.fieldname] = element.path;
-//  });
+  
  console.log(dataObj);
     // const url = req.protocol + '://' + req.get('host')
     let info = {
@@ -62,12 +52,13 @@ const getAlllogo = async (req, res,count) => {
     let banner = await Logo.find({})
     banner.forEach(function(element, i, banner){ 
         banner[i]['javixLogo'] =  req.protocol + '://' + req.get('host')+'/'+ element['javixLogo'];
-        // banner[i]['icon'] =  req.protocol + '://' + req.get('host')+'/'+ element['icon'];
+        
         
     });
     res.status(200).send(banner)
 
 }
+
 
 // 3. get single banner
 
@@ -75,17 +66,11 @@ const getOneBanner = async (req, res) => {
 
     let id = req.params.id
     let banner = await Banner.findOne({ where: { id: id }})
-    // banner.forEach(function(element, i, banner){ 
-        // banner[i]['image'] =  req.protocol + '://' + req.get('host')+'/'+ element['image'];
-        // banner[i]['icon'] =  req.protocol + '://' + req.get('host')+'/'+ element['icon'];
-
-        
-    // });
+  
     res.status(200).send(banner)
 
 }
 
-// 4. update Banner
 
 const updateBanner = async (req, res) => {
    
@@ -154,37 +139,6 @@ const deleteBanner = async (req, res) => {
     res.status(200).send('Banner is deleted !')
 
 }
-
-
-
-
-
-// 8. Upload Image Controller
-
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, './Images/banner/')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, Date.now() + path.extname(file.originalname))
-//     }
-// })
-
-// const upload = multer({
-//     storage: storage,
-//     limits: { fileSize: '1000000' },
-//     fileFilter: (req, file, cb) => {
-//         const fileTypes = /jpeg|jpg|png|gif/
-//         const mimeType = fileTypes.test(file.mimetype)  
-//         const extname = fileTypes.test(path.extname(file.originalname))
-
-//         if(mimeType && extname) {
-//             return cb(null, true)
-//         }
-//         cb('Give proper files formate to upload')
-//     }
-// }).any([{name:'image',name:"icon"}])
-
 
 
 module.exports = {

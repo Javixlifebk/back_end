@@ -280,6 +280,7 @@ exports.historyAllergyList=[
 
 			MedicalAllergyModel.MedicalAllergy.aggregate([
 							{'$match':condition},
+							{'$match':{ngoId:req.body.ngoId}},
 							{'$limit':100000},
 							
 							{'$lookup': {
@@ -346,10 +347,10 @@ exports.historyAllergyList=[
 
 						}
 
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"history Allergy List fetch successfully", users);
 						
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"history Allergy List Not Found");
 					
 				});
 			}
@@ -482,10 +483,10 @@ exports.historyMedicalList=[
 
 						}
 
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"history Medical List fetch successfully", users);
 						
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"history Medical List Not Found");
 					
 				});
 			}

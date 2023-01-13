@@ -152,7 +152,7 @@ exports.addHealthSurvey = [
 										else
 										{		
 												
-												return apiResponse.successResponseWithData(res,"Successfully Submitted");
+												return apiResponse.successResponseWithData(res,"Health survey Successfully Submitted");
 												//return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
 										}
 									}
@@ -546,7 +546,7 @@ exports.HealthSurveyList=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"health survey list fetch successfully", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");
 					

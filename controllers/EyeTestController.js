@@ -67,7 +67,7 @@ exports.addEyeTest = [
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 						else
 						{
-								return apiResponse.successResponseWithData(res,"Successfully Submitted", recEyeTest);
+								return apiResponse.successResponseWithData(res,"Eyes Tests Successfully Submitted", recEyeTest);
 						}
 					}
 					);
@@ -152,9 +152,9 @@ exports.EyeTestList=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Eye test list fetch Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Eye test list Not Found");
 					
 				});
 			}

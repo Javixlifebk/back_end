@@ -173,6 +173,7 @@ exports.register = [
 					
 					
 
+
 					return apiResponse.successResponseWithData(res,"Registration Success.",user );
 
 					// mailer.send(

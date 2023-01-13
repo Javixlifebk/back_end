@@ -689,7 +689,7 @@ exports.GeneralSurveyList = [
         ]).then((users) => {
           let user = users[0];
           if (user) {
-            return apiResponse.successResponseWithData(res, "Found", users );
+            return apiResponse.successResponseWithData(res, "general survey list fetch  successfully", users );
           }
         });
       }
@@ -962,78 +962,7 @@ exports.tmp_out0List = [
 		 
 	// for count 
 	screenercount = await ScreeningCaseModel.ScreeningCase.aggregate([
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizens",
-    //     foreignField: "citizenId",
-    //     as: "citizens",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "eyetests",
-    //     foreignField: "citizenId",
-    //     as: "eyetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "citizendetails",
-    //     foreignField: "citizenId",
-    //     as: "citizendetails",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "citizenId",
-    //     from: "hemoglobins",
-    //     foreignField: "citizenId",
-    //     as: "hemoglobins",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "screenerId",
-    //     from: "screeners",
-    //     foreignField: "screenerId",
-    //     as: "screeners",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "bloodglucosetests",
-    //     foreignField: "caseId",
-    //     as: "bloodglucosetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "urinetests",
-    //     foreignField: "caseId",
-    //     as: "urinetests",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lungfunctions",
-    //     foreignField: "caseId",
-    //     as: "lungfunctions",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     localField: "caseId",
-    //     from: "lipidpaneltests",
-    //     foreignField: "caseId",
-    //     as: "lipidpaneltests",
-    //   },
-    // },
+   
     {
       $lookup: {
         localField: "screenerId",
@@ -1280,7 +1209,7 @@ exports.tmp_out0List = [
 			  { $limit: query.limit },
 			])
 	  response = {
-		message: 'data fatch successfully',
+		message: 'screening screener list fatch successfully',
 		status: 1,
 	   pages: pageNo,
 		// total: count,
@@ -1580,30 +1509,7 @@ exports.tmp_out1List = [
 
     // for count
     sevikacount = await ScreeningCaseModel.ScreeningCase.aggregate([
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizens",
-      //     foreignField: "citizenId",
-      //     as: "citizens",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizendetails",
-      //     foreignField: "citizenId",
-      //     as: "citizendetails",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     localField: "screenerId",
-      //     from: "screeners",
-      //     foreignField: "screenerId",
-      //     as: "screeners",
-      //   },
-      // },
+    
       {
         $lookup: {
           localField: "screenerId",
@@ -1730,7 +1636,7 @@ exports.tmp_out1List = [
       { $limit: query.limit },
     ]);
     response = {
-      message: "data fatch successfully",
+      message: "screening sevika list fatch successfully",
       status: 1,
       pages: pageNo,
       // total: count,
@@ -2047,7 +1953,7 @@ exports.tmp_out0List1 = [
     //var recordsCount = 0;
     var totalPages = Math.ceil(recordsCount/size);
     response = {
-      message: "data fatch successfully",
+      message: "Screener data fatch successfully",
       status: 1,
       pages: pageNo,
       totalPages : totalPages,
