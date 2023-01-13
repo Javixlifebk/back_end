@@ -116,7 +116,7 @@ exports.addWomenReproductiveHistory = [
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 						else
 						{
-								return apiResponse.successResponseWithData(res,"Successfully Submitted", recWomen);
+								return apiResponse.successResponseWithData(res,"Women Reproductive History Successfully Submitted", recWomen);
 						}
 					}
 					);
@@ -337,10 +337,10 @@ exports.WomenHistoryList=[
 
 						}
 
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"WomenHistory List fetch successfully", users);
 						
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"WomenHistory List Not Found");
 					
 				});
 			}

@@ -292,8 +292,8 @@ const getByCaseId = async (req, res, count) => {
         .then((users) => {
           let user = users[0];
           if (user) {
-            return apiResponse.successResponseWithData(res, "Found", users);
-          } else return apiResponse.ErrorResponse(res, "Not Found");
+            return apiResponse.successResponseWithData(res, "Breast i Test Data fetch Successfully", users);
+          } else return apiResponse.ErrorResponse(res, " Breast i Data Not Found");
         });
     }
   } catch (err) {

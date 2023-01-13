@@ -77,7 +77,7 @@ exports.addVisualExam = [
 												totalCount--;
 												if(totalCount===0)
 												{
-													return apiResponse.successResponseWithData(res,"Successfully Submitted");
+													return apiResponse.successResponseWithData(res,"added Visual Exam Successfully");
 												}
 												//return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
 										}

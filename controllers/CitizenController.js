@@ -817,7 +817,7 @@ exports.citizenRefersCount = [
 			} else {
 			 
 			  response = {
-				message: 'data fatch successfully',
+				message: 'Citizen reffered count fatch successfully',
 				status: 1,
 				// pages: totalPages,
 				// total: totalCount,
@@ -961,9 +961,9 @@ exports.CitizenPrescribe = [
 								users[i] = temp;
 							}
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Prescribed Citizen List Fetch Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "Prescribed Citizen List Not Found");
 
 				});
 			}
@@ -1158,9 +1158,9 @@ exports.citizenCasesList = [
 				]).then((users) => {
 					let user = users[0];
 					if (user) {
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Citizen Cases List Fetch Fuccessfully", users);
 					} else
-						return apiResponse.successResponseWithData(res, "not Found", [
+						return apiResponse.successResponseWithData(res, "Citizen Cases not Found", [
 
 						]);
 				});
@@ -2592,43 +2592,98 @@ exports.updateNgoIdData= [
 		}];
 	
 
-exports.updateallIsrefer = [
-
-	(req, res) => { 
-			
-		// let id = req.params.id;
+		exports.updateIsrefer = [
 
 
-		// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
-	  
-		CitizenModel.Citizen.update({},{$set : {"isUnrefer":0}}, {upsert:false, multi:true})
-
-	  
-		  .then((note) => {
-			if (!note) {
-			  return res.status(404).send({
-				message: "data not found with id " + req.params.id,
-			  });
-			}
-			res.send(note);
-		  })
-		  .catch((err) => {
-		  
-			if (err.kind === "ObjectId") {
-			  return res.status(404).send({
-				message: "data not found with id ",
-			  });
-			}
-			return res.status(500).send({
-			  message: "Error updating note with id ",
-			});
-		  });
-		   
-	}
-
-			
-		];
+			// body("citizenId").custom((value) => {
+			// 	return CitizenModel.Citizen.findOne({ citizenId: value }).then((user) => {
+			// 		if (user) { }
+			// 		else return Promise.reject("Invalid User Selection");
+			// 	});
+			// }),
+			// body("status").isLength({ min: 1,max:1 }).trim().withMessage("Invalid Status!").isNumeric().withMessage("status 0-9"),
+			// body("pstatus").isLength({ min: 1,max:1 }).trim().withMessage("Blocked Status 0|1!").isNumeric().withMessage("isBlocked should be 0|1"),
+			// // body("isInstant").isLength({ min: 1,max:1 }).trim().withMessage("Expired Status 0|1!").isNumeric().withMessage("isExpired should be 0|1"),
+			// body("isUnrefer").isLength({ min: 1, max: 1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
 		
+			// sanitizeBody("citizenId").escape(),
+			// // sanitizeBody("status").escape(),
+			// sanitizeBody("pstatus").escape(),
+			// sanitizeBody("isInstant").escape(),
+			// sanitizeBody("isUnrefer").escape(),
+		
+			(req, res) => {
+		
+				try {
+					const errors = validationResult(req);
+					if (!errors.isEmpty()) {
+						return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+					} else {
+		
+	
+					
+		
+									CitizenModel.Citizen.findOneAndUpdate( {citizenId:req.body.citizenId},{ '$set': { 'isUnrefer': req.body.isUnrefer} }, function (ierr, iresDoc) {
+										if (ierr) {
+											return apiResponse.ErrorResponse(res, ierr);
+										}
+										else {
+											if (iresDoc) {
+		
+												return apiResponse.successResponse(res, "Updated Successfullly.");
+											}
+											else apiResponse.ErrorResponse(res, "Invalid User");
+										}
+									});
+								
+							
+					
+		
+		
+					}
+				} catch (err) {
+		
+					return apiResponse.ErrorResponse(res, "EXp:" + err);
+				}
+			}];
+		
+			exports.updateallIsrefer = [
+
+				(req, res) => { 
+						
+					// let id = req.params.id;
+			
+			
+					// const annoucement = await Announcements.updateOne(req.body, { where: { id: id }})
+				  
+					CitizenModel.Citizen.update({},{$set : {"isUnrefer":0}}, {upsert:false, multi:true})
+			
+				  
+					  .then((note) => {
+						if (!note) {
+						  return res.status(404).send({
+							message: "data not found with id " + req.params.id,
+						  });
+						}
+						res.send(note);
+					  })
+					  .catch((err) => {
+					  
+						if (err.kind === "ObjectId") {
+						  return res.status(404).send({
+							message: "data not found with id ",
+						  });
+						}
+						return res.status(500).send({
+						  message: "Error updating note with id ",
+						});
+					  });
+					   
+				}
+			
+						
+					];
+					
 
 exports.CitizenScreenerDeletedAuth = [
 	

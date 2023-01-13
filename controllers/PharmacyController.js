@@ -103,7 +103,7 @@ exports.addPharmacy = [
 									if(_ierror){ apiResponse.ErrorResponse(res, "Sorry:"+_ierror);}
 									else
 									{
-										return apiResponse.successResponseWithData(res,"Successfully Submitted");
+										return apiResponse.successResponseWithData(res,"added Pharmacy Successfully");
 									}
 								});
 						}
@@ -297,7 +297,7 @@ exports.pharmacyList=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"pharmacy List fetch successfully ", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");
 					
@@ -360,7 +360,7 @@ exports.pharmacyProfile=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"pharmacy profile fetch successfully ", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found!.");
 					

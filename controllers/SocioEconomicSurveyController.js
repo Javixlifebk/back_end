@@ -317,9 +317,9 @@ exports.SocieSurveyList=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"SocieSurvey List Fetch successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res," SocieSurvey List Not Found");
 					
 				});
 			}
