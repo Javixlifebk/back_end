@@ -125,7 +125,7 @@ exports.addFamilyHistory = [
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 						else
 						{
-								return apiResponse.successResponseWithData(res,"Successfully Submitted", recFamily);
+								return apiResponse.successResponseWithData(res,"Family Details Added Successfully Submitted", recFamily);
 						}
 					}
 					);
@@ -258,7 +258,7 @@ exports.addFamilyHistory = [
 												else if(newrecs!=null) { return apiResponse.successResponseWithData(res,"Success",newrecs);}
 												else {
 
-													return apiResponse.successResponseWithData(res,"Successfully Submitted");
+													return apiResponse.successResponseWithData(res,"Update Family Data Successfully Submitted");
 
 
 												}
@@ -370,7 +370,7 @@ exports.FamilyHistoryList=[
 
 						}
 
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Family History Fetch Successfully", users);
 						
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");

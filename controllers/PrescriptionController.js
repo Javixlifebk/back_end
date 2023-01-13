@@ -109,7 +109,7 @@ exports.addPrescription = [
 												if(_error) {return  apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 												}
 					);
-								return apiResponse.successResponseWithData(res,"Successfully Submitted");
+								return apiResponse.successResponseWithData(res,"Prescription Added Successfully Submitted");
 						}
 					}
 					);
@@ -269,9 +269,9 @@ exports.countPrescriptionDetails=[
 						
 						let user=users[0];
 						if (user) {
-								return apiResponse.successResponseWithData(res,"Found", users);
+								return apiResponse.successResponseWithData(res,"Prescription Count Get Successfuly ", users);
 						}
-						else return apiResponse.ErrorResponse(res,"Not Found");
+						else return apiResponse.ErrorResponse(res,"Prescription Count Not Found");
 						
 					});
 				}
@@ -576,9 +576,9 @@ exports.prescriptionList=[
 								users[i]=temp;
 							}
 							console.dir(users);
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Prescription List Fetch Succesfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Prescription List Not Found");
 					
 				});
 			}

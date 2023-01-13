@@ -81,7 +81,7 @@ exports.updateLoggedInScreeners = [
 						}
 						else
 						{
-								return apiResponse.successResponseWithData(res,"Successfully Submitted");
+								return apiResponse.successResponseWithData(res,"updated loggdin screener Successfully ");
 								
 						}
 					}

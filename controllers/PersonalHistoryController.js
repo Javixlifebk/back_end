@@ -114,7 +114,7 @@ exports.addPersonalHistory = [
 						if(_error){ apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 						else
 						{
-								return apiResponse.successResponseWithData(res,"Successfully Submitted", recPersonal);
+								return apiResponse.successResponseWithData(res," added PersonalHistory Successfully ", recPersonal);
 						}
 					}
 					);
@@ -345,10 +345,10 @@ exports.PersonalHistoryList=[
 
 						}
 
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"PersonalHistory List fetch successfully", users);
 						
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"PersonalHistory List Not Found");
 					
 				});
 			}

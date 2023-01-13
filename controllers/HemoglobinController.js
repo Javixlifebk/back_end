@@ -492,7 +492,7 @@ exports.HemoglobinTestAmberList=[
 				 } else {
 				   var totalPages = Math.ceil(totalCount / size)
 				   response = {
-					 message: 'data fatch successfully',
+					 message: 'Hemoglobin Amber test list fetch successfully',
 					 status: 1,
 					 pages: totalPages,
 					 total: totalCount,
@@ -620,7 +620,7 @@ exports.HemoglobinTestRedList=[
 				 } else {
 				   var totalPages = Math.ceil(totalCount / size)
 				   response = {
-					 message: 'data fatch successfully',
+					 message: 'Hemoglobin Amber test list fetch successfully ',
 					 status: 1,
 					 pages: totalPages,
 					 total: totalCount,
