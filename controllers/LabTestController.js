@@ -112,7 +112,7 @@ exports.addLabTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recLabTest);
+						return apiResponse.successResponseWithData(res, "labtest added Successfully Submitted", recLabTest);
 					}
 				}
 				);
@@ -191,10 +191,10 @@ exports.LabTestList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "lab test list fetch successfully", users);
 
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "lab test list Not Found");
 
 				});
 			}
@@ -263,7 +263,7 @@ exports.addDrugTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recDrugTest);
+						return apiResponse.successResponseWithData(res, "drug test added Successfully Submitted", recDrugTest);
 					}
 				}
 				);
@@ -323,9 +323,9 @@ exports.DrugTestList = [
 
 						}
 
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "drug test list fetch successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "drug test list Not Found");
 
 				});
 			}
@@ -388,7 +388,7 @@ exports.addLipidPanelTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recLipidPanelTest);
+						return apiResponse.successResponseWithData(res, "lipid panel Successfully Submitted", recLipidPanelTest);
 					}
 				}
 				);
@@ -441,9 +441,9 @@ exports.LipidPanelTestList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Lipid Panel Test List fetch successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, " Lipid Panel Test List Not Found");
 
 				});
 			}
@@ -566,7 +566,7 @@ exports.LipidPanelHDLGreenList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel HDL Green List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -816,7 +816,7 @@ exports.LipidPanelHDLAmberList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel HDL Amber List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -941,7 +941,7 @@ exports.LipidPanelHDLRedList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel HDL Red List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1072,7 +1072,7 @@ exports.LipidPaneltriglyGreenList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel trigly Green List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1176,7 +1176,7 @@ exports.LipidPaneltriglyLDefaultList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Lipid Panel triglyL Default List fetch successfully", users);
 					}
 					else return apiResponse.ErrorResponse(res, "Not Found");
 
@@ -1307,7 +1307,7 @@ exports.LipidPaneltriglyAmberList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel trigly Amber List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1435,7 +1435,7 @@ exports.LipidPaneltriglyRedList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel trigly Red List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1567,7 +1567,7 @@ exports.LipidPanelCholesterolGreenList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Cholesterol Green List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1802,7 +1802,7 @@ exports.LipidPanelCholesterolAmberList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Cholesterol Amber List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -1930,7 +1930,7 @@ exports.LipidPanelCholesterolRedList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Cholesterol Red List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -2060,7 +2060,7 @@ exports.LipidPanelTestldlGreenList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Test ldl Green List fetch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -2316,7 +2316,7 @@ exports.LipidPanelTestldlAmberList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Test ldl Amber List fatch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -2447,7 +2447,7 @@ exports.LipidPanelTestldlRedList = [
 							} else {
 								var totalPages = Math.ceil(totalCount / size)
 								response = {
-									message: 'data fatch successfully',
+									message: 'Lipid Panel Test ldl Red List fetch successfully',
 									status: 1,
 									pages: totalPages,
 									total: totalCount,
@@ -2541,7 +2541,7 @@ exports.addBloodGlucoseTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recBloodGlucoseTest);
+						return apiResponse.successResponseWithData(res, "BloodGlucose Added Successfully ", recBloodGlucoseTest);
 					}
 				}
 				);
@@ -2758,7 +2758,7 @@ exports.BloodGlucoseTestAmberList = [
 			  { $limit: query.limit },
 			])
 	  response = {
-		message: 'data fatch successfully',
+		message: 'BloodGlucose Test Amber List fatch successfully',
 		status: 1,
 	   pages: pageNo,
 		// total: count,
@@ -2877,7 +2877,7 @@ exports.BloodGlucoseTestGreenList = [
 			  { $limit: query.limit },
 			])
 	  response = {
-		message: 'data fatch successfully',
+		message: 'BloodGlucose Test Green List fetch successfully',
 		status: 1,
 	   pages: pageNo,
 		// total: count,
@@ -3256,7 +3256,7 @@ exports.BloodGlucoseTestRedList = [
 			  { $limit: query.limit },
 			])
 	  response = {
-		message: 'data fatch successfully',
+		message: 'BloodGlucose Test Red List fetch successfully',
 		status: 1,
 	   pages: pageNo,
 		// total: count,
@@ -3306,7 +3306,7 @@ exports.addSickleCell = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recSickleCell);
+						return apiResponse.successResponseWithData(res, "SickleCell added Successfully", recSickleCell);
 					}
 				}
 				);
@@ -3352,9 +3352,9 @@ exports.SickleCellList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "sickle list fetch successfully ", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "Sickle list Not Found");
 
 				});
 			}
@@ -3399,7 +3399,7 @@ exports.addThalassemia = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recThalassemia);
+						return apiResponse.successResponseWithData(res, "Thalassemia Successfully Submitted", recThalassemia);
 					}
 				}
 				);
@@ -3445,9 +3445,9 @@ exports.ThalassemiaList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Thalassemia List fetch successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "Thalassemia List Not Found");
 
 				});
 			}
@@ -3518,7 +3518,7 @@ exports.addLungFunctionTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recLung);
+						return apiResponse.successResponseWithData(res, "LungFunction Test Successfully Submitted", recLung);
 					}
 				}
 				);
@@ -3575,7 +3575,7 @@ exports.LungTestList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "LungTest List fetch successfully", users);
 					}
 					else return apiResponse.ErrorResponse(res, "Not Found");
 
@@ -3877,7 +3877,7 @@ exports.addUrineTest = [
 					if (_error) { apiResponse.ErrorResponse(res, "Sorry:" + _error); }
 					else {
 
-						return apiResponse.successResponseWithData(res, "Successfully Submitted", recUrineTest);
+						return apiResponse.successResponseWithData(res, "urine test Successfully Submitted", recUrineTest);
 					}
 				}
 				);
@@ -3932,9 +3932,9 @@ exports.UrineTestList = [
 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
 
 						}
-						return apiResponse.successResponseWithData(res, "Found", users);
+						return apiResponse.successResponseWithData(res, "Urine Test List fetch successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res, "Not Found");
+					else return apiResponse.ErrorResponse(res, "Urine Test List Not Found");
 
 				});
 			}

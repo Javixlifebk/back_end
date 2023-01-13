@@ -332,7 +332,7 @@ exports.updateCaseDetails = [
             } else {
               return apiResponse.successResponseWithData(
                 res,
-                "Successfully Submitted"
+                "added cases Successfully "
               );
             }
           }
@@ -673,7 +673,7 @@ exports.screeningList=[
 					  	}
 					  }
 					
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"screening List fetch successfully", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");
 					
@@ -2817,6 +2817,12 @@ exports.screeningCountperScreener = [
 exports.lipid = [
 
 	async (req, res) => {
+    try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+					
 		var lipiddata;
 		var lipidcount=0;
 		var lipidcountFinal = 0 ;
@@ -3167,6 +3173,7 @@ exports.lipid = [
 			  { $skip: query.skip },
 			  { $limit: query.limit },
 			])
+      
 	  response = {
 		message: 'data fatch successfully',
 		status: 1,
@@ -3179,6 +3186,12 @@ exports.lipid = [
 		}
 		res.json(response)
 	}
+} catch (err) {
+			
+  return apiResponse.ErrorResponse(res,"EXp:"+err);
+}
+
+}
 ];
 
 

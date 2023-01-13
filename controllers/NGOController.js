@@ -126,7 +126,7 @@ exports.addProfile = [
 									if(_ierror){ apiResponse.ErrorResponse(res, "Sorry:"+_ierror);}
 									else
 									{
-										return apiResponse.successResponseWithData(res,"Successfully Submitted");
+										return apiResponse.successResponseWithData(res,"NGO added Successfully");
 									}
 								});
 						}

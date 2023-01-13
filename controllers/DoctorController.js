@@ -463,7 +463,7 @@ exports.updateSignature = [
 												function(_error,newrecs)
 												{
 												if(_error) {return  apiResponse.ErrorResponse(res, "Sorry:"+_error);}
-												else if(newrecs!=null) { return apiResponse.successResponseWithData(res,"Success",newrecs);}
+												else if(newrecs!=null) { return apiResponse.successResponseWithData(res,"signature update Successfully",newrecs);}
 												else {
 
 													return apiResponse.successResponseWithData(res,"Successfully Submitted");
@@ -502,7 +502,7 @@ exports.doctorList=[
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 			DoctorModel.Doctor.aggregate([
-							{'$match':{'doctorId':{$ne:"-1"},ngoId:req.body.ngoId}},
+							{'$match':{ngoId:req.body.ngoId}},
 							{'$limit':100000},
 							{'$lookup': {
 								'localField':'doctorId',
@@ -525,7 +525,8 @@ exports.doctorList=[
 								'as':'doc'	
 							 }
 							},
-							{'$unwind':'$doc'},
+							// {'$unwind':'$doc'},
+							{ '$unwind':{path: '$doc' , preserveNullAndEmptyArrays: true }},
 							{'$unwind':'$info'},
 							{'$project':{
 								 
@@ -572,9 +573,9 @@ exports.doctorList=[
 							users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
 							users[i].info.dateOfBirth=utility.toDDmmyy(users[i].info.dateOfBirth);
 						}
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Doctors List Found", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Doctors List Not Found");
 					
 				});
 			}
@@ -663,9 +664,9 @@ exports.doctorById=[
 							users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
 							users[i].info.dateOfBirth=utility.toDDmmyy(users[i].info.dateOfBirth);
 						}
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Doctor Get Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Doctor Not Found");
 					
 				});
 			}
@@ -736,9 +737,9 @@ exports.doctorListById=[
 					let user=users[0];
 					if (user) {
 						
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Doctors Get Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Doctors Not Found");
 					
 				});
 			}
@@ -818,9 +819,9 @@ exports.doctorMapped=[
 							users[i].info.dateOfOnBoarding=utility.toDDmmyy(users[i].info.dateOfOnBoarding);
 							users[i].info.dateOfBirth=utility.toDDmmyy(users[i].info.dateOfBirth);
 						}
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Doctors Get Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Doctors Not Found");
 					
 				});
 			}
@@ -1009,9 +1010,9 @@ exports.getDoctorScheduleList=[
 					  	
 					  }
 					
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Doctors Schedule Get Successfully", users);
 					}
-					else return apiResponse.ErrorResponse(res,"Not Found");
+					else return apiResponse.ErrorResponse(res,"Doctors Schedule Not Found");
 					
 				});
 			}
@@ -1399,7 +1400,7 @@ exports.doctorUnMappedList=[
 									let user=users[0];
 									if (user) {
 										
-											return apiResponse.successResponseWithData(res,"Found", users);
+											return apiResponse.successResponseWithData(res,"Doctors MApped  Successfully", users);
 									}
 									else return apiResponse.ErrorResponse(res,"Not Found");
 									
