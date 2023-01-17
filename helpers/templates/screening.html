@@ -256,6 +256,7 @@
 			</td>
 
 		</tr>
+		{{#if this.notes }}
 		<tr>
 			<td>
 				<div class='lxlabel'>Notes</div>
@@ -264,6 +265,7 @@
 			</td>
 
 		</tr>
+		{{/if}}
 	</table>
 	<div class="pagebreak"></div>
 
@@ -303,6 +305,7 @@
 				<div class='lxSize gray' id="reyetest">{{this.reyetest}}</div>
 			</td>
 		</tr>
+		{{#if this.notes }}
 		<tr>
 			<td>
 				<div class='lxlabel'>Notes</div>
@@ -312,6 +315,7 @@
 			</td>
 
 		</tr>
+		{{/if}}
 		<tr> </tr>
 		{{/each}}
 
@@ -331,6 +335,7 @@
 				<div class='lxSize gray' id="lhb">{{this.hemoglobin}}</div>
 			</td>
 		</tr>
+		{{#if this.notes }}
 		<tr>
 			<td>
 				<div class='lxlabel'>Notes</div>
@@ -340,6 +345,7 @@
 			</td>
 
 		</tr>
+		{{/if}}
 
 		<!-- <td><div></div></td> -->
 		</tr>
@@ -593,6 +599,7 @@
 				<div class='lxSize gray' name="ltest">{{this.SickleCell}}</div>
 			</td>
 		</tr>
+		{{#if this.notes }}
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Notes </div>
@@ -601,6 +608,7 @@
 				<div class='lxSize gray'>{{this.notes}}</div>
 			</td>
 		</tr>
+		{{/if}}	
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Test Date </div>
@@ -630,6 +638,7 @@
 				<div class='lxSize gray' name="ltest">{{this.Thalassemia}}</div>
 			</td>
 		</tr>
+		{{#if this.notes }}
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Notes </div>
@@ -638,6 +647,7 @@
 				<div class='lxSize gray'>{{this.notes}}</div>
 			</td>
 		</tr>
+		{{/if}}	
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Test Date </div>
@@ -732,13 +742,14 @@
 				<div class='lxSize gray'>{{this.fvc1_predicted_percent}}</div>
 			</td>
 		</tr>
-
+		{{#if this.notes }}
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Notes</div>
 			</td>
 			<td colspan="2"><span class='lxSize gray'>{{this.notes}}</span></td>
 		</tr>
+		{{/if}}	
 
 	</table>
 	{{/each}}
@@ -777,229 +788,7 @@
 
 
 
-	<!-- {{#each this.labs.breasttest}}
-	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
-		<tr>
-			<td colspan="4">
-				<h3 align="center">Breast I Test</h3>
-			</td>
-
-		</tr>
-
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Lumps Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray' name="ltest">{{this.lumps_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Lumps Right Cyclic </div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.lumps_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Lumps Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.lumps_left_breast}}</div>
-			</td>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Lumps Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.lumps_left_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Discharge Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_discharge_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Discharge Right Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_discharge_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Discharge Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_discharge_left_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Discharge Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_discharge_left_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Skin Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_skin_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Skin Right Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_skin_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Skin Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_skin_left_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Nipple Skin Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.niple_skin_left_cyclic}}</div>
-			</td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Swelling Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.swelling_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Swelling Right Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.swelling_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Swelling Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.swelling_left_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Swelling Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.swelling_left_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Rush Scaling Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.rush_scaling_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Rush Scaling Right Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.rush_scaling_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Rush Scaling Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.rush_scaling_left_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Rush Scaling Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.rush_scaling_left_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Breast Pain Right Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.breastPain_right_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Breast Pain Right Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.breastPain_right_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Breast Pain Left Breast</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.breastPain_left_breast}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Breast Pain Left Cyclic</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.breastPain_left_cyclic}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Note Breast Right</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.note_breast_right}}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class='lxlabel'>Note Breast Left</div>
-			</td>
-			<td colspan="2">
-				<div class='lxSize gray'>{{this.note_breast_left}}</div>
-			</td>
-		</tr>
-		</tr>
-		<tr> </tr>
-	</table>
-	{{/each}} -->
-
-
+	
 
 	{{#each this.labs.breasttest}}
 	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
@@ -1152,15 +941,20 @@
 	
 	<div>
 		<span>
+			{{#if this.note_breast_right }}
 			<span class='lxlabel'><b>Notes Right : </b></span>
 			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_right}}</span></span>
+
+			{{/if}}		
 		</span>
 		
 	</div>
 	<div>
 		<span>
+			{{#if this.note_breast_left }}
 			<span class='lxlabel'><b>Notes Left : </b></span>
 			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_left}}</span></span>
+			{{/if}}	
 		</span>
 	</div>
 	{{/each}}
