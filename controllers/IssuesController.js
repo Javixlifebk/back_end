@@ -61,7 +61,7 @@ exports.issueAdd = [
 								issue: req.body.issue
 
 							};
-							return apiResponse.successResponseWithData(res,"Success.", issueData);
+							return apiResponse.successResponseWithData(res,"issue Added Successfully.", issueData);
 					});
 				
 			}
@@ -71,7 +71,7 @@ exports.issueAdd = [
 		}
 	}];
 exports.issuesByUser = [
-	body("userId").isLength({ min: 1 }).trim().withMessage("User Id must be specified.").custom((value) => {
+	body("userId").isLength({ min: 1 }).trim().withMessage("Issue User Id must be specified.").custom((value) => {
 			return UserModel.findOne({userId : value}).then((user) => {
 				if (user) {}
 					else {return Promise.reject("Invalid user id");}
@@ -106,10 +106,10 @@ exports.issuesByUser = [
             }
 							output[i]=temp;
 						}
-								return apiResponse.successResponseWithData(res,"found",output);
+								return apiResponse.successResponseWithData(res,"Issue fetch successfully",output);
 								
 					}else{
-						return apiResponse.unauthorizedResponse(res, "Specified User Id not found.");
+						return apiResponse.unauthorizedResponse(res, "Specified Issue User Id not found.");
 					}
 				});
 			}
@@ -160,10 +160,10 @@ exports.issuesAll = [
 							output[i]=temp;
 						}
 						
-								return apiResponse.successResponseWithData(res,"found",output);
+								return apiResponse.successResponseWithData(res,"Issue List Fetch successfully",output);
 								
 					}else{
-						return apiResponse.unauthorizedResponse(res, "Specified User Id not found.");
+						return apiResponse.unauthorizedResponse(res, "Specified Issue User Id not found.");
 					}
 				});
 			}
@@ -202,7 +202,7 @@ exports.issuesAll = [
 												else if(newrecs!=null) { return apiResponse.successResponseWithData(res,"Success",newrecs);}
 												else {
 
-													return apiResponse.successResponseWithData(res,"Successfully Submitted");
+													return apiResponse.successResponseWithData(res,"Issue Updated Successfully Submitted");
 
 
 												}

@@ -9,6 +9,7 @@ var apiResponse = require("./helpers/apiResponse");
 var cors = require("cors");
 const multer = require('multer');
 const config = require('./config');
+const bodyParser = require('body-parser');
 
 //Test changes 
 
@@ -69,11 +70,15 @@ if(process.env.NODE_ENV !== "test") {
 	app.use(logger("dev"));
 }
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '100mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json())
 
 app.use(cookieParser());
 app.use('/profile',express.static('./uploads/images'));
+app.use('/videos',express.static('./uploads/videos17012023'));
 app.use('/documents',express.static('./uploads/documents'));
 app.use('/apps',express.static('./uploads/apps'));
 app.use('/reports',express.static('./uploads/'));
