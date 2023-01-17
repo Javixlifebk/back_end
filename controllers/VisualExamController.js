@@ -66,25 +66,35 @@ exports.addVisualExam = [
 				// const myArray = test.split(";");
 				// let myExtensionData  = myArray[0].replace(/data:video/,"");
 				// let myExtensionDataFinal  = myExtensionData.replace("/","");
-				let visual_exam_file = '';
+				let visual_exam_file1 = '';
+				let visual_exam_file2 = '';
 						  
-				console.log(req.body.visual_exam_file);
+				console.log(req.body.visual_exam_file1 );
 				
-				if(req.body.visual_exam_file) {
+				if(req.body.visual_exam_file1 && req.body.visual_exam_file2) {
 			
 
-					let test = req.body.visual_exam_file;
+					let test = req.body.visual_exam_file1;
+					let test2 = req.body.visual_exam_file2;
 					const myArray = test.split(";");
 					let myExtensionData  = myArray[0].replace(/data:video/,"");
 					let myExtensionDataFinal  = myExtensionData.replace("/","");
-					req.body.visual_exam_file = req.body.visual_exam_file.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
-					extension = req.body.visual_exam_file.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
-					req.body.visual_exam_file = req.body.visual_exam_file.replace(/ /g, '+'); // <--- this is important
-					visual_exam_file =  req.body.caseId+'.'+myExtensionDataFinal;
-					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file, req.body.visual_exam_file, 'base64', function(err) {
+					req.body.visual_exam_file1 = req.body.visual_exam_file1.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					extension = req.body.visual_exam_file1.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					req.body.visual_exam_file1 = req.body.visual_exam_file1.replace(/ /g, '+'); // <--- this is important
+					visual_exam_file1 =  req.body.caseId+'_1'+'.'+myExtensionDataFinal;
+					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file1, req.body.visual_exam_file1, 'base64', function(err) {
+						console.log(err);
+					});
+					req.body.visual_exam_file2= req.body.visual_exam_file2.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					extension = req.body.visual_exam_file2.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					req.body.visual_exam_file2 = req.body.visual_exam_file2.replace(/ /g, '+'); // <--- this is important
+					visual_exam_file2 =  req.body.caseId+'_2'+'.'+myExtensionDataFinal;
+					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file2, req.body.visual_exam_file2, 'base64', function(err) {
 						console.log(err);
 					});
 				} 
+				
 			
 					
 					var images=req.body.image.split(",");
@@ -96,10 +106,13 @@ exports.addVisualExam = [
 						image=element;
 						if(image!=null && image!=undefined && image!=''){
 						
-							console.log("vsfile",visual_exam_file);
+							console.log("vsfile",visual_exam_file1);
+							console.log("vsfile2",visual_exam_file2);
 	
 									var recVisualExam={
-										    visual_exam_file: visual_exam_file,
+										    visual_exam_file1: visual_exam_file1,
+											visual_exam_file2: visual_exam_file2,
+
 											screenerId:req.body.screenerId,
 											citizenId:req.body.citizenId,
 											notes: req.body.notes,
@@ -203,7 +216,8 @@ exports.VisualExamList=[
 								 'info.bloodGroup':1,
 								 'info.country':1,
 								 'info.state':1,
-								 'visual_exam_file': {$concat: ["http://",req.headers.host,'/videos/',"$visual_exam_file"]},
+								 'visual_exam_file1': {$concat: ["http://",req.headers.host,'/videos/',"$visual_exam_file1"]},
+								 'visual_exam_file2': {$concat: ["http://",req.headers.host,'/videos/',"$visual_exam_file2"]},
 								 'info.district':1,
 								 'info.address':1,
 								 'info.pincode':1,

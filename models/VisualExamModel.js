@@ -7,7 +7,8 @@ var VisualExamsSchema = new mongoose.Schema({
 	// video: {
 	// 	type:String
 	// 	},
-	visual_exam_file:{type:String},
+	visual_exam_file1:{type:String},
+	visual_exam_file2:{type:String},
 	image: {type: String, required: true},
 	ngoId :{type:String,required:false},
 	notes: {type: String, required: false},
