@@ -83,6 +83,7 @@ exports.addPrescription = [
 							route:req.body.route,
 							cause:req.body.cause,
 							ngoId:req.body.ngoId,
+							isUnrefer:2,
 
 					};
 					var actionPrescription=new PrescriptionModel.Prescription(recPrescription);
@@ -465,6 +466,7 @@ exports.prescriptionList=[
 								'recordId':1,
 								'doctorId':1,
 								'ngoId':1,
+								'isUnrefer':1,
 								'status':1,
 								'screenerId':1,
 								'comments':1,

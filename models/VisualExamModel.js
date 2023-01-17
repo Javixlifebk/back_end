@@ -4,6 +4,10 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 var VisualExamsSchema = new mongoose.Schema({
 	caseId: {type: String, required: true},
+	// video: {
+	// 	type:String
+	// 	},
+	visual_exam_file:{type:String},
 	image: {type: String, required: true},
 	ngoId :{type:String,required:false},
 	notes: {type: String, required: false},
