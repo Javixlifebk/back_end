@@ -12,6 +12,20 @@ const mailer = require("../helpers/mailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
+const multer = require('multer')
+const express = require('express');
+const app = express();
+// const port = 3000;
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const mime = require('mime');
+app.use(bodyParser.json({limit: '100mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }));
+const filename = `video.mp4`;
+// global.__basedir = __dirname;
+// const multer = require('multer')
+const path = require('path')
 
 exports.addVisualExam = [
     
@@ -41,14 +55,37 @@ exports.addVisualExam = [
 	//sanitizeBody("image").escape(),
 	sanitizeBody("caseId").escape(),
 	
-	(req, res) => { 
+	async(req, res) => { 
 			
 		try {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-				  
+				// let test = req.body.base64;
+				// const myArray = test.split(";");
+				// let myExtensionData  = myArray[0].replace(/data:video/,"");
+				// let myExtensionDataFinal  = myExtensionData.replace("/","");
+				let visual_exam_file = '';
+						  
+				console.log(req.body.visual_exam_file);
+				
+				if(req.body.visual_exam_file) {
+			
+
+					let test = req.body.visual_exam_file;
+					const myArray = test.split(";");
+					let myExtensionData  = myArray[0].replace(/data:video/,"");
+					let myExtensionDataFinal  = myExtensionData.replace("/","");
+					req.body.visual_exam_file = req.body.visual_exam_file.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					extension = req.body.visual_exam_file.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
+					req.body.visual_exam_file = req.body.visual_exam_file.replace(/ /g, '+'); // <--- this is important
+					visual_exam_file =  req.body.caseId+'.'+myExtensionDataFinal;
+					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file, req.body.visual_exam_file, 'base64', function(err) {
+						console.log(err);
+					});
+				} 
+			
 					
 					var images=req.body.image.split(",");
 					if(images===null ) {return apiResponse.ErrorResponse(res, "No Image");}
@@ -58,39 +95,46 @@ exports.addVisualExam = [
 					images.forEach(element=>{
 						image=element;
 						if(image!=null && image!=undefined && image!=''){
-										
+						
+							console.log("vsfile",visual_exam_file);
+	
 									var recVisualExam={
+										    visual_exam_file: visual_exam_file,
 											screenerId:req.body.screenerId,
 											citizenId:req.body.citizenId,
 											notes: req.body.notes,
+											// video: req.file.filename,
 											image: image,
 											caseId:req.body.caseId,
 											ngoId:req.body.ngoId,
 									};
+								
 
 									var actionVisualExam=new VisualExamModel.VisualExam(recVisualExam);
+									console.log(actionVisualExam);
 									actionVisualExam.save(function(_error)
 									{
 										if(_error){ return apiResponse.ErrorResponse(res, "Sorry:"+_error);}
 										else
 										{		
-												totalCount--;
-												if(totalCount===0)
-												{
+												// totalCount--;
+												// if(totalCount===0)
+												// {
 													return apiResponse.successResponseWithData(res,"added Visual Exam Successfully");
-												}
-												//return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
+												// }
+												// return apiResponse.successResponseWithData(res,"Successfully Submitted", recVisualExam);
 										}
 									}
 									);
+									console.log(actionVisualExam,"======");
 								}
-								else{
-									totalCount--;
-									if(totalCount===0)
-												{
-													return apiResponse.successResponseWithData(res,"Successfully Submitted");
-												}
-								}
+								// else{
+								// 	totalCount--;
+								// 	if(totalCount===0)
+								// 				{
+								// 					return apiResponse.successResponseWithData(res,"Successfully Submitted");
+								// 				}
+								// }
 					});
 					
 					
@@ -159,6 +203,7 @@ exports.VisualExamList=[
 								 'info.bloodGroup':1,
 								 'info.country':1,
 								 'info.state':1,
+								 'visual_exam_file': {$concat: ["http://",req.headers.host,'/videos/',"$visual_exam_file"]},
 								 'info.district':1,
 								 'info.address':1,
 								 'info.pincode':1,
@@ -173,7 +218,7 @@ exports.VisualExamList=[
 					
 					let user=users[0];
 					if (user) {
-							return apiResponse.successResponseWithData(res,"Found", users);
+							return apiResponse.successResponseWithData(res,"Visual Exam List Found", users);
 					}
 					else return apiResponse.ErrorResponse(res,"Not Found");
 					
@@ -186,3 +231,29 @@ exports.VisualExamList=[
 	}
 
 ];
+
+// 8. Upload Image Controller
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads/videos17012023')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
+
+exports.upload = multer({
+    storage: storage,
+    limits: { fileSize: '1000000' },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /mp4/
+        const mimeType = fileTypes.test(file.mimetype)  
+        const extname = fileTypes.test(path.extname(file.originalname))
+
+        if(mimeType && extname) {
+            return cb(null, true)
+        }
+        cb('Give proper files formate to upload')
+    }
+}).single('video')

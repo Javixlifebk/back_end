@@ -8,6 +8,7 @@ var PrescriptionSchema = new mongoose.Schema({
 	doctorId: {type: String, required: false},
 	caseId: {type: String, required: true},
     ngoId :{type:String,required:false},
+    isUnrefer :{type:Number,required:true,default:2},
 	citizenId: {type: String, required: true},
 	screenerId: {type: String, required: true},
 	recordId: {type: String, required: false},

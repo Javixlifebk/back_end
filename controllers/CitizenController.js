@@ -834,6 +834,147 @@ exports.citizenRefersCount = [
 
 ];
 
+// exports.CitizenPrescribe = [
+// 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
+// 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
+// 	// sanitizeBody("isUnrefer").escape(),
+// 	(req, res) => {
+
+// 		try {
+// 			const errors = validationResult(req);
+// 			if (!errors.isEmpty()) {
+// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 			} else {
+
+// 				CitizenModel.Citizen.aggregate([
+// 					{ '$match': { 'isUnrefer': 2 ,'ngoId':req.body.ngoId} },//isunrefer status 2 showing in prscribe
+
+// 					{ '$sort': { 'createdAt': -1 } },
+// 					{ '$limit': 1000 },
+// 					{
+// 						'$lookup': {
+// 							'localField': 'citizenId',
+// 							'from': 'citizendetails',
+// 							'foreignField': 'citizenId',
+// 							'as': 'info'
+// 						}
+// 					},
+// 					{
+// 						'$lookup': {
+// 							'localField': 'citizenId',
+// 							'from': 'screeningcases',
+// 							'foreignField': 'citizenId',
+// 							'as': 'cases'
+// 						}
+// 					},
+					
+// 					{
+// 						'$lookup': {
+// 							'localField': 'screenerId',
+// 							'from': 'screeners',
+// 							'foreignField': 'screenerId',
+// 							'as': 'screeners'
+// 						}
+// 					},
+// 					{ '$unwind': '$info' },
+// 					{ '$unwind': '$screeners' },
+// 					{
+// 						'$project': {
+// 							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
+// 							'screenerId': 1,
+// 							//  'caseId':'$cases.caseId',
+// 							//  'caseStatus':'$cases.status',
+// 							'javixId': 1,
+// 							'isUnrefer': 1,
+// 							'sex': 1,
+// 							'screenerfullname': { $concat: ["$screeners.firstName", " ", "$screeners.lastName"] },
+// 							'mobile': { $ifNull: ["$mobile", "Unspecified"] },
+// 							'email': 1,
+// 							'pstatus': 1,
+// 							'isInstant': 1,
+// 							'citizenId': 1,
+// 							'javixId': 1,
+							
+// 							'ngoId':1,
+// 							'aadhaar': 1,
+// 							'raadhaar': 1,
+// 							'citizenLoginId': 1,
+// 							'createdAt': 1,
+// 							'cases': 1,
+// 							// 					 {
+// 							//     					'$filter' : {
+// 							//         'input': '$cases',
+// 							//         'as' : 'cases_field',
+// 							//          'cond': { '$and': [
+// 							//             {'$eq': ['$$cases_field.status',1]}
+// 							//         ]}
+// 							//     }
+// 							// },
+// 							'info.dateOfBirth': 1,
+// 							'info.dateOfOnBoarding': 1,
+// 							'info.bloodGroup': 1,
+// 							'info.country': 1,
+// 							'info.state': 1,
+// 							'info.district': 1,
+// 							'info.address': 1,
+// 							'info.pincode': 1,
+// 							'info.rating': 1,
+// 							'info.geolocations': 1,
+// 							'info.photo': 1,
+// 							'screener.firstName': 1,
+// 							'screener.lastName': 1,
+
+
+// 						}
+// 					}
+// 				]
+// 				).then(users => {
+
+// 					let user = users[0];
+
+// 					for (var i = 0; i < users.length; i++) {
+// 						if (users[i].cases.length > 0)
+// 							users[i].cases = users[i].cases[users[i].cases.length - 1];
+// 						//console.dir(users[i]);
+// 					}
+
+// 					if (user) {
+// 						for (i = 0; i < users.length; i++) {
+// 							let temp = users[i];
+// 							var ddate = "";
+// 							users[i].info.dateOfOnBoarding = utility.toDDmmyy(users[i].info.dateOfOnBoarding);
+// 							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+// 							//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
+
+// 							if (temp.info.dateOfBirth != null && temp.info.dateOfBirth != undefined && temp.info.dateOfBirth != "") {
+
+// 								ddate = temp.info.dateOfBirth.toISOString().split('T')[0];
+// 								console.log(ddate);
+// 								var qdate = new Date(ddate);
+// 								//console.log(qdate);
+// 								temp.info.dateOfBirth = qdate.getDate() + "-" + (qdate.getMonth() + 1) + "-" + (qdate.getYear() + 1900);
+// 								console.log(temp.info.dateOfBirth);
+// 								users[i] = temp;
+// 							}
+// 							else {
+// 								temp.info.dateOfBirth = ddate;
+// 								users[i] = temp;
+// 							}
+// 						}
+// 						return apiResponse.successResponseWithData(res, "Prescribed Citizen List Fetch Successfully", users);
+// 					}
+// 					else return apiResponse.ErrorResponse(res, "Prescribed Citizen List Not Found");
+
+// 				});
+// 			}
+// 		} catch (err) {
+
+// 			return apiResponse.ErrorResponse(res, "EXp:" + err);
+// 		}
+// 	}
+
+// ];
+
 exports.CitizenPrescribe = [
 	body("token").isLength({ min: 3 }).trim().withMessage("Invalid Token!"),
 	// body("isUnrefer").isLength({ min: 1,max:1 }).trim().withMessage("nActive Status 0|1!").isNumeric().withMessage("isUnActive should be 0|1"),
