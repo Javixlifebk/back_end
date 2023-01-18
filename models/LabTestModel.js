@@ -79,10 +79,10 @@ BloodGlucoseTestSchema.pre("save", function () {
 	  (this.bloodglucose >= 30 && this.bloodglucose <= 69)) &&
         this.type === "Pre Exercise") ||
       (((this.bloodglucose >= 181 && this.bloodglucose <= 700) ||
-	  (this.bloodglucose >= 30 && this.bloodglucose < 69)) &&
+	  (this.bloodglucose >= 30 && this.bloodglucose <= 69)) &&
         this.type === "Post Exercise") ||
-      (((this.bloodglucose > 201 && this.bloodglucose < 700) ||
-	  (this.bloodglucose > 30 && this.bloodglucose < 59)) &&
+      (((this.bloodglucose >= 201 && this.bloodglucose <= 700) ||
+	  (this.bloodglucose >= 30 && this.bloodglucose <= 59)) &&
         this.type === "Non-Fasting(Random)")
 	// 	 ||
     //   this.bloodglucose > 200 ||

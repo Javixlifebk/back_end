@@ -82,15 +82,15 @@ exports.addVisualExam = [
 					req.body.visual_exam_file1 = req.body.visual_exam_file1.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
 					extension = req.body.visual_exam_file1.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
 					req.body.visual_exam_file1 = req.body.visual_exam_file1.replace(/ /g, '+'); // <--- this is important
-					visual_exam_file1 =  req.body.caseId+'_1'+'.'+myExtensionDataFinal;
-					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file1, req.body.visual_exam_file1, 'base64', function(err) {
+					visual_exam_file_name_1 =  req.body.caseId+'_1'+'.'+myExtensionDataFinal;
+					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file_name_1, req.body.visual_exam_file1, 'base64', function(err) {
 						console.log(err);
 					});
 					req.body.visual_exam_file2= req.body.visual_exam_file2.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
 					extension = req.body.visual_exam_file2.replace(/^data:(.*?);base64,/, ""); // <--- make it any type
 					req.body.visual_exam_file2 = req.body.visual_exam_file2.replace(/ /g, '+'); // <--- this is important
-					visual_exam_file2 =  req.body.caseId+'_2'+'.'+myExtensionDataFinal;
-					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file2, req.body.visual_exam_file2, 'base64', function(err) {
+					visual_exam_file_name_2 =  req.body.caseId+'_2'+'.'+myExtensionDataFinal;
+					 fs.writeFile('./uploads/videos17012023/'+visual_exam_file_name_2, req.body.visual_exam_file2, 'base64', function(err) {
 						console.log(err);
 					});
 				} 
@@ -106,12 +106,12 @@ exports.addVisualExam = [
 						image=element;
 						if(image!=null && image!=undefined && image!=''){
 						
-							console.log("vsfile",visual_exam_file1);
-							console.log("vsfile2",visual_exam_file2);
+							console.log("vsfile",visual_exam_file_name_1);
+							console.log("vsfile2",visual_exam_file_name_2);
 	
 									var recVisualExam={
-										    visual_exam_file1: visual_exam_file1,
-											visual_exam_file2: visual_exam_file2,
+										    visual_exam_file1: visual_exam_file_name_1,
+											visual_exam_file2: visual_exam_file_name_2,
 
 											screenerId:req.body.screenerId,
 											citizenId:req.body.citizenId,
