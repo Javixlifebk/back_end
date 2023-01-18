@@ -357,13 +357,13 @@
 		{{#each this.labs.visual}}
 
 		<tr>
-			<td colspan="4">
+			<td colspan="5">
 				<h4 align="center">Visual Exam</h4>
 			</td>
 
 		</tr>
 		<tr>
-			<td colspan="4" align="center"><a href={{this.image}}>
+			<td colspan="5" align="center"><a href={{this.image}}>
 					<image src={{this.image}} height="500px" width="500px" onerror="this.onerror=null; this.remove();">
 					</image>
 				</a>
@@ -376,7 +376,25 @@
 			<td>
 				<div class='lxSize gray' id="leye"><a href={{this.image}}>URL</a></div>
 			</td>
+			<td>
+				<div class='lxlabel'>Url of the Videos</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.visual_exam_file1}}>URL</a></div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.visual_exam_file2}}>URL</a></div>
+			</td>
 		</tr>
+
+		<!-- <tr>
+			<td>
+				<div class='lxlabel'>Url of the Vi</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.image}}>URL</a></div>
+			</td>
+		</tr> -->
 		<!-- <tr>
 				<td><div class='lxlabel'>Notes</div> </td><td><div class='lxSize gray' id="leye">{{this.notes}}</div></td>
 			</tr> -->
