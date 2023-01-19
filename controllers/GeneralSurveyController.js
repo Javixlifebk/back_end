@@ -941,6 +941,100 @@ exports.GeneralSurveyList = [
 //   },
 // ];
 
+exports.tmp_out0Count = [
+  async (req, res) => {
+    var screenercount=0;
+    var screenercountFinal = 0 ;
+    screenercount =  await ScreeningCaseModel.ScreeningCase.aggregate([
+   
+      {
+        $lookup: {
+          localField: "screenerId",
+          from: "screeners",
+          foreignField: "screenerId",
+          as: "screeners",
+        },
+      },
+      {
+        $project: {
+          issubscreener: '$screeners.issubscreener',
+          'isdeleted':1,
+          "ngoId":1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        }},
+      {$match:{'issubscreener':0,'isdeleted':false,'ngoId':req.body.ngoId}},
+      // {$match:},
+  
+      { $group: { _id: null, count: { $sum: 1 } } }
+      
+      ]).then((users) => {
+        let user = users[0];
+        if (user) {
+          return apiResponse.successResponseWithData(res, "screening screener count  successfully", users );
+        }
+      });
+  
+      // screenercountFinal = screenercount[0].count;
+      //   console.log(screenercountFinal);
+      //   response = {
+      //     message: 'screening screener count successfully',
+      //     status: 1,
+          
+      //     total:screenercountFinal,
+        
+          
+      //     }
+      //     res.json(response)
+    
+
+  }
+]
+
+exports.tmp_out1Count = [
+  async (req, res) => {
+     await ScreeningCaseModel.ScreeningCase.aggregate([
+   
+      {
+        $lookup: {
+          localField: "screenerId",
+          from: "screeners",
+          foreignField: "screenerId",
+          as: "screeners",
+        },
+      },
+      {
+        $project: {
+          issubscreener: '$screeners.issubscreener',
+          'isdeleted':1,
+          "ngoId":1                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        }},
+      {$match:{'issubscreener':1,'isdeleted':false,'ngoId':req.body.ngoId}},
+      // {$match:},
+  
+      { $group: { _id: null, count: { $sum: 1 } } }
+      
+      ]).then((users) => {
+        let user = users[0];
+        if (user) {
+          return apiResponse.successResponseWithData(res, "screening sevika  successfully", users );
+        }
+      });
+  
+    
+        // response = {
+        //   message: 'screening screener count successfully',
+        //   status: 1,
+          
+        //   total:screenercount,
+        
+          
+        //   }
+        //   res.json(response)
+    
+
+  }
+]
+
+
 exports.tmp_out0List = [
 
 	async (req, res) => {
