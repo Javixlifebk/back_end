@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"javix.roledetails"},{"v":2,"unique":true,"key":{"roleId":1},"name":"roleId_1","background":true,"ns":"javix.roledetails"}]}
