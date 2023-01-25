@@ -111,25 +111,29 @@ const createCitizencsv = async (req, res) => {
         let csv;
         csv = json2csv(citizen, { fields });
 
-        const filePath = path.join(
-          __dirname,
-          "..",
-          "public",
-          "exports",
-          +"dailyCitizens" + ".csv"
-        );
+        // const filePath = path.join(
+        //   __dirname,
+        //   "..",
+        //   "public",
+        //   "exports",
+        //   +"dailyCitizens" + ".csv"
+        // );
+        const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"dailyCitizens"+".csv")
+
         console.log("+++++", citizen);
         fs.writeFile(filePath, csv, function (err) {
           if (err) {
             return res.json(err).status(500);
           }
-          return res.json(
-            req.protocol +
-              "://" +
-              req.get("host") +
-              "/exports/" +
-              "dailyCitizens" +
-              ".csv"
+          return res.json( req.protocol + '://' + req.get('host')+"/exports/csv-" +"dailyCitizens"+ ".csv"
+
+          // return res.json(
+          //   req.protocol +
+          //     "://" +
+          //     req.get("host") +
+          //     "/exports/" +
+          //     "dailyCitizens" +
+          //     ".csv"
           );
         });
       }
@@ -161,26 +165,30 @@ const createWeeklyCitizencsv = async (req, res) => {
 
         let csv;
         csv = json2csv(citizen, { fields });
+        const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"weeklyCitizens"+".csv")
 
-        const filePath = path.join(
-          __dirname,
-          "..",
-          "public",
-          "exports",
-          +"weeklyCitizens" + ".csv"
-        );
+
+        // const filePath = path.join(
+        //   __dirname,
+        //   "..",
+        //   "public",
+        //   "exports",
+        //   +"weeklyCitizens" + ".csv"
+        // );
         console.log("+++++", citizen);
         fs.writeFile(filePath, csv, function (err) {
           if (err) {
             return res.json(err).status(500);
           }
-          return res.json(
-            req.protocol +
-              "://" +
-              req.get("host") +
-              "/exports/" +
-              "weeklyCitizens" +
-              ".csv"
+          return res.json( req.protocol + '://' + req.get('host')+"/exports/csv-" +"weeklyCitizens"+ ".csv"
+
+          // return res.json(
+          //   req.protocol +
+          //     "://" +
+          //     req.get("host") +
+          //     "/exports/" +
+          //     "weeklyCitizens" +
+          //     ".csv"
           );
         });
       }
@@ -207,25 +215,29 @@ const createCitizenDetailcsv = async (req, res) => {
         let csv;
         csv = json2csv(citizendetails, { fieldsCitizendetails });
 
-        const filePath = path.join(
-          __dirname,
-          "..",
-          "public",
-          "exports",
-          +"dailyCitizenDetails" + ".csv"
-        );
+        // const filePath = path.join(
+        //   __dirname,
+        //   "..",
+        //   "public",
+        //   "exports",
+        //   +"dailyCitizenDetails" + ".csv"
+        // );
+        const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"dailyCitizenDetails"+".csv")
+
         console.log("+++++", citizendetails);
         fs.writeFile(filePath, csv, function (err) {
           if (err) {
             return res.json(err).status(500);
           }
-          return res.json(
-            req.protocol +
-              "://" +
-              req.get("host") +
-              "/exports/" +
-              "dailyCitizenDetails" +
-              ".csv"
+          return res.json( req.protocol + '://' + req.get('host')+"/exports/csv-" +"dailyCitizenDetails"+ ".csv"
+
+          // return res.json(
+          //   req.protocol +
+          //     "://" +
+          //     req.get("host") +
+          //     "/exports/" +
+          //     "dailyCitizenDetails" +
+          //     ".csv"
           );
         });
       }
@@ -252,26 +264,29 @@ const createCitizenDetailcsv = async (req, res) => {
 
         let csv;
         csv = json2csv(citizendetails, { fieldsCitizendetails });
+        const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"weeklyCitizenDetails"+".csv")
 
-        const filePath = path.join(
-          __dirname,
-          "..",
-          "public",
-          "exports",
-          +"weeklyCitizenDetails" + ".csv"
-        );
+        // const filePath = path.join(
+        //   __dirname,
+        //   "..",
+        //   "public",
+        //   "exports",
+        //   +"weeklyCitizenDetails" + ".csv"
+        // );
         console.log("+++++", citizendetails);
         fs.writeFile(filePath, csv, function (err) {
           if (err) {
             return res.json(err).status(500);
           }
-          return res.json(
-            req.protocol +
-              "://" +
-              req.get("host") +
-              "/exports/" +
-              "weeklyCitizenDetails" +
-              ".csv"
+          return res.json( req.protocol + '://' + req.get('host')+"/exports/csv-" +"weeklyCitizenDetails"+ ".csv"
+
+          // return res.json(
+          //   req.protocol +
+          //     "://" +
+          //     req.get("host") +
+          //     "/exports/" +
+          //     "weeklyCitizenDetails" +
+          //     ".csv"
           );
         });
       }
@@ -380,16 +395,21 @@ const createScreeningScreenerCasecsv = async (req, res) => {
         console.log("+++++", screeningcases);
         let csv;
         csv = json2csv(screeningcases, { fieldsscreeningcase });
-
+        
         const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"screeningScreener"+".csv")
+
+        // const filePath = path.join(__dirname,".." ,"public", "exports", "csv-"+"screeningScreener"+".csv")
         console.log("+++++", screeningcases);
         fs.writeFile(filePath, csv, function (err) {
           if (err) {
             return res.json(err).status(500);
           }
-          return res.json(req.protocol + '://' + req.get('host')+"/exports/csv-" +"screeningScreener"+ ".csv"
+          // return res.json(req.protocol + '://' + req.get('host')+"/exports/csv-"+"screeningScreener"+".csv"
            
+          // );
+           return res.json( req.protocol + '://' + req.get('host')+"/exports/csv-" +"screeningScreener"+ ".csv"
           );
+         
         });
       }
     } catch (err) {
