@@ -48,7 +48,7 @@ exports.ngoList=[
 								 'info.isDefault':1,
 								 'info.rating':1,
 								//  'info.ngoRegistrationNo':1,
-								 'ngoRegistrationNo': {$concat: ["'",'info.ngoRegistrationNo',"'"]},
+								 'ngoRegistrationNo': {$concat: ["'",'$info.ngoRegistrationNo',"'"]},
 								 'info.country':1,
 								 'info.state':1,
 								 'info.district':1,
