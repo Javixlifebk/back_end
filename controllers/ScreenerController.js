@@ -17,43 +17,50 @@ exports.addProfile = [
 	body("firstName").isLength({ min: 3 }).trim().withMessage("Enter First Name!"),
 	body("lastName").isLength({ min: 3 }).trim().withMessage("Enter Last Name!"),
 	body("sex").isLength({ min: 3 }).trim().withMessage("Enter Sex!"),
-	body("mobileNo")
-					.custom((value) => {
+	// body("mobileNo")
+	// 				.custom((value) => {
 						
-						if(value!=null && value!="" && value!=undefined){
-						if(value.length!=10 || value[0]==='0' || isNaN(value)){
-						return Promise.reject("Mobile no. should have 10 digits with no preceeding zero!");
-					}
-				}
+	// 					if(value!=null && value!="" && value!=undefined){
+	// 					if(value.length!=10 || value[0]==='0' || isNaN(value)){
+	// 					return Promise.reject("Mobile no. should have 10 digits with no preceeding zero!");
+	// 				}
+	// 			}
 			
-			// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
-			// 	if(value!=null && value!="" && value!=undefined){
+	// 		// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
+	// 		// 	if(value!=null && value!="" && value!=undefined){
 					
-			// 	if (user) {
-			// 		return Promise.reject("Mobile No already in use");
-			// 	}
-			// }
-			// });
-		}),
+	// 		// 	if (user) {
+	// 		// 		return Promise.reject("Mobile No already in use");
+	// 		// 	}
+	// 		// }
+	// 		// });
+	// 	}),
 
-	body("mobileNo1")
-					.custom((value) => {
+	// body("mobileNo1")
+	// 				.custom((value) => {
 						
-						if(value!=null && value!="" && value!=undefined){
-						if(value.length!=10 || value[0]==='0' || isNaN(value)){
-						return Promise.reject("Mobile no 1. should have 10 digits with no preceeding zero!");
-					}
-				}
+	// 					if(value!=null && value!="" && value!=undefined){
+	// 					if(value.length!=10 || value[0]==='0' || isNaN(value)){
+	// 					return Promise.reject("Mobile no 1. should have 10 digits with no preceeding zero!");
+	// 				}
+	// 			}
 			
-			// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
-			// 	if(value!=null && value!="" && value!=undefined){
+	// 		// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
+	// 		// 	if(value!=null && value!="" && value!=undefined){
 					
-			// 	if (user) {
-			// 		return Promise.reject("Mobile No 1 already in use");
-			// 	}
-			// }
-			// });
-		}),
+	// 		// 	if (user) {
+	// 		// 		return Promise.reject("Mobile No 1 already in use");
+	// 		// 	}
+	// 		// }
+	// 		// });
+	// 	}),
+
+	body("mobileNo").isLength({ min: 10,max:10 }).trim().withMessage("Mobile no can't be empty!")
+					.isNumeric().withMessage("Mobile no must be 10 digits!"),
+
+	// body("mobileNo1").isLength({ min: 10,max:10 }).trim().withMessage("Mobile no can't be empty!")
+	// 				.isNumeric().withMessage("Mobile no must be 10 digits!"),
+
 	body("email").isLength({ min: 3 }).trim().withMessage("Enter email")
 				  .isEmail().withMessage("Email must be a valid email address.").custom((value) => {
 			return ScreenerModel.Screener.findOne({email : value}).then((user) => {
