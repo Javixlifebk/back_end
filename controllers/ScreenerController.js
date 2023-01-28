@@ -26,14 +26,14 @@ exports.addProfile = [
 					}
 				}
 			
-			return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
-				if(value!=null && value!="" && value!=undefined){
+			// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
+			// 	if(value!=null && value!="" && value!=undefined){
 					
-				if (user) {
-					return Promise.reject("Mobile No already in use");
-				}
-			}
-			});
+			// 	if (user) {
+			// 		return Promise.reject("Mobile No already in use");
+			// 	}
+			// }
+			// });
 		}),
 
 	body("mobileNo1")
@@ -45,14 +45,14 @@ exports.addProfile = [
 					}
 				}
 			
-			return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
-				if(value!=null && value!="" && value!=undefined){
+			// return ScreenerModel.Screener.findOne({'$or':[{mobile : value},{mobile1 : value}]}).then((user) => {
+			// 	if(value!=null && value!="" && value!=undefined){
 					
-				if (user) {
-					return Promise.reject("Mobile No 1 already in use");
-				}
-			}
-			});
+			// 	if (user) {
+			// 		return Promise.reject("Mobile No 1 already in use");
+			// 	}
+			// }
+			// });
 		}),
 	body("email").isLength({ min: 3 }).trim().withMessage("Enter email")
 				  .isEmail().withMessage("Email must be a valid email address.").custom((value) => {
