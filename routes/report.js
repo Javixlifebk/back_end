@@ -30,5 +30,11 @@ routerGraph.post("/createTempGreencsv", csvController.module.createTempGreencsv)
 routerGraph.post("/createTempRedcsv", csvController.module.createTempRedcsv);
 routerGraph.post("/createWeeklyCitizencsv", csvController.module.createWeeklyCitizencsv);
 routerGraph.post("/weeklyCitizenDetailcsv", csvController.module.weeklyCitizenDetailcsv);
+routerGraph.post("/lipidCriticalCitizensDetailcsv", csvController.module.lipidCriticalCitizensDetailcsv);
+routerGraph.post("/unscreenedCitizenDetailcsv", csvController.module.unscreenedCitizenDetailcsv);
+routerGraph.post("/generalSurveyCSV", csvController.module.generalSurveyCSV);
+routerGraph.post("/healthSurveyCSV", csvController.module.healthSurveyCSV);
+routerGraph.post("/socioEconomicSurveyCSV", csvController.module.socioEconomicSurveyCSV);
+
 
 module.exports = routerGraph;
