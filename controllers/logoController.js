@@ -30,7 +30,7 @@ const addLogos = async (req, res) => {
       const bannerImage = req.files['client_logo'][0].filename;  
       dataObj.client_logo = bannerImage; 
     }
-    // 'http://18.60.238.252:3010/profile/'+req.file.filename
+    // 'https://javixlife.org:3010/profile/'+req.file.filename
 //     let imgArr = [];
 //     req.files.forEach(element => {
 //      imgArr[element.fieldname] = element.path;
