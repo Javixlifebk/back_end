@@ -151,7 +151,7 @@ app.post('/upload/profile', (req, res) => {
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,
-		'profile-url':'http://127.0.0.1:3010/profile/'+req.file.filename
+		'profile-url':'http://18.60.238.252:3010/profile/'+req.file.filename
 		})
     }else{
     	res.json({

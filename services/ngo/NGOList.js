@@ -58,7 +58,7 @@ exports.ngoList=[
 								 
 								 logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.image"]},
 								 client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]},
-                                //  http://127.0.0.1:3010/profile/
+                                //  http://18.60.238.252:3010/profile/
 								 
 								}
 							}
