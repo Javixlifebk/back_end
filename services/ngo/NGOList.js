@@ -58,7 +58,7 @@ exports.ngoList=[
 								 
 								 logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.image"]},
 								 client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]},
-                                //  https://javixlife.org:3010/profile/
+                                //  http://127.0.0.1:3010/profile/
 								 
 								}
 							}
