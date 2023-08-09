@@ -1369,7 +1369,7 @@ exports.createMedicalHistoryReport = [
 					  	tempdrugs['createdAt']=utility.toDDmmyy(history.Drugs[0]['createdAt'].split('T')[0]);
 					  	history.Drugs=tempdrugs;
 					  }
-						console.dir("history test");						 
+						console.log("history test");						 
 						console.dir(history);						 
 					  	var document = {
 					    html: html,
