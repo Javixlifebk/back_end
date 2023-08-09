@@ -1400,7 +1400,7 @@ exports.createMedicalHistoryReport = [
 
 					  	pdf.create(document, options)
 					    .then(val => {
-					        // console.log("Response is : -   "+val.filename);
+					        console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
 					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
 					        
