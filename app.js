@@ -10,6 +10,132 @@ var cors = require("cors");
 const multer = require('multer');
 const config = require('./config');
 const bodyParser = require('body-parser');
+var app = express();
+
+
+//All below code is new for AWS
+
+const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const fs = require('fs')
+
+
+// Configure AWS SDK
+const s3Client = new S3Client({
+	region: config.region,
+	credentials: {
+		accessKeyId: config.accessKeyId,
+		secretAccessKey: config.secretAccessKey,
+	},
+});
+
+
+
+//For uploading documents on AWS
+
+const aws_documents_storage = multer.memoryStorage();
+
+const upload_documents_on_AWS = multer({ storage: aws_documents_storage })
+
+// Define a route for handling file uploads
+app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), async (req, res) => {
+	try {
+		const file = req.file;
+
+		// Read the file content from the buffer
+		const fileContent = file.buffer;
+
+		const folderPath = 'userDocuments/ecgTest/';
+
+		const uploadParams = {
+			Bucket: "javixtest",
+			Key: folderPath + file.originalname,
+			Body: fileContent,
+		};
+
+		const command = new PutObjectCommand(uploadParams);
+		await s3Client.send(command);
+
+		res.send('Image uploaded successfully');
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('An error occurred during image upload');
+	}
+});
+
+
+// Define a route for fetching all documents from S3
+app.get('/findDocuments', async (req, res) => {
+	try {
+		const bucketName = 'javixtest';
+
+		const listObjectsParams = {
+			Bucket: bucketName,
+			Prefix: 'userDocuments/ecgTest/',
+		};
+
+		const command = new ListObjectsCommand(listObjectsParams);
+		const response = await s3Client.send(command);
+
+		const documents = response.Contents;
+
+		// Respond with the list of documents
+		res.status(200).send(documents);
+	} catch (error) {
+		console.error('Error fetching documents from S3:', error);
+		res.status(500).json({ error: 'An error occurred while fetching documents from S3' });
+	}
+});
+
+
+
+// Define a route for fetching a single document from S3
+app.get('/findDocument/:filename', async (req, res) => {
+	try {
+		const bucketName = 'javixtest';
+
+		const listObjectsParams = {
+			Bucket: bucketName,
+			Prefix: 'userDocuments/ecgTest/' + req.params.filename,
+		};
+
+		const command = new ListObjectsCommand(listObjectsParams);
+		const response = await s3Client.send(command);
+
+		const documents = response.Contents;
+
+		// Respond with the list of documents
+		res.status(200).send(documents);
+	} catch (error) {
+		console.error('Error fetching documents from S3:', error);
+		res.status(500).json({ error: 'An error occurred while fetching documents from S3' });
+	}
+});
+
+// Define a route for downloading a file from S3
+app.get('/download/:filename', async (req, res) => {
+	try {
+		const bucketName = 'javixtest';
+		const filePath = 'userDocuments/ecgTest/' + req.params.filename; // The file path within the bucket
+
+		const downloadParams = {
+			Bucket: bucketName,
+			Key: filePath,
+		};
+
+		const command = new GetObjectCommand(downloadParams);
+		const response = await s3Client.send(command);
+
+		response.Body.pipe(res);
+
+		res.setHeader('Content-Disposition', `attachment; filename="${req.params.filename}"`);
+		res.setHeader('Content-Type', response.ContentType);
+	} catch (error) {
+		console.error('Error downloading file from S3:', error);
+		res.status(500).json({ error: 'An error occurred while downloading the file from S3' });
+	}
+});
+
+//All above code is new for AWS
 
 //Test changes 
 
@@ -62,7 +188,7 @@ const upload1 = multer({
 mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false});
 var db = mongoose.connection;
 
-var app = express();
+
 app.use(cors());
 
 //don't show the log when it is test

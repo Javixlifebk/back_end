@@ -1759,7 +1759,11 @@ exports.citizenById = [
 							'info.geolocations': 1,
 							'info.photo': 1,
 							'cases.caseId': 1,
-							'cases.status': 1
+							'cases.status': 1,
+
+							// New AWS Code for ECG
+							'cases.height': 1,
+							'cases.weight': 1
 
 						}
 					}

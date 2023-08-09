@@ -9,6 +9,7 @@
     "lint": "eslint --fix --config .eslintrc.json \"**/*.js\""
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.196.0",
     "bcrypt": "^5.0.1",
     "codacy-coverage": "^3.4.0",
     "cookie-parser": "~1.4.3",
