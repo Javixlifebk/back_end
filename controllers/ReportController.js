@@ -1156,7 +1156,9 @@ exports.createMedicalHistoryReport = [
 					   { citizenId: citizenId,
 						ngoId: ngoId
 					   } };
-
+console.log('=============http://18.60.238.252:3010/api/citizen/getHistoryMedical===================');
+console.log(citizenId);
+console.log(options1);
 					   var options2 = { method: 'POST',
 					  url: 'http://18.60.238.252:3010/api/citizen/getHistoryWomen',
 					  headers: 
