@@ -1375,7 +1375,7 @@ exports.createMedicalHistoryReport = [
 					    data: {
 					        history: history
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "../uploads/"+Date.now()+".pdf"
 					};
 					
 
