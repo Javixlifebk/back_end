@@ -998,13 +998,14 @@ exports.createCaseReport = [
 													{ return("<span class='red'>__________</span>");}
 												    else return("<span class='red'>"+this.bpsys+"</span>");
 												 }
-						console.dir(users[0].labs);						 
+						console.dir(users[0].labs);		
+						let file_name_satish = caseId;				 
 					  	var document = {
 					    html: html,
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: process.cwd()+"\\uploads\\"+file_name_satish+".pdf"
 					};
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
@@ -1035,25 +1036,19 @@ exports.createCaseReport = [
 
 					    	// console.log("I am inside pdf create");
 					        var temp = val.filename.split("/");
-					        var filename="./uploads/"+temp[temp.length-1];
+					        var filename= process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
 					        console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
-							//   console.dir(global_labs.heart);
-							 // for(var i=0;i<global_labs.heart.length;i++){
-
-							  	//var temp1 = global_labs.heart[i].url.split("/");
-					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
-							  	//merger.add(filename1); 
-							 // }
-							  var filename2="./uploads/documents/DISCLAIMER.pdf";
+						
+							  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
 							  merger.add(filename2); 
-							  var file="./uploads/"+Date.now()+".pdf";
+							  var file=process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
-					        	val.filename="http://18.60.238.252:3010/reports/"+temp1[temp1.length-1];
+					        	val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
