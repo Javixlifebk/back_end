@@ -1050,7 +1050,7 @@ exports.createCaseReport = [
 					        // 	var temp1 = file.split("/");
 					        // 	val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
 					        // 	return apiResponse.successResponseWithData(res,"Success",val);
-							})();
+							// })();
 					        
 					        
 					        
