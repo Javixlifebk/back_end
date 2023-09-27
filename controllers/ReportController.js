@@ -1030,27 +1030,27 @@ exports.createCaseReport = [
 					};
 						  
 						//   console.log("inhere");
-						console.log("Before pdf create");
+						
 					  	pdf.create(document, options)
 					    .then(val => {
 
-					    	// // console.log("I am inside pdf create");
-					        // var temp = val.filename.split("/");
-					        // var filename= process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
-					        // console.log(filename);
-					    	// (async () => {
-					    	// var merger = new PDFMerger();
-							//   merger.add(filename); 
+					    	// console.log("I am inside pdf create");
+					        var temp = val.filename.split("/");
+					        var filename= process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
+					        console.log(filename);
+					    	(async () => {
+					    	var merger = new PDFMerger();
+							  merger.add(filename); 
 						
-							//   var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
-							//   merger.add(filename2); 
-							//   var file=process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
-							//   await merger.save(file);
-							//   console.log("after merge pdf create");
-					        // 	var temp1 = file.split("/");
-					        // 	val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
-					        // 	return apiResponse.successResponseWithData(res,"Success",val);
-							// })();
+							  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
+							  merger.add(filename2); 
+							  var file=process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
+							  await merger.save(file);
+
+					        	var temp1 = file.split("/");
+					        	val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
+					        	return apiResponse.successResponseWithData(res,"Success",val);
+							})();
 					        
 					        
 					        
