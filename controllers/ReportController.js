@@ -20,6 +20,7 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+const { Console } = require("console");
 // const { Logo } = require("../models/logoModel");
 // const Logo = db.Logo
 var users;
@@ -1030,7 +1031,7 @@ exports.createCaseReport = [
 					};
 						  
 						//   console.log("inhere");
-						
+						try {
 					  	pdf.create(document, options)
 					    .then(val => {
 
@@ -1059,6 +1060,9 @@ exports.createCaseReport = [
 					    .catch(error => {
 					        return apiResponse.ErrorResponse(res, error);
 					    });
+					} catch (error) {
+						console.log("errorerror in pdf file",error);
+					}
 					  }
 					});
 
