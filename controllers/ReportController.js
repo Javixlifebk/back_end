@@ -591,7 +591,7 @@ if(req.body.roleId==='6'){
 
 
 exports.createCaseReport = [
-    	
+	
 	body("caseId").isLength({ min: 1 }).trim().withMessage("Enter Case ID !"),	
 
 	sanitizeBody("caseId").escape(),
@@ -612,277 +612,277 @@ exports.createCaseReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/screening/getCaseDetails',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,
-						ngoId: ngoId
-					   } };
-
-					   //LaBtESTS
-
-
-
-					   var options1 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getHemoglobinList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options2 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getEyeTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options3 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getVisualExamList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options4 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getBloodGlucoseTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options5 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLipidPanelTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options6 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getDrugTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options7 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLabTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:token,
-						ngoId: ngoId
-					   } };
-
-					   var options8 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getSickleCell',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,
-						ngoId: ngoId
-					   } };
-
-					   var options9 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getThalassemia',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,
-						ngoId: ngoId
-					   } };
-
-					   var options10 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLungTest',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,
-						ngoId: ngoId
-					   } };
-
-					   var options11 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getHeartTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:'adsdasdadasda',
-					   ngoId: ngoId
-					   } };
-
-					   var options12 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getUrineTestList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:'adsdasdadasda',
-					   ngoId: ngoId
-					   } };
-
-					   var options13 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/screening/SymptomsList',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { caseId: caseId,token:'adsdasdadasda',
-					   ngoId: ngoId
-					   } };
-					   var options14 = { method: 'POST',
-					   url: 'http://3.111.147.53:3010/api/test/getByCaseId',
-					   headers: 
+						url: 'http://3.111.147.53:3010/api/screening/getCaseDetails',
+						headers: 
 						{ 'content-type': 'application/x-www-form-urlencoded' },
-					   form: 
+						form: 
+						{ caseId: caseId,
+						ngoId: ngoId
+						} };
+
+						//LaBtESTS
+
+
+
+						var options1 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getHemoglobinList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options2 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getEyeTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options3 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getVisualExamList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options4 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getBloodGlucoseTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options5 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getLipidPanelTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options6 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getDrugTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options7 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getLabTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:token,
+						ngoId: ngoId
+						} };
+
+						var options8 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getSickleCell',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,
+						ngoId: ngoId
+						} };
+
+						var options9 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getThalassemia',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,
+						ngoId: ngoId
+						} };
+
+						var options10 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getLungTest',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,
+						ngoId: ngoId
+						} };
+
+						var options11 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getHeartTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:'adsdasdadasda',
+						ngoId: ngoId
+						} };
+
+						var options12 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/labtest/getUrineTestList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:'adsdasdadasda',
+						ngoId: ngoId
+						} };
+
+						var options13 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/screening/SymptomsList',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ caseId: caseId,token:'adsdasdadasda',
+						ngoId: ngoId
+						} };
+						var options14 = { method: 'POST',
+						url: 'http://3.111.147.53:3010/api/test/getByCaseId',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
 						{ caseId: caseId,
 						ngoId: ngoId
 						} };
 
 
-					   //eND lAB tESTS
+						//eND lAB tESTS
 
 
-					   var labs={'hemo':"",
-					  				'eye':"",
-					  				'visual':"",
-					  				'glucose':"",
-					  				'lipid':"",
-					  				'lung':"",
-					  				'heart':"",
-					  				'sickle':"",
-					  				'thalassemia':"",
-					  				'drug':"",
-					  				'rapid':"",
-					  				'symptoms':"",
-					  				'urine':"",
-								       "breasttest":""};
-					   request( options1, function (error1, response1, body1) {
-					  		if (error1) return apiResponse.ErrorResponse(res, error1);
-					  			status1=JSON.parse(body1).status;
-					  			if(status1==1){
-					  				labs.hemo=JSON.parse(body1).data.data;
-					  			}
-					  		request(options2, function (error2, response2, body2) {
-					  		if (error2) return apiResponse.ErrorResponse(res, error2);
-					  			status2=JSON.parse(body2).status;
-					  			if(status2==1){
-					  				labs.eye=JSON.parse(body2).data.data;
-					  				}
-							 request(options14, function (error2, response2, body2) {
+						var labs={'hemo':"",
+										'eye':"",
+										'visual':"",
+										'glucose':"",
+										'lipid':"",
+										'lung':"",
+										'heart':"",
+										'sickle':"",
+										'thalassemia':"",
+										'drug':"",
+										'rapid':"",
+										'symptoms':"",
+										'urine':"",
+										"breasttest":""};
+						request( options1, function (error1, response1, body1) {
+								if (error1) return apiResponse.ErrorResponse(res, error1);
+									status1=JSON.parse(body1).status;
+									if(status1===1){
+										labs.hemo=JSON.parse(body1).data.data;
+									}
+								request(options2, function (error2, response2, body2) {
+								if (error2) return apiResponse.ErrorResponse(res, error2);
+									status2=JSON.parse(body2).status;
+									if(status2===1){
+										labs.eye=JSON.parse(body2).data.data;
+										}
+								request(options14, function (error2, response2, body2) {
 									if (error2) return apiResponse.ErrorResponse(res, error2);
 										status2=JSON.parse(body2).status;
-										if(status2==1){
+										if(status2===1){
 										labs.breasttest=JSON.parse(body2).data.data;
 
 										console.log(labs.breasttest);
 												}
-					  				request(options3, function (error3, response3, body3) {
-					  		if (error3) return apiResponse.ErrorResponse(res, error3);
-					  			status3=JSON.parse(body3).status;
-					  			if(status3==1){
-					  				labs.visual=JSON.parse(body3).data.data;
-					  				}
-					  				request(options4, function (error4, response4, body4) {
-					  		if (error4) return apiResponse.ErrorResponse(res, error4);
-					  			status4=JSON.parse(body4).status;
-					  			if(status4==1){
-					  				labs.glucose=JSON.parse(body4).data.data;
-					  			}
-					  			request(options5, function (error5, response5, body5) {
-					  		if (error5) return apiResponse.ErrorResponse(res, error5);
-					  			status5=JSON.parse(body5).status;
-					  			if(status5==1){
-					  				labs.lipid=JSON.parse(body5).data.data;	
-					  			}
+										request(options3, function (error3, response3, body3) {
+								if (error3) return apiResponse.ErrorResponse(res, error3);
+									status3=JSON.parse(body3).status;
+									if(status3===1){
+										labs.visual=JSON.parse(body3).data.data;
+										}
+										request(options4, function (error4, response4, body4) {
+								if (error4) return apiResponse.ErrorResponse(res, error4);
+									status4=JSON.parse(body4).status;
+									if(status4===1){
+										labs.glucose=JSON.parse(body4).data.data;
+									}
+									request(options5, function (error5, response5, body5) {
+								if (error5) return apiResponse.ErrorResponse(res, error5);
+									status5=JSON.parse(body5).status;
+									if(status5===1){
+										labs.lipid=JSON.parse(body5).data.data;	
+									}
 
-					  			request(options8, function (error8, response8, body8) {
-					  		if (error8) return apiResponse.ErrorResponse(res, error8);
-					  			status8=JSON.parse(body8).status;
-					  			if(status8==1){
-					  				labs.sickle=JSON.parse(body8).data.data;
-					  				for(var i=0;i<labs.sickle.length;i++){
-					  				labs.sickle[i]['SickleCell']= mapOfTests[labs.sickle[i]['SickleCell']];
-					  				labs.sickle[i]['createdAt']= utility.toDDmmyy(labs.sickle[i]['createdAt']);
+									request(options8, function (error8, response8, body8) {
+								if (error8) return apiResponse.ErrorResponse(res, error8);
+									status8=JSON.parse(body8).status;
+									if(status8===1){
+										labs.sickle=JSON.parse(body8).data.data;
+										for(var i=0;i<labs.sickle.length;i++){
+										labs.sickle[i]['SickleCell']= mapOfTests[labs.sickle[i]['SickleCell']];
+										labs.sickle[i]['createdAt']= utility.toDDmmyy(labs.sickle[i]['createdAt']);
 
-					  			}
-					  				}
-					  				request(options9, function (error9, response9, body9) {
-					  		if (error9) return apiResponse.ErrorResponse(res, error9);
-					  			status9=JSON.parse(body9).status;
-					  			if(status9==1){
-					  				labs.thalassemia=JSON.parse(body9).data.data;
-					  				for(var i=0;i<labs.thalassemia.length;i++){
-					  				labs.thalassemia[i]['Thalassemia']= mapOfTests[labs.thalassemia[i]['Thalassemia']];
-					  				labs.thalassemia[i]['createdAt']= utility.toDDmmyy(labs.thalassemia[i]['createdAt']);
+									}
+										}
+										request(options9, function (error9, response9, body9) {
+								if (error9) return apiResponse.ErrorResponse(res, error9);
+									status9=JSON.parse(body9).status;
+									if(status9===1){
+										labs.thalassemia=JSON.parse(body9).data.data;
+										for(var i=0;i<labs.thalassemia.length;i++){
+										labs.thalassemia[i]['Thalassemia']= mapOfTests[labs.thalassemia[i]['Thalassemia']];
+										labs.thalassemia[i]['createdAt']= utility.toDDmmyy(labs.thalassemia[i]['createdAt']);
 
-					  			}
-					  			}
-					  			request(options10, function (error10, response10, body10) {
-					  		if (error10) return apiResponse.ErrorResponse(res, error10);
-					  			status10=JSON.parse(body10).status;
-					  			if(status10==1){
-					  				labs.lung=JSON.parse(body10).data.data;	
-					  				for(var i=0;i<labs.lung.length;i++){
-					  				labs.lung[i]['createdAt']= utility.toDDmmyy(labs.lung[i]['createdAt']);
+									}
+									}
+									request(options10, function (error10, response10, body10) {
+								if (error10) return apiResponse.ErrorResponse(res, error10);
+									status10=JSON.parse(body10).status;
+									if(status10===1){
+										labs.lung=JSON.parse(body10).data.data;	
+										for(var i=0;i<labs.lung.length;i++){
+										labs.lung[i]['createdAt']= utility.toDDmmyy(labs.lung[i]['createdAt']);
 
-					  			}
-					  			}
+									}
+									}
 
-					  			request(options11, function (error11, response11, body11) {
-					  		if (error11) return apiResponse.ErrorResponse(res, error11);
-					  			status11=JSON.parse(body11).status;
-					  			if(status11==1){
-					  				labs.heart=JSON.parse(body11).data.data;	
-					  				for(var i=0;i<labs.heart.length;i++){
-					  				labs.heart[i]['createdAt']= utility.toDDmmyy(labs.heart[i]['createdAt']);
+									request(options11, function (error11, response11, body11) {
+								if (error11) return apiResponse.ErrorResponse(res, error11);
+									status11=JSON.parse(body11).status;
+									if(status11===1){
+										labs.heart=JSON.parse(body11).data.data;	
+										for(var i=0;i<labs.heart.length;i++){
+										labs.heart[i]['createdAt']= utility.toDDmmyy(labs.heart[i]['createdAt']);
 
-					  			}
-					  			}
+									}
+									}
 
-					  			request(options12, function (error12, response12, body12) {
-					  		if (error12) return apiResponse.ErrorResponse(res, error12);
-					  			status12=JSON.parse(body12).status;
-					  			if(status12==1){
-					  				labs.urine=JSON.parse(body12).data.data;	
-					  				for(var i=0;i<labs.urine.length;i++){
-					  				labs.urine[i]['description']=urineDescription;
-					  				labs.urine[i]['createdAt']= utility.toDDmmyy(labs.urine[i]['createdAt']);
+									request(options12, function (error12, response12, body12) {
+								if (error12) return apiResponse.ErrorResponse(res, error12);
+									status12=JSON.parse(body12).status;
+									if(status12===1){
+										labs.urine=JSON.parse(body12).data.data;	
+										for(var i=0;i<labs.urine.length;i++){
+										labs.urine[i]['description']=urineDescription;
+										labs.urine[i]['createdAt']= utility.toDDmmyy(labs.urine[i]['createdAt']);
 
-					  			}
-					  			}
+									}
+									}
 
-					  			request(options13, function (error13, response13, body13) {
-					  		if (error13) return apiResponse.ErrorResponse(res, error13);
-					  			status13=JSON.parse(body13).status;
-					  			if(status13==1){
-					  				labs.symptoms=JSON.parse(body13).data.data;	
-					  				console.dir(labs.symptoms);
-					  				for(var i=0;i<labs.symptoms.length;i++){
-					  					// console.log("Val");
-					  					 //console.dir(labs.symptoms[0]['data']);
-					  				labs.symptoms[i].data=JSON.parse(labs.symptoms[i]['data']);
-					  				console.dir(labs.symptoms);
-					  				labs.symptoms[i]['createdAt']= utility.toDDmmyy(labs.symptoms[i]['createdAt']);
+									request(options13, function (error13, response13, body13) {
+								if (error13) return apiResponse.ErrorResponse(res, error13);
+									status13=JSON.parse(body13).status;
+									if(status13===1){
+										labs.symptoms=JSON.parse(body13).data.data;	
+										console.dir(labs.symptoms);
+										for(var i=0;i<labs.symptoms.length;i++){
+											// console.log("Val");
+											//console.dir(labs.symptoms[0]['data']);
+										labs.symptoms[i].data=JSON.parse(labs.symptoms[i]['data']);
+										console.dir(labs.symptoms);
+										labs.symptoms[i]['createdAt']= utility.toDDmmyy(labs.symptoms[i]['createdAt']);
 
-					  			}
-					  			}
+									}
+									}
 
-					  			request(options6, function (error6, response6, body6) {
-					  		if (error6) return apiResponse.ErrorResponse(res, error6);
-					  			status6=JSON.parse(body6).status;
-					  			if(status6==1){
-					  				labs.drug=JSON.parse(body6).data.data;
+									request(options6, function (error6, response6, body6) {
+								if (error6) return apiResponse.ErrorResponse(res, error6);
+									status6=JSON.parse(body6).status;
+									if(status6===1){
+										labs.drug=JSON.parse(body6).data.data;
 
 									for(var i=0;i<labs.drug.length;i++){
 									labs.drug[i]['Amphetamine']= mapOfTests[labs.drug[i]['Amphetamine']];
@@ -900,15 +900,15 @@ exports.createCaseReport = [
 									labs.drug[i]['Propoxyphene']= mapOfTests[labs.drug[i]['Propoxyphene']];
 									labs.drug[i]['TricyclicAntidepressant']= mapOfTests[labs.drug[i]['TricyclicAntidepressant']];
 									}
-					  			}
-					  			console.dir(labs.lipid);
-					  			
-					  			request(options7, function (error7, response7, body7) {
-					  		if (error7) return apiResponse.ErrorResponse(res, error7);
-					  			status7=JSON.parse(body7).status;
-					  			if(status7==1){
-					  				labs.rapid=JSON.parse(body7).data.data;
-					  				for(var i=0;i<labs.rapid.length;i++){
+									}
+									console.dir(labs.lipid);
+									
+									request(options7, function (error7, response7, body7) {
+								if (error7) return apiResponse.ErrorResponse(res, error7);
+									status7=JSON.parse(body7).status;
+									if(status7===1){
+										labs.rapid=JSON.parse(body7).data.data;
+										for(var i=0;i<labs.rapid.length;i++){
 									labs.rapid[i]['ChagasAb']= mapOfTests[labs.rapid[i]['ChagasAb']];
 									labs.rapid[i]['Chikungunya']= mapOfTests[labs.rapid[i]['Chikungunya']];
 									labs.rapid[i]['Chlamydia']= mapOfTests[labs.rapid[i]['Chlamydia']];
@@ -945,44 +945,44 @@ exports.createCaseReport = [
 									labs.rapid[i]['YellowFever']= mapOfTests[labs.rapid[i]['YellowFever']];
 									labs.rapid[i]['Others']= mapOfTests[labs.rapid[i]['Others']];
 									}
-					  			}
-					  			
-					  			request(options, function (error, response, body) {
-					  if (error) return apiResponse.ErrorResponse(res, error);
-					  //console.log(JSON.parse(body).status);
-					  status=JSON.parse(body).status;
-					  if(status==1){
-					  	users=JSON.parse(body).data.data;
+									}
+									
+									request(options, function (error, response, body) {
+						if (error) return apiResponse.ErrorResponse(res, error);
+						//console.log(JSON.parse(body).status);
+						status=JSON.parse(body).status;
+						if(status===1){
+							users=JSON.parse(body).data.data;
 						console.log("users",users)
-					  	var cdob="";
-					  	if(users[0].citizendetails[0].dateOfBirth!=null && users[0].citizendetails[0].dateOfBirth!=undefined && users[0].citizendetails[0].dateOfBirth!=""){
-					  		cdob=users[0].citizendetails[0].dateOfBirth.split('T')[0];
-					  		var bdate=new Date(cdob);
-					  		users[0].citizendetails[0].dob=bdate.getDate()+"-"+(bdate.getMonth()+1)+"-"+(bdate.getYear()+1900);
-					  	}
-					  	else{
-					  		users[0].citizendetails[0].dob=cdob;
-					  	}
+							var cdob="";
+							if(users[0].citizendetails[0].dateOfBirth!=null && users[0].citizendetails[0].dateOfBirth!=undefined && users[0].citizendetails[0].dateOfBirth!=""){
+								cdob=users[0].citizendetails[0].dateOfBirth.split('T')[0];
+								var bdate=new Date(cdob);
+								users[0].citizendetails[0].dob=bdate.getDate()+"-"+(bdate.getMonth()+1)+"-"+(bdate.getYear()+1900);
+							}
+							else{
+								users[0].citizendetails[0].dob=cdob;
+							}
 
-					  	if(users[0].notes==null || users[0].notes==undefined || users[0].notes==""){
-					  		users[0].notes="N/A";
-					  	}
-					  	if(users[0].arm==null || users[0].arm==undefined || users[0].arm==""){
-					  		users[0].arm="N/A";
-					  	}
-					  	
-					  	
-					  	
-					  	// var cdate="";
-					  	// console.log(users[0].createdAt);
-					  	// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
-					  	// 	cdate=users[0].createdAt.toISOString().split('T')[0];
-					  	// 	var adate=new Date(cdate);
-					  	// 	users[0].createdAt=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
-					  	// }
-					  	// else{
-					  	// 	users[0].createdAt=cdate;
-					  	// }
+							if(users[0].notes===null || users[0].notes===undefined || users[0].notes===""){
+								users[0].notes="N/A";
+							}
+							if(users[0].arm===null || users[0].arm===undefined || users[0].arm===""){
+								users[0].arm="N/A";
+							}
+							
+							
+							
+							// var cdate="";
+							// console.log(users[0].createdAt);
+							// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
+							// 	cdate=users[0].createdAt.toISOString().split('T')[0];
+							// 	var adate=new Date(cdate);
+							// 	users[0].createdAt=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
+							// }
+							// else{
+							// 	users[0].createdAt=cdate;
+							// }
 						
 						//console.log("DOB="+users[0].citizendetails[0].dob);
 						//console.log("Cdate="+users[0].createdAt);
@@ -992,106 +992,106 @@ exports.createCaseReport = [
 													{ return("<span class='green'>__________</span>");}
 													else if(this.bpsys>=120 && this.bpsys<=160)
 													{ return("<span class='yellow'>__________</span>");}
-												    else if(this.bpsys>=160 && this.bpsys<=180)
+													else if(this.bpsys>=160 && this.bpsys<=180)
 													{ return("<span class='orange'>__________</span>");}
 													else if (this.bpsys>=180)
 													{ return("<span class='red'>__________</span>");}
-												    else return("<span class='red'>"+this.bpsys+"</span>");
-												 }
+													else return("<span class='red'>"+this.bpsys+"</span>");
+													}
 						console.dir(users[0].labs);		
 						let file_name_satish = caseId;				 
-					  	var document = {
-					    html: html,
-					    data: {
-					        users: users
-					    },
-					    path: process.cwd()+"\\uploads\\"+file_name_satish+".pdf"
+							var document = {
+						html: html,
+						data: {
+							users: users
+						},
+						path: process.cwd()+"\\uploads\\"+file_name_satish+".pdf"
 					};
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
-                   
-				   var options = {
+					
+					var options = {
 						phantomPath: binPath,
-					        format: "A3",
-					        orientation: "portrait",
-					        border: "10mm"
-					        // header: {
-					        //     height: "15mm",
-					        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
-					        // },
-					    //     "footer": {
-					    //         "height": "15mm",
-					    //         "contents": {
-					           
-					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-					           
-					    //     }
-					    // }
+							format: "A3",
+							orientation: "portrait",
+							border: "10mm"
+							// header: {
+							//     height: "15mm",
+							//     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
+							// },
+						//     "footer": {
+						//         "height": "15mm",
+						//         "contents": {
+								
+						//         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+								
+						//     }
+						// }
 					};
-						  
+							
 						//   console.log("inhere");
 
-					  	pdf.create(document, options)
-					    .then(val => {
+							pdf.create(document, options)
+						.then(val => {
 
-					    	// console.log("I am inside pdf create");
-					        var temp = val.filename.split("/");
-					        var filename= process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
-					        console.log(filename);
-					    	(async () => {
-					    	var merger = new PDFMerger();
-							  merger.add(filename); 
+							// console.log("I am inside pdf create");
+							var temp = val.filename.split("/");
+							var filename= process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
+							console.log(filename);
+							(async () => {
+							var merger = new PDFMerger();
+								merger.add(filename); 
 						
-							  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
-							  merger.add(filename2); 
-							  var file=process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
-							  await merger.save(file);
+								var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
+								merger.add(filename2); 
+								var file=process.cwd()+"\\uploads\\"+file_name_satish+".pdf";
+								await merger.save(file);
 
-					        	var temp1 = file.split("/");
-					        	val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
-					        	return apiResponse.successResponseWithData(res,"Success",val);
+								var temp1 = file.split("/");
+								val.filename="http://18.60.238.252:3010/reports/"+file_name_satish+".pdf";
+								return apiResponse.successResponseWithData(res,"Success",val);
 							})();
-					        
-					        
-					        
+							
+							
+							
 
-					    })
-					    .catch(error => {
-					        return apiResponse.ErrorResponse(res, error);
-					    });
-					  }
+						})
+						.catch(error => {
+							return apiResponse.ErrorResponse(res, error);
+						});
+						}
 					});
 
-					  		});
+								});
 
 
-					  		});
+								});
 
 
-					  		});
+								});
 
-					  		});
-					  			
+								});
+									
 
-					  		});
-					  			
+								});
+									
 
-					  		});
+								});
 
 							});
-					  			
+									
 
-					  		});
+								});
 
 							});
 						});
-					  			
+									
 
-					  		});
+								});
 
-					  			
+									
 
-					  		});	
+								});	
 							});	
 
 							});	
