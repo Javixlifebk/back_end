@@ -19,6 +19,8 @@ var sesurvey = require("./socioeconomicsurvey");
 var logo = require("./logoRouter");
 var Jlogo = require("./JlogoRoute");
 var breastItest = require("./BreastIRoute");
+var createIndex = require("./CreateIndex");
+
 var app = express();
 
 app.use("/auth/", authRouter);
@@ -41,4 +43,5 @@ app.use("/socioeconomicsurvey/",sesurvey);
 app.use("/logo/",logo);
 app.use("/Jlogo/",Jlogo);
 app.use("/test/",breastItest);
+app.use("/index/",createIndex);
 module.exports = app;

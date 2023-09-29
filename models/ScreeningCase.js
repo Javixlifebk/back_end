@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 
 /*  Collection Name : ScreeningCase */
 var ScreeningCaseSchema = new mongoose.Schema({
-	citizenId: {type: String, required: true},
+	citizenId: {type: String, required: true, index: true},
 	doctorId: {type: String, required: false},
 	ngoId :{type:String,required:false},
 	screenerId: {type: String, required: false},
