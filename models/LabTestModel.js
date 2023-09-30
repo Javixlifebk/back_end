@@ -146,7 +146,7 @@ var LipidPanelTestSchema = new mongoose.Schema(
     ldl: { type: String, required: true },
     tcl_hdl: { type: String, required: true },
     ldl_hdl: { type: String, required: true },
-    caseId: { type: String, required: true },
+    caseId: { type: String, required: true , index: true},
     non_hdl: { type: String, required: true },
     type: { type: String, required: true },
     status: { type: Number, required: true, default: 1 },
@@ -261,7 +261,7 @@ var DrugTestSchema = new mongoose.Schema(
     Phencyclidine: { type: Number, required: false },
     Propoxyphene: { type: Number, required: false },
     TricyclicAntidepressant: { type: Number, required: false },
-    caseId: { type: String, required: true },
+    caseId: { type: String, required: true , index: true},
   },
   { timestamps: true }
 );
@@ -282,7 +282,7 @@ var UrineTestSchema = new mongoose.Schema(
     ketone: { type: String, required: false },
     bilirubin: { type: String, required: false },
     glucose: { type: String, required: false },
-    caseId: { type: String, required: true },
+    caseId: { type: String, required: true, index: true },
     notes: { type: String, required: false },
   },
   { timestamps: true }

@@ -4,7 +4,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 var UserSchema = new mongoose.Schema({
 	userName: {type: String, required: true},
-	userId: {type: String, required: true},
+	userId: {type: String, required: true, index: true},
 	ngoId: {type: String},
 	roleId: {type: Number, required: true, default: 0},
 	password: {type: String, required: true},

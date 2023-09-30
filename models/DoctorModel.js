@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 /*  Collection Name : Doctor */
 var DoctorSchema = new mongoose.Schema({
-	doctorId: {type: String, required: true},
+	doctorId: {type: String, required: true, index: true},
 	ngoId :{type:String,required:false},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
@@ -23,7 +23,7 @@ var DoctorSchema = new mongoose.Schema({
 module.exports.Doctor = mongoose.model("Doctors", DoctorSchema);
 
 var DoctorDocSchema = new mongoose.Schema({
-	doctorId: {type: String, required: true},
+	doctorId: {type: String, required: true, index: true},
 	ngoId:{type:String,required:true},
 	doctorLoginId:{type:String,required:true},
 	photo: {type: String, required: true},
@@ -49,7 +49,7 @@ var DoctorDetailsSchema = new mongoose.Schema({
 	photo: {type: String,required: false},
     rating : {type: Number, required: true, default: 0},
     geolocations : {lat:{type:Number,default:-1},lng:{type:Number,default:-1}},
-    doctorId: {type: String, required: true}
+    doctorId: {type: String, required: true, index: true}
 }, {timestamps: true});
 // doctorId=>{DoctorSchema=>doctorId}
 module.exports.DoctorDetails = mongoose.model("DoctorDetails", DoctorDetailsSchema);

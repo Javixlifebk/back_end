@@ -30,7 +30,7 @@ var PharmacyDetailsSchema = new mongoose.Schema({
     photo: {type: String},
     isDefault: {type: Boolean, required: true, default: false},
     rating : {type: Number, required: true, default: 0},
-    pharmacyId: {type: String, required: true},
+    pharmacyId: {type: String, required: true, index: true, index: true},
 }, {timestamps: true});
 
 module.exports.PharmacyDetails = mongoose.model("PharmacyDetails", PharmacyDetailsSchema);

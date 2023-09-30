@@ -3,7 +3,7 @@ mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var VisualExamsSchema = new mongoose.Schema({
-	caseId: {type: String, required: true},
+	caseId: {type: String, required: true, index: true},
 	// video: {
 	// 	type:String
 	// 	},

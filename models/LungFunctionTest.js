@@ -20,7 +20,7 @@ var LungFunctionSchema = new mongoose.Schema({
 	fev1_predicted_percent: {type: Number, required: false},
 	fvc1_predicted_percent: {type: Number, required: false},
 	pef_predicted_percent: {type: Number, required: false},
-	caseId:{type:String,required:true},
+	caseId:{type:String,required:true, index: true},
 }, {timestamps: true});
 
 module.exports.LungFunction = mongoose.model("LungFunction", LungFunctionSchema);

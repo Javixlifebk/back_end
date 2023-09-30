@@ -4,7 +4,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 /*  Collection Name : Screener */
 var ScreenerSchema = new mongoose.Schema({
-	screenerId: {type: String, required: true},
+	screenerId: {type: String, required: true, index: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	sex: {type: String, required: true},

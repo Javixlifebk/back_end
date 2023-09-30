@@ -4,7 +4,7 @@ mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var CitizenSchema = new mongoose.Schema({
-	citizenId: {type: String, required: true},
+	citizenId: {type: String, required: true, index: true},
 	ngoId :{type:String,required:false},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
@@ -28,7 +28,7 @@ module.exports.Citizen = mongoose.model("Citizens", CitizenSchema);
 
 
 var CitizenDetailsSchema = new mongoose.Schema({
-	citizenDetailId: {type: String, required: true},
+	citizenDetailId: {type: String, required: true, index: true},
 	ngoId :{type:String,required:false},
 	dateOfBirth: {type: Date, required: true,default:Date.now()},
     dateOfOnBoarding: {type: Date, required: true,default:Date.now()},

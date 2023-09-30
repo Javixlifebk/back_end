@@ -3,11 +3,11 @@ mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var HemoglobinSchema = new mongoose.Schema({
-	caseId: {type: String, required: true},
+	caseId: {type: String, required: true, index: true},
 	hemoglobin: {type: String, required: true},
 	ngoId :{type:String,required:false},
 	notes: {type: String, required: false},
-	citizenId: {type: String, required: true},
+	citizenId: {type: String, required: true, index: true},
 	screenerId: {type: String, required: true},
 	severity: {type:Number, default:0, required:false},   //0-green, 1-amber, 2-red , 3-Default
 }, {timestamps: true});

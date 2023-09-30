@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 var UserDetailsSchema = new mongoose.Schema({
-	userId: {type: String, required: true},
+	userId: {type: String, required: true, index: true},
 	ngoId :{type:String,required:false},
 	isBlocked: {type: Boolean, required: true, default: 0},
 	isExpired: {type: Boolean, required: true, default: 0},

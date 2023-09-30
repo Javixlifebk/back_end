@@ -13,7 +13,7 @@ var LogoSchema = new mongoose.Schema({
                     type:String
                      },
                 ngoId: {
-                    type:String
+                    type:String, index: true
                 },
 
                 

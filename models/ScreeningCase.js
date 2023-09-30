@@ -230,7 +230,7 @@ var ScreeningCaseDetailsSchema = new mongoose.Schema({
     backneckpain: {type: String},
     diarrhea: {type: String},
     hypertension: {type: String},
-	caseId:{type:String,required:true},
+	caseId:{type:String,required:true, index: true},
 	issubscreener:{type:String},
 	ngoId :{type:String,required:false},
 	isdeleted:{type: Boolean,default: false},
