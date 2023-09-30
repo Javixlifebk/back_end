@@ -21,7 +21,7 @@ const addindex = async (req, res) => {
   try {
     const UserDetailsIndex = UserDetailsModel.collection; // Get the MongoDB collection
 
-    UserDetailsIndex.indexes({ userId: 1 }, (err, result) => {
+    UserDetailsIndex.indexes({ userId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -36,7 +36,7 @@ const addindex = async (req, res) => {
   try {
     const collection = ScreeningCasenew.ScreeningCase.collection; // Get the MongoDB collection
 
-    collection.indexes({ citizenId: 1 }, (err, result) => {
+    collection.indexes({ citizenId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -50,7 +50,7 @@ const addindex = async (req, res) => {
   try {
     const ScreenerIndex = ScreenerModel.Screener.collection; // Get the MongoDB collection
 
-    ScreenerIndex.indexes({ screenerId: 1 }, (err, result) => {
+    ScreenerIndex.indexes({ screenerId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -64,7 +64,7 @@ const addindex = async (req, res) => {
   // try {
   //   const ScreenerIndex = ScreenerModel.Screener.collection; // Get the MongoDB collection
 
-  //   ScreenerIndex.indexes({ screenerId: 1 }, (err, result) => {
+  //   ScreenerIndex.indexes({ screenerId: 1, createdAt: -1 }, (err, result) => {
   //     if (err) {
   //       console.error("Error creating index:", err);
   //     } else {
@@ -78,7 +78,7 @@ const addindex = async (req, res) => {
   try {
     const citizenDetailsIndex = CitizenModel.CitizenDetails.collection; // Get the MongoDB collection
 
-    citizenDetailsIndex.indexes({ citizenId: 1 }, (err, result) => {
+    citizenDetailsIndex.indexes({ citizenId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -92,7 +92,7 @@ const addindex = async (req, res) => {
   try {
     const citizensIndex = CitizenModel.Citizen.collection; // Get the MongoDB collection
 
-    citizensIndex.indexes({ citizenId: 1 }, (err, result) => {
+    citizensIndex.indexes({ citizenId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -106,7 +106,7 @@ const addindex = async (req, res) => {
   try {
     const doctorsIndex = DoctorModel.Doctor.collection; // Get the MongoDB collection
 
-    doctorsIndex.indexes({ doctorId: 1 }, (err, result) => {
+    doctorsIndex.indexes({ doctorId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -120,7 +120,7 @@ const addindex = async (req, res) => {
   try {
     const doctorsDetailsIndex = DoctorModel.DoctorDetails.collection; // Get the MongoDB collection
 
-    doctorsDetailsIndex.indexes({ doctorId: 1 }, (err, result) => {
+    doctorsDetailsIndex.indexes({ doctorId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -134,7 +134,7 @@ const addindex = async (req, res) => {
   try {
     const doctorDocIndex = DoctorModel.doctorDoc.collection; // Get the MongoDB collection
 
-    doctorDocIndex.indexes({ doctorLoginId: 1 }, (err, result) => {
+    doctorDocIndex.indexes({ doctorLoginId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -148,7 +148,7 @@ const addindex = async (req, res) => {
   try {
     const eyeTestIndex = EyeTestModel.EyeTest.collection; // Get the MongoDB collection
 
-    eyeTestIndex.indexes({ citizenId: 1 }, (err, result) => {
+    eyeTestIndex.indexes({ citizenId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -162,7 +162,7 @@ const addindex = async (req, res) => {
   try {
     const hemoglobinIndex = HemoglobinModel.Hemoglobin.collection; // Get the MongoDB collection
 
-    hemoglobinIndex.indexes({ citizenId: 1 }, (err, result) => {
+    hemoglobinIndex.indexes({ citizenId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -176,7 +176,7 @@ const addindex = async (req, res) => {
   try {
     const bloodGlucoseTestIndex = LabTestModel.BloodGlucoseTest.collection; // Get the MongoDB collection
 
-    bloodGlucoseTestIndex.indexes({ caseId: 1 }, (err, result) => {
+    bloodGlucoseTestIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -192,7 +192,7 @@ const addindex = async (req, res) => {
   try {
     const urineTestIndex = LabTestModel.UrineTest.collection; // Get the MongoDB collection
 
-    urineTestIndex.indexes({ caseId: 1 }, (err, result) => {
+    urineTestIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -206,7 +206,7 @@ const addindex = async (req, res) => {
   try {
     const lungFunctionIndex = LungFunctionTest.LungFunction.collection; // Get the MongoDB collection
 
-    lungFunctionIndex.indexes({ caseId: 1 }, (err, result) => {
+    lungFunctionIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -220,7 +220,7 @@ const addindex = async (req, res) => {
   try {
     const UserIndex = UserModel.collection; // Get the MongoDB collection
 
-    UserIndex.indexes({ userId: 1 }, (err, result) => {
+    UserIndex.indexes({ userId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -234,7 +234,7 @@ const addindex = async (req, res) => {
   try {
     const pharmacyDetailsIndex = PharmacyModel.PharmacyDetails.collection; // Get the MongoDB collection
 
-    pharmacyDetailsIndex.indexes({ pharmacyId: 1 }, (err, result) => {
+    pharmacyDetailsIndex.indexes({ pharmacyId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -247,7 +247,7 @@ const addindex = async (req, res) => {
   try {
     const pharmacyDetailsIndex = PharmacyModel.PharmacyDetails.collection; // Get the MongoDB collection
 
-    pharmacyDetailsIndex.indexes({ pharmacyId: 1 }, (err, result) => {
+    pharmacyDetailsIndex.indexes({ pharmacyId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -261,7 +261,7 @@ const addindex = async (req, res) => {
   try {
     const logoIndex = logoModel.Logo.collection; // Get the MongoDB collection
 
-    logoIndex.indexes({ ngoId: 1 }, (err, result) => {
+    logoIndex.indexes({ ngoId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -275,7 +275,7 @@ const addindex = async (req, res) => {
   try {
     const drugTestIndex = LabTestModel.DrugTest.collection; // Get the MongoDB collection
 
-    drugTestIndex.indexes({ caseId: 1 }, (err, result) => {
+    drugTestIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -288,7 +288,7 @@ const addindex = async (req, res) => {
   try {
     const sickleCellIndex = SickleCellModel.SickleCell.collection; // Get the MongoDB collection
 
-    sickleCellIndex.indexes({ caseId: 1 }, (err, result) => {
+    sickleCellIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -302,7 +302,7 @@ const addindex = async (req, res) => {
   try {
     const thalassemiaIndex = ThalassemiaModel.Thalassemia.collection; // Get the MongoDB collection
 
-    thalassemiaIndex.indexes({ caseId: 1 }, (err, result) => {
+    thalassemiaIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -315,7 +315,7 @@ const addindex = async (req, res) => {
   try {
     const visualExamModelIndex = VisualExamModel.VisualExam.collection; // Get the MongoDB collection
 
-    visualExamModelIndex.indexes({ caseId: 1 }, (err, result) => {
+    visualExamModelIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -328,7 +328,7 @@ const addindex = async (req, res) => {
   try {
     const eyeTestCaseIndex = EyeTestModel.EyeTest.collection; // Get the MongoDB collection
 
-    eyeTestCaseIndex.indexes({ caseId: 1 }, (err, result) => {
+    eyeTestCaseIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -342,7 +342,7 @@ const addindex = async (req, res) => {
   try {
     const eyeTestCaseIndex = LabTestModel.LipidPanelTest.collection; // Get the MongoDB collection
 
-    eyeTestCaseIndex.indexes({ caseId: 1 }, (err, result) => {
+    eyeTestCaseIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -356,7 +356,7 @@ const addindex = async (req, res) => {
   try {
     const screeningCaseIndex = ScreeningCase.ScreeningCase.collection; // Get the MongoDB collection
 
-    screeningCaseIndex.indexes({ caseId: 1 }, (err, result) => {
+    screeningCaseIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
       } else {
@@ -370,7 +370,7 @@ const addindex = async (req, res) => {
   try {
     const eyeTestCaseIndex = HemoglobinModel.Hemoglobin.collection; // Get the MongoDB collection
 
-    eyeTestCaseIndex.indexes({ caseId: 1 }, (err, result) => {
+    eyeTestCaseIndex.indexes({ caseId: 1, createdAt: -1 }, (err, result) => {
       if (err) {
         console.error("Error creating index:", err);
         res.status(500).json({ error: "Error creating index" });
