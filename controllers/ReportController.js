@@ -609,7 +609,7 @@ exports.createCaseReport = [
 				console.log("case report",req.body);
 						var caseId=req.body.caseId;
 						var ngoId=req.body.ngoId;
-						var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
+						// var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
 						var token="hgaghsagf";
 
 
@@ -1003,7 +1003,7 @@ exports.createCaseReport = [
 												 }
 						console.dir(users[0].labs);						 
 					  	var document = {
-					    html: html,
+					    // html: html,
 					    data: {
 					        users: users
 					    },
@@ -1033,36 +1033,38 @@ exports.createCaseReport = [
 					};
 						  
 						//   console.log("inhere");
-						const compiledTemplate = handlebars.compile(html);
-
-						const renderedHtml = compiledTemplate({users});
 
 
-						html_to_pdf.generatePdf({ content: renderedHtml }, options)
-						.then((pdfBuffer) => {
-						  // Save the PDF to a file
-						  fs.writeFileSync(process.cwd()+"\\uploads\\"+caseId+".pdf", pdfBuffer);
-						  
-						  	// console.log("I am inside pdf create");
-							//   var temp = val.filename.split("/");
-							  var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
-							  console.log(filename);
-							  (async () => {
-							//   var merger = new PDFMerger();
-							// 	merger.add(filename); 
-							 
-							// 	var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
-							// 	merger.add(filename2); 
-							// 	var file=process.cwd()+"\\uploads\\"+caseId+"new.pdf";
-							// 	await merger.save(file);
-  
-							
-								  return apiResponse.successResponseWithData(res,"Success","http://localhost:3010/reports/"+caseId+".pdf");
-								})();
-						})
-						.catch((error) => {
-						  console.error('Error generating PDF:', error);
-						});
+
+
+						(async () => {
+							try {
+							  var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
+							  const compiledTemplate = handlebars.compile(html);
+							  const renderedHtml = compiledTemplate({ users });
+							  
+							  const pdfBuffer = await html_to_pdf.generatePdf({ content: renderedHtml }, options);
+							  
+							  fs.writeFileSync(process.cwd() + "\\uploads\\" + caseId + ".pdf", pdfBuffer);
+				  
+							  var merger = new PDFMerger();
+							  var filename = process.cwd() + "\\uploads\\" + caseId + ".pdf";
+							  await merger.add(filename);
+				  
+							  var filename2 = process.cwd() + "\\uploads\\documents\\DISCLAIMER.pdf";
+							  await merger.add(filename2);
+							  var file = process.cwd() + "\\uploads\\" + caseId + "new.pdf";
+							  await merger.save(file);
+				  
+							  return apiResponse.successResponseWithData(res, "Success", "http://localhost:3010/reports/" + caseId + "new.pdf");
+							} catch (error) {
+							  console.error('Error generating or merging PDF:', error);
+							  return apiResponse.ErrorResponse(res, error);
+							}
+						  })();
+
+
+						
 					  	// pdf.create(document, options)
 					    // .then(val => {
 
