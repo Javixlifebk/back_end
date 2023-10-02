@@ -988,6 +988,7 @@ exports.createCaseReport = [
 						//console.log("Cdate="+users[0].createdAt);
 						users[0].labs=labs;
 						global_labs=labs;
+						console.log("users users",users);
 						users[0].bpsysFun=function() { if(this.bpsys>=110 && this.bpsys<=120)
 													{ return("<span class='green'>__________</span>");}
 													else if(this.bpsys>=120 && this.bpsys<=160)

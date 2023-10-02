@@ -1496,7 +1496,7 @@ exports.tmp_out1List = [
       { $skip: query.skip },
       { $limit: query.limit },
     ]);
-    console.log("sevikadata",sevikadata);
+    // console.log("sevikadata",sevikadata);
     response = {
       message: "screening sevika list fatch successfully",
       status: 1,
