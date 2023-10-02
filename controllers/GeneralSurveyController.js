@@ -1391,26 +1391,26 @@ exports.tmp_out1List = [
 
     var sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
       { $sort: { createdAt: -1 } },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizens",
-      //     foreignField: "citizenId",
-      //     as: "citizens",
-      //   },
-      // },
-      // { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
       {
         $lookup: {
           localField: "citizenId",
-          from: "citizendetails",
+          from: "citizens",
           foreignField: "citizenId",
-          as: "citizendetails",
+          as: "citizens",
         },
       },
-      {
-        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
-      },
+      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizendetails",
+      //     foreignField: "citizenId",
+      //     as: "citizendetails",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      // },
       {
         $lookup: {
           localField: "screenerId",
@@ -1426,18 +1426,18 @@ exports.tmp_out1List = [
       {
         $project: {
           status: 1,
-          // fullname: {
-          //   $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
-          // },
+          fullname: {
+            $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+          },
           screenerfullname: {
             $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
           },
           severity_bp: 1,
-          // Email: "$citizens.email",
-          // aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
-          // Mobile: "$citizens.mobile",
+          Email: "$citizens.email",
+          aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
+          Mobile: "$citizens.mobile",
           
-          // Gender: "$citizens.sex",
+          Gender: "$citizens.sex",
           severity_spo2: 1,
           'ngoId':1,
           severity_temperature: 1,
@@ -1471,22 +1471,22 @@ exports.tmp_out1List = [
               date: "$createdAt",
             },
           },
-          DOB: {
-            $dateToString: {
-              format: "%d-%m-%Y",
-              date: "$citizendetails.dateOfBirth",
-            },
-          },
+          // DOB: {
+          //   $dateToString: {
+          //     format: "%d-%m-%Y",
+          //     date: "$citizendetails.dateOfBirth",
+          //   },
+          // },
           
-          Age: {
-            $round: {
-              $divide: [
-                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                365 * 24 * 60 * 60 * 1000,
-              ],
-            },
-          },
-          address: "$citizendetails.address",
+          // Age: {
+          //   $round: {
+          //     $divide: [
+          //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+          //       365 * 24 * 60 * 60 * 1000,
+          //     ],
+          //   },
+          // },
+          // address: "$citizendetails.address",
         },
       },
 
