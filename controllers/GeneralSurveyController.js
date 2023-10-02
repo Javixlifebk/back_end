@@ -1391,15 +1391,15 @@ exports.tmp_out1List = [
 
     var sevikadata = await ScreeningCaseModel.ScreeningCase.aggregate([
       { $sort: { createdAt: -1 } },
-      {
-        $lookup: {
-          localField: "citizenId",
-          from: "citizens",
-          foreignField: "citizenId",
-          as: "citizens",
-        },
-      },
-      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizens",
+      //     foreignField: "citizenId",
+      //     as: "citizens",
+      //   },
+      // },
+      // { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
       // {
       //   $lookup: {
       //     localField: "citizenId",
@@ -1426,18 +1426,18 @@ exports.tmp_out1List = [
       {
         $project: {
           status: 1,
-          fullname: {
-            $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
-          },
+          // fullname: {
+          //   $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
+          // },
           // screenerfullname: {
           //   $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
           // },
           severity_bp: 1,
-          Email: "$citizens.email",
-          aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
-          Mobile: "$citizens.mobile",
+          // Email: "$citizens.email",
+          // aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
+          // Mobile: "$citizens.mobile",
           
-          Gender: "$citizens.sex",
+          // Gender: "$citizens.sex",
           severity_spo2: 1,
           'ngoId':1,
           severity_temperature: 1,
