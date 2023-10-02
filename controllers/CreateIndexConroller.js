@@ -376,7 +376,7 @@ const addindex = async (req, res) => {
         res.status(500).json({ error: "Error creating index" });
       } else {
         console.log("Index created:", result);
-        res.status(200).json({ message: "Index created successfully" });
+        res.status(200).json({ message: "Index created successfully last index" });
       }
     });
   } catch (err) {

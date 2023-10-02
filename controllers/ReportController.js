@@ -1003,7 +1003,7 @@ exports.createCaseReport = [
 					  	var document = {
 					    html: html,
 					    data: {
-					        users: users
+					        users: {users}
 					    },
 					    path: "./uploads/"+Date.now()+".pdf"
 					};
