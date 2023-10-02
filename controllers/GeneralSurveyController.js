@@ -1400,17 +1400,17 @@ exports.tmp_out1List = [
         },
       },
       { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizendetails",
-      //     foreignField: "citizenId",
-      //     as: "citizendetails",
-      //   },
-      // },
-      // {
-      //   $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
-      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizendetails",
+          foreignField: "citizenId",
+          as: "citizendetails",
+        },
+      },
+      {
+        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      },
       {
         $lookup: {
           localField: "screenerId",
@@ -1471,22 +1471,22 @@ exports.tmp_out1List = [
               date: "$createdAt",
             },
           },
-          // DOB: {
-          //   $dateToString: {
-          //     format: "%d-%m-%Y",
-          //     date: "$citizendetails.dateOfBirth",
-          //   },
-          // },
+          DOB: {
+            $dateToString: {
+              format: "%d-%m-%Y",
+              date: "$citizendetails.dateOfBirth",
+            },
+          },
           
-          // Age: {
-          //   $round: {
-          //     $divide: [
-          //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-          //       365 * 24 * 60 * 60 * 1000,
-          //     ],
-          //   },
-          // },
-          // address: "$citizendetails.address",
+          Age: {
+            $round: {
+              $divide: [
+                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+                365 * 24 * 60 * 60 * 1000,
+              ],
+            },
+          },
+          address: "$citizendetails.address",
 
         },
       },
