@@ -950,8 +950,8 @@ exports.createCaseReport = [
 					  			request(options, function (error, response, body) {
 					  if (error) return apiResponse.ErrorResponse(res, error);
 					  //console.log(JSON.parse(body).status);
-					  status=JSON.parse(body).status;
-					  if(status==1){
+					  statusNew=JSON.parse(body).status;
+					  if(statusNew==1){
 					  	users=JSON.parse(body).data.data;
 						console.log("users",users)
 					  	var cdob="";
