@@ -18,6 +18,8 @@ const mailer = require("../helpers/mailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
+var html_to_pdf = require('html-pdf-node');
+const handlebars = require('handlebars')
 
 var request = require("request");
 // const { Logo } = require("../models/logoModel");
@@ -229,7 +231,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/ngo/screenerById',
+					  url: 'http://localhost:3010/api/ngo/screenerById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -276,7 +278,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -299,7 +301,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/ngo/ngoById',
+					  url: 'http://localhost:3010/api/ngo/ngoById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -346,7 +348,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -371,7 +373,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/doctor/doctorById',
+					  url: 'http://localhost:3010/api/doctor/doctorById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -418,7 +420,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -443,7 +445,7 @@ if(req.body.roleId==='4'){
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/pharmacy/pharmacyById',
+					  url: 'http://localhost:3010/api/pharmacy/pharmacyById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -490,7 +492,7 @@ if(req.body.roleId==='4'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -515,7 +517,7 @@ if(req.body.roleId==='6'){
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/citizenById',
+					  url: 'http://localhost:3010/api/citizen/citizenById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -562,7 +564,7 @@ if(req.body.roleId==='6'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -612,7 +614,7 @@ exports.createCaseReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/screening/getCaseDetails',
+					  url: 'http://localhost:3010/api/screening/getCaseDetails',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -625,7 +627,7 @@ exports.createCaseReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getHemoglobinList',
+					  url: 'http://localhost:3010/api/labtest/getHemoglobinList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -634,7 +636,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getEyeTestList',
+					  url: 'http://localhost:3010/api/labtest/getEyeTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -643,7 +645,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getVisualExamList',
+					  url: 'http://localhost:3010/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -652,7 +654,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getBloodGlucoseTestList',
+					  url: 'http://localhost:3010/api/labtest/getBloodGlucoseTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -661,7 +663,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options5 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getLipidPanelTestList',
+					  url: 'http://localhost:3010/api/labtest/getLipidPanelTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -670,7 +672,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options6 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getDrugTestList',
+					  url: 'http://localhost:3010/api/labtest/getDrugTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -679,7 +681,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options7 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getLabTestList',
+					  url: 'http://localhost:3010/api/labtest/getLabTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -688,7 +690,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options8 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getSickleCell',
+					  url: 'http://localhost:3010/api/labtest/getSickleCell',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -697,7 +699,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options9 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getThalassemia',
+					  url: 'http://localhost:3010/api/labtest/getThalassemia',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -706,7 +708,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options10 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getLungTest',
+					  url: 'http://localhost:3010/api/labtest/getLungTest',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -715,7 +717,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options11 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getHeartTestList',
+					  url: 'http://localhost:3010/api/labtest/getHeartTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -724,7 +726,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options12 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getUrineTestList',
+					  url: 'http://localhost:3010/api/labtest/getUrineTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -733,7 +735,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options13 = { method: 'POST',
-					  url: 'https://javixlife.org/api/screening/SymptomsList',
+					  url: 'http://localhost:3010/api/screening/SymptomsList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -741,7 +743,7 @@ exports.createCaseReport = [
 					   ngoId: ngoId
 					   } };
 					   var options14 = { method: 'POST',
-					   url: 'https://javixlife.org/api/test/getByCaseId',
+					   url: 'http://localhost:3010/api/test/getByCaseId',
 					   headers: 
 						{ 'content-type': 'application/x-www-form-urlencoded' },
 					   form: 
@@ -1003,18 +1005,19 @@ exports.createCaseReport = [
 					  	var document = {
 					    html: html,
 					    data: {
-					        users: {users}
+					        users: users
 					    },
-					    path: process.cwd()+"\\uploads\\"+caseId+".pdf"
+					    // path: process.cwd()+"\\uploads\\"+caseId+".pdf"
 					};
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
                    
 				   var options = {
-						phantomPath: binPath,
+						// phantomPath: binPath,
 					        format: "A3",
-					        orientation: "portrait",
-					        border: "10mm"
+							path:process.cwd()+"\\uploads\\"+caseId+".pdf"
+					        // orientation: "portrait",
+					        // border: "10mm"
 					        // header: {
 					        //     height: "15mm",
 					        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
@@ -1030,41 +1033,70 @@ exports.createCaseReport = [
 					};
 						  
 						//   console.log("inhere");
+						const compiledTemplate = handlebars.compile(html);
 
-					  	pdf.create(document, options)
-					    .then(val => {
+						const renderedHtml = compiledTemplate({users});
 
-					    	// console.log("I am inside pdf create");
-					        var temp = val.filename.split("/");
-					        var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
-					        console.log(filename);
-					    	(async () => {
-					    	var merger = new PDFMerger();
-							  merger.add(filename); 
-							//   console.dir(global_labs.heart);
-							 // for(var i=0;i<global_labs.heart.length;i++){
 
-							  	//var temp1 = global_labs.heart[i].url.split("/");
-					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
-							  	//merger.add(filename1); 
-							 // }
-							  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
-							  merger.add(filename2); 
-							  var file=process.cwd()+"\\uploads\\"+caseId+".pdf";
-							  await merger.save(file);
+						html_to_pdf.generatePdf({ content: renderedHtml }, options)
+						.then((pdfBuffer) => {
+						  // Save the PDF to a file
+						  fs.writeFileSync(process.cwd()+"\\uploads\\"+caseId+".pdf", pdfBuffer);
+						  
+						  	// console.log("I am inside pdf create");
+							//   var temp = val.filename.split("/");
+							  var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
+							  console.log(filename);
+							  (async () => {
+							//   var merger = new PDFMerger();
+							// 	merger.add(filename); 
+							 
+							// 	var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
+							// 	merger.add(filename2); 
+							// 	var file=process.cwd()+"\\uploads\\"+caseId+"new.pdf";
+							// 	await merger.save(file);
+  
+							
+								  return apiResponse.successResponseWithData(res,"Success","http://localhost:3010/reports/"+caseId+".pdf");
+								})();
+						})
+						.catch((error) => {
+						  console.error('Error generating PDF:', error);
+						});
+					  	// pdf.create(document, options)
+					    // .then(val => {
 
-					        	var temp1 = file.split("/");
-					        	val.filename="https://javixlife.org/reports/"+caseId+".pdf";
-					        	return apiResponse.successResponseWithData(res,"Success",val);
-							})();
+					    // 	// console.log("I am inside pdf create");
+					    //     var temp = val.filename.split("/");
+					    //     var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
+					    //     console.log(filename);
+					    // 	(async () => {
+					    // 	var merger = new PDFMerger();
+						// 	  merger.add(filename); 
+						// 	//   console.dir(global_labs.heart);
+						// 	 // for(var i=0;i<global_labs.heart.length;i++){
+
+						// 	  	//var temp1 = global_labs.heart[i].url.split("/");
+					    //     	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
+						// 	  	//merger.add(filename1); 
+						// 	 // }
+						// 	  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
+						// 	  merger.add(filename2); 
+						// 	  var file=process.cwd()+"\\uploads\\"+caseId+".pdf";
+						// 	  await merger.save(file);
+
+					    //     	var temp1 = file.split("/");
+					    //     	val.filename="http://localhost:3010/reports/"+caseId+".pdf";
+					    //     	return apiResponse.successResponseWithData(res,"Success",val);
+						// 	})();
 					        
 					        
 					        
 
-					    })
-					    .catch(error => {
-					        return apiResponse.ErrorResponse(res, error);
-					    });
+					    // })
+					    // .catch(error => {
+					    //     return apiResponse.ErrorResponse(res, error);
+					    // });
 					  }
 					});
 
@@ -1137,7 +1169,7 @@ exports.createMedicalHistoryReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryAllergy',
+					  url: 'http://localhost:3010/api/citizen/getHistoryAllergy',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1150,7 +1182,7 @@ exports.createMedicalHistoryReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryMedical',
+					  url: 'http://localhost:3010/api/citizen/getHistoryMedical',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1159,7 +1191,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryWomen',
+					  url: 'http://localhost:3010/api/citizen/getHistoryWomen',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1168,7 +1200,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryFamily',
+					  url: 'http://localhost:3010/api/citizen/getHistoryFamily',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1177,7 +1209,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryPersonal',
+					  url: 'http://localhost:3010/api/citizen/getHistoryPersonal',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1402,7 +1434,7 @@ exports.createMedicalHistoryReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1452,7 +1484,7 @@ exports.createPrescriptionReport = [
 						// console.log(html);
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/doctor/prescriptionlist',
+					  url: 'http://localhost:3010/api/doctor/prescriptionlist',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1531,7 +1563,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
+					        val.filename="http://localhost:3010/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
