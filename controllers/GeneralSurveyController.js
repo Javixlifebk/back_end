@@ -1400,17 +1400,17 @@ exports.tmp_out1List = [
         },
       },
       { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-      {
-        $lookup: {
-          localField: "citizenId",
-          from: "citizendetails",
-          foreignField: "citizenId",
-          as: "citizendetails",
-        },
-      },
-      {
-        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
-      },
+      // {
+      //   $lookup: {
+      //     localField: "citizenId",
+      //     from: "citizendetails",
+      //     foreignField: "citizenId",
+      //     as: "citizendetails",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      // },
       // {
       //   $lookup: {
       //     localField: "screenerId",
@@ -1436,7 +1436,7 @@ exports.tmp_out1List = [
           Email: "$citizens.email",
           aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
           Mobile: "$citizens.mobile",
-          address: "$citizendetails.address",
+          
           Gender: "$citizens.sex",
           severity_spo2: 1,
           'ngoId':1,
@@ -1460,14 +1460,7 @@ exports.tmp_out1List = [
           caseId: { $concat: ["'", "$caseId", "'"] },
           pulse: 1,
           respiratory_rate: 1,
-          Age: {
-            $round: {
-              $divide: [
-                { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
-                365 * 24 * 60 * 60 * 1000,
-              ],
-            },
-          },
+          
           temperature: 1,
           referDocId: 1,
 
@@ -1478,12 +1471,22 @@ exports.tmp_out1List = [
               date: "$createdAt",
             },
           },
-          DOB: {
-            $dateToString: {
-              format: "%d-%m-%Y",
-              date: "$citizendetails.dateOfBirth",
-            },
-          },
+          // DOB: {
+          //   $dateToString: {
+          //     format: "%d-%m-%Y",
+          //     date: "$citizendetails.dateOfBirth",
+          //   },
+          // },
+          
+          // Age: {
+          //   $round: {
+          //     $divide: [
+          //       { $subtract: [new Date(), "$citizendetails.dateOfBirth"] },
+          //       365 * 24 * 60 * 60 * 1000,
+          //     ],
+          //   },
+          // },
+          // address: "$citizendetails.address",
         },
       },
 
