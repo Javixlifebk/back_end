@@ -1400,17 +1400,17 @@ exports.tmp_out1List = [
         },
       },
       { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
-      // {
-      //   $lookup: {
-      //     localField: "citizenId",
-      //     from: "citizendetails",
-      //     foreignField: "citizenId",
-      //     as: "citizendetails",
-      //   },
-      // },
-      // {
-      //   $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
-      // },
+      {
+        $lookup: {
+          localField: "citizenId",
+          from: "citizendetails",
+          foreignField: "citizenId",
+          as: "citizendetails",
+        },
+      },
+      {
+        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      },
       {
         $lookup: {
           localField: "screenerId",
@@ -1487,6 +1487,16 @@ exports.tmp_out1List = [
           //   },
           // },
           // address: "$citizendetails.address",
+
+           DOB: {
+            $dateToString: {
+              format: "%d-%m-%Y",
+              date: "$citizendetails.dateOfBirth",
+            },
+          },
+          
+          Age:"$citizendetails.dateOfBirth",
+          address: "$citizendetails.address",
         },
       },
 
