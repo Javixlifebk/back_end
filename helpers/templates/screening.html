@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<mate charest="utf-8" />
+	<title>Screening Report :Javix</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body {
+			font-family: 'Arial';
+			background-color: #FFF0F5;
+		}
+
+		.divBorder {
+			display: block;
+			border: 1px solid #dadada;
+			padding: 10pt;
+			border-radius: 5pt;
+		}
+
+		.headData {
+			font-size: 14pt;
+			font-weight: 660;
+			color: #6789FA;
+		}
+
+		.label {
+			font-size: 10pt;
+		}
+
+		.labelData {
+			font-size: 12pt;
+			font-weight: 660;
+		}
+
+		.lxSize {
+			padding-left: 8px;
+			padding-top: 3px;
+			padding-top: 3px;
+			;
+			padding-right: 8px;
+			font-size: 16pt;
+			font-weight: 660;
+			display: inline-block;
+			border: 0px solid #dadada;
+			border-radius: 5px;
+		}
+
+		.lxlabel {
+			font-size: 14pt;
+			font-weight: 550;
+			padding-bottom: 8px;
+		}
+
+		.green {
+			color: green;
+		}
+
+		.amber {
+			color: orange;
+		}
+
+		.red {
+			color: red;
+		}
+
+		.gray {
+			color: #101010;
+		}
+
+		#safe {
+			color: green;
+			display: inline;
+		}
+
+		#marginal {
+			color: orange;
+			display: inline;
+		}
+
+		#risky {
+			color: red;
+			display: inline;
+		}
+
+		.center {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 30%;
+		}
+
+		hr.new5 {
+			border: 5px solid black;
+			border-radius: 5px;
+		}
+
+		@media print {
+			.pagebreak {
+				clear: both;
+				page-break-after: always;
+			}
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- <div style="text-align: center;">PortaClinic By JaviX Life</div> -->
+	<div style="text-align: center;">PortaClinic By <img class="center" width=100px height=50px
+			style="margin-bottom: 10px;" src="http://localhost:3010/profile/1672897712480.png">
+	</div>
+
+	{{#each users}}
+	<img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}>
+	<h2>
+		<center>Patient Report</center>
+	</h2>
+
+	<div class='divBorder'>
+
+		<table border=0 width='100%' cellpadding=8px cellspacing=0px>
+			<tr>
+				<td colspan=3>
+
+					<div class='headData'>{{this.firstName}}&nbsp;{{this.lastname}}</div>
+
+				</td>
+			</tr>
+			<tr>
+				{{#each this.citizens}}
+				<td>
+
+					<div class='label'>Gender</div>
+
+					<div class='labelData'> <span id="lgender">{{this.sex}}</span></div>
+
+				</td>
+				{{/each}}
+
+				{{#each this.citizendetails}}
+				<td>
+					<div class='label'>D.O.B</div>
+					<div class='labelData'>{{this.dob}}</div>
+				</td>
+				{{/each}}
+
+				<td>
+					<div class='label'>Javix ID</div>
+					<div class='labelData'>{{this.citizenId}}</div>
+				</td>
+
+			</tr>
+			<tr>
+				<td>
+					<div class='label'>Case Id</div>
+					<div class='labelData'>{{this.caseId}}</div>
+				</td>
+				<td>
+					<div class='label'>Screener/Sevika Name</div>
+					<div class='labelData'>{{this.ScreenerFirstName}}&nbsp;{{this.ScreenerLastName}}</div>
+				</td>
+
+				<!-- {{#each this.doctors}}
+					<td>
+						<div class='label'>Doctor</div>
+						<div class='labelData'>Dr.{{this.firstName}}&nbsp;{{this.lastName}}</div>
+					</td>
+					{{/each}} -->
+				<td>
+					<div class='label'>Report Date</div>
+					<div class='labelData'>{{this.createdAt}}</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<h2>
+		<center>Vital Test Report</center>
+	</h2>
+	<div class="divBorder" style='margin-top:5px;margin-bottom:15px'>
+		<h4 id="risk">Vital Risk Index</h4>
+		<div id="myBar"></div>
+	</div>
+
+	<table class='screenTable' border=5 width='100%' cellpadding=8px cellspacing=0px>
+		<!-- <tr>
+				<td><div>Blood Pressur, , , , , , BMI</div></td>
+			</tr> -->
+		<tr>
+			<td>
+				<div class='lxlabel'>Blood Pressure</div>
+			</td>
+			<td> <span class='lxSize gray' id="bp">{{this.bpsys}}/{{this.bpdia}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Pulse Rate</div>
+			</td>
+			<td><span class='lxSize gray' id="prate">{{this.pulse}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>SPO2</div>
+			</td>
+			<td> <span class='lxSize gray' id="oxy">{{this.spo2}}</span>
+			</td>
+
+		</tr>
+		<!-- <tr>
+				<td><div  class='lxlabel'>Respiratory Rate</div></td>
+					<td><span  class='lxSize gray' id="hrate">{{this.respiratory_rate}}</span>
+				</td>
+				
+			</tr> -->
+		<tr>
+			<td>
+				<div class='lxlabel'>Temperature</div>
+			</td>
+			<td><span class='lxSize gray' id="tmp">{{this.temperature}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Height</div>
+			</td>
+			<td><span class='lxSize gray' id='height'>{{this.height}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Weight</div>
+			</td>
+			<td><span class='lxSize gray' id='weight'>{{this.weight}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>BMI</div>
+			</td>
+			<td><span class='lxSize gray' id="bmi">{{this.bmi}}</span>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Arm Circumference</div>
+			</td>
+			<td><span class='lxSize gray' id="arm">{{this.arm}}</span>
+			</td>
+
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Notes</div>
+			</td>
+			<td><span class='lxSize gray' id="notes">{{this.notes}}</span>
+			</td>
+
+		</tr>
+		{{/if}}
+	</table>
+	<div class="pagebreak"></div>
+
+
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		{{#each this.labs.eye}}
+		<tr>
+			<td colspan='6'>
+				<h2>
+					<center>LAB TESTS</center>
+				</h2>
+			</td>
+		</tr>
+
+
+
+
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Eye Test</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Left Eye Test Result</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leyetest">{{this.leyetest}}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Right Eye Test Result</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="reyetest">{{this.reyetest}}</div>
+			</td>
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Notes</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.notes}}</div>
+			</td>
+
+		</tr>
+		{{/if}}
+		<tr> </tr>
+		{{/each}}
+
+		{{#each this.labs.hemo}}
+
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Hemoglobin Test</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Test Result</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="lhb">{{this.hemoglobin}}</div>
+			</td>
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Notes</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.notes}}</div>
+			</td>
+
+		</tr>
+		{{/if}}
+
+		<!-- <td><div></div></td> -->
+		</tr>
+		<tr> </tr>
+		{{/each}}
+
+
+
+		{{#each this.labs.visual}}
+
+		<tr>
+			<td colspan="5">
+				<h4 align="center">Visual Exam</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td colspan="5" align="center"><a href={{this.image}}>
+					<image src={{this.image}} height="500px" width="500px" onerror="this.onerror=null; this.remove();">
+					</image>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Url of the Media</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.image}}>URL</a></div>
+			</td>
+			<td>
+				<div class='lxlabel'>Url of the Videos</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.visual_exam_file1}}>URL</a></div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.visual_exam_file2}}>URL</a></div>
+			</td>
+		</tr>
+
+		<!-- <tr>
+			<td>
+				<div class='lxlabel'>Url of the Vi</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="leye"><a href={{this.image}}>URL</a></div>
+			</td>
+		</tr> -->
+		<!-- <tr>
+				<td><div class='lxlabel'>Notes</div> </td><td><div class='lxSize gray' id="leye">{{this.notes}}</div></td>
+			</tr> -->
+		<tr> </tr>
+		{{/each}}
+
+		{{#each this.labs.glucose}}
+
+		<tr>
+			<td colspan="2">
+				<h4 align="center">Blood Glucose</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Test Result</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="lglucose">{{this.bloodglucose}}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Type</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="lglucosetype">{{this.type}}</div>
+			</td>
+		</tr>
+		<tr> </tr>
+		{{/each}}
+
+		{{#each this.labs.lipid}}
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Lipid Panel</h4>
+			</td>
+
+		</tr>
+
+
+		<tr>
+			<td>
+				<div class='lxlabel'>Cholesterol</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidtotal">{{this.cholesterol}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>HDL Cholesterol</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidhdl">{{this.hdlcholesterol}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Triglycerides</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidtri">{{this.triglycerides}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Glucose</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidglucose">{{this.glucose}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>LDL</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidldl">{{this.ldl}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>TCL/HDL</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidtclhdl">{{this.tcl_hdl}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>LDL/HDL</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidldlhdl">{{this.ldl_hdl}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>NON HDL</div>
+			</td>
+			<td><span class='lxSize gray' id="lipidnonhdl">{{this.non_hdl}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Type</div>
+			</td>
+			<td>
+				<div class='lxSize gray' id="lipidtype">{{this.type}}</div>
+			</td>
+
+
+		</tr>
+		{{/each}}
+	</table>
+
+
+	<!-- <div class="pagebreak"></div> -->
+
+	{{#each this.labs.urine}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<td colspan="4">
+				<h4 align="center">Urine Analysis Test</h4>
+			</td>
+
+		</tr>
+
+
+		<tr>
+			<td>
+				<div class='lxlabel'>LEUCOCYTES</div>
+			</td>
+			<td><span class='labelData'>{{this.leukocytes}}</span></td>
+			<td><span class='labelData'>{{this.description.leukocytes}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>NITRITES</div>
+			</td>
+			<td><span class='labelData'>{{this.nitrite}}</span></td>
+			<td><span class='labelData'>{{this.description.nitrite}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>UROBILINOGEN</div>
+			</td>
+			<td><span class='labelData'>{{this.urobilinogen}}</span></td>
+			<td><span class='labelData'>{{this.description.urobilinogen}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>PROTEIN</div>
+			</td>
+			<td><span class='labelData'>{{this.protein}}</span></td>
+			<td><span class='labelData'>{{this.description.protein}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>BLOOD</div>
+			</td>
+			<td><span class='labelData'>{{this.blood}}</span></td>
+			<td><span class='labelData'>{{this.description.blood}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>SPECIFIC GRAVITY</div>
+			</td>
+			<td><span class='labelData'>{{this.specificGravity}}</span></td>
+			<td><span class='labelData'>{{this.description.specificGravity}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>PH</div>
+			</td>
+			<td><span class='labelData'>{{this.ph}}</span></td>
+			<td><span class='labelData'>{{this.description.ph}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>KETONE</div>
+			</td>
+			<td><span class='labelData'>{{this.ketone}}</span></td>
+			<td><span class='labelData'>{{this.description.ketone}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>BILIRUBIN</div>
+			</td>
+			<td><span class='labelData'>{{this.bilirubin}}</span></td>
+			<td><span class='labelData'>{{this.description.bilirubin}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>GLUCOSE</div>
+			</td>
+			<td><span class='labelData'>{{this.glucose}}</span></td>
+			<td><span class='labelData'>{{this.description.glucose}}</span></td>
+		</tr>
+		<!-- <tr>
+							<td><div class='lxlabel'>NOTES</div></td>
+							<td><span class='labelData'>{{this.notes}}</span></td>
+				</tr> -->
+		<tr>
+			<td>
+				<div class='lxlabel'>CREATION DATE</div>
+			</td>
+			<td><span class='labelData'>{{this.createdAt}}</span></td>
+		</tr>
+
+	</table>
+	{{/each}}
+
+
+
+	<div class="pagebreak"></div>
+
+
+
+	{{#each this.labs.sickle}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<td colspan="4">
+				<h4 align="center">Sickle Cell Test</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Test Result</div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray' name="ltest">{{this.SickleCell}}</div>
+			</td>
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Notes </div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray'>{{this.notes}}</div>
+			</td>
+		</tr>
+		{{/if}}	
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Test Date </div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray'>{{this.createdAt}}</div>
+			</td>
+		</tr>
+		<tr> </tr>
+	</table>
+	{{/each}}
+
+
+	{{#each this.labs.thalassemia}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<td colspan="4">
+				<h4 align="center">Thalassemia Test</h4>
+			</td>
+
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Test Result</div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray' name="ltest">{{this.Thalassemia}}</div>
+			</td>
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Notes </div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray'>{{this.notes}}</div>
+			</td>
+		</tr>
+		{{/if}}	
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Test Date </div>
+			</td>
+			<td colspan="2">
+				<div class='lxSize gray'>{{this.createdAt}}</div>
+			</td>
+		</tr>
+		<tr></tr>
+	</table>
+	{{/each}}
+
+	{{#each this.labs.lung}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<div class="pagebreak"></div>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<h4 align='center'>Lung Function Test</h4>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<div class='lxlabel'>Parameters</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Actual</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Predicted</div>
+			</th>
+			<th>
+				<div class='lxlabel'>% Predicted</div>
+			</th>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>PEF (L/s)</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.pef_actual}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.pef_predicted}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.pef_predicted_percent}}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>FEV1 (L)</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fev1_actual}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fev1_predicted}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fev1_predicted_percent}}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>FVC (L)</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fvc_actual}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fvc_predicted}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray'>{{this.fvc_predicted_percent}}</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div class='lxlabel'>FVC1% (L)</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fvc1_actual}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fvc1_predicted}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.fvc1_predicted_percent}}</div>
+			</td>
+		</tr>
+		{{#if this.notes }}
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Notes</div>
+			</td>
+			<td colspan="2"><span class='lxSize gray'>{{this.notes}}</span></td>
+		</tr>
+		{{/if}}	
+
+	</table>
+	{{/each}}
+
+
+
+	{{#each this.labs.symptoms}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Symptoms Report</h4>
+			</td>
+		</tr>
+		{{#each data}}
+		{{#each this}}
+		<tr>
+			<td>
+				<div class='label'>{{@key}}</div>
+			</td>
+			<td>
+				<div class='labelData'>{{this}}</div>
+			</td>
+		</tr>
+		{{/each}}
+		<tr>
+			<td colspan="100%"></td>
+		</tr>
+		<tr>
+			<td colspan="100%"></td>
+		</tr>
+		{{/each}}
+	</table>
+	{{/each}}
+
+	<div class="pagebreak"></div>
+
+
+
+	
+
+	{{#each this.labs.breasttest}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<div class="pagebreak"></div>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<h3 align='center'>Breast I Test</h3>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<div class='lxlabel'>Symptoms</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Right Side</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Right Cyclic</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Left Side</div>
+			</th>
+			<th>
+				<div class='lxlabel'>Left Cyclic</div>
+			</th>
+		</tr>
+		{{#if this.lumps_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Lumps</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.lumps_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.lumps_right_cyclic}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.lumps_left_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.lumps_left_cyclic}}</div>
+			</td>
+		</tr>
+		{{/if}}
+		{{#if this.niple_discharge_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Nipple Discharge</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_discharge_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_discharge_right_cyclic}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_discharge_left_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_discharge_left_cyclic}}</div>
+			</td>
+		</tr>
+		{{/if}}
+		{{#if this.niple_skin_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Nipple Skin</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_skin_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.niple_skin_right_cyclic}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray'>{{this.niple_skin_left_breast}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray'>{{this.niple_skin_left_cyclic}}</div>
+			</td>
+		</tr>
+		{{/if}}
+		{{#if this.swelling_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Swelling</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.swelling_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.swelling_right_cyclic}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.swelling_left_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.swelling_left_cyclic}}</div>
+			</td>
+		</tr>
+
+		{{/if}}
+		{{#if this.rush_scaling_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Rash/Scaling</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.rush_scaling_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.rush_scaling_right_cyclic}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.rush_scaling_left_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.rush_scaling_left_cyclic}}</div>
+			</td>
+		</tr>
+		{{/if}}
+		{{#if this.breastPain_checked }}
+		<tr>
+			<td>
+				<div class='lxlabel'>Breast Pain</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.breastPain_right_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.breastPain_right_cyclic}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.breastPain_left_breast}}</div>
+			</td>
+			<td>
+				<div class='lxSize gray'>{{this.breastPain_left_cyclic}}</div>
+			</td>
+		</tr>
+		{{/if}}
+	
+
+	</table>
+
+	
+	<div>
+		<span>
+			{{#if this.note_breast_right }}
+			<span class='lxlabel'><b>Notes Right : </b></span>
+			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_right}}</span></span>
+
+			{{/if}}		
+		</span>
+		
+	</div>
+	<div>
+		<span>
+			{{#if this.note_breast_left }}
+			<span class='lxlabel'><b>Notes Left : </b></span>
+			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_left}}</span></span>
+			{{/if}}	
+		</span>
+	</div>
+	{{/each}}
+
+	{{#each this.labs.drug}}
+
+	<div class="pagebreak"></div>
+
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Drug Test</h4>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Amphetamine</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Amphetamine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Barbiturates</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Barbiturates}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Buprenorphine</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Buprenorphine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Benzodiazepines</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Benzodiazepines}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Cocaine</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Cocaine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Marijuana</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Marijuana}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Methamphetamine</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Methamphetamine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Methylenedioxymethamphetamine (MDMA) </div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Methylenedioxymethamphetamine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Methadone</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Methadone}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Opiate</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Opiate}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Oxycodone</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Oxycodone}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Phencyclidine</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Phencyclidine}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Propoxyphene</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Propoxyphene}}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Tricyclic Antidepressant</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.TricyclicAntidepressant}}</span></td>
+		</tr>
+
+	</table>
+	{{/each}}
+
+	{{#each this.labs.rapid}}
+	<table class='screenTable' border=5 width=100% cellpadding=8px cellspacing=0px>
+		<tr>
+			<td colspan="2">
+				<h4 align='center'>Rapid Test</h4>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Covid Test</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Covid }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Chagas Ab</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.ChagasAb }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Chikungunya</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Chikungunya }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Chlamydia</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Chlamydia }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Cholera</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Cholera }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Dengue</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Dengue }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Fecal Occult Blood Test</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.FecalOccultBloodTest }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>H Pylori</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HPylori }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Hanta Virus</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HantaanVirus }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Hepatitis A</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HepatitisA }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Hepatitis B</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HepatitisB }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Hepatitis C</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HepatitisC }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>HIV</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HIV }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Human African Trypanosomiasis</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HumanAfricanTrypanosomiasis }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Human Chorionic Gonadotropin</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.HumanChorionicGonadotropin }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Influenza</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Influenza }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Legionella Ag</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.LegionellaAg }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Leptospira</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Leptospira }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Malaria</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Malaria }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Myoglobin</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Myoglobin }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Norovirus</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Norovirus }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Oncho/LF lgG4 Biplex</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.OnchoLFlgG4Biplex }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Respiratory Syncytial Virus</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.RespiratorySynctialVirus }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Rota/Adeno</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.RotaAdeno }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Rotavirus</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Rotavirus }}</span></td>
+		</tr>
+
+		<tr>
+			<td>
+				<div class='lxlabel'>Strep A</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.StrepA }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Syphilis</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Syphilis }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Salmonella</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Salmonella }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Tetanus</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Tetanus }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Troponin</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Troponin }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Tsutsugamushi</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Tsutsugamushi }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Tuberculosis</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Tuberculosis }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Typhoid Fever</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.TyphoidFever }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Yellow Fever</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.YellowFever }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<div class='lxlabel'>Others</div>
+			</td>
+			<td><span class='lxSize gray' name="ltest">{{this.Others }}</span></td>
+		</tr>
+
+	</table>
+	{{/each}}
+
+
+	{{/each}}
+	<div></div>
+	<footer>
+		<h5 align='center'>--- End of Report ---</h5>
+		<!-- <h3 align='center'>DISCLAIMER</h3> -->
+		<!-- <h5 align='center'>The Report is only for general health screening and wellness awareness. These tests are not specific to the individual health conditions. Please correlate clinically</h5> -->
+	</footer>
+
+</body>
+<script>
+
+	function getBar(pointerTag) {
+		var html = '<div>';
+		var red = 0;
+		var green = 0;
+		var blue = 0;
+		var colorLimit = 180;
+		var icolor = 0;
+		var tcolor = 0;
+
+		for (var iLimit = 1; iLimit <= colorLimit; iLimit++) {
+			if ((iLimit % 60) === 0) { icolor++; tcolor = 0; }
+
+			if (icolor === 0) { green = 255; red = Math.floor(4.25 * tcolor); blue = 0; }
+			else if (icolor === 1) { red = 255; green = 255; blue = 0; }
+			else if (icolor === 2) { green = 255 - Math.floor(4.25 * tcolor); red = 255; blue = 0; }
+			if (pointerTag === iLimit) {
+				html = html + '<span style=\'color:white;background-color:rgb(0,0,0)\'><span style=\'display:inline-block;border:1px solid #fff;border-radius:5px;\'>' + pointerTag + '</span></span>';
+			}
+			else {
+				html = html + '<span style=\'display:inline-block;width:1mm;background-color:rgb(' + red + ',' + green + ',' + blue + ');\'>&nbsp;</span>';
+			}
+
+			tcolor++;
+		}
+
+		html = html + '</div>';
+		return (html);
+	}
+
+
+	var pointerStatus = -1;
+	var GREEN = 0;
+	var AMBER = 2;
+	var RED = 3;
+	function setTempratureColor(div) {
+		var vx = div.innerHTML;
+
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value)) == false) {
+			div.innerHTML = value;
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " °F";
+			if (value >= 102.38 || value <= 95) { div.classList.add("red"); return (RED); }
+			else if (value >= 100.4 || value < 96.98) { div.classList.add("amber"); return (AMBER); }
+			else if (value >= 97.7 || value <= 99.5) { div.classList.add("green"); return (GREEN); }
+
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+	}
+	function setPRateColor(div) {
+		var vx = div.innerHTML;
+
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value)) == false) {
+			div.innerHTML = value;
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " bpm";
+			if (value > 100 || value < 60) { div.classList.add("red"); return (RED); }
+			else if (value >= 100 || value <= 60) { div.classList.add("amber"); return (AMBER); }
+			else if (value > 60 || value <= 99) { div.classList.add("green"); return (GREEN); }
+
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+
+	}
+	function setOxymetricColor(div) {
+		var vx = div.innerHTML;
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value)) == false) {
+			div.innerHTML = value;
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " spo<sub>2</sub>%";
+			if (value > 100 || value < 90) { div.classList.add("red"); return (RED); }
+			else if (value >= 90 && value <= 94) { div.classList.add("amber"); return (AMBER); }
+			else if (value >= 95 || value <= 100) { div.classList.add("green"); return (GREEN); }
+
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+	}
+
+	function setHRateColor(div) {
+		var vx = div.innerHTML;
+
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value)) == false) {
+			div.innerHTML = value;
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " brpm";
+			if (value > 24 || value < 12) { div.classList.add("red"); return (RED); }
+			else if (value >= 22 || value <= 14) { div.classList.add("amber"); return (AMBER); }
+			else if (value >= 12 || value <= 20) { div.classList.add("green"); return (GREEN); }
+
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+	}
+
+	function setBPColor(div) {
+		var vx = div.innerHTML;
+
+
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value.replace("/", ""))) == false) {
+			var BP = value.split("/");
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " mmHg";
+			BP[0] = parseInt(BP[0]);
+			BP[1] = parseInt(BP[1]);
+			if (BP[0] >= 160 || BP[1] <= 70 || BP[1] >= 90 || BP[0] <= 100) { div.classList.add("red"); return (RED); }
+			else if (BP[0] >= 130 || BP[1] <= 75 || BP[1] >= 85 || BP[0] <= 110) { div.classList.add("amber"); return (AMBER); }
+			else if (BP[0] >= 120 && BP[1] <= 80) { div.classList.add("green"); return (GREEN); }
+
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+	}
+	function setBMIColor(div) {
+		var vx = div.innerHTML;
+
+
+		var value = vx;
+		if (value.length != 0 && isNaN(parseInt(value)) == false) {
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			div.innerHTML = div.innerHTML + " ";
+			if (value >= 18.5 && value <= 24.9) { div.classList.add("green"); return (GREEN); }
+			else if ((value >= 24.9 && value <= 29.9) || (value <= 18.5)) { div.classList.add("amber"); return (AMBER); }
+			else { div.classList.add("red"); return (RED); }
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+
+		return (0);
+	}
+
+	function setARMColor(div) {
+		var vx = div.innerHTML;
+		var value = vx;
+		if (value.length != 0 && isNaN(value) == false) {
+			value = parseFloat(value);
+			div.classList.remove("gray");
+			if (value >= 12.5) { div.classList.add("green"); return (GREEN); }
+			else if ((value >= 11.5 && value <= 12.5)) { div.classList.add("amber"); return (AMBER); }
+			else { div.classList.add("red"); return (RED); }
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+		return (0);
+	}
+
+	function setHeight(div) {
+		var vx = div.innerHTML;
+
+
+		var value = vx;
+		if (value.length != 0 && isNaN(value) == false) {
+			div.innerHTML = div.innerHTML + " cm";
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+
+	}
+	function setWeight(div) {
+		var vx = div.innerHTML;
+
+
+		var value = vx;
+		if (value.length != 0 && isNaN(value) == false) {
+			div.innerHTML = div.innerHTML + " kg";
+		}
+		else {
+			div.innerHTML = "N/A";
+		}
+
+	}
+	function setHemoglobin(div) {
+		if (div != null) {
+			var vx = div.innerHTML;
+			var gx = document.getElementById("lgender");
+			var value = vx;
+			if (value.length != 0 && isNaN(value) == false) {
+				div.innerHTML = value;
+				value = parseFloat(value);
+				div.classList.remove("gray");
+				div.innerHTML = div.innerHTML + " g/dl";
+				if (gx.innerHTML.toLowerCase() === "male") {
+					if (value > 17 || value < 12) { div.classList.add("red"); return (RED); }
+					else if (value >= 17.5 || value < 13.5) { div.classList.add("amber"); return (AMBER); }
+					else if (value >= 14 || value <= 18) { div.classList.add("green"); return (GREEN); }
+
+				}
+				else {
+					if (value > 16 || value < 11) { div.classList.add("red"); return (RED); }
+					else if (value >= 15.5 || value < 12) { div.classList.add("amber"); return (AMBER); }
+					else if (value >= 12 || value <= 16) { div.classList.add("green"); return (GREEN); }
+
+				}
+			}
+			else {
+				div.innerHTML = "N/A";
+			}
+		}
+		return (0);
+
+	}
+	function setGlucose(div, div1) {
+		if (div != null && div1 != null) {
+			var vx = div.innerHTML;
+			var value = vx;
+			var vx1 = div1.innerHTML;
+			var value1 = vx1;
+			if (value.length != 0 && isNaN(value) == false) {
+				div.innerHTML = value;
+				div1.innerHTML = value1;
+				value = parseFloat(value);
+				div.classList.remove("gray");
+				div.innerHTML = div.innerHTML + " Mg/DL";
+				if (((value > 120 || value < 60) && value1 === 'Pre Meal(Fasting)') || ((value > 200 || value < 70) && value1 === 'Post Meal') || ((value > 220 || value < 70) && value1 === 'Pre Exercise') || ((value > 180 || value < 70) && value1 === 'Post Exercise') || ((value > 120 || value < 60) && value1 === 'Non-Fasting(Random)') || (value > 200 || value < 60)) { div.classList.add("red"); return (RED); }
+				else if (((value > 100 || value < 70) && value1 === 'Pre Meal(Fasting)') || ((value > 180 || value < 120) && value1 === 'Post Meal') || ((value > 150 || value < 130) && value1 === 'Pre Exercise') || ((value > 140 || value < 110) && value1 === 'Post Exercise') || ((value > 100 || value < 70) && value1 === 'Non-Fasting(Random)') || (value > 200 || value < 140)) { div.classList.add("amber"); return (AMBER); }
+				else if (((value > 70 || value < 100) && value1 === 'Pre Meal(Fasting)') || ((value > 120 || value < 180) && value1 === 'Post Meal') || ((value > 130 || value < 150) && value1 === 'Pre Exercise') || ((value > 110 || value < 140) && value1 === 'Post Exercise') || ((value > 70 || value < 100) && value1 === 'Non-Fasting(Random)') || (value > 70 || value < 140)) { div.classList.add("green"); return (GREEN); }
+
+
+
+			}
+			else {
+				div.innerHTML = "N/A";
+			}
+		}
+		return (0);
+
+	}
+	function setEye(div) {
+		if (div != null) {
+			var vx = div.innerHTML;
+			var value = vx;
+			if (value.length != 0) {
+				div.innerHTML = value;
+				div.classList.remove("gray");
+				div.innerHTML = div.innerHTML + " metres";
+
+				if (value == "6/6" || value == "6/9") { div.classList.add("green"); return (GREEN); }
+				else if (value == "6/12" || value == "6/5") { div.classList.add("amber"); return (AMBER); }
+				else { div.classList.add("red"); return (RED); }
+
+
+			}
+			else {
+				div.innerHTML = "N/A";
+			}
+		}
+		return (0);
+
+	}
+
+	function setTest(div) {
+		//console.dir(div);
+		if (div != null) {
+			var vx = div.innerHTML;
+
+			var value = vx.trim();
+			if (value.length != 0) {
+				div.innerHTML = value;
+				div.classList.remove("gray");
+				if (value === "Negative") { div.classList.add("green"); return (GREEN); }
+				else if (value === "Inconclusive") { div.classList.add("amber"); return (AMBER); }
+				else if (value === "Positive") { div.classList.add("red"); return (RED); }
+
+			}
+			else {
+				div.innerHTML = "N/A";
+			}
+		}
+
+		return (0);
+
+	}
+
+
+	function setLipid(div, div1, div2, div3) {
+		if (div != null && div1 != null && div2 != null && div3 != null) {
+			var vx = div.innerHTML;
+			var vx1 = div1.innerHTML;
+			var vx2 = div2.innerHTML;
+			var vx3 = div3.innerHTML;
+			var value = vx;
+			var value1 = vx1;
+			var value2 = vx2;
+			var value3 = vx3;
+
+			if (value.length != 0 && isNaN(value) == false) {
+				div.innerHTML = value;
+				value = parseFloat(value);
+				div.classList.remove("gray");
+				div.innerHTML = div.innerHTML + " Mg/dl";
+				if (value >= 240) { div.classList.add("red"); }
+				else if (value > 200 && value < 240) { div.classList.add("amber"); }
+				else if (value <= 200) { div.classList.add("green"); }
+			}
+			else {
+				div.innerHTML = "N/A";
+			}
+
+			if (value1.length != 0 && isNaN(value1) == false) {
+				div1.innerHTML = value1;
+				value1 = parseFloat(value1);
+				div1.classList.remove("gray");
+				div1.innerHTML = div1.innerHTML + " Mg/dl";
+				if (value1 < 40) { div1.classList.add("red"); }
+				else if (value1 >= 40 && value1 < 50) { div1.classList.add("amber"); }
+				else if (value1 >= 50) { div1.classList.add("green"); }
+			}
+			else {
+				div1.innerHTML = "N/A";
+			}
+
+			if (value2.length != 0 && isNaN(value2) == false) {
+				div2.innerHTML = value2;
+				value2 = parseFloat(value2);
+				div2.classList.remove("gray");
+				div2.innerHTML = div2.innerHTML + " Mg/dl";
+				if (value2 >= 200) { div2.classList.add("red"); }
+				else if (value2 >= 150 && value2 < 200) { div2.classList.add("amber"); }
+				else if (value2 < 150) { div2.classList.add("green"); }
+			}
+			else {
+				div2.innerHTML = "N/A";
+			}
+
+			if (value3.length != 0 && isNaN(value3) == false) {
+				div3.innerHTML = value3;
+				value3 = parseFloat(value3);
+				div3.classList.remove("gray");
+				div3.innerHTML = div3.innerHTML + " Mg/dl";
+				if (value3 >= 130) { div3.classList.add("red"); }
+				else if (value3 >= 100 && value3 < 130) { div3.classList.add("amber"); }
+				else if (value3 < 100) { div3.classList.add("green"); }
+			}
+			else {
+				div3.innerHTML = "N/A";
+			}
+		}
+
+		return (0);
+
+	}
+	function applyColor() {
+		var dtmp = document.getElementById("tmp"); var TM = setTempratureColor(dtmp);
+		var dprate = document.getElementById("prate"); var PB = setPRateColor(dprate);
+		var doxy = document.getElementById("oxy"); var OX = setOxymetricColor(doxy);
+		var dbp = document.getElementById("bp"); var BP = setBPColor(dbp);
+		//var dhrate=document.getElementById("hrate"); var HB=setHRateColor(dhrate);
+
+		var dbmi = document.getElementById("bmi"); var BM = setBMIColor(dbmi);
+		var arm = document.getElementById("arm"); var AR = setARMColor(arm);
+		var height = document.getElementById("height"); var HT = setHeight(height);
+		var weight = document.getElementById("weight"); var WT = setWeight(weight);
+
+		var pointer = (BP + OX + TM + BM) * 12;
+		document.getElementById('myBar').innerHTML = getBar(pointer);
+
+		var risk = document.getElementById("risk");
+
+
+		if (pointer <= 60) {
+			risk.innerHTML = risk.innerHTML + "<div id='safe'>: Safe </div>";
+		}
+		else if (pointer > 60 && pointer < 120) {
+			risk.innerHTML = risk.innerHTML + "<div id='marginal'>: Marginal </div>";
+		}
+		else {
+			risk.innerHTML = risk.innerHTML + "<div id='risky'>: Risky </div>";
+		}
+
+
+		var ltest = document.getElementsByName("ltest");
+		for (var i = 0; i < ltest.length; i++) {
+			setTest(ltest[i]);
+		}
+
+		var lglu = document.getElementById("lglucose");
+		var tlglu = document.getElementById("lglucosetype");
+		setGlucose(lglu, tlglu);
+
+		var totallipid = document.getElementById("lipidtotal");
+		var lipidhdl = document.getElementById("lipidhdl");
+		var lipidldl = document.getElementById("lipidldl");
+		var lipidtri = document.getElementById("lipidtri");
+		var lipidglucose = document.getElementById("lipidglucose");
+		var lipidtype = document.getElementById("lipidtype");
+		setGlucose(lipidglucose, lipidtype);
+
+		setLipid(totallipid, lipidhdl, lipidtri, lipidldl);
+
+
+
+		var labhb = document.getElementById("lhb"); setHemoglobin(labhb);
+		var leyetest = document.getElementById("leyetest"); setEye(leyetest);
+		var reyetest = document.getElementById("reyetest"); setEye(reyetest);
+
+
+
+
+	}
+	applyColor();
+
+
+</script>
+
+</html>

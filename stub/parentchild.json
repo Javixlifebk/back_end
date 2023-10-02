@@ -1,0 +1,289 @@
+[
+   {
+      "What is the purpose of your visit?":[
+         {
+            "id":1,
+            "text":"Abdominal Pain",
+            "child":{
+               "Which part of abdomen do you feel pain?":[
+                  "Upper (R) - Right Hypochondrium",
+                  "Upper (C) - Epigastric",
+                  "Upper (L) - Left Hypochondrium",
+                  "Middle (R) - Right Lumbar",
+                  "Middle (C) - Umbilical",
+                  "Middle (L) - Left Lumbar",
+                  "Lower (R) - Right Illiac Fossa",
+                  "Lower (C) - Hypogastric/Suprapubic",
+                  "Lower (L) - Left Illiac Fossa",
+                  "All Over"
+               ],
+               "Does the pain move to other parts of the body?":[
+                  "Does not move",
+                  "Pain radiates to"
+               ],
+               "Since when have you had this symptom?":[
+                  "Within a Week",
+                  "Within a month",
+                  "Within a day",
+                  "For last many days"
+               ],
+               "How did the pain start?":[
+                  "Gradual",
+                  "Rapidly Increasing",
+                  "Sudden",
+                  "Other [Please describe]"
+               ],
+               "What time of the day do you feel the pain?":[
+                  "Morning",
+                  "Night",
+                  "Not linked to any particular time of day",
+                  "Others"
+               ],
+               "Character of the pain":[
+                  "Constant",
+                  "Colicky / Intermittent(comes & goes)",
+                  "Gnawing/chewing",
+                  "Cramping",
+                  "Dull, aching",
+                  "Others"
+               ],
+               "How severe is the pain?":[
+                  "Mild, 1-3",
+                  "Moderate, 4-6",
+                  "Severe, 7-9",
+                  "Very Severe, 10"
+               ],
+               "Does the pain get worse with the following situations?":[
+                  "Hunger",
+                  "Food",
+                  "Urination",
+                  "Pressure",
+                  "Movement",
+                  "Coughing",
+                  "Straining",
+                  "Others",
+                  "None",
+                  "Don't know/Unsure"
+               ],
+               "Does the pain get better with the following situations?":[
+                  "Medications [describe]",
+                  "Food",
+                  "Leaning Forward",
+                  "Squatting",
+                  "Vomiting",
+                  "Passing of stool",
+                  "Others",
+                  "None",
+                  "Don't know/Unsure"
+               ],
+               "Menstrual History":[
+                  "Has not started menstruation",
+                  "Is menstruating",
+                  "Menopause"
+               ],
+               "Have you taken any treatment (including self-medication or home remedies) or seen any health provider for this problem before coming here today?":[
+                  "Yes",
+                  "None"
+               ]
+            }
+         },
+         {
+            "id":2,
+            "text":"Back and Neck Pain",
+            "child":{
+               "Since when have you had this symptom?":[
+                  "Within a Week",
+                  "Within a month",
+                  "Within a day",
+                  "For last many days"
+               ],
+               "Which part of neck/back do you feel pain?":[
+                  "Neck",
+                  "Upper back (Chest level)",
+                  "Lower back",
+                  "Others"
+               ],
+               "Does the pain go anywhere?":[
+                  "Yes",
+                  "No"
+               ],
+               "Does the pain move to other parts of the body?":[
+                  "Does not move",
+                  "Pain radiates to"
+               ],
+               "How did the pain start?":[
+                  "Gradual",
+                  "Rapidly Increasing",
+                  "Sudden",
+                  "Others"
+               ],
+               "In a day, when do you feel the pain the most?":[
+                  "Morning",
+                  "Night",
+                  "Evening",
+                  "Constant",
+                  "Others"
+               ],
+               "Have you ever lifted a heavy object or twisted your back/neck?":[
+                  "Yes",
+                  "No"
+               ],
+               "How severe is the pain?":[
+                  "Mild, 1-3",
+                  "Moderate, 4-6",
+                  "Severe, 7-9",
+                  "Very Severe, 10"
+               ],
+               "Does the pain get worse with the following symptomps?":[
+                  "Postural Change",
+                  "Cough/Sneezing",
+                  "Activites",
+                  "Pain worse at rest",
+                  "None",
+                  "Don't know/Unsure"
+               ],
+               "Have you ever been diagonosed with any of the following specific diseases?":[
+                  "HIV/AIDS",
+                  "Trauma history"
+               ],
+               "Have you taken any treatment (including self-medication or home remedies) or seen any health provider for this problem before coming here today?":[
+                  "Yes",
+                  "None"
+               ]
+            }
+         },
+         {
+            "id":3,
+            "text":"Diarrhea",
+            "child":{
+               "Since when have you had this symptom?":[
+                  "Within a Week",
+                  "Within a month",
+                  "Within a day",
+                  "For last many days"
+               ],
+               "Type of stool":[
+                  "Watery",
+                  "Mucous",
+                  "Formed/lumpy feces"
+               ],
+               "Have you experienced any indigestion of unusual food/liquid within the previous months before diarrhea started?":[
+                  "Yes",
+                  "No"
+               ],
+               "Have you taken any treatment (including self-medication or home remedies) or seen any health provider for this problem before coming here today?":[
+                  "Yes",
+                  "None"
+               ]
+            }
+         },
+         {
+            "id":4,
+            "text":"Fever",
+            "child":{
+               "Since when have you had this symptom?":[
+                  "Within a Week",
+                  "Within a month",
+                  "Within a day",
+                  "For last many days"
+               ],
+               "Nature of Fever":[
+                  "All day/ Constant",
+                  "Irregular (comes & goes)",
+                  "Alternative days",
+                  "Every few hours",
+                  "Every few days",
+                  "Others"
+               ],
+               "In a day, when do you feel fever the most?":[
+                  "Morning",
+                  "Night",
+                  "Evening",
+                  "All Day",
+                  "Others"
+               ],
+               "Severity":[
+                  "Low",
+                  "Moderate",
+                  "High",
+                  "Combined high and low",
+                  "Did you recently measured fever using thermometer?"
+               ],
+               "Have you ever been diagonosed with any of the following specific diseases?":[
+                  "HIV/AIDS",
+                  "Chronic liver disease",
+                  "Chronic renal disease"
+               ],
+               "Have you experienced the following situation within the previous months before fever started?":[
+                  "Vomitting",
+                  "Body pain"
+               ],
+               "Have you taken any treatment (including self-medication or home remedies) or seen any health provider for this problem before coming here today?":[
+                  "Yes",
+                  "None"
+               ]
+            }
+         },
+         {
+            "id":5,
+            "text":"Hypertension screening and checkup",
+            "child":{
+               "Where is the BP taken?":[
+                  "Clinic",
+                  "Camp",
+                  "Home",
+                  "Other"
+               ],
+               "When did you have your last BP measured?":[
+                  "Never",
+                  "Over 12 months ago",
+                  "Within last 12 months"
+               ],
+               "Where you previously diagonosed with high BP?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ],
+               "If female, are you pregnant?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ],
+               "If female, have you had raised BP in this or previous pregnancy?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ],
+               "Are you currently fasting?":[
+                  "Yes",
+                  "No"
+               ],
+               "Do you have diabetes?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ],
+               "Do you consume tobacco(cigarette, bidi, pan gutka)?":[
+                  "Yes",
+                  "No"
+               ],
+               "Do you consume alcohol?":[
+                  "Never/rarely",
+                  "1-3 times per month",
+                  "At least once per week"
+               ],
+               "Have you had a heart attack in the past?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ],
+               "Have you had a stroke in the past?":[
+                  "Yes",
+                  "No",
+                  "Don't know"
+               ]
+            }
+         }
+      ]
+   }
+]

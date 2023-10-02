@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Hello world!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+		.card {
+		  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+		  transition: 0.3s;
+		  width: 40%;
+		}
+
+		.card:hover {
+		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+		}
+
+		.center {
+		  margin: auto;
+		  width: 50%;
+		  padding: 10px;
+		}
+
+		.container {
+		  padding: 2px 16px;
+		}
+
+		body {
+		  color: red;
+		}
+		</style>
+    </head>
+    <body background="http://localhost:3000/profile/back.jpg">
+        <center>
+        <!-- <img src="http://localhost:3000/profile/logo.png" height=50px width=250px/> -->
+        <img src="http://localhost:3010/profile/1672897712480.png" height=50px width=250px/>
+        <h1> Profile Information</center></h1>
+		<div class="card center">
+		  <div class="container center">
+            {{#each users}}
+			<img src= {{this.info.photo}} height=250px width=200px>
+            <h4>First Name: {{this.firstName}}</h4>
+            <h4>Last Name: {{this.lastName}}</h4>
+            <h4>Sex: {{this.sex}}</h4>
+            <h4>Mobile: {{this.mobile}}</h4>
+            <h4>Email: {{this.email}}</h4>
+            <h4>LoginId: {{this.citizenLoginId}}</h4>
+            <h4>Screener who onboarded : {{this.screenerId}}</h4>
+            <h4>DateOfBirth: {{this.info.dateOfBirth}}</h4>
+            <h4>Address: {{this.info.address}}</h4>
+            <h4>Date of Onboarding: {{this.info.dateOfOnBoarding}}</h4>
+            <h4>Rating: {{this.info.rating}}</h4>
+            <h4>Blood Group: {{this.info.bloodGroup}}</h4>
+            <h4>Javix ID: {{this.javixId}}</h4>
+            <h4>District: {{this.info.district}}</h4>
+            <h4>State: {{this.info.state}}</h4>
+            <h4>Country: {{this.info.country}}</h4>
+        {{/each}}
+        </div>
+        </div>
+        <!-- <footer>
+          <h5 align='center'>--- End of Report ---</h5>
+           <h3 align='center'>DISCLAIMER</h3>
+           <h5 align='center'>The Report is only for general health screening and wellness awareness. These tests are not specific to the individual health conditions. Please correlate clinically</h5>
+         </footer> -->
+    </body>
+</html>
