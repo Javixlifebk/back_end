@@ -1399,6 +1399,7 @@ exports.tmp_out1List = [
           as: "citizens",
         },
       },
+      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
       {
         $lookup: {
           localField: "citizenId",
@@ -1408,6 +1409,9 @@ exports.tmp_out1List = [
         },
       },
       {
+        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
+      },
+      {
         $lookup: {
           localField: "screenerId",
           from: "screeners",
@@ -1415,11 +1419,9 @@ exports.tmp_out1List = [
           as: "screeners",
         },
       },
-      { $unwind: { path: "$citizens", preserveNullAndEmptyArrays: true } },
+      
       { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
-      {
-        $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
-      },
+      
 
       {
         $project: {
