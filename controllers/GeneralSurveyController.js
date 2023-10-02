@@ -1411,16 +1411,16 @@ exports.tmp_out1List = [
       {
         $unwind: { path: "$citizendetails", preserveNullAndEmptyArrays: true },
       },
-      {
-        $lookup: {
-          localField: "screenerId",
-          from: "screeners",
-          foreignField: "screenerId",
-          as: "screeners",
-        },
-      },
+      // {
+      //   $lookup: {
+      //     localField: "screenerId",
+      //     from: "screeners",
+      //     foreignField: "screenerId",
+      //     as: "screeners",
+      //   },
+      // },
       
-      { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
+      // { $unwind: { path: "$screeners", preserveNullAndEmptyArrays: true } },
       
 
       {
@@ -1429,9 +1429,9 @@ exports.tmp_out1List = [
           fullname: {
             $concat: ["$citizens.firstName", " ", "$citizens.lastName"],
           },
-          screenerfullname: {
-            $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
-          },
+          // screenerfullname: {
+          //   $concat: ["$screeners.firstName", " ", "$screeners.lastName"],
+          // },
           severity_bp: 1,
           Email: "$citizens.email",
           aadhaar: { $concat: ["'", "$citizens.aadhaar", "'"] },
