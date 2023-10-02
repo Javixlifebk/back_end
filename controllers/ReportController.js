@@ -276,7 +276,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -346,7 +346,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -418,7 +418,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -490,7 +490,7 @@ if(req.body.roleId==='4'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -562,7 +562,7 @@ if(req.body.roleId==='6'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1054,7 +1054,7 @@ exports.createCaseReport = [
 							  await merger.save(file);
 
 					        	var temp1 = file.split("/");
-					        	val.filename="http://18.60.238.252:3010/reports/"+temp1[temp1.length-1];
+					        	val.filename="https://javixlife.org/reports/"+temp1[temp1.length-1];
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
@@ -1402,7 +1402,7 @@ exports.createMedicalHistoryReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1531,7 +1531,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="https://javixlife.org/reports/"+temp[temp.length-1];
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
