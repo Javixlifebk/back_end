@@ -1,4 +1,4 @@
-var pdf = require("pdf-creator-node");
+// var pdf = require("pdf-creator-node");
 var fs = require('fs');
 const PDFMerger = require('pdf-merger-js');
 var path = require('path');
@@ -20,6 +20,10 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+const pdf = require('html-pdf');
+const { htmlToText } = require('html-to-text');
+const handlebars = require('handlebars');
+
 // const { Logo } = require("../models/logoModel");
 // const Logo = db.Logo
 var users;
@@ -229,7 +233,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/ngo/screenerById',
+					  url: 'http://localhost:3010/api/ngo/screenerById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -299,7 +303,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/ngo/ngoById',
+					  url: 'http://localhost:3010/api/ngo/ngoById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -371,7 +375,7 @@ exports.createProfileReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/doctor/doctorById',
+					  url: 'http://localhost:3010/api/doctor/doctorById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -443,7 +447,7 @@ if(req.body.roleId==='4'){
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/pharmacy/pharmacyById',
+					  url: 'http://localhost:3010/api/pharmacy/pharmacyById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -515,7 +519,7 @@ if(req.body.roleId==='6'){
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/citizenById',
+					  url: 'http://localhost:3010/api/citizen/citizenById',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -612,7 +616,7 @@ exports.createCaseReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/screening/getCaseDetails',
+					  url: 'http://localhost:3010/api/screening/getCaseDetails',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -625,7 +629,7 @@ exports.createCaseReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getHemoglobinList',
+					  url: 'http://localhost:3010/api/labtest/getHemoglobinList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -634,7 +638,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getEyeTestList',
+					  url: 'http://localhost:3010/api/labtest/getEyeTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -643,7 +647,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getVisualExamList',
+					  url: 'http://localhost:3010/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -652,7 +656,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getBloodGlucoseTestList',
+					  url: 'http://localhost:3010/api/labtest/getBloodGlucoseTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -661,7 +665,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options5 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLipidPanelTestList',
+					  url: 'http://localhost:3010/api/labtest/getLipidPanelTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -670,7 +674,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options6 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getDrugTestList',
+					  url: 'http://localhost:3010/api/labtest/getDrugTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -679,7 +683,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options7 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLabTestList',
+					  url: 'http://localhost:3010/api/labtest/getLabTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -688,7 +692,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options8 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getSickleCell',
+					  url: 'http://localhost:3010/api/labtest/getSickleCell',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -697,7 +701,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options9 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getThalassemia',
+					  url: 'http://localhost:3010/api/labtest/getThalassemia',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -706,7 +710,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options10 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getLungTest',
+					  url: 'http://localhost:3010/api/labtest/getLungTest',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -715,7 +719,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options11 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getHeartTestList',
+					  url: 'http://localhost:3010/api/labtest/getHeartTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -724,7 +728,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options12 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/labtest/getUrineTestList',
+					  url: 'http://localhost:3010/api/labtest/getUrineTestList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -733,7 +737,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options13 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/screening/SymptomsList',
+					  url: 'http://localhost:3010/api/screening/SymptomsList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -741,7 +745,7 @@ exports.createCaseReport = [
 					   ngoId: ngoId
 					   } };
 					   var options14 = { method: 'POST',
-					   url: 'http://3.111.147.53:3010/api/test/getByCaseId',
+					   url: 'http://localhost:3010/api/test/getByCaseId',
 					   headers: 
 						{ 'content-type': 'application/x-www-form-urlencoded' },
 					   form: 
@@ -1000,71 +1004,100 @@ exports.createCaseReport = [
 												    else return("<span class='red'>"+this.bpsys+"</span>");
 												 }
 						console.dir(users[0].labs);						 
-					  	var document = {
-					    html: html,
-					    data: {
-					        users: {users}
-					    },
-					    path: process.cwd()+"\\uploads\\"+caseId+".pdf"
-					};
+					//   	var document = {
+					//     html: html,
+					//     data: {
+					//         users: {users}
+					//     },
+					//     path: process.cwd()+"\\uploads\\"+caseId+".pdf"
+					// };
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
                    
-				   var options = {
-						phantomPath: binPath,
-					        format: "A3",
-					        orientation: "portrait",
-					        border: "10mm"
-					        // header: {
-					        //     height: "15mm",
-					        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
-					        // },
-					    //     "footer": {
-					    //         "height": "15mm",
-					    //         "contents": {
+				//    var options = {
+				// 		phantomPath: binPath,
+				// 	        format: "A3",
+				// 	        orientation: "portrait",
+				// 	        border: "10mm"
+				// 	        // header: {
+				// 	        //     height: "15mm",
+				// 	        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
+				// 	        // },
+				// 	    //     "footer": {
+				// 	    //         "height": "15mm",
+				// 	    //         "contents": {
 					           
-					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+				// 	    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
 					           
-					    //     }
-					    // }
-					};
+				// 	    //     }
+				// 	    // }
+				// 	};
+
+
+					
+	  	// var document = {
+		// 			    html: html,
+		// 			    data: {
+		// 			        users: {users}
+		// 			    },
+					    
+		// 			};
+
+					var template = handlebars.compile(html);
+
+					var data = {users};
+					var result = template(data);
+
+					const text = htmlToText(result, {
+						wordwrap: 130
+					});
+					console.log(text);
+const options = {
+  format: 'Letter'
+}
+// console.log("document document",document)
+pdf.create(result, options).toFile('./pdfname.pdf', (err, res) => {
+  if (err) {
+    console.log(err);
+  }
+});
 						  
 						//   console.log("inhere");
 
-					  	pdf.create(document, options)
-					    .then(val => {
+					  	// pdf.create(document, options)
+					    // .then(val => {
 
-					    	// console.log("I am inside pdf create");
-					        var temp = val.filename.split("/");
-					        var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
-					        console.log(filename);
-					    	(async () => {
-					    	var merger = new PDFMerger();
-							  merger.add(filename); 
-							//   console.dir(global_labs.heart);
-							 // for(var i=0;i<global_labs.heart.length;i++){
+					    // 	// console.log("I am inside pdf create");
+					    //     var temp = val.filename.split("/");
+					    //     var filename=process.cwd()+"\\uploads\\"+caseId+".pdf";
+					    //     console.log(filename);
+					    // 	(async () => {
+					    // 	var merger = new PDFMerger();
+						// 	  merger.add(filename); 
+						// 	//   console.dir(global_labs.heart);
+						// 	 // for(var i=0;i<global_labs.heart.length;i++){
 
-							  	//var temp1 = global_labs.heart[i].url.split("/");
-					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
-							  	//merger.add(filename1); 
-							 // }
-							  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
-							  merger.add(filename2); 
-							  var file=process.cwd()+"\\uploads\\"+caseId+".pdf";
-							  await merger.save(file);
+						// 	  	//var temp1 = global_labs.heart[i].url.split("/");
+					    //     	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
+						// 	  	//merger.add(filename1); 
+						// 	 // }
+						// 	  var filename2=process.cwd()+"\\uploads\\documents\\DISCLAIMER.pdf";
+						// 	  merger.add(filename2); 
+						// 	  var file=process.cwd()+"\\uploads\\"+caseId+".pdf";
+						// 	  await merger.save(file);
 
-					        	var temp1 = file.split("/");
-					        	val.filename="http://3.111.147.53:3010/reports/"+caseId+".pdf";
-					        	return apiResponse.successResponseWithData(res,"Success",val);
-							})();
+					    //     	var temp1 = file.split("/");
+					    //     	val.filename="http://3.111.147.53:3010/reports/"+caseId+".pdf";
+					    //     	return apiResponse.successResponseWithData(res,"Success",val);
+						// 	})();
 					        
 					        
 					        
 
-					    })
-					    .catch(error => {
-					        return apiResponse.ErrorResponse(res, error);
-					    });
+					    // })
+					    // .catch(error => {
+					    //     return apiResponse.ErrorResponse(res, error);
+					    // });
 					  }
 					});
 
@@ -1137,7 +1170,7 @@ exports.createMedicalHistoryReport = [
 
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/getHistoryAllergy',
+					  url: 'http://localhost:3010/api/citizen/getHistoryAllergy',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1150,7 +1183,7 @@ exports.createMedicalHistoryReport = [
 
 
 					   var options1 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/getHistoryMedical',
+					  url: 'http://localhost:3010/api/citizen/getHistoryMedical',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1159,7 +1192,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options2 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/getHistoryWomen',
+					  url: 'http://localhost:3010/api/citizen/getHistoryWomen',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1168,7 +1201,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/getHistoryFamily',
+					  url: 'http://localhost:3010/api/citizen/getHistoryFamily',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1177,7 +1210,7 @@ exports.createMedicalHistoryReport = [
 					   } };
 
 					   var options4 = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/citizen/getHistoryPersonal',
+					  url: 'http://localhost:3010/api/citizen/getHistoryPersonal',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -1452,7 +1485,7 @@ exports.createPrescriptionReport = [
 						// console.log(html);
 
 					var options = { method: 'POST',
-					  url: 'http://3.111.147.53:3010/api/doctor/prescriptionlist',
+					  url: 'http://localhost:3010/api/doctor/prescriptionlist',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
