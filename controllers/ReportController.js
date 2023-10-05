@@ -1231,6 +1231,7 @@ exports.createMedicalHistoryReport = [
 					  				};
 					   request(options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
+							console.log("JSON.parse(body1).status",JSON.parse(body1).status)
 					  			status1=JSON.parse(body1).status;
 					  			if(status1==1){
 					  				//console.dir(JSON.parse(body1).data.data);
