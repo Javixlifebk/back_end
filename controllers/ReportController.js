@@ -1034,18 +1034,28 @@ exports.createCaseReport = [
 							Key: filePath,
 							};
 
-							const command = new GetObjectCommand(downloadParams);
-							const response = await s3Client.send(command);
-							if(response) {
+							s3Client.headObject(downloadParams).promise()
+								.then((data) => {
+									awsBucketFile();
+								})
+								.catch((err) => {
+								  // The object does not exist
+								  console.log('The object does not exist');
+								});
 
-								// Save the file to disk.
-								const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
-								const writeStream = fs.createWriteStream(savePath);
-								response.Body.pipe(writeStream);
 
-								// Wait for the file to be saved before continuing.
-								await writeStream.finished;
-							}
+							// const command = new GetObjectCommand(downloadParams);
+							// const response = await s3Client.send(command);
+							// if(response) {
+
+							// 	// Save the file to disk.
+							// 	const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+							// 	const writeStream = fs.createWriteStream(savePath);
+							// 	response.Body.pipe(writeStream);
+
+							// 	// Wait for the file to be saved before continuing.
+							// 	await writeStream.finished;
+							// }
 
 
 
@@ -1117,6 +1127,32 @@ exports.createCaseReport = [
 ];
 
 
+ function awsBucketFile() {
+	async() => {
+			const bucketName = 'javixtest';
+			const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+
+			const downloadParams = {
+			Bucket: bucketName,
+			Key: filePath,
+			};
+
+			
+
+			const command = new GetObjectCommand(downloadParams);
+			const response = await s3Client.send(command);
+			if(response) {
+
+				// Save the file to disk.
+				const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+				const writeStream = fs.createWriteStream(savePath);
+				response.Body.pipe(writeStream);
+
+				// Wait for the file to be saved before continuing.
+				await writeStream.finished;
+			}
+		}
+}
 
 exports.createMedicalHistoryReport = [
     	
