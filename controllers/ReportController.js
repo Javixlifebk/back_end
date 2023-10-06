@@ -1029,7 +1029,7 @@ exports.createCaseReport = [
 					};
 						  
 						//   console.log("inhere");
-
+						process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 
