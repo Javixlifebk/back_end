@@ -1034,14 +1034,14 @@ exports.createCaseReport = [
 							Key: filePath,
 							};
 
-							s3Client.headObject(downloadParams).promise()
-								.then((data) => {
-									awsBucketFile();
-								})
-								.catch((err) => {
-								  // The object does not exist
-								  console.log('The object does not exist');
-								});
+							// s3Client.headObject(downloadParams).promise()
+							// 	.then((data) => {
+							// 		awsBucketFile();
+							// 	})
+							// 	.catch((err) => {
+							// 	  // The object does not exist
+							// 	  console.log('The object does not exist');
+							// 	});
 
 
 							// const command = new GetObjectCommand(downloadParams);
