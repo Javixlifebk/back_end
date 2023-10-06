@@ -604,11 +604,11 @@ exports.createCaseReport = [
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-				console.log("case report",req.body);
-						var caseId=req.body.caseId;
-						var ngoId=req.body.ngoId;
-						var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
-						var token="hgaghsagf";
+					var caseId=req.body.caseId;
+					var citizenId = req.body.citizenId;
+					var ngoId=req.body.ngoId;
+					var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
+					var token="hgaghsagf";
 
 
 					var options = { method: 'POST',
@@ -972,20 +972,6 @@ exports.createCaseReport = [
 					  	}
 					  	
 					  	
-					  	
-					  	// var cdate="";
-					  	// console.log(users[0].createdAt);
-					  	// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
-					  	// 	cdate=users[0].createdAt.toISOString().split('T')[0];
-					  	// 	var adate=new Date(cdate);
-					  	// 	users[0].createdAt=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
-					  	// }
-					  	// else{
-					  	// 	users[0].createdAt=cdate;
-					  	// }
-						
-						//console.log("DOB="+users[0].citizendetails[0].dob);
-						//console.log("Cdate="+users[0].createdAt);
 						users[0].labs=labs;
 						global_labs=labs;
 						users[0].bpsysFun=function() { if(this.bpsys>=110 && this.bpsys<=120)
@@ -1026,6 +1012,32 @@ exports.createCaseReport = [
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
+
+							  //New code for file aws
+							const bucketName = 'javixtest';
+							const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+
+							const downloadParams = {
+							Bucket: bucketName,
+							Key: filePath,
+							};
+
+							const command = new GetObjectCommand(downloadParams);
+							const response = await s3Client.send(command);
+							if(response) {
+
+								// Save the file to disk.
+								const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+								const writeStream = fs.createWriteStream(savePath);
+								response.Body.pipe(writeStream);
+
+								// Wait for the file to be saved before continuing.
+								await writeStream.finished;
+							}
+
+
+
+							//New code for aws file end
 							
 							  var filename2="./uploads/documents/DISCLAIMER.pdf";
 							  merger.add(filename2); 
