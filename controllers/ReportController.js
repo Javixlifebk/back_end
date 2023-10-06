@@ -271,7 +271,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -341,7 +341,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -413,7 +413,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -485,7 +485,7 @@ if(req.body.roleId==='4'){
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -557,7 +557,7 @@ if(req.body.roleId==='6'){
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -1396,7 +1396,7 @@ exports.createMedicalHistoryReport = [
 					    //     }
 					    // }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -1525,7 +1525,7 @@ exports.createPrescriptionReport = [
 					    //     }
 					    // }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
