@@ -1031,8 +1031,7 @@ exports.createCaseReport = [
 							  merger.add(filename2); 
 							  var file="./uploads/"+"case_report_final_"+caseId+".pdf";
 							  await merger.save(file);
-
-					        	var temp1 = file.split("/");
+							  fs.unlink("./uploads/"+"case_report_"+caseId+".pdf");
 					        	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
