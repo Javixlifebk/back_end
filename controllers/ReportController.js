@@ -1004,7 +1004,7 @@ exports.createCaseReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+"case_report_"+caseId+".pdf"
+					    path: "./uploads/"+Date.now()+".pdf"
 					};
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
@@ -1014,7 +1014,18 @@ exports.createCaseReport = [
 					        format: "A3",
 					        orientation: "portrait",
 					        border: "10mm"
-					      
+					        // header: {
+					        //     height: "15mm",
+					        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
+					        // },
+					    //     "footer": {
+					    //         "height": "15mm",
+					    //         "contents": {
+					           
+					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+					           
+					    //     }
+					    // }
 					};
 						  
 						//   console.log("inhere");
@@ -1022,16 +1033,27 @@ exports.createCaseReport = [
 					  	pdf.create(document, options)
 					    .then(val => {
 
-					        var filename="./uploads/"+"case_report_"+caseId+".pdf"
+					    	// console.log("I am inside pdf create");
+					        var temp = val.filename.split("/");
+					        var filename="./uploads/"+temp[temp.length-1];
+					        console.log(filename);
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
-				
+							//   console.dir(global_labs.heart);
+							 // for(var i=0;i<global_labs.heart.length;i++){
+
+							  	//var temp1 = global_labs.heart[i].url.split("/");
+					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
+							  	//merger.add(filename1); 
+							 // }
 							  var filename2="./uploads/documents/DISCLAIMER.pdf";
 							  merger.add(filename2); 
-							  var file="./uploads/"+"case_report_final_"+caseId+".pdf"
+							  var file="./uploads/"+Date.now()+".pdf";
 							  await merger.save(file);
-					        	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf"
+
+					        	var temp1 = file.split("/");
+					        	val.filename="http://18.60.238.252:3010/reports/"+temp1[temp1.length-1];
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
