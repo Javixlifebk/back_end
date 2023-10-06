@@ -20,6 +20,18 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+const config = require('../config');
+const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+
+
+// Configure AWS SDK
+const s3Client = new S3Client({
+	region: config.region,
+	credentials: {
+		accessKeyId: config.accessKeyId,
+		secretAccessKey: config.secretAccessKey,
+	},
+});
 // const { Logo } = require("../models/logoModel");
 // const Logo = db.Logo
 var users;
