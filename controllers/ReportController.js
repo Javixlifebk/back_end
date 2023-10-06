@@ -20,6 +20,9 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+import { unlink } from 'node:fs';
+
+
 // const { Logo } = require("../models/logoModel");
 // const Logo = db.Logo
 var users;
@@ -1031,7 +1034,12 @@ exports.createCaseReport = [
 							  merger.add(filename2); 
 							  var file="./uploads/"+"case_report_final_"+caseId+".pdf";
 							  await merger.save(file);
-							  fs.unlink("./uploads/"+"case_report_"+caseId+".pdf");
+							 
+							  unlink("./uploads/"+"case_report_"+caseId+".pdf", (err) => {
+								if (err) throw err;
+								console.log('path/file.txt was deleted');
+							  }); 
+
 					        	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
