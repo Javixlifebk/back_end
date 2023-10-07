@@ -20,6 +20,18 @@ const bcrypt = require("bcrypt");
 const { constants } = require("../helpers/constants");
 
 var request = require("request");
+const config = require('../config');
+const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+
+
+// Configure AWS SDK
+const s3Client = new S3Client({
+	region: config.region,
+	credentials: {
+		accessKeyId: config.accessKeyId,
+		secretAccessKey: config.secretAccessKey,
+	},
+});
 // const { Logo } = require("../models/logoModel");
 // const Logo = db.Logo
 var users;
@@ -271,7 +283,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -341,7 +353,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -413,7 +425,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -485,7 +497,7 @@ if(req.body.roleId==='4'){
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -557,7 +569,7 @@ if(req.body.roleId==='6'){
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -604,11 +616,11 @@ exports.createCaseReport = [
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
-				console.log("case report",req.body);
-						var caseId=req.body.caseId;
-						var ngoId=req.body.ngoId;
-						var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
-						var token="hgaghsagf";
+					var caseId=req.body.caseId;
+					var citizenId = req.body.citizenId;
+					var ngoId=req.body.ngoId;
+					var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
+					var token="hgaghsagf";
 
 
 					var options = { method: 'POST',
@@ -972,20 +984,6 @@ exports.createCaseReport = [
 					  	}
 					  	
 					  	
-					  	
-					  	// var cdate="";
-					  	// console.log(users[0].createdAt);
-					  	// if(users[0].createdAt!=null && users[0].createdAt!=undefined && users[0].createdAt!=""){
-					  	// 	cdate=users[0].createdAt.toISOString().split('T')[0];
-					  	// 	var adate=new Date(cdate);
-					  	// 	users[0].createdAt=adate.getDate()+"-"+(adate.getMonth()+1)+"-"+(adate.getYear()+1900);
-					  	// }
-					  	// else{
-					  	// 	users[0].createdAt=cdate;
-					  	// }
-						
-						//console.log("DOB="+users[0].citizendetails[0].dob);
-						//console.log("Cdate="+users[0].createdAt);
 						users[0].labs=labs;
 						global_labs=labs;
 						console.log("users users",users);
@@ -1005,7 +1003,7 @@ exports.createCaseReport = [
 					    data: {
 					        users: {users}
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/"+"case_report_"+caseId+".pdf"
 					};
 
 					// phantomPath: "/mnt/volume_blr1_01/javix/Javix-BackEnd/node_modules/phantomjs-prebuilt/bin/phantomjs",
@@ -1015,46 +1013,61 @@ exports.createCaseReport = [
 					        format: "A3",
 					        orientation: "portrait",
 					        border: "10mm"
-					        // header: {
-					        //     height: "15mm",
-					        //     contents: '<div style="text-align: center;">PortaClinic By JaviX Life</div>'
-					        // },
-					    //     "footer": {
-					    //         "height": "15mm",
-					    //         "contents": {
-					           
-					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-					           
-					    //     }
-					    // }
+					       
 					};
 						  
 						//   console.log("inhere");
-
+						process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 
-					    	// console.log("I am inside pdf create");
-					        var temp = val.filename.split("/");
-					        var filename="./uploads/"+temp[temp.length-1];
-					        console.log(filename);
+					        var filename="./uploads/"+"case_report_"+caseId+".pdf";
 					    	(async () => {
 					    	var merger = new PDFMerger();
 							  merger.add(filename); 
-							//   console.dir(global_labs.heart);
-							 // for(var i=0;i<global_labs.heart.length;i++){
 
-							  	//var temp1 = global_labs.heart[i].url.split("/");
-					        	//var filename1="./uploads/documents/"+temp1[temp1.length-1];
-							  	//merger.add(filename1); 
-							 // }
+							  //New code for file aws
+							const bucketName = 'javixtest';
+							const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+
+							const downloadParams = {
+							Bucket: bucketName,
+							Key: filePath,
+							};
+
+							// s3Client.headObject(downloadParams).promise()
+							// 	.then((data) => {
+							// 		awsBucketFile();
+							// 	})
+							// 	.catch((err) => {
+							// 	  // The object does not exist
+							// 	  console.log('The object does not exist');
+							// 	});
+
+
+							// const command = new GetObjectCommand(downloadParams);
+							// const response = await s3Client.send(command);
+							// if(response) {
+
+							// 	// Save the file to disk.
+							// 	const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+							// 	const writeStream = fs.createWriteStream(savePath);
+							// 	response.Body.pipe(writeStream);
+
+							// 	// Wait for the file to be saved before continuing.
+							// 	await writeStream.finished;
+							// }
+
+
+
+							//New code for aws file end
+							
 							  var filename2="./uploads/documents/DISCLAIMER.pdf";
 							  merger.add(filename2); 
-							  var file="./uploads/"+Date.now()+".pdf";
+							  var file="./uploads/"+"case_report_final_"+caseId+".pdf";
 							  await merger.save(file);
 
-					        	var temp1 = file.split("/");
-					        	val.filename="https://javixlife.org/reports/"+temp1[temp1.length-1];
+					        	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 							})();
 					        
@@ -1115,6 +1128,32 @@ exports.createCaseReport = [
 ];
 
 
+ function awsBucketFile() {
+	async() => {
+			const bucketName = 'javixtest';
+			const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+
+			const downloadParams = {
+			Bucket: bucketName,
+			Key: filePath,
+			};
+
+			
+
+			const command = new GetObjectCommand(downloadParams);
+			const response = await s3Client.send(command);
+			if(response) {
+
+				// Save the file to disk.
+				const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+				const writeStream = fs.createWriteStream(savePath);
+				response.Body.pipe(writeStream);
+
+				// Wait for the file to be saved before continuing.
+				await writeStream.finished;
+			}
+		}
+}
 
 exports.createMedicalHistoryReport = [
     	
@@ -1397,7 +1436,7 @@ exports.createMedicalHistoryReport = [
 					    //     }
 					    // }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
@@ -1526,7 +1565,7 @@ exports.createPrescriptionReport = [
 					    //     }
 					    // }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);

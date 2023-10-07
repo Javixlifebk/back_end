@@ -82,7 +82,7 @@ exports.createProfileReport = [
 					        }
 					    }
 					};
-
+					process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(res => {
 					    	console.dir(document)
