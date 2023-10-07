@@ -1022,54 +1022,60 @@ exports.createCaseReport = [
 					    .then(val => {
 
 					        var filename="./uploads/"+"case_report_"+caseId+".pdf";
-					    	(async () => {
-					    	var merger = new PDFMerger();
-							  merger.add(filename); 
 
-							  //New code for file aws
-							const bucketName = 'javixtest';
-							const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+							  // Specify the S3 bucket name and file key (path) of the file you want to download
+								const bucketName = 'javixtest';
+								// const filePath = 'userDocuments/ecgTest/' + citizenId + '_' + caseId + '.pdf';
+								const filePath = 'userDocuments/ecgTest/169173269079620721_169174926332158616.pdf';
 
-							const downloadParams = {
-							Bucket: bucketName,
-							Key: filePath,
-							};
+								const downloadParams = {
+									Bucket: bucketName,
+									Key: filePath,
+								};
 
-							// s3Client.headObject(downloadParams).promise()
-							// 	.then((data) => {
-							// 		awsBucketFile();
-							// 	})
-							// 	.catch((err) => {
-							// 	  // The object does not exist
-							// 	  console.log('The object does not exist');
-							// 	});
+								// Create a GetObjectCommand with the bucket and key
+								const getObjectCommand = new GetObjectCommand(downloadParams);
 
 
-							// const command = new GetObjectCommand(downloadParams);
-							// const response = await s3Client.send(command);
-							// if(response) {
+  // Download the S3 file and merge it
+			(async () => {
+				try {
+				const { Body } = await s3Client.send(getObjectCommand);
 
-							// 	// Save the file to disk.
-							// 	const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
-							// 	const writeStream = fs.createWriteStream(savePath);
-							// 	response.Body.pipe(writeStream);
+				
+				const localFilePath = './uploads/ecg_report' + caseId + '.pdf';
+				const writeStream = fs.createWriteStream(localFilePath);
 
-							// 	// Wait for the file to be saved before continuing.
-							// 	await writeStream.finished;
-							// }
+				// Pipe the received data to the writable stream
+				Body.pipe(writeStream);
+		
+				// Wait for the write stream to finish
+				await new Promise((resolve, reject) => {
+					writeStream.on('finish', resolve);
+					writeStream.on('error', reject);
+				});
 
+				
 
+				var merger = new PDFMerger();
+				merger.add(filename);
+				// merger.add(localFilePath);
 
-							//New code for aws file end
-							
-							  var filename2="./uploads/documents/DISCLAIMER.pdf";
-							  merger.add(filename2); 
-							  var file="./uploads/"+"case_report_final_"+caseId+".pdf";
-							  await merger.save(file);
+				// Add another local PDF file to the merger
+				var filename2 = './uploads/documents/DISCLAIMER.pdf';
+				merger.add(filename2);
 
-					        	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
-					        	return apiResponse.successResponseWithData(res,"Success",val);
-							})();
+				var finalFile = './uploads/case_report_final_' + caseId + '.pdf';
+				await merger.save(finalFile);
+
+				val.filename = 'http://18.60.238.252:3010/reports/case_report_final_' + caseId + '.pdf';
+
+				return apiResponse.successResponseWithData(res, 'Success', val);
+				} catch (error) {
+				console.error('Error downloading or merging PDF:', error);
+				// Handle the error and return an appropriate response
+				}
+			})();
 					        
 					        
 					        

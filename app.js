@@ -135,6 +135,30 @@ app.get('/download/:filename', async (req, res) => {
 	}
 });
 
+
+app.get('/view/:fileKey', async (req, res) => {
+	const bucketName = 'javixtest';
+	const fileKey = req.params.fileKey;
+  
+	const getObjectParams = {
+	  Bucket: bucketName,
+	  Key: fileKey,
+	};
+  
+	try {
+	  const { Body, ContentType } = await s3Client.send(new GetObjectCommand(getObjectParams));
+  
+	  // Set appropriate headers for the file
+	  res.setHeader('Content-Type', ContentType);
+  
+	  // Stream the file data to the browser
+	  Readable.from(Body).pipe(res);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send('Error fetching the file');
+	}
+  });
+
 //All above code is new for AWS
 
 //Test changes 
@@ -185,8 +209,15 @@ const upload1 = multer({
 
  var mongoose = require("mongoose");
 
-mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false});
-var db = mongoose.connection;
+// mongoose.connect(config.databaseUrl,{ useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false});
+// var db = mongoose.connection;
+
+mongoose.connect(config.databaseUrl)
+.then(() => {
+	console.log("Connected to database");
+}).catch(err => {
+	console.log(err);
+})
 
 
 app.use(cors());
