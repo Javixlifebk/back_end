@@ -1,7 +1,7 @@
 var express = require("express");
 
 const CitizenController = require("../controllers/CitizenController");
-
+const ProfileController = require("../controllers/ProfileController");
 const MedicalAllergyHistoryController = require("../controllers/MedicalAllergyHistoryController");
 
 const FamilyHistoryController = require("../controllers/FamilyHistoryController");
@@ -24,6 +24,7 @@ routerCitizen.post("/citizenCases", CitizenController.citizenCasesList);
 routerCitizen.post("/addDocuments", CitizenController.addDocuments);
 routerCitizen.post("/documentsList", CitizenController.recordList);
 routerCitizen.post("/updateCitizen", CitizenController.updateCitizen);
+routerCitizen.post("/profile/:citizenId", ProfileController.upload, ProfileController.UpdateProfile);
 routerCitizen.post("/updateAddress", CitizenController.updateCitizenAddress);
 routerCitizen.post("/addHistory", MedicalAllergyHistoryController.addHistory);
 routerCitizen.post("/addAllergy", MedicalAllergyHistoryController.addAllergy);
