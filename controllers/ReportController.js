@@ -1040,8 +1040,8 @@ exports.createCaseReport = [
 								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
-							
-								if (s3.headObject(downloadParams)) {
+
+								if (s3.headObject(downloadParams).promise()) {
 									(async () => {
 										try {
 											const getObjectCommand = new GetObjectCommand(downloadParams);
@@ -1075,7 +1075,7 @@ exports.createCaseReport = [
 								}
 
 								setTimeout( async () => {
-									if (s3.headObject(downloadParams)) {
+									if (s3.headObject(downloadParams).promise()) {
 										try {
 											// Read the PDF file
 											const pdfBytes = await fs.promises.readFile(filename);
