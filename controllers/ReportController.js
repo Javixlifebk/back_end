@@ -1093,11 +1093,11 @@ exports.createCaseReport = [
 							}
 						});
 
-							setTimeout( () => {
+							setTimeout( async () => {
 
 								
 
-								s3Client.headObject(downloadParams,async  (err, data) => {
+								await s3Client.headObject(downloadParams, async (err, data) => {
 										if (err.code != 'NotFound') {
 										try {
 
@@ -1149,7 +1149,7 @@ exports.createCaseReport = [
 								
 								merger.add(filename2); 
 								var file="./uploads/delete_created_files/"+"case_report_final_"+caseId+".pdf";
-								merger.save(file);
+								await merger.save(file);
 								val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
 					        	return apiResponse.successResponseWithData(res,"Success",val);
 								
