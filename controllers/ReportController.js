@@ -21,7 +21,7 @@ const { constants } = require("../helpers/constants");
 
 var request = require("request");
 const config = require('../config');
-const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
+const { S3, S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
 const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 
@@ -1036,14 +1036,15 @@ exports.createCaseReport = [
 								};
 							
 								// Create a GetObjectCommand with the bucket and key
-								const getObjectCommand = new GetObjectCommand(downloadParams);
+								
 								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
 							
-								if (getObjectCommand) {
+								if (s3.headObject(downloadParams)) {
 									(async () => {
 										try {
+											const getObjectCommand = new GetObjectCommand(downloadParams);
 											const { Body } = await s3Client.send(getObjectCommand);
 											const writeStream = fs.createWriteStream(ecg_from_aws);
 											// Pipe the received data to the writable stream
@@ -1074,7 +1075,7 @@ exports.createCaseReport = [
 								}
 
 								setTimeout( async () => {
-									if (getObjectCommand) {
+									if (s3.headObject(downloadParams)) {
 										try {
 											// Read the PDF file
 											const pdfBytes = await fs.promises.readFile(filename);
