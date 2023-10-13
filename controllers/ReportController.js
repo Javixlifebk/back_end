@@ -21,7 +21,7 @@ const { constants } = require("../helpers/constants");
 
 var request = require("request");
 const config = require('../config');
-const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
 const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 
@@ -1048,8 +1048,8 @@ exports.createCaseReport = [
 							const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 							// Download the S3 file and merge it
 
-							s3Client.headObject(downloadParams, (err, data) => {
-								  if (err.code != 'NotFound') {
+							
+								  if (getObjectCommand) {
 
 								(async () => {
 								try {
@@ -1091,14 +1091,14 @@ exports.createCaseReport = [
 								})();
 
 							}
-						});
+						// });
 
 							setTimeout( async () => {
 
 								
 
-								await s3Client.headObject(downloadParams, async (err, data) => {
-										if (err.code != 'NotFound') {
+								
+										if (getObjectCommand) {
 										try {
 
 											
@@ -1143,7 +1143,7 @@ exports.createCaseReport = [
 									merger.add(ecg_file_path); 
 
 							}
-						});
+						// });
 
 								var filename2="./uploads/documents/DISCLAIMER.pdf";
 								
