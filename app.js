@@ -208,7 +208,7 @@ app.use('/profile',express.static('./uploads/images'));
 app.use('/videos',express.static('./uploads/videos17012023'));
 app.use('/documents',express.static('./uploads/documents'));
 app.use('/apps',express.static('./uploads/apps'));
-app.use('/reports',express.static('./uploads/'));
+app.use('/reports',express.static('./uploads/delete_created_files/'));
 app.use(express.static(path.join(__dirname, "public")));
 
 
