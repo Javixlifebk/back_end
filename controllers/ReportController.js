@@ -21,7 +21,7 @@ const { constants } = require("../helpers/constants");
 
 var request = require("request");
 const config = require('../config');
-const { S3, S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
+const { s3, S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
 const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 
