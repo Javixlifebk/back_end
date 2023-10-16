@@ -1041,7 +1041,7 @@ exports.createCaseReport = [
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
 								const fileExists = await s3Client.checkFileExists(bucketName, key);
-								console.log("Satish check ",new GetObjectCommand(downloadParams))
+								
 								if (fileExists) {
 									(async () => {
 										try {
