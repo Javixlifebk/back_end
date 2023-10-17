@@ -42,6 +42,18 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 	try {
 		const file = req.file;
 
+		console.log("ecg req",req)
+		console.log("ecg req.body",req.body)
+		let info = {
+			ngoId: req.body.ngoId,
+			caseId: req.body.caseId,
+			screenerId: req.body.screenerId,
+			citizenId: req.body.citizenId,
+		  };
+	  
+		  // console.log(req.body);
+		  await ecgtest.create(info);
+
 		// Read the file content from the buffer
 		const fileContent = file.buffer;
 
@@ -55,17 +67,7 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 
 		const command = new PutObjectCommand(uploadParams);
 		await s3Client.send(command);
-		console.log("ecg req",req)
-		console.log("ecg req.body",req.body)
-		let info = {
-			ngoId: req.body.ngoId,
-			caseId: req.body.caseId,
-			screenerId: req.body.screenerId,
-			citizenId: req.body.citizenId,
-		  };
-	  
-		  // console.log(req.body);
-		  await ecgtest.create(info);
+		
 	  
 
 		res.send('Image uploaded successfully');
