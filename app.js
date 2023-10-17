@@ -42,6 +42,7 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 	try {
 		const file = req.file;
 
+		console.log("I am here in aws_document_upload")
 		console.log("ecg req",req)
 		console.log("ecg req.body",req.body)
 		let info = {
