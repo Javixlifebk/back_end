@@ -24,7 +24,7 @@ const config = require('../config');
 const { S3, S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, headObject } = require('@aws-sdk/client-s3');
 const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
-
+const ecgtest = require("../models/ECGTestModel");
 
 
 // Configure AWS SDK
@@ -1040,9 +1040,15 @@ exports.createCaseReport = [
 								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
-								const fileExists = await s3Client.checkFileExists(bucketName, key);
+								try {
+								var ecg_test_perform = ecgtest.find({ caseId: caseId});
+							  console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+
+								} catch (error) {
+											console.error("Error downloading or merging PDF:", error);
+										}
 								
-								if (fileExists) {
+								if (ecg_test_perform) {
 									(async () => {
 										try {
 											const getObjectCommand = new GetObjectCommand(downloadParams);
@@ -1076,7 +1082,7 @@ exports.createCaseReport = [
 								}
 
 								setTimeout( async () => {
-									if (fileExists) {
+									if (ecg_test_perform) {
 										try {
 											// Read the PDF file
 											const pdfBytes = await fs.promises.readFile(filename);

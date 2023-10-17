@@ -11,6 +11,7 @@ const multer = require('multer');
 const config = require('./config');
 const bodyParser = require('body-parser');
 var app = express();
+const ecgtest = require("./models/ECGTestModel");
 
 
 //All below code is new for AWS
@@ -54,6 +55,17 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 
 		const command = new PutObjectCommand(uploadParams);
 		await s3Client.send(command);
+		
+		let info = {
+			ngoId: req.body.ngoId,
+			caseId: req.body.caseId,
+			screenerId: req.body.screenerId,
+			citizenId: req.body.citizenId,
+		  };
+	  
+		  // console.log(req.body);
+		  await ecgtest.create(info);
+	  
 
 		res.send('Image uploaded successfully');
 	} catch (error) {
