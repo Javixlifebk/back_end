@@ -45,15 +45,15 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 		console.log("I am here in aws_document_upload")
 		console.log("ecg req",req)
 		console.log("ecg req.body",req.body)
-		let info = {
-			ngoId: req.body.ngoId,
-			caseId: req.body.caseId,
-			screenerId: req.body.screenerId,
-			citizenId: req.body.citizenId,
-		  };
+		// let info = {
+		// 	ngoId: req.body.ngoId,
+		// 	caseId: req.body.caseId,
+		// 	screenerId: req.body.screenerId,
+		// 	citizenId: req.body.citizenId,
+		//   };
 	  
-		  // console.log(req.body);
-		  await ecgtest.create(info);
+		//   // console.log(req.body);
+		//   await ecgtest.create(info);
 
 		// Read the file content from the buffer
 		const fileContent = file.buffer;
