@@ -55,7 +55,8 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 
 		const command = new PutObjectCommand(uploadParams);
 		await s3Client.send(command);
-		
+		console.log("ecg req",req)
+		console.log("ecg req.body",req.body)
 		let info = {
 			ngoId: req.body.ngoId,
 			caseId: req.body.caseId,
