@@ -1041,14 +1041,14 @@ exports.createCaseReport = [
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
 								try {
-								var ecg_test_perform = ecgtest.find({ caseId: caseId});
+								var ecg_test_perform = ecgtest.find({ caseId: caseId}).countDocuments();;
 							  console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
 
 								} catch (error) {
 											console.error("Error downloading or merging PDF:", error);
 										}
 								
-								if (ecg_test_perform) {
+								if (ecg_test_perform>0) {
 									(async () => {
 										try {
 											const getObjectCommand = new GetObjectCommand(downloadParams);
@@ -1082,7 +1082,7 @@ exports.createCaseReport = [
 								}
 
 								setTimeout( async () => {
-									if (ecg_test_perform) {
+									if (ecg_test_perform>0) {
 										try {
 											// Read the PDF file
 											const pdfBytes = await fs.promises.readFile(filename);
