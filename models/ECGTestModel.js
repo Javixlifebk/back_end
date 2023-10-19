@@ -11,4 +11,4 @@ const ecgTestschema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("ecgTest", ecgTestschema);
+module.exports = mongoose.model("ecgtests", ecgTestschema);

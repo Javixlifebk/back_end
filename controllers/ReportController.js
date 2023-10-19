@@ -1027,30 +1027,34 @@ exports.createCaseReport = [
 								merger.add(filename); 
 
 
-								const bucketName = "javixtest";
-								const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
-							
-								const downloadParams = {
-								Bucket: bucketName,
-								Key: filePath,
-								};
+								
 							
 								// Create a GetObjectCommand with the bucket and key
 								
 								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
+								console.log('{ caseId: caseId}',{ caseId: caseId});
 								try {
-								var ecg_test_perform = ecgtest.find({ caseId: caseId}).countDocuments();;
+								var ecg_test_perform =await  ecgtest.find({ caseId: caseId});;
 							  console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
 
 								} catch (error) {
 											console.error("Error downloading or merging PDF:", error);
 										}
 								
-								if (ecg_test_perform>0) {
+								if (ecg_test_perform.length >0) {
 									(async () => {
 										try {
+
+											const bucketName = "javixtest";
+											const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+										
+											const downloadParams = {
+											Bucket: bucketName,
+											Key: filePath,
+											};
+
 											const getObjectCommand = new GetObjectCommand(downloadParams);
 											const { Body } = await s3Client.send(getObjectCommand);
 											const writeStream = fs.createWriteStream(ecg_from_aws);
@@ -1082,7 +1086,7 @@ exports.createCaseReport = [
 								}
 
 								setTimeout( async () => {
-									if (ecg_test_perform>0) {
+									if (ecg_test_perform.length >0) {
 										try {
 											// Read the PDF file
 											const pdfBytes = await fs.promises.readFile(filename);

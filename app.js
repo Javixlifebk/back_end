@@ -51,9 +51,30 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 			screenerId: req.body.screenerId,
 			citizenId: req.body.citizenId,
 		  };
+
+		let info_update = {
+		ngoId: req.body.ngoId,
+		// caseId: req.body.caseId,
+		screenerId: req.body.screenerId,
+		citizenId: req.body.citizenId,
+		};
 	  
 		  // console.log(req.body);
-		  await ecgtest.create(info);
+		try {
+		  var ecg_test_perform =await  ecgtest.find({ caseId: caseId});
+		} catch (error) {
+			console.error("Error downloading or merging PDF:", error);
+		}
+		
+		if (ecg_test_perform.length >0) {
+			var ecg_test_perform = await  ecgtest.update({ caseId: caseId},{$set:info_update})
+		} else {
+			await ecgtest.create(info);
+			
+		}
+
+
+		  
 
 		// Read the file content from the buffer
 		const fileContent = file.buffer;
