@@ -265,7 +265,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/delete_created_files"+"profile_report_"+screenerId+".pdf"
+					    path: "./uploads/delete_created_files/"+"profile_report_"+screenerId+".pdf"
 					};
 
 					var options = {
@@ -335,7 +335,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/delete_created_files"+"profile_report_"+ngoId+".pdf"
+					    path: "./uploads/delete_created_files/"+"profile_report_"+ngoId+".pdf"
 					};
 
 					var options = {
@@ -407,7 +407,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/delete_created_files"+"profile_report_"+doctorId+".pdf"
+					    path: "./uploads/delete_created_files/"+"profile_report_"+doctorId+".pdf"
 					};
 
 					var options = {
@@ -479,7 +479,7 @@ if(req.body.roleId==='4'){
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/delete_created_files"+"profile_report_"+pharmacyId+".pdf"
+					    path: "./uploads/delete_created_files/"+"profile_report_"+pharmacyId+".pdf"
 					};
 
 					var options = {
@@ -551,7 +551,7 @@ if(req.body.roleId==='6'){
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/delete_created_files"+"profile_report_"+citizenId+".pdf"
+					    path: "./uploads/delete_created_files/"+"profile_report_"+citizenId+".pdf"
 					};
 
 					var options = {
@@ -1475,7 +1475,7 @@ exports.createMedicalHistoryReport = [
 					    data: {
 					        history: history
 					    },
-					    path: "./uploads/delete_created_files"+"medical_history_report_"+citizenId+".pdf"
+					    path: "./uploads/delete_created_files/"+"medical_history_report_"+citizenId+".pdf"
 					};
 					
 
@@ -1604,7 +1604,7 @@ exports.createPrescriptionReport = [
 					    data: {
 					        prescription: prescription
 					    },
-					    path: "./uploads/delete_created_files"+"prescription_report_"+citizenId+".pdf"
+					    path: "./uploads/delete_created_files/"+"prescription_report_"+citizenId+".pdf"
 					};
 
 					var options = {
