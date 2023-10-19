@@ -70,7 +70,7 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 		// if (ecg_test_perform.length >0) {
 		// 	var ecg_test_perform = await  ecgtest.update({ caseId: caseId},{$set:info_update})
 		// } else {
-			await ecgtest.create(info);
+			ecgtest.create(info);
 			
 		// }
 

@@ -1030,11 +1030,18 @@ exports.createCaseReport = [
 								
 							
 								// Create a GetObjectCommand with the bucket and key
-								
 								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
 								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
 								// Download the S3 file and merge it
-								console.log('{ caseId: caseId}',{ caseId: caseId});
+
+								const bucketName = "javixtest";
+								const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+							
+								const downloadParams = {
+								Bucket: bucketName,
+								Key: filePath,
+								};
+
 								try {
 								var ecg_test_perform =await  ecgtest.find({ caseId: caseId});;
 							  console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
@@ -1047,13 +1054,7 @@ exports.createCaseReport = [
 									(async () => {
 										try {
 
-											const bucketName = "javixtest";
-											const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
 										
-											const downloadParams = {
-											Bucket: bucketName,
-											Key: filePath,
-											};
 
 											const getObjectCommand = new GetObjectCommand(downloadParams);
 											const { Body } = await s3Client.send(getObjectCommand);
