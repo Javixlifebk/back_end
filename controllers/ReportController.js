@@ -265,7 +265,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"profile_report_"+screenerId+".pdf"
 					};
 
 					var options = {
@@ -291,7 +291,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"profile_report_"+screenerId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -335,7 +335,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"profile_report_"+ngoId+".pdf"
 					};
 
 					var options = {
@@ -361,7 +361,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"profile_report_"+ngoId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -407,7 +407,7 @@ exports.createProfileReport = [
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"profile_report_"+doctorId+".pdf"
 					};
 
 					var options = {
@@ -433,7 +433,7 @@ exports.createProfileReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"profile_report_"+doctorId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -479,7 +479,7 @@ if(req.body.roleId==='4'){
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"profile_report_"+pharmacyId+".pdf"
 					};
 
 					var options = {
@@ -505,7 +505,7 @@ if(req.body.roleId==='4'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("\\");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"profile_report_"+pharmacyId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -551,7 +551,7 @@ if(req.body.roleId==='6'){
 					    data: {
 					        users: users
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"profile_report_"+citizenId+".pdf"
 					};
 
 					var options = {
@@ -577,7 +577,7 @@ if(req.body.roleId==='6'){
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"profile_report_"+citizenId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1188,32 +1188,32 @@ exports.createCaseReport = [
 ];
 
 
- function awsBucketFile() {
-	async() => {
-			const bucketName = 'javixtest';
-			const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+//  function awsBucketFile() {
+// 	async() => {
+// 			const bucketName = 'javixtest';
+// 			const filePath = 'userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
 
-			const downloadParams = {
-			Bucket: bucketName,
-			Key: filePath,
-			};
+// 			const downloadParams = {
+// 			Bucket: bucketName,
+// 			Key: filePath,
+// 			};
 
 			
 
-			const command = new GetObjectCommand(downloadParams);
-			const response = await s3Client.send(command);
-			if(response) {
+// 			const command = new GetObjectCommand(downloadParams);
+// 			const response = await s3Client.send(command);
+// 			if(response) {
 
-				// Save the file to disk.
-				const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
-				const writeStream = fs.createWriteStream(savePath);
-				response.Body.pipe(writeStream);
+// 				// Save the file to disk.
+// 				const savePath = './uploads/case_ecg_report_'+citizenId+"_"+caseId+'.pdf';
+// 				const writeStream = fs.createWriteStream(savePath);
+// 				response.Body.pipe(writeStream);
 
-				// Wait for the file to be saved before continuing.
-				await writeStream.finished;
-			}
-		}
-}
+// 				// Wait for the file to be saved before continuing.
+// 				await writeStream.finished;
+// 			}
+// 		}
+// }
 
 exports.createMedicalHistoryReport = [
     	
@@ -1475,7 +1475,7 @@ exports.createMedicalHistoryReport = [
 					    data: {
 					        history: history
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"medical_history_report_"+citizenId+".pdf"
 					};
 					
 
@@ -1501,7 +1501,7 @@ exports.createMedicalHistoryReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"medical_history_report_"+citizenId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
@@ -1604,7 +1604,7 @@ exports.createPrescriptionReport = [
 					    data: {
 					        prescription: prescription
 					    },
-					    path: "./uploads/"+Date.now()+".pdf"
+					    path: "./uploads/delete_created_files"+"prescription_report_"+citizenId+".pdf"
 					};
 
 					var options = {
@@ -1630,7 +1630,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+temp[temp.length-1];
+					        val.filename="http://18.60.238.252:3010/reports/"+"prescription_report_"+citizenId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
