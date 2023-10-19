@@ -45,6 +45,7 @@ app.post('/aws_document_upload', upload_documents_on_AWS.single('document'), asy
 		console.log("I am here in aws_document_upload")
 		console.log("ecg req",req)
 		console.log("ecg req.body",req.body)
+		caseId= req.body.caseId;
 		let info = {
 			ngoId: req.body.ngoId,
 			caseId: req.body.caseId,
