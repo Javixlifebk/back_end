@@ -1604,7 +1604,7 @@ exports.createPrescriptionReport = [
 					    data: {
 					        prescription: prescription
 					    },
-					    path: "./uploads/delete_created_files/"+"prescription_report_"+citizenId+".pdf"
+					    path: "./uploads/delete_created_files/"+"prescription_report_"+caseId+".pdf"
 					};
 
 					var options = {
@@ -1630,7 +1630,7 @@ exports.createPrescriptionReport = [
 					    .then(val => {
 					        // console.log("Response is : -   "+val.filename);
 					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+"prescription_report_"+citizenId+".pdf"
+					        val.filename="http://18.60.238.252:3010/reports/"+"prescription_report_"+caseId+".pdf"
 					        
 					        return apiResponse.successResponseWithData(res,"Success",val);
 
