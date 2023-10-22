@@ -1198,25 +1198,16 @@ exports.createCaseReport = [
 								console.log('Saved!');
 							});
 
-							fs.chmod(sh_file_name, 0o777, (err,fd) => {
+							fs.chmod(sh_file_name, 0o777, (err) => {
 								if (err) {
 								  console.error(err);
 								  return res.status(500).send('Error changing file permissions');
-								} else {
-
-								fs.close(fd, (err) => {
-									if (err) {
-									  console.error(err);
-									} else {
-									  console.log('File closed successfully');
-									}
-								  });
 								}
 
 							});
 
 
-							setTimeout( async () => {
+							setTimeout( () => {
 
 									exec("sh "+process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (error, stdout, stderr) => {
 										if (error) {
