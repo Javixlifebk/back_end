@@ -25,6 +25,8 @@ const { S3, S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, he
 const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const ecgtest = require("../models/ECGTestModel");
+const { exec } = require('child_process');
+
 
 
 // Configure AWS SDK
@@ -1043,19 +1045,99 @@ exports.createCaseReport = [
 								};
 
 								try {
-								var ecg_test_perform =await  ecgtest.find({ caseId: caseId});;
-							  console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
-
+								var ecg_test_perform =await  ecgtest.find({ caseId: caseId});
 								} catch (error) {
 											console.error("Error downloading or merging PDF:", error);
 										}
 								
-								if (ecg_test_perform.length >0) {
-									(async () => {
-										try {
+								// if (ecg_test_perform.length >0) {
+								// 	(async () => {
+								// 		try {
 
 										
 
+								// 			const getObjectCommand = new GetObjectCommand(downloadParams);
+								// 			const { Body } = await s3Client.send(getObjectCommand);
+								// 			const writeStream = fs.createWriteStream(ecg_from_aws);
+								// 			// Pipe the received data to the writable stream
+								// 			Body.pipe(writeStream);
+								// 			// Wait for the write stream to finish
+								// 			await new Promise((resolve, reject) => {
+								// 				writeStream.on("finish", async () => {
+
+								// 						imagePaths = "./uploads/delete_created_files/ecg_png_"+caseId+".png";
+								// 						const file = ecg_from_aws;
+								// 						(async function () {
+								// 							pdfArray = await pdf2img.convert(file);
+								// 							console.log("saving");
+								// 							for (i = 0; i < pdfArray.length; i++) {
+								// 							fs.writeFile(imagePaths, pdfArray[i], function (error) {
+								// 								if (error) { console.error("Error: " + error); }
+								// 							}); //writeFile
+								// 							} // for
+								// 						})();
+								// 				});
+								// 				writeStream.on("error", reject);
+								// 			});
+								// 		} catch (error) {
+								// 			console.error("Error downloading or merging PDF:", error);
+								// 		}
+								// 	})();
+
+								// }
+
+								// setTimeout( async () => {
+								// 	if (ecg_test_perform.length >0) {
+								// 		try {
+								// 			// Read the PDF file
+								// 			const pdfBytes = await fs.promises.readFile(filename);
+								// 			// Read the image file
+								// 			const imageBytes = await fs.promises.readFile(imagePaths);
+								// 			// Create a PDF document
+								// 			const pdfDoc = await PDFDocument.load(pdfBytes);
+								// 			// Embed the image in the PDF document
+								// 			const image = await pdfDoc.embedPng(imageBytes);
+								// 			// Add a new page to the PDF
+								// 			const page = pdfDoc.addPage([image.width, image.height]);
+								// 			// Draw the image on the page
+								// 			// const { width, height } = image.scale(0.5);
+								// 			const pageWidth = page.getWidth();
+								// 			const pageHeight = page.getHeight();
+								// 			const xPercentage = 0.1; // 10% of the page width
+								// 			const yPercentage = 0.1; // 10% of the page height
+								// 			const widthPercentage = 0.9; // 50% of the page width
+								// 			const heightPercentage = 0.9; // 50% of the page height
+
+								// 			page.drawImage(image, {
+								// 			x: xPercentage * pageWidth,
+								// 			y: yPercentage * pageHeight,
+								// 			width: widthPercentage * pageWidth,
+								// 			height: heightPercentage * pageHeight,
+								// 			});
+								// 				// Save the modified PDF to a file
+								// 				const modifiedPdfBytes = await pdfDoc.save();
+								// 				await fs.promises.writeFile(ecg_file_path, modifiedPdfBytes);
+								// 		} catch (error) {
+								// 			console.error(error);
+								// 			res.status(500).send('Error adding image to PDF');
+								// 		}
+								// 		merger.add(ecg_file_path); 
+								// 	}
+
+								// 	var filename2="./uploads/documents/DISCLAIMER.pdf";
+									
+								// 	merger.add(filename2); 
+								// 	var file="./uploads/delete_created_files/"+"case_report_final_"+caseId+".pdf";
+								// 	await merger.save(file);
+								// 	val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
+								// 	return apiResponse.successResponseWithData(res,"Success",val);
+									
+								// }, 3000);
+
+
+								if (ecg_test_perform.length >0) {
+									(async () => {
+										try {
 											const getObjectCommand = new GetObjectCommand(downloadParams);
 											const { Body } = await s3Client.send(getObjectCommand);
 											const writeStream = fs.createWriteStream(ecg_from_aws);
@@ -1064,18 +1146,6 @@ exports.createCaseReport = [
 											// Wait for the write stream to finish
 											await new Promise((resolve, reject) => {
 												writeStream.on("finish", async () => {
-
-														imagePaths = "./uploads/delete_created_files/ecg_png_"+caseId+".png";
-														const file = ecg_from_aws;
-														(async function () {
-															pdfArray = await pdf2img.convert(file);
-															console.log("saving");
-															for (i = 0; i < pdfArray.length; i++) {
-															fs.writeFile(imagePaths, pdfArray[i], function (error) {
-																if (error) { console.error("Error: " + error); }
-															}); //writeFile
-															} // for
-														})();
 												});
 												writeStream.on("error", reject);
 											});
@@ -1086,53 +1156,30 @@ exports.createCaseReport = [
 
 								}
 
-								setTimeout( async () => {
-									if (ecg_test_perform.length >0) {
-										try {
-											// Read the PDF file
-											const pdfBytes = await fs.promises.readFile(filename);
-											// Read the image file
-											const imageBytes = await fs.promises.readFile(imagePaths);
-											// Create a PDF document
-											const pdfDoc = await PDFDocument.load(pdfBytes);
-											// Embed the image in the PDF document
-											const image = await pdfDoc.embedPng(imageBytes);
-											// Add a new page to the PDF
-											const page = pdfDoc.addPage([image.width, image.height]);
-											// Draw the image on the page
-											// const { width, height } = image.scale(0.5);
-											const pageWidth = page.getWidth();
-											const pageHeight = page.getHeight();
-											const xPercentage = 0.1; // 10% of the page width
-											const yPercentage = 0.1; // 10% of the page height
-											const widthPercentage = 0.9; // 50% of the page width
-											const heightPercentage = 0.9; // 50% of the page height
 
-											page.drawImage(image, {
-											x: xPercentage * pageWidth,
-											y: yPercentage * pageHeight,
-											width: widthPercentage * pageWidth,
-											height: heightPercentage * pageHeight,
-											});
-												// Save the modified PDF to a file
-												const modifiedPdfBytes = await pdfDoc.save();
-												await fs.promises.writeFile(ecg_file_path, modifiedPdfBytes);
-										} catch (error) {
-											console.error(error);
-											res.status(500).send('Error adding image to PDF');
-										}
-										merger.add(ecg_file_path); 
+								var  sh_file_content = "pdftk case_report_"+caseId+".pdf"
+								if (ecg_test_perform.length >0) {
+									sh_file_content = sh_file_content +"ecg_report_" + caseId + ".pdf DISCLAIMER.pdf cat case_report_final_"+caseId+".pdf";
+								} else {
+									sh_file_content = sh_file_content +" DISCLAIMER.pdf cat case_report_final_"+caseId+".pdf";
+								}
+
+								var sh_file_name = "./uploads/delete_created_files/"+"sh_file_" + caseId + ".sh"
+								fs.appendFile(sh_file_name, sh_file_content, function (err) {
+									if (err) throw err;
+									console.log('Saved!');
+								});
+
+								exec('sh ./uploads/delete_created_files/'+sh_file_name, (error, stdout, stderr) => {
+									if (error) {
+									  console.error(`Error: ${error}`);
+									  res.status(500).send('Error executing the .sh file');
+									} else {
+										val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
+										return apiResponse.successResponseWithData(res,"Success",val);
+									
 									}
-
-									var filename2="./uploads/documents/DISCLAIMER.pdf";
-									
-									merger.add(filename2); 
-									var file="./uploads/delete_created_files/"+"case_report_final_"+caseId+".pdf";
-									await merger.save(file);
-									val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
-									return apiResponse.successResponseWithData(res,"Success",val);
-									
-								}, 3000);
+								});
 					        	
 							})();
 					    })
