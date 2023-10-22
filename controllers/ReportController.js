@@ -1216,7 +1216,7 @@ exports.createCaseReport = [
 										
 										}
 									});
-								});
+								
 							}, 3000);
 
 					    })
