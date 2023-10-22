@@ -1205,11 +1205,11 @@ exports.createCaseReport = [
 								}
 
 							});
-							
+
 
 							setTimeout( async () => {
 
-									exec(sh_file_name, (error, stdout, stderr) => {
+									exec("sh "+sh_file_name, (error, stdout, stderr) => {
 										if (error) {
 										console.error(`Error: ${error}`);
 										res.status(500).send('Error executing the .sh file');
@@ -1220,7 +1220,7 @@ exports.createCaseReport = [
 										}
 									});
 								
-							}, 3000);
+							}, 6000);
 
 					    })
 					    .catch(error => {
