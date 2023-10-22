@@ -1019,6 +1019,50 @@ exports.createCaseReport = [
 						};
 						  
 						//   console.log("inhere");
+
+
+						// Create a GetObjectCommand with the bucket and key
+						const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
+						// Download the S3 file and merge it
+
+						const bucketName = "javixtest";
+						const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+					
+						const downloadParams = {
+						Bucket: bucketName,
+						Key: filePath,
+						};
+
+						try {
+						var ecg_test_perform = ecgtest.find({ caseId: caseId});
+						} catch (error) {
+									console.error("Error downloading or merging PDF:", error);
+						}
+
+
+						if (ecg_test_perform.length >0) {
+							(async () => {
+								try {
+									const getObjectCommand = new GetObjectCommand(downloadParams);
+									const { Body } = await s3Client.send(getObjectCommand);
+									const writeStream = fs.createWriteStream(ecg_from_aws);
+									// Pipe the received data to the writable stream
+									Body.pipe(writeStream);
+									// Wait for the write stream to finish
+									await new Promise((resolve, reject) => {
+										writeStream.on("finish", async () => {
+										});
+										writeStream.on("error", reject);
+									});
+								} catch (error) {
+									console.error("Error downloading or merging PDF:", error);
+								}
+							})();
+
+						}
+
+
+
 						process.env.OPENSSL_CONF = '/dev/null';
 					  	pdf.create(document, options)
 					    .then(val => {
@@ -1031,24 +1075,24 @@ exports.createCaseReport = [
 
 								
 							
-								// Create a GetObjectCommand with the bucket and key
-								const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
-								const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
-								// Download the S3 file and merge it
+								// // Create a GetObjectCommand with the bucket and key
+								// const ecg_from_aws = "./uploads/delete_created_files/ecg_report_" + caseId + ".pdf";
+								// const ecg_file_path ="./uploads/delete_created_files/case_report_ecg_"+caseId+".pdf";
+								// // Download the S3 file and merge it
 
-								const bucketName = "javixtest";
-								const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
+								// const bucketName = "javixtest";
+								// const filePath ='userDocuments/ecgTest/'+citizenId+"_"+caseId+".pdf";
 							
-								const downloadParams = {
-								Bucket: bucketName,
-								Key: filePath,
-								};
+								// const downloadParams = {
+								// Bucket: bucketName,
+								// Key: filePath,
+								// };
 
-								try {
-								var ecg_test_perform =await  ecgtest.find({ caseId: caseId});
-								} catch (error) {
-											console.error("Error downloading or merging PDF:", error);
-								}
+								// try {
+								// var ecg_test_perform =await  ecgtest.find({ caseId: caseId});
+								// } catch (error) {
+								// 			console.error("Error downloading or merging PDF:", error);
+								// }
 								
 								// if (ecg_test_perform.length >0) {
 								// 	(async () => {
@@ -1135,27 +1179,12 @@ exports.createCaseReport = [
 								// }, 3000);
 
 
-								if (ecg_test_perform.length >0) {
-									(async () => {
-										try {
-											const getObjectCommand = new GetObjectCommand(downloadParams);
-											const { Body } = await s3Client.send(getObjectCommand);
-											const writeStream = fs.createWriteStream(ecg_from_aws);
-											// Pipe the received data to the writable stream
-											Body.pipe(writeStream);
-											// Wait for the write stream to finish
-											await new Promise((resolve, reject) => {
-												writeStream.on("finish", async () => {
-												});
-												writeStream.on("error", reject);
-											});
-										} catch (error) {
-											console.error("Error downloading or merging PDF:", error);
-										}
-									})();
+							
+					        	
+							})();
 
-								}
 
+							setTimeout( async () => {
 
 								var  sh_file_content = "pdftk case_report_"+caseId+".pdf"
 								if (ecg_test_perform.length >0) {
@@ -1180,8 +1209,8 @@ exports.createCaseReport = [
 									
 									}
 								});
-					        	
-							})();
+							}, 3000);
+							
 					    })
 					    .catch(error => {
 					        return apiResponse.ErrorResponse(res, error);
