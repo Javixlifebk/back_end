@@ -1159,7 +1159,7 @@ exports.createCaseReport = [
 
 								var  sh_file_content = "pdftk case_report_"+caseId+".pdf"
 								if (ecg_test_perform.length >0) {
-									sh_file_content = sh_file_content +"ecg_report_" + caseId + ".pdf DISCLAIMER.pdf cat case_report_final_"+caseId+".pdf";
+									sh_file_content = sh_file_content +" ecg_report_" + caseId + ".pdf DISCLAIMER.pdf cat case_report_final_"+caseId+".pdf";
 								} else {
 									sh_file_content = sh_file_content +" DISCLAIMER.pdf cat case_report_final_"+caseId+".pdf";
 								}
