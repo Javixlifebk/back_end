@@ -1199,15 +1199,21 @@ exports.createCaseReport = [
 									console.log('Saved!');
 								});
 
-								exec(sh_file_name, (error, stdout, stderr) => {
-									if (error) {
-									  console.error(`Error: ${error}`);
-									  res.status(500).send('Error executing the .sh file');
-									} else {
-										val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
-										return apiResponse.successResponseWithData(res,"Success",val);
-									
+								fs.chmod(sh_file_name, 0o777, (err) => {
+									if (err) {
+									  console.error(err);
+									  return res.status(500).send('Error changing file permissions');
 									}
+									exec(sh_file_name, (error, stdout, stderr) => {
+										if (error) {
+										console.error(`Error: ${error}`);
+										res.status(500).send('Error executing the .sh file');
+										} else {
+											val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
+											return apiResponse.successResponseWithData(res,"Success",val);
+										
+										}
+									});
 								});
 							}, 3000);
 
