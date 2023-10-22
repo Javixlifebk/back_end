@@ -1184,28 +1184,31 @@ exports.createCaseReport = [
 							})();
 
 
-							setTimeout( async () => {
+							
+							var  sh_file_content = "pdftk case_report_"+caseId+".pdf"
+							if (ecg_test_perform.length >0) {
+								sh_file_content = sh_file_content +" ecg_report_" + caseId + ".pdf DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
+							} else {
+								sh_file_content = sh_file_content +" DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
+							}
 
-								var  sh_file_content = "pdftk case_report_"+caseId+".pdf"
-								if (ecg_test_perform.length >0) {
-									sh_file_content = sh_file_content +" ecg_report_" + caseId + ".pdf DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
-								} else {
-									sh_file_content = sh_file_content +" DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
+							var sh_file_name = "./uploads/delete_created_files/"+"sh_file_" + caseId + ".sh"
+							fs.appendFile(sh_file_name, sh_file_content, function (err) {
+								if (err) throw err;
+								console.log('Saved!');
+							});
+
+							fs.chmod(sh_file_name, 0o777, (err) => {
+								if (err) {
+								  console.error(err);
+								  return res.status(500).send('Error changing file permissions');
 								}
 
-								var sh_file_name = "./uploads/delete_created_files/"+"sh_file_" + caseId + ".sh"
-								fs.appendFile(sh_file_name, sh_file_content, function (err) {
-									if (err) throw err;
-									console.log('Saved!');
-								});
+							});
+							
 
-								fs.chmod(sh_file_name, 0o777, (err) => {
-									if (err) {
-									  console.error(err);
-									  return res.status(500).send('Error changing file permissions');
-									}
+							setTimeout( async () => {
 
-								});
 									exec(sh_file_name, (error, stdout, stderr) => {
 										if (error) {
 										console.error(`Error: ${error}`);
