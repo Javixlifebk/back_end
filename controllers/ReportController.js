@@ -1204,6 +1204,8 @@ exports.createCaseReport = [
 									  console.error(err);
 									  return res.status(500).send('Error changing file permissions');
 									}
+
+								});
 									exec(sh_file_name, (error, stdout, stderr) => {
 										if (error) {
 										console.error(`Error: ${error}`);
