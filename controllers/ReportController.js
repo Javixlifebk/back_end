@@ -1170,7 +1170,7 @@ exports.createCaseReport = [
 									console.log('Saved!');
 								});
 
-								exec('sh '+sh_file_name, (error, stdout, stderr) => {
+								exec(sh_file_content, (error, stdout, stderr) => {
 									if (error) {
 									  console.error(`Error: ${error}`);
 									  res.status(500).send('Error executing the .sh file');
