@@ -26,7 +26,7 @@ const pdf2img = require('pdf-img-convert');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const ecgtest = require("../models/ECGTestModel");
 const { exec } = require('child_process');
-
+const pdftk = require('pdftk');
 
 
 // Configure AWS SDK
@@ -1199,18 +1199,36 @@ exports.createCaseReport = [
 									console.log('Saved!');
 								});
 
-								exec(sh_file_content, (error, stdout, stderr) => {
-									if (error) {
-									  console.error(`Error: ${error}`);
-									  res.status(500).send('Error executing the .sh file');
-									} else {
-										val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
-										return apiResponse.successResponseWithData(res,"Success",val);
+								// exec('sh '+sh_file_content, (error, stdout, stderr) => {
+								// 	if (error) {
+								// 	  console.error(`Error: ${error}`);
+								// 	  res.status(500).send('Error executing the .sh file');
+								// 	} else {
+								// 		val.filename="http://18.60.238.252:3010/reports/"+"case_report_final_"+caseId+".pdf";
+								// 		return apiResponse.successResponseWithData(res,"Success",val);
 									
-									}
-								});
+								// 	}
+								// });
+
+								const files = [
+									'case_report_169771119828827250.pdf',
+									'ecg_report_169771119828827250.pdf',
+									'DISCLAIMER.pdf',
+								  ];
+								
+								  pdftk
+									.input(files)
+									.catOutput()
+									.output('case_report_final_169771119828827250.pdf')
+									.then(() => {
+
+										res.send('PDF merged successfully');
+									})
+									.catch((err) => {
+									  res.status(500).send(err.message);
+									});
 							}, 3000);
-							
+
 					    })
 					    .catch(error => {
 					        return apiResponse.ErrorResponse(res, error);
