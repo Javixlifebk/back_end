@@ -1205,7 +1205,7 @@ exports.createCaseReport = [
 								}
 
 							});
-
+							fs.close();
 
 							setTimeout( async () => {
 
