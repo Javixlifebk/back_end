@@ -1314,16 +1314,10 @@ exports.createCaseReport = [
 
 function checkFileExists(path, callback) {
 	console.log("Checking file path: " + path);
-	fs.exists(path, (err, exists) => {
-	  if (err) {
-		console.log("file does not exist",err);
-	  }
-  
-	  if(exists) {
+	if(fs.existsSync(path)) {
 		fs.promises.unlink(path);
 	  }
 
-	});
 }
   
 
