@@ -1063,6 +1063,30 @@ exports.createCaseReport = [
 
 						}
 
+						fs.unlink(process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf", (err) => {
+							if (err) {
+							  // Handle the error
+							} else {
+							  // File successfully deleted
+							}
+						});
+
+						fs.unlink(process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf", (err) => {
+							if (err) {
+							  // Handle the error
+							} else {
+							  // File successfully deleted
+							}
+						});
+
+						fs.unlink(process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (err) => {
+							if (err) {
+							  // Handle the error
+							} else {
+							  // File successfully deleted
+							}
+						});
+
 
 
 						process.env.OPENSSL_CONF = '/dev/null';
