@@ -1035,7 +1035,7 @@ exports.createCaseReport = [
 
 						try {
 						var ecg_test_perform = ecgtest.find({ caseId: caseId});
-						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform.length)
 						} catch (error) {
 									console.error("Error downloading or merging PDF:", error);
 						}
@@ -1044,6 +1044,7 @@ exports.createCaseReport = [
 						if (ecg_test_perform.length >0) {
 							(async () => {
 								try {
+									console.log("I am in ecg report download mode");
 									const getObjectCommand = new GetObjectCommand(downloadParams);
 									const { Body } = await s3Client.send(getObjectCommand);
 									const writeStream = fs.createWriteStream(ecg_from_aws);
