@@ -1040,39 +1040,7 @@ exports.createCaseReport = [
 									console.error("Error downloading or merging PDF:", error);
 						}
 
-						if(fs.exists(process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf"),() => {
-							fs.unlink(process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf", (err) => {
-								if (err) {
-								console.log("error in dleeteing file case report "+err);
-								} else {
-									console.log("success in dleeteing file case report ");
-								}
-							});
-
-						}) 
-
-						if(fs.exists(process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf"), ()=>{
-
-							fs.unlink(process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf", (err) => {
-								if (err) {
-									console.log("error in dleeteing file egc report "+err);
-								} else {
-									console.log("success in deleting file edg report ");
-								}
-							});
-
-						}) 
-
-						if(fs.exists(process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh"),()=>{
-
-							fs.unlink(process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (err) => {
-								if (err) {
-									console.log("error in dleeteing file sh report "+err);
-								} else {
-									console.log("success in deleting file sh report ");
-								}
-							});
-						}) 
+						deleteFiles(caseId)
 
 						if (ecg_test_perform) {
 							(async () => {
@@ -1344,6 +1312,24 @@ exports.createCaseReport = [
 // 		}
 // }
 
+
+async function deleteFiles(caseId) {
+	// Check if the ECG report file exists.
+	const ecgReportExists = await fs.promises.exists(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+  
+	// If the ECG report file exists, delete it.
+	if (ecgReportExists) {
+	  await fs.promises.unlink(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+	}
+  
+	// Check if the SH file exists.
+	const shFileExists = await fs.promises.exists(`uploads/delete_created_files/sh_file_${caseId}.sh`);
+  
+	// If the SH file exists, delete it.
+	if (shFileExists) {
+	  await fs.promises.unlink(`uploads/delete_created_files/sh_file_${caseId}.sh`);
+	}
+  }
 exports.createMedicalHistoryReport = [
     	
 	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
