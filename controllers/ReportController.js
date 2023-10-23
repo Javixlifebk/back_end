@@ -1034,14 +1034,14 @@ exports.createCaseReport = [
 						};
 
 						try {
-						var ecg_test_perform = ecgtest.find({ caseId: caseId});
-						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform.length)
+						var ecg_test_perform = ecgtest.count({ caseId: caseId});
+						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
 						} catch (error) {
 									console.error("Error downloading or merging PDF:", error);
 						}
 
 
-						if (ecg_test_perform.length >0) {
+						if (ecg_test_perform >0) {
 							(async () => {
 								try {
 									console.log("I am in ecg report download mode");
@@ -1188,7 +1188,7 @@ exports.createCaseReport = [
 
 							
 							var  sh_file_content = "pdftk "+process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf "
-							if (ecg_test_perform.length >0) {
+							if (ecg_test_perform >0) {
 								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf "+process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output "+process.cwd()+"/uploads/delete_created_files/case_report_final_"+caseId+".pdf";
 							} else {
 								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output "+process.cwd()+"/uploads/delete_created_files/case_report_final_"+caseId+".pdf";
