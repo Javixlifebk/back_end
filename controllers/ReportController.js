@@ -1315,7 +1315,7 @@ exports.createCaseReport = [
 function checkFileExists(path, callback) {
 	fs.exists(path, (err, exists) => {
 	  if (err) {
-		return callback(err);
+		console.log("file does not exist",err);
 	  }
   
 	  if(exists) {
