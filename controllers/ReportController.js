@@ -1040,7 +1040,7 @@ exports.createCaseReport = [
 									console.error("Error downloading or merging PDF:", error);
 						}
 
-						deleteFiles(caseId)
+						deleteFiles(caseId,ecg_test_perform.length)
 
 						if (ecg_test_perform.length >0) {
 							(async () => {
@@ -1321,8 +1321,10 @@ function checkFileExists(path, callback) {
 }
   
 
-async function deleteFiles(caseId) {
-	checkFileExists(process.cwd()+`/uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+async function deleteFiles(caseId,ecg_count) {
+	if(ecg_count > 0 ) {
+		checkFileExists(process.cwd()+`/uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+	}
 	checkFileExists(process.cwd()+`/uploads/delete_created_files/sh_file_${caseId}.sh`);
 	checkFileExists(process.cwd()+`/uploads/delete_created_files/case_report_final_${caseId}.sh`);
 	return "ok";
