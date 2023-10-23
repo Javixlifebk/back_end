@@ -1187,9 +1187,9 @@ exports.createCaseReport = [
 							
 							var  sh_file_content = "pdftk "+process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf "
 							if (ecg_test_perform.length >0) {
-								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf "+process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
+								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf "+process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat "+process.cwd()+"/uploads/delete_created_files/output case_report_final_"+caseId+".pdf";
 							} else {
-								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output case_report_final_"+caseId+".pdf";
+								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat "+process.cwd()+"/uploads/delete_created_files/output case_report_final_"+caseId+".pdf";
 							}
 
 							var sh_file_name = "./uploads/delete_created_files/"+"sh_file_" + caseId + ".sh"
