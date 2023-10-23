@@ -1035,14 +1035,14 @@ exports.createCaseReport = [
 
 						try {
 						var ecg_test_perform = ecgtest.find({ caseId: caseId}).count();
-						// console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
 						} catch (error) {
 									console.error("Error downloading or merging PDF:", error);
 						}
 
 						deleteFiles(caseId,ecg_test_perform)
 
-						if (ecg_test_perform >0) {
+						if (ecg_test_perform > 0) {
 							(async () => {
 								try {
 									console.log("I am in ecg")
