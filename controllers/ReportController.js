@@ -1312,24 +1312,26 @@ exports.createCaseReport = [
 // 		}
 // }
 
+function checkFileExists(path, callback) {
+	fs.exists(path, (err, exists) => {
+	  if (err) {
+		return callback(err);
+	  }
+  
+	  deleteFiles(()=>{
+		fs.promises.unlink(path);
+	  }, exists);
+	});
+}
+  
 
 async function deleteFiles(caseId) {
-	// Check if the ECG report file exists.
-	const ecgReportExists = await fs.promises.exists(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
-  
-	// If the ECG report file exists, delete it.
-	if (ecgReportExists) {
-	  await fs.promises.unlink(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
-	}
-  
-	// Check if the SH file exists.
-	const shFileExists = await fs.promises.exists(`uploads/delete_created_files/sh_file_${caseId}.sh`);
-  
-	// If the SH file exists, delete it.
-	if (shFileExists) {
-	  await fs.promises.unlink(`uploads/delete_created_files/sh_file_${caseId}.sh`);
-	}
-  }
+	checkFileExists(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+	checkFileExists(`uploads/delete_created_files/sh_file_${caseId}.sh`);
+	checkFileExists(`uploads/delete_created_files/case_report_final_${caseId}.sh`);
+	return "ok";
+}
+
 exports.createMedicalHistoryReport = [
     	
 	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
