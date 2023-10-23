@@ -1208,7 +1208,7 @@ exports.createCaseReport = [
 
 
 							setTimeout( () => {
-
+								try {
 									exec(process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (error, stdout, stderr) => {
 										if (error) {
 										console.error(`Error: ${error}`);
@@ -1219,7 +1219,11 @@ exports.createCaseReport = [
 										
 										}
 									});
-								
+								} catch (error) {
+									console.error(error);
+									res.status(500).send('Error adding image to PDF');
+								}
+							
 							}, 6000);
 
 					    })
