@@ -621,6 +621,7 @@ exports.createCaseReport = [
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
+					var ecg_test_perform = 0;
 					var caseId=req.body.caseId;
 					var citizenId = req.body.citizenId;
 					var ngoId=req.body.ngoId;
@@ -628,7 +629,7 @@ exports.createCaseReport = [
 					var token="hgaghsagf";
 
 					try {
-						var ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
+						   ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
 						   console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
 					   
 				   } catch (error) {
@@ -1194,7 +1195,7 @@ exports.createCaseReport = [
 
 							
 							var  sh_file_content = "pdftk "+process.cwd()+"/uploads/delete_created_files/case_report_"+caseId+".pdf "
-							if (ecg_test_perform >0) {
+							if (ecg_test_perform > 0) {
 								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/ecg_report_" + caseId + ".pdf "+process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output "+process.cwd()+"/uploads/delete_created_files/case_report_final_"+caseId+".pdf";
 							} else {
 								sh_file_content = sh_file_content + process.cwd()+"/uploads/delete_created_files/DISCLAIMER.pdf cat output "+process.cwd()+"/uploads/delete_created_files/case_report_final_"+caseId+".pdf";
