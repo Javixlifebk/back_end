@@ -613,7 +613,7 @@ exports.createCaseReport = [
 
 	sanitizeBody("caseId").escape(),
 
-	(req, res) => { 
+	async(req, res) => { 
 			
 		try {
 			// console.log("Hello i am creating report");
@@ -626,6 +626,14 @@ exports.createCaseReport = [
 					var ngoId=req.body.ngoId;
 					var html = fs.readFileSync(process.cwd()+'/helpers/templates/screening.html', 'utf8');
 					var token="hgaghsagf";
+
+					try {
+						var ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
+						   console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+					   
+				   } catch (error) {
+							   console.error("Error downloading or merging PDF:", error);
+				   }
 
 
 					var options = { method: 'POST',
@@ -1033,14 +1041,7 @@ exports.createCaseReport = [
 						Key: filePath,
 						};
 
-						try {
-							async () => {
-								var ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
-								console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
-							}
-						} catch (error) {
-									console.error("Error downloading or merging PDF:", error);
-						}
+						
 
 						deleteFiles(caseId,ecg_test_perform)
 
