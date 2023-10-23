@@ -1034,8 +1034,10 @@ exports.createCaseReport = [
 						};
 
 						try {
-						var ecg_test_perform = ecgtest.find({ caseId: caseId}).count();
-						console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+							async () => {
+								var ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
+								console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+							}
 						} catch (error) {
 									console.error("Error downloading or merging PDF:", error);
 						}
