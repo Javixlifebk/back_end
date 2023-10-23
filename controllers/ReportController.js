@@ -1209,7 +1209,7 @@ exports.createCaseReport = [
 
 							setTimeout( () => {
 
-									exec("sh "+process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (error, stdout, stderr) => {
+									exec(process.cwd()+"/uploads/delete_created_files/"+"sh_file_" + caseId + ".sh", (error, stdout, stderr) => {
 										if (error) {
 										console.error(`Error: ${error}`);
 										res.status(500).send('Error executing the .sh file');
