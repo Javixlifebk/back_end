@@ -1327,9 +1327,9 @@ function checkFileExists(path, callback) {
   
 
 async function deleteFiles(caseId) {
-	checkFileExists(`uploads/delete_created_files/ecg_report_${caseId}.pdf`);
-	checkFileExists(`uploads/delete_created_files/sh_file_${caseId}.sh`);
-	checkFileExists(`uploads/delete_created_files/case_report_final_${caseId}.sh`);
+	checkFileExists(process.cwd()+`/uploads/delete_created_files/ecg_report_${caseId}.pdf`);
+	checkFileExists(process.cwd()+`/uploads/delete_created_files/sh_file_${caseId}.sh`);
+	checkFileExists(process.cwd()+`/uploads/delete_created_files/case_report_final_${caseId}.sh`);
 	return "ok";
 }
 
