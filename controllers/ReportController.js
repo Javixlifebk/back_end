@@ -1207,13 +1207,13 @@ exports.createCaseReport = [
 								console.log('Saved!');
 							});
 
-							fs.chmod(sh_file_name, 0o777, (err) => {
-								if (err) {
-								  console.error(err);
-								  return res.status(500).send('Error changing file permissions');
-								}
+							// fs.chmod(sh_file_name, 0o777, (err) => {
+							// 	if (err) {
+							// 	  console.error(err);
+							// 	  return res.status(500).send('Error changing file permissions');
+							// 	}
 
-							});
+							// });
 
 
 							setTimeout( () => {
