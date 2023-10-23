@@ -1318,9 +1318,10 @@ function checkFileExists(path, callback) {
 		return callback(err);
 	  }
   
-	  deleteFiles(()=>{
+	  if(exists) {
 		fs.promises.unlink(path);
-	  }, exists);
+	  }
+
 	});
 }
   
