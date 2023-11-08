@@ -598,10 +598,12 @@ exports.doctorById=[
     (req, res) => { 
 			
 		try {
+
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
+				console.log("in else")
 			DoctorModel.Doctor.aggregate([
 							{'$match':{'$or':[{'doctorId':req.body.doctorId},{'doctorLoginId':req.body.userId}]}},
 							{'$lookup': {
@@ -611,14 +613,14 @@ exports.doctorById=[
 								'as':'info'	
 							 }
 							},
-							{'$lookup': {
-								'localField':'doctorId',
-								'from':'doctordocs',
-								'foreignField':'doctorId',
-								'as':'doc'	
-							 }
-							},
-							{'$unwind':'$doc'},
+							// {'$lookup': {
+							// 	'localField':'doctorId',
+							// 	'from':'doctordocs',
+							// 	'foreignField':'doctorId',
+							// 	'as':'doc'	
+							//  }
+							// },
+							// {'$unwind':'$doc'},
 							{'$unwind':'$info'},
 							{'$project':{
 								 
@@ -630,8 +632,8 @@ exports.doctorById=[
 								 'mobile':1,
 								 'email':1,
 								 'doctorLoginId':1,
-								 photo: {$concat: ["http://",req.headers.host,"/profile/","$doc.photo"]},
-								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doc.signature"]},
+								//  photo: {$concat: ["http://",req.headers.host,"/profile/","$doc.photo"]},
+								//  signature: {$concat: ["http://",req.headers.host,"/profile/","$doc.signature"]},
 								 'medicalRegNo':1,
 								 'yearOfReg':1,
 								 'statteMedicalCouncil':1,
@@ -656,7 +658,7 @@ exports.doctorById=[
 							}
 						]
 				).then(users => {
-					
+					console.log(users)
 					let user=users[0];
 					if (user) {
 						for(var i=0;i<users.length;i++){
