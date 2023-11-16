@@ -4,6 +4,11 @@ const VisualExamController = require("../controllers/VisualExamController");
 const EyeTestController = require("../controllers/EyeTestController");
 const HeartTestController = require("../controllers/HeartTestController");
 const HemoglobinController = require("../controllers/HemoglobinController");
+const BloodPressureController = require("../controllers/BloodPressureController");
+const SPO2Controller = require("../controllers/SPO2Controller");
+const TempratureController = require("../controllers/TempratureController");
+const HeartRateController = require("../controllers/HeartRateController");
+const BloodPressureController = require("../controllers/BloodPressureController");
 
 var routerLabTestController = express.Router();
 routerLabTestController.post("/addLabTest", LabTestController.addLabTest);
@@ -84,5 +89,28 @@ routerLabTestController.post("/getUrineTestList", LabTestController.UrineTestLis
 
 routerLabTestController.post("/addHeartTest", HeartTestController.addHeartTest);
 routerLabTestController.post("/getHeartTestList", HeartTestController.HeartTestList);
+
+
+//New route
+routerLabTestController.post("/getBloodPressureGreenList", BloodPressureController.BloodPressureGreenList);
+routerLabTestController.post("/getBloodPressureAmberList", BloodPressureController.BloodPressureAmberList);
+routerLabTestController.post("/getBloodPressureRedList", BloodPressureController.BloodPressureRedList);
+
+routerLabTestController.post("/getSPO2GreenList", SPO2Controller.SPO2GreenList);
+routerLabTestController.post("/getSPO2AmberList", SPO2Controller.SPO2AmberList);
+routerLabTestController.post("/getSPO2RedList", SPO2Controller.SPO2RedList);
+
+routerLabTestController.post("/getTempratureGreenList", TempratureController.TempratureGreenList);
+routerLabTestController.post("/getTempratureAmberList", TempratureController.TempratureAmberList);
+routerLabTestController.post("/getTempratureRedList", TempratureController.TempratureRedList);
+
+
+routerLabTestController.post("/getHeartRateGreenList", HeartRateController.HeartRateGreenList);
+routerLabTestController.post("/getHeartRateAmberList", HeartRateController.HeartRateAmberList);
+routerLabTestController.post("/getHeartRateRedList", HeartRateController.HeartRateRedList);
+
+routerLabTestController.post("/getBMIGreenList", BMIController.BMIGreenList);
+routerLabTestController.post("/getBMIAmberList", BMIController.BMIAmberList);
+routerLabTestController.post("/getBMIRedList", BMIController.BMIRedList);
 
 module.exports = routerLabTestController;
