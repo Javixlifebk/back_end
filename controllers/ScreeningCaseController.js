@@ -2818,6 +2818,7 @@ exports.lipid = [
 
 	async (req, res) => {
     try {
+      console.log("I am here in api");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -3530,6 +3531,7 @@ exports.lipidcritical = [
 
   (req, res) => {
     try {
+      console.log("I am here");
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return apiResponse.validationErrorWithData(

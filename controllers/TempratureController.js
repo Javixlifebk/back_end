@@ -168,7 +168,7 @@ app.use(bodyParser.json())
 // ];
 
 
-exports.BloodPressureGreenList=[
+exports.TempratureGreenList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),
@@ -387,7 +387,7 @@ exports.BloodPressureGreenList=[
 	// }
 
 ];
-exports.BloodPressureAmberList=[
+exports.TempratureAmberList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),
@@ -512,7 +512,7 @@ exports.BloodPressureAmberList=[
 	
 
 ];
-exports.BloodPressureRedList=[
+exports.TempratureRedList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),

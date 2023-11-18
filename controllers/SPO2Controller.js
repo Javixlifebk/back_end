@@ -168,7 +168,7 @@ app.use(bodyParser.json())
 // ];
 
 
-exports.BloodPressureGreenList=[
+exports.SPO2GreenList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),
@@ -189,7 +189,7 @@ exports.BloodPressureGreenList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_spo2:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -201,7 +201,7 @@ exports.BloodPressureGreenList=[
 		   } else {
 			ScreeningCase.ScreeningCase.aggregate([
 			   
-							{'$match':{severity_bp:0,"ngoId":req.body.ngoId}},
+							{'$match':{severity_spo2:0,"ngoId":req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -260,7 +260,7 @@ exports.BloodPressureGreenList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_spo2:1
 									
 								   }
 							   },
@@ -305,7 +305,7 @@ exports.BloodPressureGreenList=[
 	// 				condition={'caseId':req.body.caseId};
 	// 			}
 	// 		ScreeningCase.ScreeningCase.aggregate([
-	// 						 {'$match':{severity_bp:0}},
+	// 						 {'$match':{severity_spo2:0}},
 	// 						 {$sort:{'createdAt':-1}},
 	// 						{'$match':condition},
 	// 						{'$limit':1000},
@@ -364,7 +364,7 @@ exports.BloodPressureGreenList=[
 	// 							 'mobile':'$basic.mobile',
 	// 							 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 	// 							 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-	// 							 severity_bp:1
+	// 							 severity_spo2:1
 								 
 	// 							}
 	// 						},
@@ -387,7 +387,7 @@ exports.BloodPressureGreenList=[
 	// }
 
 ];
-exports.BloodPressureAmberList=[
+exports.SPO2AmberList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),
@@ -408,7 +408,7 @@ exports.BloodPressureAmberList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_spo2:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -420,7 +420,7 @@ exports.BloodPressureAmberList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 				// {$sort:{'createdAt':-1}},
-										 {'$match':{severity_bp:1,ngoId:req.body.ngoId}},
+										 {'$match':{severity_spo2:1,ngoId:req.body.ngoId}},
 							   // {'$limit':1000},
 							   {'$lookup': {
 								   'localField':'citizenId',
@@ -478,7 +478,7 @@ exports.BloodPressureAmberList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_spo2:1
 									
 								   }
 							   },
@@ -512,7 +512,7 @@ exports.BloodPressureAmberList=[
 	
 
 ];
-exports.BloodPressureRedList=[
+exports.SPO2RedList=[
     // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
 	// body("severity").isLength().trim().withMessage("Invalid Token!"),
 	//sanitizeBody("caseId").escape(),
@@ -534,7 +534,7 @@ exports.BloodPressureRedList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_spo2:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -546,7 +546,7 @@ exports.BloodPressureRedList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 			   
-							   {'$match':{severity_bp:2,ngoId:req.body.ngoId}},
+							   {'$match':{severity_spo2:2,ngoId:req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -606,7 +606,7 @@ exports.BloodPressureRedList=[
 									'mobile':'$basic.mobile',
 									
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_spo2:1
 									
 								   }
 							   },
@@ -707,7 +707,7 @@ exports.BloodPressureRedList=[
 // 		} else {
 // 			ScreeningCase.ScreeningCase.aggregate([
 			
-// 							{'$match':{severity_bp:2}},
+// 							{'$match':{severity_spo2:2}},
 // 							// {'$match':condition},
 // 							// {'$limit':1000},
 // 							{'$lookup': {
@@ -765,7 +765,7 @@ exports.BloodPressureRedList=[
 // 								 'mobile':'$basic.mobile',
 // 								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 // 								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-// 								 severity_bp:1
+// 								 severity_spo2:1
 								 
 // 								}
 // 							},

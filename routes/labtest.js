@@ -8,7 +8,7 @@ const BloodPressureController = require("../controllers/BloodPressureController"
 const SPO2Controller = require("../controllers/SPO2Controller");
 const TempratureController = require("../controllers/TempratureController");
 const HeartRateController = require("../controllers/HeartRateController");
-const BloodPressureController = require("../controllers/BloodPressureController");
+const BMIController = require("../controllers/BMIController");
 
 var routerLabTestController = express.Router();
 routerLabTestController.post("/addLabTest", LabTestController.addLabTest);
