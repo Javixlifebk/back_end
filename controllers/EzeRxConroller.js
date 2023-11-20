@@ -9,7 +9,7 @@ exports.addRecord = [
 		(req, res) => { 
 		try {
 			let final_token ='4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
-			if(req.body.token != final_token) {
+			if(req.headers['token'] != final_token) {
 				return apiResponse.successResponse(res, "Invalid user trying to access !");
 			} else {
 				data_all = req.body.deviceData;
@@ -78,7 +78,7 @@ exports.getRecord=[
 		try {
 
 			let final_token ='4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
-			if(req.body.token != final_token) {
+			if(req.headers['token'] != final_token) {
 				return apiResponse.successResponse(res, "Invalid user trying to access !");
 			} else {
 				
