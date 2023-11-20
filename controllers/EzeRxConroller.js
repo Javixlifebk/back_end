@@ -8,8 +8,8 @@ exports.addRecord = [
 		// sanitizeBody("screenerId").escape(),
 		(req, res) => { 
 		try {
-			let final_token ='4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
-			if(req.headers['token'] != final_token) {
+			let final_token ='Bearer 4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
+			if(req.header('authorization') != final_token) {
 				return apiResponse.successResponse(res, "Invalid user trying to access !");
 			} else {
 				data_all = req.body.deviceData;
@@ -77,8 +77,8 @@ exports.getRecord=[
 	(req, res) => { 
 		try {
 
-			let final_token ='4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
-			if(req.headers['token'] != final_token) {
+			let final_token ='Bearer 4u1Ky@g6RvQSLpSjm$WiLACSX7UxAGRo0&AMZ^yFNUDkHP3YZk&kMRF3!eRBCVoZH%BLounjE$TmOpDOgVXqx$o&fuAExzMYMT'
+			if(req.header('authorization') != final_token) {
 				return apiResponse.successResponse(res, "Invalid user trying to access !");
 			} else {
 				
