@@ -1334,320 +1334,670 @@ async function deleteFiles(caseId,ecg_count) {
 	return "ok";
 }
 
-exports.createMedicalHistoryReport = [
+// exports.createMedicalHistoryReport = [
     	
-	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
+// 	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
 
-	sanitizeBody("citizenId").escape(),
+// 	sanitizeBody("citizenId").escape(),
 
-	(req, res) => { 
+// 	(req, res) => { 
 			
-		try {
-			// console.log("Hello i am creating Medical History report");
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-			}else {
-						var citizenId=req.body.citizenId;
-						var ngoId=req.body.ngoId;
-						var html = fs.readFileSync(process.cwd()+'/helpers/templates/history.html', 'utf8');
-						//var token="hgaghsagf";
+// 		try {
+// 			// console.log("Hello i am creating Medical History report");
+// 			const errors = validationResult(req);
+// 			if (!errors.isEmpty()) {
+// 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+// 			}else {
+// 						var citizenId=req.body.citizenId;
+// 						var ngoId=req.body.ngoId;
+// 						var html = fs.readFileSync(process.cwd()+'/helpers/templates/history.html', 'utf8');
+// 						//var token="hgaghsagf";
 
 
-					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryAllergy',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { citizenId: citizenId,
-						ngoId: ngoId
-					   } };
+// 					var options = { method: 'POST',
+// 					  url: 'https://javixlife.org/api/citizen/getHistoryAllergy',
+// 					  headers: 
+// 					   { 'content-type': 'application/x-www-form-urlencoded' },
+// 					  form: 
+// 					   { citizenId: citizenId,
+// 						ngoId: ngoId
+// 					   } };
 
-					   //LaBtESTS
-
-
-
-					   var options1 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryMedical',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { citizenId: citizenId,
-						ngoId: ngoId
-					   } };
-
-					   var options2 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryWomen',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { citizenId: citizenId,
-						ngoId: ngoId
-					   } };
-
-					   var options3 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryFamily',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { citizenId: citizenId,
-						ngoId: ngoId
-					   } };
-
-					   var options4 = { method: 'POST',
-					  url: 'https://javixlife.org/api/citizen/getHistoryPersonal',
-					  headers: 
-					   { 'content-type': 'application/x-www-form-urlencoded' },
-					  form: 
-					   { citizenId: citizenId,
-						ngoId: ngoId
-					   } };
+// 					   //LaBtESTS
 
 
 
-					   //eND lAB tESTS
+// 					   var options1 = { method: 'POST',
+// 					  url: 'https://javixlife.org/api/citizen/getHistoryMedical',
+// 					  headers: 
+// 					   { 'content-type': 'application/x-www-form-urlencoded' },
+// 					  form: 
+// 					   { citizenId: citizenId,
+// 						ngoId: ngoId
+// 					   } };
+
+// 					   var options2 = { method: 'POST',
+// 					  url: 'https://javixlife.org/api/citizen/getHistoryWomen',
+// 					  headers: 
+// 					   { 'content-type': 'application/x-www-form-urlencoded' },
+// 					  form: 
+// 					   { citizenId: citizenId,
+// 						ngoId: ngoId
+// 					   } };
+
+// 					   var options3 = { method: 'POST',
+// 					  url: 'https://javixlife.org/api/citizen/getHistoryFamily',
+// 					  headers: 
+// 					   { 'content-type': 'application/x-www-form-urlencoded' },
+// 					  form: 
+// 					   { citizenId: citizenId,
+// 						ngoId: ngoId
+// 					   } };
+
+// 					   var options4 = { method: 'POST',
+// 					  url: 'https://javixlife.org/api/citizen/getHistoryPersonal',
+// 					  headers: 
+// 					   { 'content-type': 'application/x-www-form-urlencoded' },
+// 					  form: 
+// 					   { citizenId: citizenId,
+// 						ngoId: ngoId
+// 					   } };
 
 
-					   var history={'Citizen':"",
-					   				'Personal':"",
-					  				'Reproductive':"",
-					  				'Medical':"",
-					  				'Drugs':""
-					  				};
-					   request(options1, function (error1, response1, body1) {
-					  		if (error1) return apiResponse.ErrorResponse(res, error1);
-					  			status1=JSON.parse(body1).status;
-					  			if(status1==1){
-					  				//console.dir(JSON.parse(body1).data.data);
-					  				history.Medical=JSON.parse(body1).data.data;
-					  				history.Medical['createdAt']=JSON.parse(body1).data.data.createdAt;
-					  				//history.medical['doctor']=JSON.parse(body1).data.data.doctor;
-					  				var ctemp=JSON.parse(body1).data.data[0].citizen;
-					  				if( ctemp!=null && ctemp!=undefined){
-					  					history.Citizen=JSON.parse(body1).data.data[0].citizen[0];
-					  				}
-					  			}
-					  		request(options2, function (error2, response2, body2) {
-					  		if (error2) return apiResponse.ErrorResponse(res, error2);
-					  			status2=JSON.parse(body2).status;
-					  			if(status2==1){
-					  				history.Reproductive=JSON.parse(body2).data.data;
-					  				history.Reproductive['createdAt']=JSON.parse(body2).data.data[0].createdAt;
-					  				//history.women['doctor']=JSON.parse(body2).data.data[0].doctor;
-					  				//console.dir(JSON.parse(body2).data.data[0].doctor);
 
-					  				var ctemp=JSON.parse(body2).data.data[0].citizen;
-					  				if( ctemp!=null && ctemp!=undefined){
-					  					history.Citizen=JSON.parse(body2).data.data[0].citizen[0];
-					  				}
-					  				}
-					  		// 		request(options3, function (error3, response3, body3) {
-					  		// if (error3) return apiResponse.ErrorResponse(res, error3);
-					  		// 	status3=JSON.parse(body3).status;
-					  		// 	if(status3==1){
-					  		// 		history.Family=JSON.parse(body3).data.data;
-					  		// 		history.Family['createdAt']=JSON.parse(body3).data.data.createdAt;
-					  		// 		//history.family['doctor']=JSON.parse(body3).data.data.doctor;
-					  		// 		var ctemp=JSON.parse(body3).data.data[0].citizen;
-					  		// 		if( ctemp!=null && ctemp!=undefined){
-					  		// 			history.Citizen=JSON.parse(body3).data[0].data.citizen;
-					  		// 		}
+// 					   //eND lAB tESTS
+
+
+// 					   var history={'Citizen':"",
+// 					   				'Personal':"",
+// 					  				'Reproductive':"",
+// 					  				'Medical':"",
+// 					  				'Drugs':""
+// 					  				};
+// 					   request(options1, function (error1, response1, body1) {
+// 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
+// 					  			status1=JSON.parse(body1).status;
+// 					  			if(status1==1){
+// 					  				//console.dir(JSON.parse(body1).data.data);
+// 					  				history.Medical=JSON.parse(body1).data.data;
+// 					  				history.Medical['createdAt']=JSON.parse(body1).data.data.createdAt;
+// 					  				//history.medical['doctor']=JSON.parse(body1).data.data.doctor;
+// 					  				var ctemp=JSON.parse(body1).data.data[0].citizen;
+// 					  				if( ctemp!=null && ctemp!=undefined){
+// 					  					history.Citizen=JSON.parse(body1).data.data[0].citizen[0];
+// 					  				}
+// 					  			}
+// 					  		request(options2, function (error2, response2, body2) {
+// 					  		if (error2) return apiResponse.ErrorResponse(res, error2);
+// 					  			status2=JSON.parse(body2).status;
+// 					  			if(status2==1){
+// 					  				history.Reproductive=JSON.parse(body2).data.data;
+// 									console.log("Satish check ",history.Reproductive);
+// 					  				history.Reproductive['createdAt']=JSON.parse(body2).data.data[0].createdAt;
+// 					  				//history.women['doctor']=JSON.parse(body2).data.data[0].doctor;
+// 					  				//console.dir(JSON.parse(body2).data.data[0].doctor);
+
+// 					  				var ctemp=JSON.parse(body2).data.data[0].citizen;
+// 					  				if( ctemp!=null && ctemp!=undefined){
+// 					  					history.Citizen=JSON.parse(body2).data.data[0].citizen[0];
+// 					  				}
+// 					  				}
+// 					  		// 		request(options3, function (error3, response3, body3) {
+// 					  		// if (error3) return apiResponse.ErrorResponse(res, error3);
+// 					  		// 	status3=JSON.parse(body3).status;
+// 					  		// 	if(status3==1){
+// 					  		// 		history.Family=JSON.parse(body3).data.data;
+// 					  		// 		history.Family['createdAt']=JSON.parse(body3).data.data.createdAt;
+// 					  		// 		//history.family['doctor']=JSON.parse(body3).data.data.doctor;
+// 					  		// 		var ctemp=JSON.parse(body3).data.data[0].citizen;
+// 					  		// 		if( ctemp!=null && ctemp!=undefined){
+// 					  		// 			history.Citizen=JSON.parse(body3).data[0].data.citizen;
+// 					  		// 		}
 					  				
-					  		// 		}
-					  				request(options4, function (error4, response4, body4) {
-					  		if (error4) return apiResponse.ErrorResponse(res, error4);
-					  			status4=JSON.parse(body4).status;
-					  			if(status4==1){
-					  				history.Personal=JSON.parse(body4).data.data;
-					  				history.Personal['createdAt']=JSON.parse(body4).data.data.createdAt;
-					  				//history.personal['doctor']=JSON.parse(body4).data.data.doctor;
-					  				var ctemp=JSON.parse(body4).data.data[0].citizen;
-					  				if( ctemp!=null && ctemp!=undefined){
-					  					history.Citizen=JSON.parse(body4).data.data[0].citizen[0];
-					  				}
-					  			}
+// 					  		// 		}
+// 					  				request(options4, function (error4, response4, body4) {
+// 					  		if (error4) return apiResponse.ErrorResponse(res, error4);
+// 					  			status4=JSON.parse(body4).status;
+// 					  			if(status4==1){
+// 					  				history.Personal=JSON.parse(body4).data.data;
+// 					  				history.Personal['createdAt']=JSON.parse(body4).data.data.createdAt;
+// 					  				//history.personal['doctor']=JSON.parse(body4).data.data.doctor;
+// 					  				var ctemp=JSON.parse(body4).data.data[0].citizen;
+// 					  				if( ctemp!=null && ctemp!=undefined){
+// 					  					history.Citizen=JSON.parse(body4).data.data[0].citizen[0];
+// 					  				}
+// 					  			}
 					  			
 					  			
-					  			request(options, function (error, response, body) {
-					  if (error) return apiResponse.ErrorResponse(res, error);
-					  //console.log(JSON.parse(body).status);
-					  status=JSON.parse(body).status;
-					  //drugs[0].history=history;
-					  //var tempr={};
-					  if (history.Reproductive.length===0){
-					  	history.Reproductive=mappRes['women'];
-					  }
-					  else{
+// 					  			request(options, function (error, response, body) {
+// 					  if (error) return apiResponse.ErrorResponse(res, error);
+// 					  //console.log(JSON.parse(body).status);
+// 					  status=JSON.parse(body).status;
+// 					  //drugs[0].history=history;
+// 					  //var tempr={};
+// 					  if (history.Reproductive.length===0){
+// 					  	history.Reproductive=mappRes['women'];
+// 					  }
+// 					  else{
 					  	
-					  	var tempwomen=mappRes['women'];
-					  	var t1=mapreckey['ageoffirstperiod'];
-					  	tempwomen[t1]=history.Reproductive[0]['ageoffirstperiod'];
-					  	var t2=mapreckey['pregnancies'];
-					  	tempwomen[t2]=history.Reproductive[0]['pregnancies'];
-					  	var t3=mapreckey['miscarriages'];
-					  	tempwomen[t3]=history.Reproductive[0]['miscarriages'];
-					  	var t4=mapreckey['children'];
-					  	tempwomen[t4]=history.Reproductive[0]['children'];
-					  	var t5=mapreckey['menopauseage'];
-					  	tempwomen[t5]=history.Reproductive[0]['menopauseage'];
-					  	var t6=mapreckey['lastmenstrualperiod']; tempwomen[t6]=history.Reproductive[0]['lastmenstrualperiod'];
-						var t7=mapreckey['numberofdaysbleeding']; tempwomen[t7]=history.Reproductive[0]['numberofdaysbleeding'];
-						var t8=mapreckey['intervalbetweenperiods']; tempwomen[t8]=history.Reproductive[0]['intervalbetweenperiods'];
-						var t9=mapreckey['isregular']; tempwomen[t9]=history.Reproductive[0]['isregular'];
-						var t10=mapreckey['flow']; tempwomen[t10]=history.Reproductive[0]['flow'];
-						var t11=mapreckey['painwithmenstruation']; tempwomen[t11]=history.Reproductive[0]['painwithmenstruation'];
-						var t12=mapreckey['useofmedicationforpain']; tempwomen[t12]=history.Reproductive[0]['useofmedicationforpain'];
-						var t13=mapreckey['misseddays']; tempwomen[t13]=history.Reproductive[0]['misseddays'];
-					  	tempwomen['createdAt']=utility.toDDmmyy(history.Reproductive[0]['createdAt'].split('T')[0]);
-					  	//tempwomen['doctor']=history.women[0]['doctor'];
-    					history.Reproductive=tempwomen;
+// 					  	var tempwomen=mappRes['women'];
+// 					  	tempwomen[mapreckey['ageoffirstperiod']]=history.Reproductive[0]['ageoffirstperiod'];
+// 					  	tempwomen[mapreckey['pregnancies']]=history.Reproductive[0]['pregnancies'];
+// 					  	tempwomen[mapreckey['miscarriages']]=history.Reproductive[0]['miscarriages'];
+// 					  	tempwomen[mapreckey['children']]=history.Reproductive[0]['children'];
+// 					  	tempwomen[mapreckey['menopauseage']]=history.Reproductive[0]['menopauseage'];
+// 						tempwomen[mapreckey['lastmenstrualperiod']]=history.Reproductive[0]['lastmenstrualperiod'];
+// 						tempwomen[mapreckey['numberofdaysbleeding']]=history.Reproductive[0]['numberofdaysbleeding'];
+// 						tempwomen[mapreckey['intervalbetweenperiods']]=history.Reproductive[0]['intervalbetweenperiods'];
+// 						tempwomen[mapreckey['isregular']]=history.Reproductive[0]['isregular'];
+// 						tempwomen[mapreckey['flow']]=history.Reproductive[0]['flow'];
+// 						tempwomen[mapreckey['painwithmenstruation']]=history.Reproductive[0]['painwithmenstruation'];
+// 						tempwomen[mapreckey['useofmedicationforpain']]=history.Reproductive[0]['useofmedicationforpain'];
+// 						tempwomen[mapreckey['misseddays']]=history.Reproductive[0]['misseddays'];
+// 					  	tempwomen['createdAt']=utility.toDDmmyy(history.Reproductive[0]['createdAt'].split('T')[0]);
+// 					  	//tempwomen['doctor']=history.women[0]['doctor'];
+//     					history.Reproductive=tempwomen;
 
-					  }
-					  if (history.Personal.length===0){
-					  	history.Personal=mappRes['personal'];
-					  }
-					  else{
-					  	var temppersonal=mappRes['personal'];
-					  	var t1=mapreckey['bornraised'];
-					  	temppersonal[t1]=history.Personal[0]['bornraised'];
-					  	var t2=mapreckey['birthproblem'];
-					  	temppersonal[t2]=history.Personal[0]['birthproblem'];
-					  	var t3=mapreckey['highesteducation'];
-					  	temppersonal[t3]=history.Personal[0]['highesteducation'];
-					  	var t4=mapreckey['maritalstatus'];
-					  	temppersonal[t4]=history.Personal[0]['maritalstatus'];
-					  	var t5=mapreckey['iscurrentlyworking'];
-					  	temppersonal[t5]=mapOfTrueFalse[history.Personal[0]['iscurrentlyworking']];
-					  	var t6=mapreckey['occupation'];
-					  	temppersonal[t6]=history.Personal[0]['occupation'];
-					  	var t11=mapreckey['legalproblems'];
-					  	temppersonal[t11]=history.Personal[0]['legalproblems'];
-					  	temppersonal['createdAt']=utility.toDDmmyy(history.Personal[0]['createdAt'].split('T')[0]);
-					  	//temppersonal['doctor']=history.personal[0]['doctor'];
+// 					  }
+// 					  if (history.Personal.length===0){
+// 					  	history.Personal=mappRes['personal'];
+// 					  }
+// 					  else{
+// 					  	var temppersonal=mappRes['personal'];
+// 					  	temppersonal[mapreckey['bornraised']]=history.Personal[0]['bornraised'];
+// 					  	temppersonal[mapreckey['birthproblem']]=history.Personal[0]['birthproblem'];
+// 					  	temppersonal[mapreckey['highesteducation']]=history.Personal[0]['highesteducation'];
+// 					  	temppersonal[mapreckey['maritalstatus']]=history.Personal[0]['maritalstatus'];
+// 					  	temppersonal[mapreckey['iscurrentlyworking']]=mapOfTrueFalse[history.Personal[0]['iscurrentlyworking']];
+// 					  	temppersonal[mapreckey['occupation']]=history.Personal[0]['occupation'];
+// 					  	temppersonal[mapreckey['legalproblems']]=history.Personal[0]['legalproblems'];
+// 					  	temppersonal['createdAt']=utility.toDDmmyy(history.Personal[0]['createdAt'].split('T')[0]);
+// 					  	//temppersonal['doctor']=history.personal[0]['doctor'];
 
-    					history.Personal=temppersonal;
-					  }
+//     					history.Personal=temppersonal;
+// 					  }
 					  
 
-					  if (history.Medical.length===0){
-					  	history.Medical=mappRes['medical'];
-					  }
-					  else{
-					  	var tempmedical=mappRes['medical'];
-					  	tempmedical['diabetes']=mapOfTrueFalse[history.Medical[0]['diabetes']];
-						tempmedical['high_bp']=mapOfTrueFalse[history.Medical[0]['high_bp']];
-						tempmedical['high_cholestrol']=mapOfTrueFalse[history.Medical[0]['high_cholestrol']];
-						tempmedical['goiter']=mapOfTrueFalse[history.Medical[0]['goiter']];
-						tempmedical['cancer']=mapOfTrueFalse[history.Medical[0]['cancer']];
-						tempmedical['leukemia']=mapOfTrueFalse[history.Medical[0]['leukemia']];
-						tempmedical['psoriasis']=mapOfTrueFalse[history.Medical[0]['psoriasis']];
-						tempmedical['agina']=mapOfTrueFalse[history.Medical[0]['agina']];
-						tempmedical['type_of_cancer']=mapOfTrueFalse[history.Medical[0]['type_of_cancer']];
-						tempmedical['heart_problems']=mapOfTrueFalse[history.Medical[0]['heart_problems']];
-						tempmedical['heart_murmur']=mapOfTrueFalse[history.Medical[0]['heart_murmur']];
-						tempmedical['pneumonia']=mapOfTrueFalse[history.Medical[0]['pneumonia']];
-						tempmedical['pulmonary_embolism']=mapOfTrueFalse[history.Medical[0]['pulmonary_embolism']];
-						tempmedical['asthma']=mapOfTrueFalse[history.Medical[0]['asthma']];
-						tempmedical['emphysema']=mapOfTrueFalse[history.Medical[0]['emphysema']];
-						tempmedical['stroke']=mapOfTrueFalse[history.Medical[0]['stroke']];
-						tempmedical['epilepsy']=mapOfTrueFalse[history.Medical[0]['epilepsy']];
-						tempmedical['cataracts']=mapOfTrueFalse[history.Medical[0]['cataracts']];
-						tempmedical['kidney_disease']=mapOfTrueFalse[history.Medical[0]['kidney_disease']];
-						tempmedical['kidney_stones']=mapOfTrueFalse[history.Medical[0]['kidney_stones']];
-						tempmedical['chrohns_disease']=mapOfTrueFalse[history.Medical[0]['chrohns_disease']];
-						tempmedical['colitis']=mapOfTrueFalse[history.Medical[0]['colitis']];
-						tempmedical['anemia']=mapOfTrueFalse[history.Medical[0]['anemia']];
-						tempmedical['jaundice']=mapOfTrueFalse[history.Medical[0]['jaundice']];
-						tempmedical['hepatitis']=mapOfTrueFalse[history.Medical[0]['hepatitis']];
-						tempmedical['stomach']=mapOfTrueFalse[history.Medical[0]['stomach']];
-						tempmedical['rheumatic_fever']=mapOfTrueFalse[history.Medical[0]['rheumatic_fever']];
-						tempmedical['tuberculosis']=mapOfTrueFalse[history.Medical[0]['tuberculosis']];
-						tempmedical['hiv_aids']=mapOfTrueFalse[history.Medical[0]['hiv_aids']];
-						tempmedical['other']=mapOfTrueFalse[history.Medical[0]['other']];
-					  	tempmedical['createdAt']=utility.toDDmmyy(history.Medical[0]['createdAt'].split('T')[0]);
-					  	//tempfamily ['doctor']=history.family[0]['doctor'];
+// 					  if (history.Medical.length===0){
+// 					  	history.Medical=mappRes['medical'];
+// 					  }
+// 					  else{
+// 					  	var tempmedical=mappRes['medical'];
+// 					  	tempmedical['diabetes']=mapOfTrueFalse[history.Medical[0]['diabetes']];
+// 						tempmedical['high_bp']=mapOfTrueFalse[history.Medical[0]['high_bp']];
+// 						tempmedical['high_cholestrol']=mapOfTrueFalse[history.Medical[0]['high_cholestrol']];
+// 						tempmedical['goiter']=mapOfTrueFalse[history.Medical[0]['goiter']];
+// 						tempmedical['cancer']=mapOfTrueFalse[history.Medical[0]['cancer']];
+// 						tempmedical['leukemia']=mapOfTrueFalse[history.Medical[0]['leukemia']];
+// 						tempmedical['psoriasis']=mapOfTrueFalse[history.Medical[0]['psoriasis']];
+// 						tempmedical['agina']=mapOfTrueFalse[history.Medical[0]['agina']];
+// 						tempmedical['type_of_cancer']=mapOfTrueFalse[history.Medical[0]['type_of_cancer']];
+// 						tempmedical['heart_problems']=mapOfTrueFalse[history.Medical[0]['heart_problems']];
+// 						tempmedical['heart_murmur']=mapOfTrueFalse[history.Medical[0]['heart_murmur']];
+// 						tempmedical['pneumonia']=mapOfTrueFalse[history.Medical[0]['pneumonia']];
+// 						tempmedical['pulmonary_embolism']=mapOfTrueFalse[history.Medical[0]['pulmonary_embolism']];
+// 						tempmedical['asthma']=mapOfTrueFalse[history.Medical[0]['asthma']];
+// 						tempmedical['emphysema']=mapOfTrueFalse[history.Medical[0]['emphysema']];
+// 						tempmedical['stroke']=mapOfTrueFalse[history.Medical[0]['stroke']];
+// 						tempmedical['epilepsy']=mapOfTrueFalse[history.Medical[0]['epilepsy']];
+// 						tempmedical['cataracts']=mapOfTrueFalse[history.Medical[0]['cataracts']];
+// 						tempmedical['kidney_disease']=mapOfTrueFalse[history.Medical[0]['kidney_disease']];
+// 						tempmedical['kidney_stones']=mapOfTrueFalse[history.Medical[0]['kidney_stones']];
+// 						tempmedical['chrohns_disease']=mapOfTrueFalse[history.Medical[0]['chrohns_disease']];
+// 						tempmedical['colitis']=mapOfTrueFalse[history.Medical[0]['colitis']];
+// 						tempmedical['anemia']=mapOfTrueFalse[history.Medical[0]['anemia']];
+// 						tempmedical['jaundice']=mapOfTrueFalse[history.Medical[0]['jaundice']];
+// 						tempmedical['hepatitis']=mapOfTrueFalse[history.Medical[0]['hepatitis']];
+// 						tempmedical['stomach']=mapOfTrueFalse[history.Medical[0]['stomach']];
+// 						tempmedical['rheumatic_fever']=mapOfTrueFalse[history.Medical[0]['rheumatic_fever']];
+// 						tempmedical['tuberculosis']=mapOfTrueFalse[history.Medical[0]['tuberculosis']];
+// 						tempmedical['hiv_aids']=mapOfTrueFalse[history.Medical[0]['hiv_aids']];
+// 						tempmedical['other']=mapOfTrueFalse[history.Medical[0]['other']];
+// 					  	tempmedical['createdAt']=utility.toDDmmyy(history.Medical[0]['createdAt'].split('T')[0]);
+// 					  	//tempfamily ['doctor']=history.family[0]['doctor'];
 
-    					history.Medical=tempmedical;
-					  }
-					  if(status==1){
-					  	var drugstemp=JSON.parse(body).data.data;
-					  	history.Drugs=drugstemp;
-					  	var ctemp=JSON.parse(body).data.data[0].citizen;
-					  				if( ctemp!=null && ctemp!=undefined){
-					  					history.Citizen=JSON.parse(body).data.data[0].citizen[0];
-					  	}
-					  }
-					  if (history.Drugs.length===0  ){
-					  	history.Drugs=mappRes['drugs'];
-					  	}
-					  else{
-					  	var tempdrugs=mappRes['drugs'];
-					  	tempdrugs['allergies']=history.Drugs[0]['allergies'];
-					  	tempdrugs['allergyType']=history.Drugs[0]['allergyType'];
-						tempdrugs['allergydate']=history.Drugs[0]['allergydate'].split('T')[0];
-					  	tempdrugs['createdAt']=utility.toDDmmyy(history.Drugs[0]['createdAt'].split('T')[0]);
-					  	history.Drugs=tempdrugs;
-					  }
-						console.dir(history);						 
-					  	var document = {
-					    html: html,
-					    data: {
-					        history: history
-					    },
-					    path: "./uploads/delete_created_files/"+"medical_history_report_"+citizenId+".pdf"
-					};
+//     					history.Medical=tempmedical;
+// 					  }
+// 					  if(status==1){
+// 					  	var drugstemp=JSON.parse(body).data.data;
+// 					  	history.Drugs=drugstemp;
+// 					  	var ctemp=JSON.parse(body).data.data[0].citizen;
+// 					  				if( ctemp!=null && ctemp!=undefined){
+// 					  					history.Citizen=JSON.parse(body).data.data[0].citizen[0];
+// 					  	}
+// 					  }
+// 					  if (history.Drugs.length===0  ){
+// 					  	history.Drugs=mappRes['drugs'];
+// 					  	}
+// 					  else{
+// 					  	var tempdrugs=mappRes['drugs'];
+// 					  	tempdrugs['allergies']=history.Drugs[0]['allergies'];
+// 					  	tempdrugs['allergyType']=history.Drugs[0]['allergyType'];
+// 						tempdrugs['allergydate']=history.Drugs[0]['allergydate'].split('T')[0];
+// 					  	tempdrugs['createdAt']=utility.toDDmmyy(history.Drugs[0]['createdAt'].split('T')[0]);
+// 					  	history.Drugs=tempdrugs;
+// 					  }
+// 						console.dir(history);						 
+// 					  	var document = {
+// 					    html: html,
+// 					    data: {
+// 					        history: history
+// 					    },
+// 					    path: "./uploads/delete_created_files/"+"medical_history_report_"+citizenId+".pdf"
+// 					};
 					
 
-					var options = {
-					        format: "A3",
-					        orientation: "portrait",
-					        border: "10mm"
-					    //     header: {
-					    //         height: "45mm",
-					    //         contents: '<div style="text-align: center;">PortaClinic By JaviX Life </div>'
-					    //     },
-					    //     "footer": {
-					    //         "height": "28mm",
-					    //         "contents": {
+// 					var options = {
+// 					        format: "A3",
+// 					        orientation: "portrait",
+// 					        border: "10mm"
+// 					    //     header: {
+// 					    //         height: "45mm",
+// 					    //         contents: '<div style="text-align: center;">PortaClinic By JaviX Life </div>'
+// 					    //     },
+// 					    //     "footer": {
+// 					    //         "height": "28mm",
+// 					    //         "contents": {
 					           
-					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+// 					    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
 					           
-					    //     }
-					    // }
-					};
-					process.env.OPENSSL_CONF = '/dev/null';
-					  	pdf.create(document, options)
-					    .then(val => {
-					        // console.log("Response is : -   "+val.filename);
-					        var temp = val.filename.split("/");
-					        val.filename="http://18.60.238.252:3010/reports/"+"medical_history_report_"+citizenId+".pdf"
+// 					    //     }
+// 					    // }
+// 					};
+// 					process.env.OPENSSL_CONF = '/dev/null';
+// 					  	pdf.create(document, options)
+// 					    .then(val => {
+// 					        // console.log("Response is : -   "+val.filename);
+// 					        var temp = val.filename.split("/");
+// 					        val.filename="http://18.60.238.252:3010/reports/"+"medical_history_report_"+citizenId+".pdf"
 					        
-					        return apiResponse.successResponseWithData(res,"Success",val);
+// 					        return apiResponse.successResponseWithData(res,"Success",val);
 
-					    })
-					    .catch(error => {
-					        return apiResponse.ErrorResponse(res, error);
-					    });
+// 					    })
+// 					    .catch(error => {
+// 					        return apiResponse.ErrorResponse(res, error);
+// 					    });
 					  
-					});
+// 					});
 
-					  		});
-
-
-					  		});
+// 					  		});
 
 
-					  		});
+// 					  		});
+
+
+// 					  		});
 
 					  	
 				
 					
-			}
-		} catch (err) {
+// 			}
+// 		} catch (err) {
 			
-			return apiResponse.ErrorResponse(res,"EXp:"+err);
+// 			return apiResponse.ErrorResponse(res,"EXp:"+err);
+// 		}
+// 	}];
+
+
+exports.createMedicalHistoryReport = [
+	body("citizenId")
+	  .isLength({ min: 1 })
+	  .trim()
+	  .withMessage("Enter citizen ID !"),
+  
+	sanitizeBody("citizenId").escape(),
+  
+	(req, res) => {
+	  try {
+		// console.log("Hello i am creating Medical History report");
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+		  return apiResponse.validationErrorWithData(
+			res,
+			"Validation Error.",
+			errors.array(),
+		  );
+		} else {
+		  var citizenId = req.body.citizenId;
+		  var ngoId = req.body.ngoId;
+		  var html = fs.readFileSync(
+			process.cwd() + "/helpers/templates/history.html",
+			"utf8",
+		  );
+		  //var token="hgaghsagf";
+  
+		  var options = {
+			method: "POST",
+			url: "https://javixlife.org/api/citizen/getHistoryAllergy",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			form: { citizenId: citizenId, ngoId: ngoId },
+		  };
+  
+		  //LaBtESTS
+  
+		  var options1 = {
+			method: "POST",
+			url: "https://javixlife.org/api/citizen/getHistoryMedical",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			form: { citizenId: citizenId, ngoId: ngoId },
+		  };
+  
+		  var options2 = {
+			method: "POST",
+			url: "https://javixlife.org/api/citizen/getHistoryWomen",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			form: { citizenId: citizenId, ngoId: ngoId },
+		  };
+  
+		  var options3 = {
+			method: "POST",
+			url: "https://javixlife.org/api/citizen/getHistoryFamily",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			form: { citizenId: citizenId, ngoId: ngoId },
+		  };
+  
+		  var options4 = {
+			method: "POST",
+			url: "https://javixlife.org/api/citizen/getHistoryPersonal",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			form: { citizenId: citizenId, ngoId: ngoId },
+		  };
+  
+		  //eND lAB tESTS
+  
+		  var history = {
+			Citizen: "",
+			Personal: "",
+			Reproductive: "",
+			Medical: "",
+			Drugs: "",
+		  };
+		  request(options1, function (error1, response1, body1) {
+			if (error1) return apiResponse.ErrorResponse(res, error1);
+			status1 = JSON.parse(body1).status;
+			if (status1 == 1) {
+			  //console.dir(JSON.parse(body1).data.data);
+			  history.Medical = JSON.parse(body1).data.data;
+			  history.Medical["createdAt"] =
+				JSON.parse(body1).data.data.createdAt;
+			  //history.medical['doctor']=JSON.parse(body1).data.data.doctor;
+			  var ctemp = JSON.parse(body1).data.data[0].citizen;
+			  if (ctemp != null && ctemp != undefined) {
+				history.Citizen = JSON.parse(body1).data.data[0].citizen[0];
+			  }
+			}
+			request(options2, function (error2, response2, body2) {
+			  if (error2) return apiResponse.ErrorResponse(res, error2);
+			  status2 = JSON.parse(body2).status;
+			  if (status2 == 1) {
+				history.Reproductive = JSON.parse(body2).data.data;
+				console.log("Satish check ", history.Reproductive);
+				history.Reproductive["createdAt"] =
+				  JSON.parse(body2).data.data[0].createdAt;
+				//history.women['doctor']=JSON.parse(body2).data.data[0].doctor;
+				//console.dir(JSON.parse(body2).data.data[0].doctor);
+  
+				var ctemp = JSON.parse(body2).data.data[0].citizen;
+				if (ctemp != null && ctemp != undefined) {
+				  history.Citizen = JSON.parse(body2).data.data[0].citizen[0];
+				}
+
+				if (history.Reproductive.length === 0) {
+					history.Reproductive = mappRes["women"];
+				  } else {
+					var tempwomen = mappRes["women"];
+					tempwomen[mapreckey["ageoffirstperiod"]] =
+					  history.Reproductive[0]["ageoffirstperiod"];
+					tempwomen[mapreckey["pregnancies"]] =
+					  history.Reproductive[0]["pregnancies"];
+					tempwomen[mapreckey["miscarriages"]] =
+					  history.Reproductive[0]["miscarriages"];
+					tempwomen[mapreckey["children"]] =
+					  history.Reproductive[0]["children"];
+					tempwomen[mapreckey["menopauseage"]] =
+					  history.Reproductive[0]["menopauseage"];
+					tempwomen[mapreckey["lastmenstrualperiod"]] =
+					  history.Reproductive[0]["lastmenstrualperiod"];
+					tempwomen[mapreckey["numberofdaysbleeding"]] =
+					  history.Reproductive[0]["numberofdaysbleeding"];
+					tempwomen[mapreckey["intervalbetweenperiods"]] =
+					  history.Reproductive[0]["intervalbetweenperiods"];
+					tempwomen[mapreckey["isregular"]] =
+					  history.Reproductive[0]["isregular"];
+					tempwomen[mapreckey["flow"]] =
+					  history.Reproductive[0]["flow"];
+					tempwomen[mapreckey["painwithmenstruation"]] =
+					  history.Reproductive[0]["painwithmenstruation"];
+					tempwomen[mapreckey["useofmedicationforpain"]] =
+					  history.Reproductive[0]["useofmedicationforpain"];
+					tempwomen[mapreckey["misseddays"]] =
+					  history.Reproductive[0]["misseddays"];
+					tempwomen["createdAt"] = utility.toDDmmyy(
+					  history.Reproductive[0]["createdAt"].split("T")[0],
+					);
+					//tempwomen['doctor']=history.women[0]['doctor'];
+					history.Reproductive = tempwomen;
+				  }
+			  }
+			  // 		request(options3, function (error3, response3, body3) {
+			  // if (error3) return apiResponse.ErrorResponse(res, error3);
+			  // 	status3=JSON.parse(body3).status;
+			  // 	if(status3==1){
+			  // 		history.Family=JSON.parse(body3).data.data;
+			  // 		history.Family['createdAt']=JSON.parse(body3).data.data.createdAt;
+			  // 		//history.family['doctor']=JSON.parse(body3).data.data.doctor;
+			  // 		var ctemp=JSON.parse(body3).data.data[0].citizen;
+			  // 		if( ctemp!=null && ctemp!=undefined){
+			  // 			history.Citizen=JSON.parse(body3).data[0].data.citizen;
+			  // 		}
+  
+			  // 		}
+			  request(options4, function (error4, response4, body4) {
+				if (error4) return apiResponse.ErrorResponse(res, error4);
+				status4 = JSON.parse(body4).status;
+				if (status4 == 1) {
+				  history.Personal = JSON.parse(body4).data.data;
+				  history.Personal["createdAt"] =
+					JSON.parse(body4).data.data.createdAt;
+				  //history.personal['doctor']=JSON.parse(body4).data.data.doctor;
+				  var ctemp = JSON.parse(body4).data.data[0].citizen;
+				  if (ctemp != null && ctemp != undefined) {
+					history.Citizen = JSON.parse(body4).data.data[0].citizen[0];
+				  }
+
+				  if (history.Personal.length === 0) {
+					history.Personal = mappRes["personal"];
+				  } else {
+					var temppersonal = mappRes["personal"];
+					temppersonal[mapreckey["bornraised"]] =
+					  history.Personal[0]["bornraised"];
+					temppersonal[mapreckey["birthproblem"]] =
+					  history.Personal[0]["birthproblem"];
+					temppersonal[mapreckey["highesteducation"]] =
+					  history.Personal[0]["highesteducation"];
+					temppersonal[mapreckey["maritalstatus"]] =
+					  history.Personal[0]["maritalstatus"];
+					temppersonal[mapreckey["iscurrentlyworking"]] =
+					  mapOfTrueFalse[history.Personal[0]["iscurrentlyworking"]];
+					temppersonal[mapreckey["occupation"]] =
+					  history.Personal[0]["occupation"];
+					temppersonal[mapreckey["legalproblems"]] =
+					  history.Personal[0]["legalproblems"];
+					temppersonal["createdAt"] = utility.toDDmmyy(
+					  history.Personal[0]["createdAt"].split("T")[0],
+					);
+					//temppersonal['doctor']=history.personal[0]['doctor'];
+  
+					history.Personal = temppersonal;
+				  }
+				}
+  
+				request(options, function (error, response, body) {
+				  if (error) return apiResponse.ErrorResponse(res, error);
+				  //console.log(JSON.parse(body).status);
+				  status = JSON.parse(body).status;
+				  //drugs[0].history=history;
+				  //var tempr={};
+				
+				 
+  
+				  if (history.Medical.length === 0) {
+					history.Medical = mappRes["medical"];
+				  } else {
+					var tempmedical = mappRes["medical"];
+					tempmedical["diabetes"] =
+					  mapOfTrueFalse[history.Medical[0]["diabetes"]];
+					tempmedical["high_bp"] =
+					  mapOfTrueFalse[history.Medical[0]["high_bp"]];
+					tempmedical["high_cholestrol"] =
+					  mapOfTrueFalse[history.Medical[0]["high_cholestrol"]];
+					tempmedical["goiter"] =
+					  mapOfTrueFalse[history.Medical[0]["goiter"]];
+					tempmedical["cancer"] =
+					  mapOfTrueFalse[history.Medical[0]["cancer"]];
+					tempmedical["leukemia"] =
+					  mapOfTrueFalse[history.Medical[0]["leukemia"]];
+					tempmedical["psoriasis"] =
+					  mapOfTrueFalse[history.Medical[0]["psoriasis"]];
+					tempmedical["agina"] =
+					  mapOfTrueFalse[history.Medical[0]["agina"]];
+					tempmedical["type_of_cancer"] =
+					  mapOfTrueFalse[history.Medical[0]["type_of_cancer"]];
+					tempmedical["heart_problems"] =
+					  mapOfTrueFalse[history.Medical[0]["heart_problems"]];
+					tempmedical["heart_murmur"] =
+					  mapOfTrueFalse[history.Medical[0]["heart_murmur"]];
+					tempmedical["pneumonia"] =
+					  mapOfTrueFalse[history.Medical[0]["pneumonia"]];
+					tempmedical["pulmonary_embolism"] =
+					  mapOfTrueFalse[history.Medical[0]["pulmonary_embolism"]];
+					tempmedical["asthma"] =
+					  mapOfTrueFalse[history.Medical[0]["asthma"]];
+					tempmedical["emphysema"] =
+					  mapOfTrueFalse[history.Medical[0]["emphysema"]];
+					tempmedical["stroke"] =
+					  mapOfTrueFalse[history.Medical[0]["stroke"]];
+					tempmedical["epilepsy"] =
+					  mapOfTrueFalse[history.Medical[0]["epilepsy"]];
+					tempmedical["cataracts"] =
+					  mapOfTrueFalse[history.Medical[0]["cataracts"]];
+					tempmedical["kidney_disease"] =
+					  mapOfTrueFalse[history.Medical[0]["kidney_disease"]];
+					tempmedical["kidney_stones"] =
+					  mapOfTrueFalse[history.Medical[0]["kidney_stones"]];
+					tempmedical["chrohns_disease"] =
+					  mapOfTrueFalse[history.Medical[0]["chrohns_disease"]];
+					tempmedical["colitis"] =
+					  mapOfTrueFalse[history.Medical[0]["colitis"]];
+					tempmedical["anemia"] =
+					  mapOfTrueFalse[history.Medical[0]["anemia"]];
+					tempmedical["jaundice"] =
+					  mapOfTrueFalse[history.Medical[0]["jaundice"]];
+					tempmedical["hepatitis"] =
+					  mapOfTrueFalse[history.Medical[0]["hepatitis"]];
+					tempmedical["stomach"] =
+					  mapOfTrueFalse[history.Medical[0]["stomach"]];
+					tempmedical["rheumatic_fever"] =
+					  mapOfTrueFalse[history.Medical[0]["rheumatic_fever"]];
+					tempmedical["tuberculosis"] =
+					  mapOfTrueFalse[history.Medical[0]["tuberculosis"]];
+					tempmedical["hiv_aids"] =
+					  mapOfTrueFalse[history.Medical[0]["hiv_aids"]];
+					tempmedical["other"] =
+					  mapOfTrueFalse[history.Medical[0]["other"]];
+					tempmedical["createdAt"] = utility.toDDmmyy(
+					  history.Medical[0]["createdAt"].split("T")[0],
+					);
+					//tempfamily ['doctor']=history.family[0]['doctor'];
+  
+					history.Medical = tempmedical;
+				  }
+				  if (status == 1) {
+					var drugstemp = JSON.parse(body).data.data;
+					history.Drugs = drugstemp;
+					var ctemp = JSON.parse(body).data.data[0].citizen;
+					if (ctemp != null && ctemp != undefined) {
+					  history.Citizen = JSON.parse(body).data.data[0].citizen[0];
+					}
+				  }
+				  if (history.Drugs.length === 0) {
+					history.Drugs = mappRes["drugs"];
+				  } else {
+					var tempdrugs = mappRes["drugs"];
+					tempdrugs["allergies"] = history.Drugs[0]["allergies"];
+					tempdrugs["allergyType"] = history.Drugs[0]["allergyType"];
+					tempdrugs["allergydate"] =
+					  history.Drugs[0]["allergydate"].split("T")[0];
+					tempdrugs["createdAt"] = utility.toDDmmyy(
+					  history.Drugs[0]["createdAt"].split("T")[0],
+					);
+					history.Drugs = tempdrugs;
+				  }
+				  
+				});
+			  });
+			});
+		  });
+
+
+		  console.dir(history);
+				  var document = {
+					html: html,
+					data: {
+					  history: history,
+					},
+					path:
+					  "./uploads/delete_created_files/" +
+					  "medical_history_report_" +
+					  citizenId +
+					  ".pdf",
+				  };
+  
+				  var options = {
+					format: "A3",
+					orientation: "portrait",
+					border: "10mm",
+					//     header: {
+					//         height: "45mm",
+					//         contents: '<div style="text-align: center;">PortaClinic By JaviX Life </div>'
+					//     },
+					//     "footer": {
+					//         "height": "28mm",
+					//         "contents": {
+  
+					//         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+  
+					//     }
+					// }
+				  };
+				  process.env.OPENSSL_CONF = "/dev/null";
+				  pdf
+					.create(document, options)
+					.then((val) => {
+					  // console.log("Response is : -   "+val.filename);
+					  var temp = val.filename.split("/");
+					  val.filename =
+						"http://18.60.238.252:3010/reports/" +
+						"medical_history_report_" +
+						citizenId +
+						".pdf";
+  
+					  return apiResponse.successResponseWithData(
+						res,
+						"Success",
+						val,
+					  );
+					})
+					.catch((error) => {
+					  return apiResponse.ErrorResponse(res, error);
+					});
 		}
-	}];
+	  } catch (err) {
+		return apiResponse.ErrorResponse(res, "EXp:" + err);
+	  }
+	},
+  ];
+  
 
 exports.createPrescriptionReport = [
     	
