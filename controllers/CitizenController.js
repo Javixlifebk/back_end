@@ -990,7 +990,7 @@ exports.CitizenPrescribe = [
 				CitizenModel.Citizen.aggregate([
 					{ '$match': { 'isUnrefer': 2 ,'ngoId':req.body.ngoId} },//isunrefer status 2 showing in prscribe
 
-					{ '$sort': { 'createdAt': -1 } },
+					{ '$sort': { 'updatedAt': -1 } },
 					{ '$limit': 1000 },
 					{
 						'$lookup': {
@@ -1084,7 +1084,7 @@ exports.CitizenPrescribe = [
 							let temp = users[i];
 							var ddate = "";
 							users[i].info.dateOfOnBoarding = utility.toDDmmyy(users[i].info.dateOfOnBoarding);
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+							users[i].updatedAt = utility.toDDmmyy(users[i].updatedAt);
 							//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
 
 							if (temp.info.dateOfBirth != null && temp.info.dateOfBirth != undefined && temp.info.dateOfBirth != "") {
