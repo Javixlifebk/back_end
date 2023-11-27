@@ -1064,6 +1064,7 @@ exports.CitizenPrescribe = [
 							'info.photo': 1,
 							'screener.firstName': 1,
 							'screener.lastName': 1,
+							'info.updatedAt':1
 
 
 						}
