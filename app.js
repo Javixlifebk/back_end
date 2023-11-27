@@ -369,7 +369,7 @@ app.post('/upload/documents', (req, res) => {
         if(req.file!=undefined && req.file!=null && req.file!=""){
         res.json({
 		'success':1,
-		'url':'http://143.244.136.145:3010/documents/'+req.file.filename
+		'url':'http://18.60.238.252:3010/documents/'+req.file.filename
 		})
     }else{
     	res.json({
