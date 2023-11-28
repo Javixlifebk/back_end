@@ -1009,9 +1009,14 @@ exports.createCaseReport = [
 						// if(ezerx_data) {
 
 
-						labs.ezerx= {"name_key":'Hemoglobin',"value_key": ezerx_data[0].non_invasive_hemoglobin_value,'range':ezerx_data[0].non_invasive_hemoglobin_range,'unit': 'g/dl'};
+						
+						myObject = [
+							{"name_key":'Hemoglobin',"value_key": ezerx_data[0].non_invasive_hemoglobin_value,'range':ezerx_data[0].non_invasive_hemoglobin_range,'unit': 'g/dl'},
 
-								
+
+						  
+						 ] ;
+						 labs.ezerx = 	myObject
 							// labs.ezerx[0]['name_key']= 'Hemoglobin';
 							// labs.ezerx[0]['value_key']= ezerx_data[0].non_invasive_hemoglobin_value;
 							// labs.ezerx[0]['range']= ezerx_data[0].non_invasive_hemoglobin_range;
