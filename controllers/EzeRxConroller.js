@@ -17,10 +17,10 @@ exports.addRecord = [
 				array_raw_data = ord_data.split("_"); //case_id citizen_id screener_id
 
 				let info = { 
-					caseId:array_raw_data[0],
-					citizen_id:array_raw_data[1],
-					screener_id:array_raw_data[2],
-					ngo_id:array_raw_data[3],
+					caseId:array_raw_data[1],
+					citizen_id:array_raw_data[2],
+					screener_id:array_raw_data[3],
+					ngo_id:array_raw_data[4],
 					deviceIdentifier:req.body.deviceIdentifier,
 				}
 

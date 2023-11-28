@@ -793,6 +793,43 @@ exports.createCaseReport = [
 					  				'symptoms':"",
 					  				'urine':"",
 								       "breasttest":""};
+
+					    ecg_test_perform = await eze_rx.find({ caseId: '169700388581936526'});
+					    if(ecg_test_perform) {
+							labs.ezerx=ecg_test_perform;
+
+							for(var i=0;i<ecg_test_perform.length;i++){
+								if(ecg_test_perform[i] == 'non_invasive_hemoglobin_value') {
+									labs.ezerx[i]['name']= 'Hemoglobin';
+									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_hemoglobin_value'];
+									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_hemoglobin_range'];
+									labs.ezerx[i]['unit']= 'g/dl';
+								} else if(ecg_test_perform[i] == 'non_invasive_bilirubin_value') {
+									labs.ezerx[i]['name']= 'Total Bilirubin ';
+									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_bilirubin_value'];
+									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_bilirubin_range'];
+									labs.ezerx[i]['unit']= 'mg/dl';
+								} else if(ecg_test_perform[i] == 'oxygen_saturation_value') {
+									labs.ezerx[i]['name']= 'Oxygen Saturation ';
+									labs.ezerx[i]['value']= ecg_test_perform[i]['oxygen_saturation_value'];
+									labs.ezerx[i]['range']= ecg_test_perform[i]['oxygen_saturation_range'];
+									labs.ezerx[i]['unit']= '%';
+								}  else if(ecg_test_perform[i] == 'non_invasive_creatinine_value') {
+									labs.ezerx[i]['name']= 'Creatinine ';
+									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_creatinine_value'];
+									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_creatinine_range'];
+									labs.ezerx[i]['unit']= 'mg/dl';
+								}  else if(ecg_test_perform[i] == 'non_invasive_estimated_blood_sugar_value') {
+									labs.ezerx[i]['name']= 'Estimated Sugar Level* ';
+									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_estimated_blood_sugar_value'];
+									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_estimated_blood_sugar_range'];
+									labs.ezerx[i]['unit']= '%';
+								} 
+								
+							
+								}
+
+						}
 					   request( options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
 					  			status1=JSON.parse(body1).status;
