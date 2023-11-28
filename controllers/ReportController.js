@@ -800,30 +800,30 @@ exports.createCaseReport = [
 							labsezerx_data=ezerx_data;
 
 								
-									labs.ezerx[i]['name']= 'Hemoglobin';
-									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_hemoglobin_value;
-									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_hemoglobin_range;
-									labs.ezerx[i]['unit']= 'g/dl';
+									labs.ezerx[0]['name']= 'Hemoglobin';
+									labs.ezerx[0]['value']= labsezerx_data[0].non_invasive_hemoglobin_value;
+									labs.ezerx[0]['range']= labsezerx_data[0].non_invasive_hemoglobin_range;
+									labs.ezerx[0]['unit']= 'g/dl';
 								
-									labs.ezerx[i]['name']= 'Total Bilirubin ';
-									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_bilirubin_value;
-									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_bilirubin_range;
-									labs.ezerx[i]['unit']= 'mg/dl';
+									labs.ezerx[1]['name']= 'Total Bilirubin ';
+									labs.ezerx[1]['value']= labsezerx_data[0].non_invasive_bilirubin_value;
+									labs.ezerx[1]['range']= labsezerx_data[0].non_invasive_bilirubin_range;
+									labs.ezerx[1]['unit']= 'mg/dl';
 								
-									labs.ezerx[i]['name']= 'Oxygen Saturation ';
-									labs.ezerx[i]['value']= labsezerx_data[i]['oxygen_saturation_value'];
-									labs.ezerx[i]['range']= labsezerx_data[i]['oxygen_saturation_range'];
-									labs.ezerx[i]['unit']= '%';
+									labs.ezerx[2]['name']= 'Oxygen Saturation ';
+									labs.ezerx[2]['value']= labsezerx_data[0]['oxygen_saturation_value'];
+									labs.ezerx[2]['range']= labsezerx_data[0]['oxygen_saturation_range'];
+									labs.ezerx[2]['unit']= '%';
 								
-									labs.ezerx[i]['name']= 'Creatinine ';
-									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_creatinine_value;
-									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_creatinine_range;
-									labs.ezerx[i]['unit']= 'mg/dl';
+									labs.ezerx[3]['name']= 'Creatinine ';
+									labs.ezerx[3]['value']= labsezerx_data[0].non_invasive_creatinine_value;
+									labs.ezerx[3]['range']= labsezerx_data[0].non_invasive_creatinine_range;
+									labs.ezerx[3]['unit']= 'mg/dl';
 								
-									labs.ezerx[i]['name']= 'Estimated Sugar Level* ';
-									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_estimated_blood_sugar_value;
-									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_estimated_blood_sugar_range;
-									labs.ezerx[i]['unit']= '%';
+									labs.ezerx[4]['name']= 'Estimated Sugar Level* ';
+									labs.ezerx[4]['value']= labsezerx_data[0].non_invasive_estimated_blood_sugar_value;
+									labs.ezerx[4]['range']= labsezerx_data[0].non_invasive_estimated_blood_sugar_range;
+									labs.ezerx[4]['unit']= '%';
 
 						}
 
