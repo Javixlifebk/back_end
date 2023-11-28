@@ -795,7 +795,7 @@ exports.createCaseReport = [
 								       "breasttest":""};
 
 					    ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
-						console.log("ezerx_data ezerx_data ",ezerx_data)
+						console.log("ezerx_data ezerx_data ",ezerx_data[0])
 					    // if(ezerx_data) {
 							labsezerx_data=ezerx_data;
 
