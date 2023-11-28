@@ -795,10 +795,11 @@ exports.createCaseReport = [
 								       "breasttest":""};
 
 					    ecg_test_perform = await eze_rx.find({ caseId: '169700388581936526'});
+						console.log("ecg_test_perform ecg_test_perform ",ecg_test_perform)
 					    if(ecg_test_perform) {
 							labs.ezerx=ecg_test_perform;
 
-							for(var i=0;i<ecg_test_perform.length;i++){
+							for(var i=0;i<ecg_test_perform.length;i++) {
 								if(ecg_test_perform[i] == 'non_invasive_hemoglobin_value') {
 									labs.ezerx[i]['name']= 'Hemoglobin';
 									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_hemoglobin_value'];
@@ -827,7 +828,7 @@ exports.createCaseReport = [
 								} 
 								
 							
-								}
+							}
 
 						}
 					   request( options1, function (error1, response1, body1) {
