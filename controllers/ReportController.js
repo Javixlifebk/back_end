@@ -4,7 +4,7 @@ const PDFMerger = require('pdf-merger-js');
 var path = require('path');
 var phantomjs = require('phantomjs-prebuilt')
 var binPath = phantomjs.path
-
+const eze_rx = require("../models/EzeRxModel");
 // console.log("phantomjs",phantomjs)
 // console.log("binPath",binPath)
 
