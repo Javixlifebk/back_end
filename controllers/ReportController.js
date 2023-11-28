@@ -831,6 +831,8 @@ exports.createCaseReport = [
 							}
 
 						}
+
+					   console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 					   request( options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
 					  			status1=JSON.parse(body1).status;
