@@ -796,7 +796,7 @@ exports.createCaseReport = [
 
 					    ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
 						console.log("ezerx_data ezerx_data ",ezerx_data)
-					    if(ezerx_data) {
+					    // if(ezerx_data) {
 							labsezerx_data=ezerx_data;
 
 								
@@ -825,7 +825,7 @@ exports.createCaseReport = [
 									labs.ezerx[4]['range']= labsezerx_data[0].non_invasive_estimated_blood_sugar_range;
 									labs.ezerx[4]['unit']= '%';
 
-						}
+						// }
 
 					   console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 					   request( options1, function (error1, response1, body1) {
