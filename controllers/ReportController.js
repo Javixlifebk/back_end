@@ -794,36 +794,36 @@ exports.createCaseReport = [
 					  				'urine':"",
 								       "breasttest":""};
 
-					    ecg_test_perform = await eze_rx.find({ caseId: '169700388581936526'});
-						console.log("ecg_test_perform ecg_test_perform ",ecg_test_perform)
-					    if(ecg_test_perform) {
-							labs.ezerx=ecg_test_perform;
+					    ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
+						console.log("ezerx_data ezerx_data ",ezerx_data)
+					    if(ezerx_data) {
+							labsezerx_data=ezerx_data;
 
-							for(var i=0;i<ecg_test_perform.length;i++) {
-								if(ecg_test_perform[i] == 'non_invasive_hemoglobin_value') {
+							for(var i=0;i<labsezerx_data.length;i++) {
+								if(labsezerx_data[i] == 'non_invasive_hemoglobin_value') {
 									labs.ezerx[i]['name']= 'Hemoglobin';
-									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_hemoglobin_value'];
-									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_hemoglobin_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_hemoglobin_value'];
+									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_hemoglobin_range'];
 									labs.ezerx[i]['unit']= 'g/dl';
-								} else if(ecg_test_perform[i] == 'non_invasive_bilirubin_value') {
+								} else if(labsezerx_data[i] == 'non_invasive_bilirubin_value') {
 									labs.ezerx[i]['name']= 'Total Bilirubin ';
-									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_bilirubin_value'];
-									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_bilirubin_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_bilirubin_value'];
+									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_bilirubin_range'];
 									labs.ezerx[i]['unit']= 'mg/dl';
-								} else if(ecg_test_perform[i] == 'oxygen_saturation_value') {
+								} else if(labsezerx_data[i] == 'oxygen_saturation_value') {
 									labs.ezerx[i]['name']= 'Oxygen Saturation ';
-									labs.ezerx[i]['value']= ecg_test_perform[i]['oxygen_saturation_value'];
-									labs.ezerx[i]['range']= ecg_test_perform[i]['oxygen_saturation_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i]['oxygen_saturation_value'];
+									labs.ezerx[i]['range']= labsezerx_data[i]['oxygen_saturation_range'];
 									labs.ezerx[i]['unit']= '%';
-								}  else if(ecg_test_perform[i] == 'non_invasive_creatinine_value') {
+								}  else if(labsezerx_data[i] == 'non_invasive_creatinine_value') {
 									labs.ezerx[i]['name']= 'Creatinine ';
-									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_creatinine_value'];
-									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_creatinine_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_creatinine_value'];
+									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_creatinine_range'];
 									labs.ezerx[i]['unit']= 'mg/dl';
-								}  else if(ecg_test_perform[i] == 'non_invasive_estimated_blood_sugar_value') {
+								}  else if(labsezerx_data[i] == 'non_invasive_estimated_blood_sugar_value') {
 									labs.ezerx[i]['name']= 'Estimated Sugar Level* ';
-									labs.ezerx[i]['value']= ecg_test_perform[i]['non_invasive_estimated_blood_sugar_value'];
-									labs.ezerx[i]['range']= ecg_test_perform[i]['non_invasive_estimated_blood_sugar_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_estimated_blood_sugar_value'];
+									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_estimated_blood_sugar_range'];
 									labs.ezerx[i]['unit']= '%';
 								} 
 								
