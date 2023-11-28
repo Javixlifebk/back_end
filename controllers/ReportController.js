@@ -1011,38 +1011,47 @@ exports.createCaseReport = [
 
 						
 						myObject = [
-							{"name_key":'Hemoglobin',"value_key": ezerx_data[0].non_invasive_hemoglobin_value,'range':ezerx_data[0].non_invasive_hemoglobin_range,'unit': 'g/dl'},
+							{
+								"name_key":"Hemoglobin",
+								"value_key": ezerx_data[0].non_invasive_hemoglobin_value,
+								'range':ezerx_data[0].non_invasive_hemoglobin_range,
+								'unit': 'g/dl'
+							},
+							{
+								"name_key":"Total Bilirubin",
+								"value_key": ezerx_data[0].non_invasive_bilirubin_value,
+								'range':ezerx_data[0].non_invasive_bilirubin_range,
+								'unit': 'mg/dl'
+							},
+
+							{
+								"name_key":"Oxygen Saturation",
+								"value_key": ezerx_data[0].oxygen_saturation_value,
+								'range':ezerx_data[0].oxygen_saturation_range,
+								'unit': '%'
+							},
+
+							{
+								"name_key":"Creatinine",
+								"value_key": ezerx_data[0].non_invasive_creatinine_value,
+								'range':ezerx_data[0].non_invasive_creatinine_range,
+								'unit': 'mg/dl'
+							},
+
+							{
+								"name_key":"Estimated Sugar Level* ",
+								"value_key": ezerx_data[0].non_invasive_estimated_blood_sugar_value,
+								'range':ezerx_data[0].non_invasive_estimated_blood_sugar_range,
+								'unit': 'mg/dl'
+							},
 
 
 						  
 						 ] ;
 						 labs.ezerx = 	myObject
-							// labs.ezerx[0]['name_key']= 'Hemoglobin';
-							// labs.ezerx[0]['value_key']= ezerx_data[0].non_invasive_hemoglobin_value;
-							// labs.ezerx[0]['range']= ezerx_data[0].non_invasive_hemoglobin_range;
-							// labs.ezerx[0]['unit']= 'g/dl';
+							
 						
-							// labs.ezerx[1]['name_key']= 'Total Bilirubin ';
-							// labs.ezerx[1]['value_key']= ezerx_data[0].non_invasive_bilirubin_value;
-							// labs.ezerx[1]['range']= ezerx_data[0].non_invasive_bilirubin_range;
-							// labs.ezerx[1]['unit']= 'mg/dl';
 						
-							// labs.ezerx[2]['name_key']= 'Oxygen Saturation ';
-							// labs.ezerx[2]['value_key']= ezerx_data[0].oxygen_saturation_value;
-							// labs.ezerx[2]['range']= ezerx_data[0].oxygen_saturation_range;
-							// labs.ezerx[2]['unit']= '%';
-						
-							// labs.ezerx[3]['name_key']= 'Creatinine ';
-							// labs.ezerx[3]['value_key']= ezerx_data[0].non_invasive_creatinine_value;
-							// labs.ezerx[3]['range']= ezerx_data[0].non_invasive_creatinine_range;
-							// labs.ezerx[3]['unit']= 'mg/dl';
-						
-							// labs.ezerx[4]['name_key']= 'Estimated Sugar Level* ';
-							// labs.ezerx[4]['value_key']= ezerx_data[0].non_invasive_estimated_blood_sugar_value;
-							// labs.ezerx[4]['range']= ezerx_data[0].non_invasive_estimated_blood_sugar_range;
-							// labs.ezerx[4]['unit']= '%';
-
-						// }
 
 						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
