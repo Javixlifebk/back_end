@@ -799,7 +799,6 @@ exports.createCaseReport = [
 					    if(ezerx_data) {
 							labsezerx_data=ezerx_data;
 
-							for(var i=0;i<labsezerx_data.length;i++) {
 								
 									labs.ezerx[i]['name']= 'Hemoglobin';
 									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_hemoglobin_value;
@@ -825,10 +824,6 @@ exports.createCaseReport = [
 									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_estimated_blood_sugar_value;
 									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_estimated_blood_sugar_range;
 									labs.ezerx[i]['unit']= '%';
-								} 
-								
-							
-							}
 
 						}
 
