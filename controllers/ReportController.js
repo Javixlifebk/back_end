@@ -630,7 +630,7 @@ exports.createCaseReport = [
 
 					try {
 						   ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
-						   console.log("ecg_test_perform ecg_test_perform",ecg_test_perform)
+						   ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
 					   
 				   } catch (error) {
 							   console.error("Error downloading or merging PDF:", error);
@@ -779,7 +779,8 @@ exports.createCaseReport = [
 					   //eND lAB tESTS
 
 
-					   var labs={'hemo':"",
+					   var labs={
+									'hemo':"",
 					  				'eye':"",
 					  				'visual':"",
 					  				'glucose':"",
@@ -792,41 +793,12 @@ exports.createCaseReport = [
 					  				'rapid':"",
 					  				'symptoms':"",
 					  				'urine':"",
-								       "breasttest":""};
+								    "breasttest":"",
+									"ezerx":""
+								};
 
-					    ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
-						// console.log("ezerx_data ezerx_data ",ezerx_data[0].non_invasive_hemoglobin_value)
-					    // if(ezerx_data) {
-
-								
-									labs.ezerx[0]['name']= 'Hemoglobin';
-									labs.ezerx[0]['value']= ezerx_data[0].non_invasive_hemoglobin_value;
-									labs.ezerx[0]['range']= ezerx_data[0].non_invasive_hemoglobin_range;
-									labs.ezerx[0]['unit']= 'g/dl';
-								
-									labs.ezerx[1]['name']= 'Total Bilirubin ';
-									labs.ezerx[1]['value']= ezerx_data[0].non_invasive_bilirubin_value;
-									labs.ezerx[1]['range']= ezerx_data[0].non_invasive_bilirubin_range;
-									labs.ezerx[1]['unit']= 'mg/dl';
-								
-									labs.ezerx[2]['name']= 'Oxygen Saturation ';
-									labs.ezerx[2]['value']= ezerx_data[0].oxygen_saturation_value;
-									labs.ezerx[2]['range']= ezerx_data[0].oxygen_saturation_range;
-									labs.ezerx[2]['unit']= '%';
-								
-									labs.ezerx[3]['name']= 'Creatinine ';
-									labs.ezerx[3]['value']= ezerx_data[0].non_invasive_creatinine_value;
-									labs.ezerx[3]['range']= ezerx_data[0].non_invasive_creatinine_range;
-									labs.ezerx[3]['unit']= 'mg/dl';
-								
-									labs.ezerx[4]['name']= 'Estimated Sugar Level* ';
-									labs.ezerx[4]['value']= ezerx_data[0].non_invasive_estimated_blood_sugar_value;
-									labs.ezerx[4]['range']= ezerx_data[0].non_invasive_estimated_blood_sugar_range;
-									labs.ezerx[4]['unit']= '%';
-
-						// }
-
-					   console.log("labs.ezerx labs.ezerx ",labs.ezerx)
+					    
+					   
 					   request( options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
 					  			status1=JSON.parse(body1).status;
@@ -1030,6 +1002,43 @@ exports.createCaseReport = [
 					  	if(users[0].arm==null || users[0].arm==undefined || users[0].arm==""){
 					  		users[0].arm="N/A";
 					  	}
+
+
+						
+
+						// if(ezerx_data) {
+
+								
+							labs.ezerx[0]['name']= 'Hemoglobin';
+							labs.ezerx[0]['value']= ezerx_data[0].non_invasive_hemoglobin_value;
+							labs.ezerx[0]['range']= ezerx_data[0].non_invasive_hemoglobin_range;
+							labs.ezerx[0]['unit']= 'g/dl';
+						
+							labs.ezerx[1]['name']= 'Total Bilirubin ';
+							labs.ezerx[1]['value']= ezerx_data[0].non_invasive_bilirubin_value;
+							labs.ezerx[1]['range']= ezerx_data[0].non_invasive_bilirubin_range;
+							labs.ezerx[1]['unit']= 'mg/dl';
+						
+							labs.ezerx[2]['name']= 'Oxygen Saturation ';
+							labs.ezerx[2]['value']= ezerx_data[0].oxygen_saturation_value;
+							labs.ezerx[2]['range']= ezerx_data[0].oxygen_saturation_range;
+							labs.ezerx[2]['unit']= '%';
+						
+							labs.ezerx[3]['name']= 'Creatinine ';
+							labs.ezerx[3]['value']= ezerx_data[0].non_invasive_creatinine_value;
+							labs.ezerx[3]['range']= ezerx_data[0].non_invasive_creatinine_range;
+							labs.ezerx[3]['unit']= 'mg/dl';
+						
+							labs.ezerx[4]['name']= 'Estimated Sugar Level* ';
+							labs.ezerx[4]['value']= ezerx_data[0].non_invasive_estimated_blood_sugar_value;
+							labs.ezerx[4]['range']= ezerx_data[0].non_invasive_estimated_blood_sugar_range;
+							labs.ezerx[4]['unit']= '%';
+
+						// }
+
+						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
+						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
+
 					  	
 					  	
 						users[0].labs=labs;
@@ -1044,6 +1053,9 @@ exports.createCaseReport = [
 													{ return("<span class='red'>__________</span>");}
 												    else return("<span class='red'>"+this.bpsys+"</span>");
 												 }
+
+
+
 						console.dir(users[0].labs);						 
 					  	var document = {
 					    html: html,
