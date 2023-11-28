@@ -795,34 +795,33 @@ exports.createCaseReport = [
 								       "breasttest":""};
 
 					    ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
-						console.log("ezerx_data ezerx_data ",ezerx_data[0].non_invasive_hemoglobin_value)
+						// console.log("ezerx_data ezerx_data ",ezerx_data[0].non_invasive_hemoglobin_value)
 					    // if(ezerx_data) {
-							labsezerx_data=ezerx_data;
 
 								
 									labs.ezerx[0]['name']= 'Hemoglobin';
-									labs.ezerx[0]['value']= labsezerx_data[0].non_invasive_hemoglobin_value;
-									labs.ezerx[0]['range']= labsezerx_data[0].non_invasive_hemoglobin_range;
+									labs.ezerx[0]['value']= ezerx_data[0].non_invasive_hemoglobin_value;
+									labs.ezerx[0]['range']= ezerx_data[0].non_invasive_hemoglobin_range;
 									labs.ezerx[0]['unit']= 'g/dl';
 								
 									labs.ezerx[1]['name']= 'Total Bilirubin ';
-									labs.ezerx[1]['value']= labsezerx_data[0].non_invasive_bilirubin_value;
-									labs.ezerx[1]['range']= labsezerx_data[0].non_invasive_bilirubin_range;
+									labs.ezerx[1]['value']= ezerx_data[0].non_invasive_bilirubin_value;
+									labs.ezerx[1]['range']= ezerx_data[0].non_invasive_bilirubin_range;
 									labs.ezerx[1]['unit']= 'mg/dl';
 								
 									labs.ezerx[2]['name']= 'Oxygen Saturation ';
-									labs.ezerx[2]['value']= labsezerx_data[0]['oxygen_saturation_value'];
-									labs.ezerx[2]['range']= labsezerx_data[0]['oxygen_saturation_range'];
+									labs.ezerx[2]['value']= ezerx_data[0].oxygen_saturation_value;
+									labs.ezerx[2]['range']= ezerx_data[0].oxygen_saturation_range;
 									labs.ezerx[2]['unit']= '%';
 								
 									labs.ezerx[3]['name']= 'Creatinine ';
-									labs.ezerx[3]['value']= labsezerx_data[0].non_invasive_creatinine_value;
-									labs.ezerx[3]['range']= labsezerx_data[0].non_invasive_creatinine_range;
+									labs.ezerx[3]['value']= ezerx_data[0].non_invasive_creatinine_value;
+									labs.ezerx[3]['range']= ezerx_data[0].non_invasive_creatinine_range;
 									labs.ezerx[3]['unit']= 'mg/dl';
 								
 									labs.ezerx[4]['name']= 'Estimated Sugar Level* ';
-									labs.ezerx[4]['value']= labsezerx_data[0].non_invasive_estimated_blood_sugar_value;
-									labs.ezerx[4]['range']= labsezerx_data[0].non_invasive_estimated_blood_sugar_range;
+									labs.ezerx[4]['value']= ezerx_data[0].non_invasive_estimated_blood_sugar_value;
+									labs.ezerx[4]['range']= ezerx_data[0].non_invasive_estimated_blood_sugar_range;
 									labs.ezerx[4]['unit']= '%';
 
 						// }
