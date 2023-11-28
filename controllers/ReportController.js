@@ -800,30 +800,30 @@ exports.createCaseReport = [
 							labsezerx_data=ezerx_data;
 
 							for(var i=0;i<labsezerx_data.length;i++) {
-								if(labsezerx_data[i] == 'non_invasive_hemoglobin_value') {
+								
 									labs.ezerx[i]['name']= 'Hemoglobin';
-									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_hemoglobin_value'];
-									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_hemoglobin_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_hemoglobin_value;
+									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_hemoglobin_range;
 									labs.ezerx[i]['unit']= 'g/dl';
-								} else if(labsezerx_data[i] == 'non_invasive_bilirubin_value') {
+								
 									labs.ezerx[i]['name']= 'Total Bilirubin ';
-									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_bilirubin_value'];
-									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_bilirubin_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_bilirubin_value;
+									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_bilirubin_range;
 									labs.ezerx[i]['unit']= 'mg/dl';
-								} else if(labsezerx_data[i] == 'oxygen_saturation_value') {
+								
 									labs.ezerx[i]['name']= 'Oxygen Saturation ';
 									labs.ezerx[i]['value']= labsezerx_data[i]['oxygen_saturation_value'];
 									labs.ezerx[i]['range']= labsezerx_data[i]['oxygen_saturation_range'];
 									labs.ezerx[i]['unit']= '%';
-								}  else if(labsezerx_data[i] == 'non_invasive_creatinine_value') {
+								
 									labs.ezerx[i]['name']= 'Creatinine ';
-									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_creatinine_value'];
-									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_creatinine_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_creatinine_value;
+									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_creatinine_range;
 									labs.ezerx[i]['unit']= 'mg/dl';
-								}  else if(labsezerx_data[i] == 'non_invasive_estimated_blood_sugar_value') {
+								
 									labs.ezerx[i]['name']= 'Estimated Sugar Level* ';
-									labs.ezerx[i]['value']= labsezerx_data[i]['non_invasive_estimated_blood_sugar_value'];
-									labs.ezerx[i]['range']= labsezerx_data[i]['non_invasive_estimated_blood_sugar_range'];
+									labs.ezerx[i]['value']= labsezerx_data[i].non_invasive_estimated_blood_sugar_value;
+									labs.ezerx[i]['range']= labsezerx_data[i].non_invasive_estimated_blood_sugar_range;
 									labs.ezerx[i]['unit']= '%';
 								} 
 								
