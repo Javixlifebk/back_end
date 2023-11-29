@@ -630,7 +630,7 @@ exports.createCaseReport = [
 
 					try {
 						   ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
-						   ezerx_data = await eze_rx.find({ caseId: '169700388581936526'});
+						   ezerx_data = await eze_rx.find({ caseId: caseId});
 					   
 				   } catch (error) {
 							   console.error("Error downloading or merging PDF:", error);

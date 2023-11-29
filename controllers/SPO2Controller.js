@@ -202,7 +202,7 @@ exports.SPO2GreenList=[
 			
 				"spo2": {
 				  $gte: 95,
-				  $lt: 99
+				  $lt: 101
 				},
 				"ngoId": req.body.ngoId
 		 }, {}, query, async (err, data) => {
