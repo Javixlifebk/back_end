@@ -189,23 +189,15 @@ exports.SPO2GreenList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({
-		"spo2": {
-		  $gte: '95',
-		  $lt: '101'
-		},
-		"ngoId": req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({"spo2": {
+		$gte: 95,
+		$lt: 99
+	  },
+	  "ngoId": req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
-		 ScreeningCase.ScreeningCase.find({
-			
-				"spo2": {
-				  $gte: 95,
-				  $lt: 101
-				},
-				"ngoId": req.body.ngoId
-		 }, {}, query, async (err, data) => {
+		 ScreeningCase.ScreeningCase.find({}, {}, query, async (err, data) => {
 		   // Mongo command to fetch all data from collection.
 		   // const post_id = data.post_id
 		   if (err) {
@@ -213,7 +205,11 @@ exports.SPO2GreenList=[
 		   } else {
 			ScreeningCase.ScreeningCase.aggregate([
 			   
-							// {'$match':{severity_spo2:0,"ngoId":req.body.ngoId}},
+							{'$match':{"spo2": {
+								$gte: 95,
+								$lt: 99
+							  },
+							  "ngoId": req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
