@@ -1006,7 +1006,7 @@ exports.createCaseReport = [
 
 						
 
-						// if(ezerx_data) {
+						if(ezerx_data) {
 
 
 						
@@ -1056,7 +1056,7 @@ exports.createCaseReport = [
 						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 
-					  	
+						}
 					  	
 						users[0].labs=labs;
 						global_labs=labs;
