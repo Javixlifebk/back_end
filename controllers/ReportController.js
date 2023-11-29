@@ -1012,7 +1012,7 @@ exports.createCaseReport = [
 						
 						myObject = [
 							{
-								"name_key":"Hemoglobin",
+								"name_key":"Hemoglobin ",
 								"value_key": ezerx_data[0].non_invasive_hemoglobin_value,
 								'range':ezerx_data[0].non_invasive_hemoglobin_range,
 								'unit': 'g/dl'
@@ -1042,7 +1042,7 @@ exports.createCaseReport = [
 								"name_key":"Estimated Sugar Level* ",
 								"value_key": ezerx_data[0].non_invasive_estimated_blood_sugar_value,
 								'range':ezerx_data[0].non_invasive_estimated_blood_sugar_range,
-								'unit': 'mg/dl'
+								'unit': '%'
 							},
 
 
