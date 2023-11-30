@@ -189,7 +189,7 @@ exports.HeartRateGreenList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_pulse:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -201,7 +201,7 @@ exports.HeartRateGreenList=[
 		   } else {
 			ScreeningCase.ScreeningCase.aggregate([
 			   
-							{'$match':{severity_bp:0,"ngoId":req.body.ngoId}},
+							{'$match':{severity_pulse:0,"ngoId":req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -260,7 +260,7 @@ exports.HeartRateGreenList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_pulse:1
 									
 								   }
 							   },
@@ -305,7 +305,7 @@ exports.HeartRateGreenList=[
 	// 				condition={'caseId':req.body.caseId};
 	// 			}
 	// 		ScreeningCase.ScreeningCase.aggregate([
-	// 						 {'$match':{severity_bp:0}},
+	// 						 {'$match':{severity_pulse:0}},
 	// 						 {$sort:{'createdAt':-1}},
 	// 						{'$match':condition},
 	// 						{'$limit':1000},
@@ -364,7 +364,7 @@ exports.HeartRateGreenList=[
 	// 							 'mobile':'$basic.mobile',
 	// 							 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 	// 							 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-	// 							 severity_bp:1
+	// 							 severity_pulse:1
 								 
 	// 							}
 	// 						},
@@ -408,7 +408,7 @@ exports.HeartRateAmberList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_pulse:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -420,7 +420,7 @@ exports.HeartRateAmberList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 				// {$sort:{'createdAt':-1}},
-										 {'$match':{severity_bp:1,ngoId:req.body.ngoId}},
+										 {'$match':{severity_pulse:1,ngoId:req.body.ngoId}},
 							   // {'$limit':1000},
 							   {'$lookup': {
 								   'localField':'citizenId',
@@ -478,7 +478,7 @@ exports.HeartRateAmberList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_pulse:1
 									
 								   }
 							   },
@@ -534,7 +534,7 @@ exports.HeartRateRedList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_pulse:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -546,7 +546,7 @@ exports.HeartRateRedList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 			   
-							   {'$match':{severity_bp:2,ngoId:req.body.ngoId}},
+							   {'$match':{severity_pulse:2,ngoId:req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -606,7 +606,7 @@ exports.HeartRateRedList=[
 									'mobile':'$basic.mobile',
 									
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_pulse:1
 									
 								   }
 							   },
@@ -707,7 +707,7 @@ exports.HeartRateRedList=[
 // 		} else {
 // 			ScreeningCase.ScreeningCase.aggregate([
 			
-// 							{'$match':{severity_bp:2}},
+// 							{'$match':{severity_pulse:2}},
 // 							// {'$match':condition},
 // 							// {'$limit':1000},
 // 							{'$lookup': {
@@ -765,7 +765,7 @@ exports.HeartRateRedList=[
 // 								 'mobile':'$basic.mobile',
 // 								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 // 								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-// 								 severity_bp:1
+// 								 severity_pulse:1
 								 
 // 								}
 // 							},

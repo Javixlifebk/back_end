@@ -20,7 +20,6 @@ var logo = require("./logoRouter");
 var Jlogo = require("./JlogoRoute");
 var breastItest = require("./BreastIRoute");
 var createIndex = require("./CreateIndex");
-// var correctPiechartValues = require("./correctPiechartValues");
 var EzeRx = require("./EzeRx");
 
 var app = express();
@@ -46,6 +45,7 @@ app.use("/logo/",logo);
 app.use("/Jlogo/",Jlogo);
 app.use("/test/",breastItest);
 app.use("/index/",createIndex);
-// app.use("/correctPiechartValues/",correctPiechartValues);
+app.use("/correctPiechartValues/",createIndex); 
+app.use("/correctLabTestUpdateBloodGlucose/",createIndex); 
 app.use("/ezerx/",EzeRx);
 module.exports = app;

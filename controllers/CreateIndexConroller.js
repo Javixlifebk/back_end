@@ -385,20 +385,276 @@ const addindex = async (req, res) => {
   }
 };
 
-const correctPiechartValues = async (req, res) => {
-			ScreeningCase.ScreeningCase.find({}).toArray((err, result) => {
-        if (err) {
-          res.status(500).send('Error fetching data from database');
-          return;
+
+
+const correctLabTestUpdateBloodGlucose = async (req, res) => {
+
+  try {
+
+    LabTestModel.BloodGlucoseTest.find({}, {}, async (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching data from database");
+        return;
+      }
+     
+      severity = "";
+      for (i = 0; i < result.length; i++) {
+        console.log(result[i]);
+
+          if (
+            (((result[i].bloodglucose >= 121 && result[i].bloodglucose <=700) ||
+          (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
+              result[i].type === "Pre Meal(Fasting)") ||
+            (((result[i].bloodglucose >= 201 && result[i].bloodglucose <=700) ||
+          (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+              result[i].type === "Post Meal") ||
+            (((result[i].bloodglucose >= 221 && result[i].bloodglucose <=700) ||
+          (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+              result[i].type === "Pre Exercise") ||
+            (((result[i].bloodglucose >= 181 && result[i].bloodglucose <= 700) ||
+          (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+              result[i].type === "Post Exercise") ||
+            (((result[i].bloodglucose >= 201 && result[i].bloodglucose <= 700) ||
+          (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
+              result[i].type === "Non-Fasting(Random)")
+       
+          ) {
+            severity = 2;
+          } else if (
+            (((result[i].bloodglucose >= 101 && result[i].bloodglucose <=120) || 
+          (result[i].bloodglucose >= 60 && result[i].bloodglucose <=69)) &&
+              result[i].type === "Pre Meal(Fasting)") ||
+            (((result[i].bloodglucose >= 181 && result[i].bloodglucose <=200) ||
+          (result[i].bloodglucose >= 70 && result[i].bloodglucose <=119)) &&
+              result[i].type === "Post Meal") ||
+            (((result[i].bloodglucose >=151 && result[i].bloodglucose <=220) ||
+          (result[i].bloodglucose >=70 && result[i].bloodglucose <=129)) &&
+              result[i].type === "Pre Exercise") ||
+            (((result[i].bloodglucose >= 141 && result[i].bloodglucose <=180) ||
+          (result[i].bloodglucose >= 70 && result[i].bloodglucose <=109)) &&
+              result[i].type === "Post Exercise") ||
+            (((result[i].bloodglucose >=141 && result[i].bloodglucose <= 200) ||
+          (result[i].bloodglucose >=60 && result[i].bloodglucose <= 69)) &&
+              result[i].type === "Non-Fasting(Random)") 
+      
+          ) {
+            severity = 1;
+          } else if (
+            ((result[i].bloodglucose >= 70 && result[i].bloodglucose <=100) &&
+              result[i].type === "Pre Meal(Fasting)") ||
+            ((result[i].bloodglucose >= 120 && result[i].bloodglucose <=180) &&
+              result[i].type === "Post Meal") ||
+            ((result[i].bloodglucose >=130 && result[i].bloodglucose <=150) &&
+              result[i].type === "Pre Exercise") ||
+            ((result[i].bloodglucose >= 110 && result[i].bloodglucose <=140) &&
+              result[i].type === "Post Exercise") ||
+            ((result[i].bloodglucose >=70 && result[i].bloodglucose <= 140) &&
+              result[i].type === "Non-Fasting(Random)")
+      
+          ) {
+            severity = 0;
+          }
+        
+
+      
+
+        const queryConditions = {
+          _id: result[i]._id,
+          caseId: result[i].caseId,
+          ngoId: result[i].ngoId,
+        };
+
+
+        const updateFields = {
+              severity: severity,
+        };
+
+        const updatedProduct = await LabTestModel.BloodGlucoseTest.findOneAndUpdate(
+          queryConditions,
+          { $set: updateFields },
+          { new: true }
+        );
+  
+        if (updatedProduct) {
+          console.log('Updated Product:', updatedProduct);
+        } else {
+          console.error('Error updating product');
         }
-        for(i=0; i<result.length; i++) {
-          console.log(result[i])
-        }
-        res.json(result); // Return fetched data as JSON
-      });
+      }
+      res.json(result); // Return fetched data as JSON
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error processing data');
+  }
 };
+
+const correctPiechartValues = async (req, res) => {
+
+  try {
+
+    ScreeningCase.ScreeningCase.find({}, {}, async (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching data from database");
+        return;
+      }
+      severity_temperature = "";
+      severity_spo2 = "";
+      severity_pulse = "";
+      severity_respiratory_rate = "";
+      severity_bp = "";
+      severity_bmi = "";
+      severity = "";
+      for (i = 0; i < result.length; i++) {
+        console.log(result[i]);
+
+        if (
+          (result[i].temperature >= 94 && result[i].temperature <= 94.9) ||
+          (result[i].temperature >= 102.1 && result[i].temperature <= 105)
+        ) {
+          severity_temperature = 2;
+        } else if (
+          (result[i].temperature >= 95 && result[i].temperature <= 96.4) ||
+          (result[i].temperature >= 99.1 && result[i].temperature <= 102)
+        ) {
+          severity_temperature = 1;
+        } else if (result[i].temperature >= 96.5 && result[i].temperature <= 99) {
+          severity_temperature = 0;
+        }
+
+        if (result[i].spo2 >= 30 && result[i].spo2 <= 91) {
+          severity_spo2 = 2;
+        } else if (result[i].spo2 >= 92 && result[i].spo2 <= 94) {
+          severity_spo2 = 1;
+        } else if (result[i].spo2 >= 95 && result[i].spo2 <= 100) {
+          severity_spo2 = 0;
+        }
+
+        if (
+          (result[i].pulse >= 40 && result[i].pulse <= 59) ||
+          (result[i].pulse >= 121 && result[i].pulse <= 200)
+        ) {
+          severity_pulse = 2;
+        } else if (
+          (result[i].pulse >= 60 && result[i].pulse <= 69) ||
+          (result[i].pulse >= 81 && result[i].pulse <= 120)
+        ) {
+          severity_pulse = 1;
+        } else if (result[i].pulse >= 70 && result[i].pulse <= 80) {
+          severity_pulse = 0;
+        }
+        
+        if (result[i].respiratory_rate > 24 || result[i].respiratory_rate < 12) {
+          severity_respiratory_rate = 2;
+        } else if (
+          result[i].respiratory_rate >= 22 ||
+          result[i].respiratory_rate <= 14
+        ) {
+          severity_respiratory_rate = 1;
+        } else if (
+          result[i].respiratory_rate >= 12 ||
+          result[i].respiratory_rate <= 20
+        ) {
+          severity_respiratory_rate = 0;
+        }
+
+        if (
+          (result[i].bpsys >= 60 && result[i].bpsys <= 69) ||
+          (result[i].bpsys >= 160 && result[i].bpsys <= 300) ||
+          (result[i].bpdia >= 30 && result[i].bpdia <= 59) ||
+          (result[i].bpdia >= 90 && result[i].bpdia <= 200)
+        ) {
+          severity_bp = 2;
+        } else if (
+          (result[i].bpsys >= 70 && result[i].bpsys <= 114) ||
+          (result[i].bpsys >= 129 && result[i].bpsys <= 159) ||
+          (result[i].bpdia >= 60 && result[i].bpdia <= 69) ||
+          (result[i].bpdia >= 81 && result[i].bpdia <= 89)
+        ) {
+          severity_bp = 1;
+        } else if (
+          (result[i].bpsys >= 115 && result[i].bpsys <= 128) ||
+          (result[i].bpdia >= 70 && result[i].bpdia <= 80)
+        ) {
+          severity_bp = 0;
+        }
+
+        if (result[i].bmi >= 18.5 && result[i].bmi <= 24.9) {
+          severity_bmi = 0;
+        } else if (
+          (result[i].bmi >= 18 && result[i].bmi <= 18.4) ||
+          (result[i].bmi >= 25 && result[i].bmi <= 28)
+        ) {
+          severity_bmi = 1;
+        } else if (
+          (result[i].bmi >= 12 && result[i].bmi <= 17.9) ||
+          (result[i].bmi >= 28.1 && result[i].bmi <= 60)
+        ) {
+          severity_bmi = 2;
+        }
+
+        var temp =
+          result[i].severity_bmi * 4.76 * 0.5 +
+          result[i].severity_respiratory_rate * 9.52 * 0.5 +
+          result[i].severity_pulse * 14.28 * 0.5 +
+          result[i].severity_temperature * 19.04 * 0.5 +
+          result[i].severity_spo2 * 23.8 * 0.5 +
+          result[i].severity_bp * 28.6 * 0.5;
+
+        if (temp < 20) {
+          severity = 0;
+        } else if (temp < 40) {
+          severity = 1;
+        } else {
+          severity = 2;
+        }
+
+
+        const queryConditions = {
+          _id: result[i]._id,
+          caseId: result[i].caseId,
+          citizenId: result[i].citizenId,
+          screenerId: result[i].screenerId,
+          ngoId: result[i].ngoId,
+        };
+
+
+        const updateFields = {
+              severity_bp: severity_bp,
+              severity_spo2: severity_spo2,
+              severity_temperature: severity_temperature,
+              severity_pulse: severity_pulse,
+              severity_bmi: severity_bmi,
+              severity_respiratory_rate: severity_respiratory_rate,
+              severity: severity,
+        };
+
+        const updatedProduct = await ScreeningCase.ScreeningCase.findOneAndUpdate(
+          queryConditions,
+          { $set: updateFields },
+          { new: true }
+        );
+  
+        if (updatedProduct) {
+          console.log('Updated Product:', updatedProduct);
+        } else {
+          console.error('Error updating product');
+        }
+      }
+      res.json(result); // Return fetched data as JSON
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error processing data');
+  }
+};
+
+
 
 module.exports = {
   addindex,
-  // correctPiechartValues
+  correctPiechartValues,
+  correctLabTestUpdateBloodGlucose
 };

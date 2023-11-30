@@ -26,27 +26,27 @@ exports.addRecord = [
 
 				data_all.forEach(element => {
 					console.log("element ",element)
-					if(element.name = 'Non-Invasive Hemoglobin') {
+					if(element.name == 'Non-Invasive Hemoglobin') {
 						info['non_invasive_hemoglobin_value'] = element.value
 						info['non_invasive_hemoglobin_range'] = element.range
 					}
 
-					if(element.name = 'Non-Invasive Bilirubin') {
+					if(element.name == 'Non-Invasive Bilirubin') {
 						info['non_invasive_bilirubin_value'] = element.value
 						info['non_invasive_bilirubin_range'] = element.range
 					}
 
-					if(element.name = 'Oxygen Saturation') {
+					if(element.name == 'Oxygen Saturation') {
 						info['oxygen_saturation_value'] = element.value
 						info['oxygen_saturation_range'] = element.range
 					}
 
-					if(element.name = 'Non-Invasive Creatinine') {
+					if(element.name == 'Non-Invasive Creatinine') {
 						info['non_invasive_creatinine_value'] = element.value
 						info['non_invasive_creatinine_range'] = element.range
 					}
 
-					if(element.name = 'Non-Invasive Estimated Blood Sugar') {
+					if(element.name == 'Non-Invasive Estimated Blood Sugar') {
 						info['non_invasive_estimated_blood_sugar_value'] = element.value
 						info['non_invasive_estimated_blood_sugar_range'] = element.range
 					}

@@ -189,7 +189,7 @@ exports.BMIGreenList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_bmi:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -201,7 +201,7 @@ exports.BMIGreenList=[
 		   } else {
 			ScreeningCase.ScreeningCase.aggregate([
 			   
-							{'$match':{severity_bp:0,"ngoId":req.body.ngoId}},
+							{'$match':{severity_bmi:0,"ngoId":req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -260,7 +260,7 @@ exports.BMIGreenList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_bmi:1
 									
 								   }
 							   },
@@ -305,7 +305,7 @@ exports.BMIGreenList=[
 	// 				condition={'caseId':req.body.caseId};
 	// 			}
 	// 		ScreeningCase.ScreeningCase.aggregate([
-	// 						 {'$match':{severity_bp:0}},
+	// 						 {'$match':{severity_bmi:0}},
 	// 						 {$sort:{'createdAt':-1}},
 	// 						{'$match':condition},
 	// 						{'$limit':1000},
@@ -364,7 +364,7 @@ exports.BMIGreenList=[
 	// 							 'mobile':'$basic.mobile',
 	// 							 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 	// 							 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-	// 							 severity_bp:1
+	// 							 severity_bmi:1
 								 
 	// 							}
 	// 						},
@@ -408,7 +408,7 @@ exports.BMIAmberList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_bmi:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -420,7 +420,7 @@ exports.BMIAmberList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 				// {$sort:{'createdAt':-1}},
-										 {'$match':{severity_bp:1,ngoId:req.body.ngoId}},
+										 {'$match':{severity_bmi:1,ngoId:req.body.ngoId}},
 							   // {'$limit':1000},
 							   {'$lookup': {
 								   'localField':'citizenId',
@@ -478,7 +478,7 @@ exports.BMIAmberList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_bmi:1
 									
 								   }
 							   },
@@ -534,7 +534,7 @@ exports.BMIRedList=[
 	   console.log(query);
 	   
 	   // Find some documents
-	   ScreeningCase.ScreeningCase.count({severity_bp:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
+	   ScreeningCase.ScreeningCase.count({severity_bmi:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
 		 if (err) {
 		   response = { error: true, message: 'Error fetching data' }
 		 }
@@ -546,7 +546,7 @@ exports.BMIRedList=[
 		   } else {
 			   ScreeningCase.ScreeningCase.aggregate([
 			   
-							   {'$match':{severity_bp:2,ngoId:req.body.ngoId}},
+							   {'$match':{severity_bmi:2,ngoId:req.body.ngoId}},
 							   // {'$match':condition},
 							   // {'$limit':1000},
 							   {'$lookup': {
@@ -606,7 +606,7 @@ exports.BMIRedList=[
 									'mobile':'$basic.mobile',
 									
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_bmi:1
 									
 								   }
 							   },
@@ -707,7 +707,7 @@ exports.BMIRedList=[
 // 		} else {
 // 			ScreeningCase.ScreeningCase.aggregate([
 			
-// 							{'$match':{severity_bp:2}},
+// 							{'$match':{severity_bmi:2}},
 // 							// {'$match':condition},
 // 							// {'$limit':1000},
 // 							{'$lookup': {
@@ -765,7 +765,7 @@ exports.BMIRedList=[
 // 								 'mobile':'$basic.mobile',
 // 								 'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 // 								 'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-// 								 severity_bp:1
+// 								 severity_bmi:1
 								 
 // 								}
 // 							},
