@@ -385,6 +385,20 @@ const addindex = async (req, res) => {
   }
 };
 
+const correctPiechartValues = async (req, res) => {
+			ScreeningCase.ScreeningCase.find({}).toArray((err, result) => {
+        if (err) {
+          res.status(500).send('Error fetching data from database');
+          return;
+        }
+        for(i=0; i<result.length; i++) {
+          console.log(result[i])
+        }
+        res.json(result); // Return fetched data as JSON
+      });
+};
+
 module.exports = {
   addindex,
+  correctPiechartValues
 };

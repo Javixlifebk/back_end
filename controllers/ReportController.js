@@ -622,6 +622,7 @@ exports.createCaseReport = [
 				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
 			}else {
 					var ecg_test_perform = 0;
+					var ezerx_data_count = 0;
 					var caseId=req.body.caseId;
 					var citizenId = req.body.citizenId;
 					var ngoId=req.body.ngoId;
@@ -630,6 +631,7 @@ exports.createCaseReport = [
 
 					try {
 						   ecg_test_perform = await ecgtest.find({ caseId: caseId}).count();
+						   ezerx_data_count = await eze_rx.find({ caseId: caseId}).count();
 						   ezerx_data = await eze_rx.find({ caseId: caseId});
 					   
 				   } catch (error) {
@@ -1006,55 +1008,55 @@ exports.createCaseReport = [
 
 						
 
-						if(ezerx_data) {
+						if(ezerx_data_count > 0) {
 
 
 						
-						myObject = [
-							{
-								"name_key":"Hemoglobin ",
-								"value_key": ezerx_data[0].non_invasive_hemoglobin_value,
-								'range':ezerx_data[0].non_invasive_hemoglobin_range,
-								'unit': 'g/dl'
-							},
-							{
-								"name_key":"Total Bilirubin",
-								"value_key": ezerx_data[0].non_invasive_bilirubin_value,
-								'range':ezerx_data[0].non_invasive_bilirubin_range,
-								'unit': 'mg/dl'
-							},
+							myObject = [
+								{
+									"name_key":"Hemoglobin ",
+									"value_key": ezerx_data[0].non_invasive_hemoglobin_value,
+									'range':ezerx_data[0].non_invasive_hemoglobin_range,
+									'unit': 'g/dl'
+								},
+								{
+									"name_key":"Total Bilirubin",
+									"value_key": ezerx_data[0].non_invasive_bilirubin_value,
+									'range':ezerx_data[0].non_invasive_bilirubin_range,
+									'unit': 'mg/dl'
+								},
 
-							{
-								"name_key":"Oxygen Saturation",
-								"value_key": ezerx_data[0].oxygen_saturation_value,
-								'range':ezerx_data[0].oxygen_saturation_range,
-								'unit': '%'
-							},
+								{
+									"name_key":"Oxygen Saturation",
+									"value_key": ezerx_data[0].oxygen_saturation_value,
+									'range':ezerx_data[0].oxygen_saturation_range,
+									'unit': '%'
+								},
 
-							{
-								"name_key":"Creatinine",
-								"value_key": ezerx_data[0].non_invasive_creatinine_value,
-								'range':ezerx_data[0].non_invasive_creatinine_range,
-								'unit': 'mg/dl'
-							},
+								{
+									"name_key":"Creatinine",
+									"value_key": ezerx_data[0].non_invasive_creatinine_value,
+									'range':ezerx_data[0].non_invasive_creatinine_range,
+									'unit': 'mg/dl'
+								},
 
-							{
-								"name_key":"Estimated Sugar Level* ",
-								"value_key": ezerx_data[0].non_invasive_estimated_blood_sugar_value,
-								'range':ezerx_data[0].non_invasive_estimated_blood_sugar_range,
-								'unit': '%'
-							},
+								{
+									"name_key":"Estimated Sugar Level* ",
+									"value_key": ezerx_data[0].non_invasive_estimated_blood_sugar_value,
+									'range':ezerx_data[0].non_invasive_estimated_blood_sugar_range,
+									'unit': '%'
+								},
 
 
-						  
-						 ] ;
-						 labs.ezerx = 	myObject
 							
-						
-						
+							] ;
+							labs.ezerx = 	myObject
+								
+							
+							
 
-						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
-						console.log("labs.ezerx labs.ezerx ",labs.ezerx)
+							console.log("labs.ezerx labs.ezerx ",labs.ezerx)
+							console.log("labs.ezerx labs.ezerx ",labs.ezerx)
 
 						}
 					  	
