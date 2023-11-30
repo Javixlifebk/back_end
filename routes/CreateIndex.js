@@ -6,7 +6,7 @@ const router = require("express").Router();
 
 // use routers
 router.post("/addindex", createIndexConroller.addindex);
-router.post("/correctPiechartValues", createIndexConroller.correctPiechartValues);
+// router.post("/correctPiechartValues", createIndexConroller.correctPiechartValues);
 
 
 module.exports = router;
