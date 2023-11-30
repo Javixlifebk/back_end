@@ -400,5 +400,5 @@ const correctPiechartValues = async (req, res) => {
 
 module.exports = {
   addindex,
-  correctPiechartValues
+  // correctPiechartValues
 };
