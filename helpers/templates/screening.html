@@ -8,7 +8,7 @@
 	<style>
 		body {
 			font-family: 'Arial';
-			background-color: #f3f2f2;
+			background-color: rgb(245, 245, 245);
 		}
 
 		.divBorder {
@@ -320,7 +320,60 @@
 		{{/each}}
 
 
+		<!-- Satish EzeRX Start -->
+
+		<tr>
+			<td colspan="5">
+				<h4 align='center'>EzeRx Test</h4>
+			</td>
+
+		</tr>
+
+		<tr>
+			<td>
+				<div class='lxlabel'>TEST NAME</div>
+			</td>
+			<td>
+				<div class='lxlabel'>RESULT</div>
+			</td>
+			<td>
+				<div class='lxlabel'>BIOLOGICAL REFERENCE INTERVALS</div>
+			</td>
+			<td>
+				<div class='lxlabel'>UNITS</div>
+			</td>
+
+		</tr>
+
+		{{#each this.labs.ezerx}}
+
+		
+		<tr>
+			<td>
+				<div class='lxSize gray' id="lhb">{{this.name_key}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray' id="lhb">{{this.value_key}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray' id="lhb">{{this.range}}</div>
+			</td>
+
+			<td>
+				<div class='lxSize gray' id="lhb">{{this.unit}}</div>
+			</td>
+		</tr>
 	
+
+		<!-- <td><div></div></td> -->
+		</tr>
+		<tr> </tr>
+		{{/each}}
+
+
+		<!-- Satish EzeRX End -->
 
 		{{#each this.labs.hemo}}
 
@@ -806,60 +859,6 @@
 	{{/each}}
 
 	<div class="pagebreak"></div>
-
-
-		<!-- Satish EzeRX Start -->
-		<!-- <table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px> -->
-			<tr>
-				<td colspan="5">
-					<h4 align='center'>EzeRx Test</h4>
-				</td>
-	
-			</tr>
-	
-			<tr>
-				<td>
-					<div class='lxlabel'>TEST NAME</div>
-				</td>
-				<td>
-					<div class='lxlabel'>RESULT</div>
-				</td>
-				<td>
-					<div class='lxlabel'>BIOLOGICAL REFERENCE INTERVALS</div>
-				</td>
-				<td>
-					<div class='lxlabel'>UNITS</div>
-				</td>
-	
-			</tr>
-	
-			{{#each this.labs.ezerx}}
-			
-	
-			
-			<tr>
-				<td>
-					<div class='lxSize gray' id="lhb">{{this.name_key}}</div>
-				</td>
-	
-				<td>
-					<div class='lxSize gray' id="lhb">{{this.value_key}}</div>
-				</td>
-	
-				<td>
-					<div class='lxSize gray' id="lhb">{{this.range}}</div>
-				</td>
-	
-				<td>
-					<div class='lxSize gray' id="lhb">{{this.unit}}</div>
-				</td>
-			</tr>
-		
-	
-			{{/each}}
-		<!-- </table> -->
-	
-			<!-- Satish EzeRX End -->
 
 
 
@@ -1354,9 +1353,6 @@
 
 	</table>
 	{{/each}}
-
-
-	
 
 
 	{{/each}}
