@@ -490,6 +490,109 @@ const correctLabTestUpdateBloodGlucose = async (req, res) => {
   }
 };
 
+// const correctLabTestUpdateBloodGlucose = async (req, res) => {
+
+//   try {
+
+//     LabTestModel.BloodGlucoseTest.find({}, {}, async (err, result) => {
+//       if (err) {
+//         res.status(500).send("Error fetching data from database");
+//         return;
+//       }
+     
+//       severity = "";
+//       for (i = 0; i < result.length; i++) {
+//         console.log(result[i]);
+
+//           if (
+//             (((result[i].bloodglucose >= 121 && result[i].bloodglucose <=700) ||
+//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
+//               result[i].type === "Pre Meal(Fasting)") ||
+//             (((result[i].bloodglucose >= 201 && result[i].bloodglucose <=700) ||
+//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+//               result[i].type === "Post Meal") ||
+//             (((result[i].bloodglucose >= 221 && result[i].bloodglucose <=700) ||
+//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+//               result[i].type === "Pre Exercise") ||
+//             (((result[i].bloodglucose >= 181 && result[i].bloodglucose <= 700) ||
+//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
+//               result[i].type === "Post Exercise") ||
+//             (((result[i].bloodglucose >= 201 && result[i].bloodglucose <= 700) ||
+//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
+//               result[i].type === "Non-Fasting(Random)")
+       
+//           ) {
+//             severity = 2;
+//           } else if (
+//             (((result[i].bloodglucose >= 101 && result[i].bloodglucose <=120) || 
+//           (result[i].bloodglucose >= 60 && result[i].bloodglucose <=69)) &&
+//               result[i].type === "Pre Meal(Fasting)") ||
+//             (((result[i].bloodglucose >= 181 && result[i].bloodglucose <=200) ||
+//           (result[i].bloodglucose >= 70 && result[i].bloodglucose <=119)) &&
+//               result[i].type === "Post Meal") ||
+//             (((result[i].bloodglucose >=151 && result[i].bloodglucose <=220) ||
+//           (result[i].bloodglucose >=70 && result[i].bloodglucose <=129)) &&
+//               result[i].type === "Pre Exercise") ||
+//             (((result[i].bloodglucose >= 141 && result[i].bloodglucose <=180) ||
+//           (result[i].bloodglucose >= 70 && result[i].bloodglucose <=109)) &&
+//               result[i].type === "Post Exercise") ||
+//             (((result[i].bloodglucose >=141 && result[i].bloodglucose <= 200) ||
+//           (result[i].bloodglucose >=60 && result[i].bloodglucose <= 69)) &&
+//               result[i].type === "Non-Fasting(Random)") 
+      
+//           ) {
+//             severity = 1;
+//           } else if (
+//             ((result[i].bloodglucose >= 70 && result[i].bloodglucose <=100) &&
+//               result[i].type === "Pre Meal(Fasting)") ||
+//             ((result[i].bloodglucose >= 120 && result[i].bloodglucose <=180) &&
+//               result[i].type === "Post Meal") ||
+//             ((result[i].bloodglucose >=130 && result[i].bloodglucose <=150) &&
+//               result[i].type === "Pre Exercise") ||
+//             ((result[i].bloodglucose >= 110 && result[i].bloodglucose <=140) &&
+//               result[i].type === "Post Exercise") ||
+//             ((result[i].bloodglucose >=70 && result[i].bloodglucose <= 140) &&
+//               result[i].type === "Non-Fasting(Random)")
+      
+//           ) {
+//             severity = 0;
+//           }
+        
+
+      
+
+//         const queryConditions = {
+//           _id: result[i]._id,
+//           caseId: result[i].caseId,
+//           ngoId: result[i].ngoId,
+//         };
+
+
+//         const updateFields = {
+//               severity: severity,
+//         };
+
+//         const updatedProduct = await LabTestModel.BloodGlucoseTest.findOneAndUpdate(
+//           queryConditions,
+//           { $set: updateFields },
+//           { new: true }
+//         );
+  
+//         if (updatedProduct) {
+//           console.log('Updated Product:', updatedProduct);
+//         } else {
+//           console.error('Error updating product');
+//         }
+//       }
+//       res.json(result); // Return fetched data as JSON
+//     });
+
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).send('Error processing data');
+//   }
+// };
+
 const correctPiechartValues = async (req, res) => {
 
   try {
