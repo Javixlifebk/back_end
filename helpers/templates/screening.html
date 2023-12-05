@@ -321,7 +321,7 @@
 
 
 		<!-- Satish EzeRX Start -->
-
+		<tr> </tr>
 		<tr>
 			<td colspan="5">
 				<h4 align='center'>EzeRx Test</h4>
@@ -370,33 +370,34 @@
 		<!-- <td><div></div></td> -->
 		</tr>
 		<tr> </tr>
+		<tr> </tr>
 		{{/each}}
 
 
 		<!-- Satish EzeRX End -->
 
 		{{#each this.labs.hemo}}
-
+		<tr> </tr>
 		<tr>
-			<td colspan="2">
+			<td colspan="5">
 				<h4 align='center'>Hemoglobin Test</h4>
 			</td>
 
 		</tr>
 		<tr>
-			<td>
+			<td colspan="3">
 				<div class='lxlabel'>Test Result</div>
 			</td>
-			<td>
+			<td colspan="2">
 				<div class='lxSize gray' id="lhb">{{this.hemoglobin}}</div>
 			</td>
 		</tr>
 		{{#if this.notes }}
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Notes</div>
 			</td>
-			<td>
+			<td colspan="3">
 				<div class='lxSize gray'>{{this.notes}}</div>
 			</td>
 
@@ -411,7 +412,7 @@
 
 
 		{{#each this.labs.visual}}
-
+		<tr> </tr>
 		<tr>
 			<td colspan="5">
 				<h4 align="center">Visual Exam</h4>
