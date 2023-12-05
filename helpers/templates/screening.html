@@ -321,7 +321,7 @@
 
 
 		<!-- Satish EzeRX Start -->
-		<tr> </tr>
+
 		<tr>
 			<td colspan="5">
 				<h4 align='center'>EzeRx Test</h4>
@@ -370,14 +370,13 @@
 		<!-- <td><div></div></td> -->
 		</tr>
 		<tr> </tr>
-		<tr> </tr>
 		{{/each}}
 
 
 		<!-- Satish EzeRX End -->
 
 		{{#each this.labs.hemo}}
-		<tr> </tr>
+
 		<tr>
 			<td colspan="5">
 				<h4 align='center'>Hemoglobin Test</h4>
@@ -412,7 +411,7 @@
 
 
 		{{#each this.labs.visual}}
-		<tr> </tr>
+
 		<tr>
 			<td colspan="5">
 				<h4 align="center">Visual Exam</h4>
@@ -461,24 +460,24 @@
 		{{#each this.labs.glucose}}
 
 		<tr>
-			<td colspan="2">
+			<td colspan="5">
 				<h4 align="center">Blood Glucose</h4>
 			</td>
 
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Test Result</div>
 			</td>
-			<td>
+			<td colspan="3">
 				<div class='lxSize gray' id="lglucose">{{this.bloodglucose}}</div>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Type</div>
 			</td>
-			<td>
+			<td colspan="3">
 				<div class='lxSize gray' id="lglucosetype">{{this.type}}</div>
 			</td>
 		</tr>
@@ -487,7 +486,7 @@
 
 		{{#each this.labs.lipid}}
 		<tr>
-			<td colspan="2">
+			<td colspan="5">
 				<h4 align='center'>Lipid Panel</h4>
 			</td>
 
@@ -495,58 +494,58 @@
 
 
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Cholesterol</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidtotal">{{this.cholesterol}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidtotal">{{this.cholesterol}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>HDL Cholesterol</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidhdl">{{this.hdlcholesterol}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidhdl">{{this.hdlcholesterol}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Triglycerides</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidtri">{{this.triglycerides}}</span></td>
+			<td colspan="3"> <span class='lxSize gray' id="lipidtri">{{this.triglycerides}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Glucose</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidglucose">{{this.glucose}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidglucose">{{this.glucose}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>LDL</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidldl">{{this.ldl}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidldl">{{this.ldl}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>TCL/HDL</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidtclhdl">{{this.tcl_hdl}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidtclhdl">{{this.tcl_hdl}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>LDL/HDL</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidldlhdl">{{this.ldl_hdl}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidldlhdl">{{this.ldl_hdl}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>NON HDL</div>
 			</td>
-			<td><span class='lxSize gray' id="lipidnonhdl">{{this.non_hdl}}</span></td>
+			<td colspan="3"><span class='lxSize gray' id="lipidnonhdl">{{this.non_hdl}}</span></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 				<div class='lxlabel'>Type</div>
 			</td>
-			<td>
+			<td colspan="3">
 				<div class='lxSize gray' id="lipidtype">{{this.type}}</div>
 			</td>
 
