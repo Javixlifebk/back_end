@@ -490,108 +490,154 @@ const correctLabTestUpdateBloodGlucose = async (req, res) => {
   }
 };
 
-// const correctLabTestUpdateBloodGlucose = async (req, res) => {
+const correctLabEyeTest = async (req, res) => {
 
-//   try {
+  try {
 
-//     LabTestModel.BloodGlucoseTest.find({}, {}, async (err, result) => {
-//       if (err) {
-//         res.status(500).send("Error fetching data from database");
-//         return;
-//       }
+    
+    EyeTest.EyeTest.find({}, {}, async (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching data from database");
+        return;
+      }
      
-//       severity = "";
-//       for (i = 0; i < result.length; i++) {
-//         console.log(result[i]);
+      
+      for (i = 0; i < result.length; i++) {
+        console.log(result[i]);
 
-//           if (
-//             (((result[i].bloodglucose >= 121 && result[i].bloodglucose <=700) ||
-//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
-//               result[i].type === "Pre Meal(Fasting)") ||
-//             (((result[i].bloodglucose >= 201 && result[i].bloodglucose <=700) ||
-//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
-//               result[i].type === "Post Meal") ||
-//             (((result[i].bloodglucose >= 221 && result[i].bloodglucose <=700) ||
-//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
-//               result[i].type === "Pre Exercise") ||
-//             (((result[i].bloodglucose >= 181 && result[i].bloodglucose <= 700) ||
-//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 69)) &&
-//               result[i].type === "Post Exercise") ||
-//             (((result[i].bloodglucose >= 201 && result[i].bloodglucose <= 700) ||
-//           (result[i].bloodglucose >= 30 && result[i].bloodglucose <= 59)) &&
-//               result[i].type === "Non-Fasting(Random)")
-       
-//           ) {
-//             severity = 2;
-//           } else if (
-//             (((result[i].bloodglucose >= 101 && result[i].bloodglucose <=120) || 
-//           (result[i].bloodglucose >= 60 && result[i].bloodglucose <=69)) &&
-//               result[i].type === "Pre Meal(Fasting)") ||
-//             (((result[i].bloodglucose >= 181 && result[i].bloodglucose <=200) ||
-//           (result[i].bloodglucose >= 70 && result[i].bloodglucose <=119)) &&
-//               result[i].type === "Post Meal") ||
-//             (((result[i].bloodglucose >=151 && result[i].bloodglucose <=220) ||
-//           (result[i].bloodglucose >=70 && result[i].bloodglucose <=129)) &&
-//               result[i].type === "Pre Exercise") ||
-//             (((result[i].bloodglucose >= 141 && result[i].bloodglucose <=180) ||
-//           (result[i].bloodglucose >= 70 && result[i].bloodglucose <=109)) &&
-//               result[i].type === "Post Exercise") ||
-//             (((result[i].bloodglucose >=141 && result[i].bloodglucose <= 200) ||
-//           (result[i].bloodglucose >=60 && result[i].bloodglucose <= 69)) &&
-//               result[i].type === "Non-Fasting(Random)") 
-      
-//           ) {
-//             severity = 1;
-//           } else if (
-//             ((result[i].bloodglucose >= 70 && result[i].bloodglucose <=100) &&
-//               result[i].type === "Pre Meal(Fasting)") ||
-//             ((result[i].bloodglucose >= 120 && result[i].bloodglucose <=180) &&
-//               result[i].type === "Post Meal") ||
-//             ((result[i].bloodglucose >=130 && result[i].bloodglucose <=150) &&
-//               result[i].type === "Pre Exercise") ||
-//             ((result[i].bloodglucose >= 110 && result[i].bloodglucose <=140) &&
-//               result[i].type === "Post Exercise") ||
-//             ((result[i].bloodglucose >=70 && result[i].bloodglucose <= 140) &&
-//               result[i].type === "Non-Fasting(Random)")
-      
-//           ) {
-//             severity = 0;
-//           }
+        var severity_reye=0;
+        var severity_leye=0;
+        if( result[i].reye==="6/6" || result[i].reye==="6/9"){
+          severity_reye=0;
+        }
+        else if (result[i].reye==="6/12" || result[i].reye==="6/5"){
+          severity_reye=1;
+        }
+        else {
+            severity_reye=2;
+        }
+
+
+        if( result[i].leye==="6/6" || result[i].leye==="6/9"){
+          severity_leye=0;
+        }
+        else if(result[i].leye==="6/12" || result[i].leye==="6/5") {
+          severity_leye=1;
+        }
         
+        else {
+            severity_leye=2;
+        } 
 
       
 
-//         const queryConditions = {
-//           _id: result[i]._id,
-//           caseId: result[i].caseId,
-//           ngoId: result[i].ngoId,
-//         };
+        const queryConditions = {
+          _id: result[i]._id,
+          caseId: result[i].caseId,
+          ngoId: result[i].ngoId,
+        };
 
 
-//         const updateFields = {
-//               severity: severity,
-//         };
+        const updateFields = {
+              severity_reye: severity_reye,
+              severity_leye: severity_leye,
+        };
 
-//         const updatedProduct = await LabTestModel.BloodGlucoseTest.findOneAndUpdate(
-//           queryConditions,
-//           { $set: updateFields },
-//           { new: true }
-//         );
+        const updatedProduct = await EyeTest.EyeTest.findOneAndUpdate(
+          queryConditions,
+          { $set: updateFields },
+          { new: true }
+        );
   
-//         if (updatedProduct) {
-//           console.log('Updated Product:', updatedProduct);
-//         } else {
-//           console.error('Error updating product');
-//         }
-//       }
-//       res.json(result); // Return fetched data as JSON
-//     });
+        if (updatedProduct) {
+          console.log('Updated Product:', updatedProduct);
+        } else {
+          console.error('Error updating product');
+        }
+      }
+      res.json(result); // Return fetched data as JSON
+    });
 
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.status(500).send('Error processing data');
-//   }
-// };
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error processing data');
+  }
+};
+
+
+const correctLab1 = async (req, res) => {
+
+  try {
+
+    
+    EyeTest.EyeTest.find({}, {}, async (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching data from database");
+        return;
+      }
+     
+      
+      for (i = 0; i < result.length; i++) {
+        console.log(result[i]);
+
+        var severity_reye=0;
+        var severity_leye=0;
+        if( result[i].reye==="6/6" || result[i].reye==="6/9"){
+          severity_reye=0;
+        }
+        else if (result[i].reye==="6/12" || result[i].reye==="6/5"){
+          severity_reye=1;
+        }
+        else {
+            severity_reye=2;
+        }
+
+
+        if( result[i].leye==="6/6" || result[i].leye==="6/9"){
+          severity_leye=0;
+        }
+        else if(result[i].leye==="6/12" || result[i].leye==="6/5") {
+          severity_leye=1;
+        }
+        
+        else {
+            severity_leye=2;
+        } 
+
+      
+
+        const queryConditions = {
+          _id: result[i]._id,
+          caseId: result[i].caseId,
+          ngoId: result[i].ngoId,
+        };
+
+
+        const updateFields = {
+              severity_reye: severity_reye,
+              severity_leye: severity_leye,
+        };
+
+        const updatedProduct = await EyeTest.EyeTest.findOneAndUpdate(
+          queryConditions,
+          { $set: updateFields },
+          { new: true }
+        );
+  
+        if (updatedProduct) {
+          console.log('Updated Product:', updatedProduct);
+        } else {
+          console.error('Error updating product');
+        }
+      }
+      res.json(result); // Return fetched data as JSON
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error processing data');
+  }
+};
 
 const correctPiechartValues = async (req, res) => {
 
