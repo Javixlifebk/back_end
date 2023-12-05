@@ -15,6 +15,7 @@ const ThalassemiaModel = require("../models/ThalassemiaModel");
 const VisualExamModel = require("../models/VisualExamModel");
 const UserDetailsModel = require("../models/UserDetailsModel");
 const ScreeningCase = require("../models/ScreeningCase");
+const LabTestCaseModel = require("../models/LabTestModel");
 
 const addindex = async (req, res) => {
   // // Auth Controller
@@ -385,8 +386,6 @@ const addindex = async (req, res) => {
   }
 };
 
-
-
 const correctLabTestUpdateBloodGlucose = async (req, res) => {
 
   try {
@@ -495,7 +494,7 @@ const correctLabEyeTest = async (req, res) => {
   try {
 
     
-    EyeTest.EyeTest.find({}, {}, async (err, result) => {
+    EyeTestModel.EyeTest.find({}, {}, async (err, result) => {
       if (err) {
         res.status(500).send("Error fetching data from database");
         return;
@@ -514,7 +513,7 @@ const correctLabEyeTest = async (req, res) => {
           severity_reye=1;
         }
         else {
-            severity_reye=2;
+          severity_reye=2;
         }
 
 
@@ -543,7 +542,7 @@ const correctLabEyeTest = async (req, res) => {
               severity_leye: severity_leye,
         };
 
-        const updatedProduct = await EyeTest.EyeTest.findOneAndUpdate(
+        const updatedProduct = await EyeTestModel.EyeTest.findOneAndUpdate(
           queryConditions,
           { $set: updateFields },
           { new: true }
@@ -564,13 +563,12 @@ const correctLabEyeTest = async (req, res) => {
   }
 };
 
-
-const correctLab1 = async (req, res) => {
+const correctHemoglobin = async (req, res) => {
 
   try {
 
     
-    EyeTest.EyeTest.find({}, {}, async (err, result) => {
+    HemoglobinModel.Hemoglobin.find({}, {}, async (err, result) => {
       if (err) {
         res.status(500).send("Error fetching data from database");
         return;
@@ -579,46 +577,119 @@ const correctLab1 = async (req, res) => {
       
       for (i = 0; i < result.length; i++) {
         console.log(result[i]);
-
-        var severity_reye=0;
-        var severity_leye=0;
-        if( result[i].reye==="6/6" || result[i].reye==="6/9"){
-          severity_reye=0;
-        }
-        else if (result[i].reye==="6/12" || result[i].reye==="6/5"){
-          severity_reye=1;
-        }
-        else {
-            severity_reye=2;
-        }
-
-
-        if( result[i].leye==="6/6" || result[i].leye==="6/9"){
-          severity_leye=0;
-        }
-        else if(result[i].leye==="6/12" || result[i].leye==="6/5") {
-          severity_leye=1;
-        }
-        
-        else {
-            severity_leye=2;
-        } 
-
+        severity = '';
+        if((result[i].hemoglobin>=3 && result[i].hemoglobin<=6.9) || (result[i].hemoglobin>=18.1 &&  result[i].hemoglobin<=24))
+        {severity=2; }//red
+       else if((result[i].hemoglobin>=7 &&  result[i].hemoglobin<=11.5) || (result[i].hemoglobin>=16.7 &&  result[i].hemoglobin<=18)) 
+         {severity=1; }//amber
+       else if(result[i].hemoglobin>=11.6 &&  result[i].hemoglobin<=16.6)
+         {severity=0; } //green
       
 
         const queryConditions = {
           _id: result[i]._id,
           caseId: result[i].caseId,
           ngoId: result[i].ngoId,
+          citizenId:result[i].citizenId, 
+          screenerId:result[i].screenerId, 
         };
 
 
         const updateFields = {
-              severity_reye: severity_reye,
-              severity_leye: severity_leye,
+              severity: severity,
         };
 
-        const updatedProduct = await EyeTest.EyeTest.findOneAndUpdate(
+        const updatedProduct = await HemoglobinModel.Hemoglobin.findOneAndUpdate(
+          queryConditions,
+          { $set: updateFields },
+          { new: true }
+        );
+  
+        if (updatedProduct) {
+          console.log('Updated Product:', updatedProduct);
+        } else {
+          console.error('Error updating product');
+        }
+      }
+      res.json(result); // Return fetched data as JSON
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error processing data');
+  }
+};
+
+const correctLdlHdlCholestrolTriglicerine = async (req, res) => {
+
+  try {
+
+    
+    LabTestCaseModel.LipidPanelTest.find({}, {}, async (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching data from database");
+        return;
+      }
+     
+      
+      for (i = 0; i < result.length; i++) {
+        console.log(result[i]);
+        severity_ldl = '';
+        severity_triglycerides='';
+        severity_hdlcholesterol='';
+        severity_cholesterol='';
+        if (result[i].ldl >= 160 && result[i].ldl <= 189) {
+          severity_ldl = 2;
+        } else if (result[i].ldl >= 131 && result[i].ldl <= 159) {
+          severity_ldl = 1;
+        } else if (result[i].ldl >= 60 && result[i].ldl <= 130) {
+          severity_ldl = 0;
+        }
+
+        if (result[i].triglycerides >= 200 && result[i].triglycerides <= 499) {
+          severity_triglycerides = 2;
+        } else if (result[i].triglycerides >= 150 && result[i].triglycerides <= 199) {
+          severity_triglycerides = 1;
+        } else if (result[i].triglycerides < 150) {
+          severity_triglycerides = 0;
+        }
+
+        if (result[i].hdlcholesterol < 45) {
+          severity_hdlcholesterol = 2;
+        } else if (result[i].hdlcholesterol >= 45 && result[i].hdlcholesterol <= 60) {
+          severity_hdlcholesterol = 1;
+        } else if (result[i].hdlcholesterol > 60) {
+          severity_hdlcholesterol = 0;
+        }
+
+        if (result[i].cholesterol < 159 || result[i].cholesterol >= 240) {
+          severity_cholesterol = 2;
+        } else if (
+          (result[i].cholesterol >= 159 && result[i].cholesterol <= 184) ||
+          (result[i].cholesterol >= 201 && result[i].cholesterol <= 239)
+        ) {
+          severity_cholesterol = 1;
+        } else if (result[i].cholesterol >= 185 && result[i].cholesterol <= 200) {
+          severity_cholesterol = 0;
+        }
+      
+
+        const queryConditions = {
+          _id: result[i]._id,
+          caseId: result[i].caseId,
+          ngoId: result[i].ngoId,
+        
+        };
+
+
+        const updateFields = {
+              severity_ldl: severity_ldl,
+              severity_triglycerides:severity_triglycerides,
+              severity_hdlcholesterol:severity_hdlcholesterol,
+              severity_cholesterol:severity_cholesterol
+        };
+
+        const updatedProduct = await LabTestCaseModel.LipidPanelTest.findOneAndUpdate(
           queryConditions,
           { $set: updateFields },
           { new: true }
@@ -805,5 +876,8 @@ const correctPiechartValues = async (req, res) => {
 module.exports = {
   addindex,
   correctPiechartValues,
-  correctLabTestUpdateBloodGlucose
+  correctLabTestUpdateBloodGlucose,
+  correctLabEyeTest,
+  correctHemoglobin,
+  correctLdlHdlCholestrolTriglicerine
 };
