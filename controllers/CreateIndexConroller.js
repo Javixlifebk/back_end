@@ -710,7 +710,7 @@ const correctLdlHdlCholestrolTriglicerine = async (req, res) => {
   }
 };
 
-const correctPiechartValues = async (req, res) => {
+const correctpiechartvalues = async (req, res) => {
 
   try {
 
@@ -875,7 +875,7 @@ const correctPiechartValues = async (req, res) => {
 
 module.exports = {
   addindex,
-  correctPiechartValues,
+  correctpiechartvalues,
   correctLabTestUpdateBloodGlucose,
   correctLabEyeTest,
   correctHemoglobin,

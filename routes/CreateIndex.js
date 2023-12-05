@@ -6,7 +6,7 @@ const router = require("express").Router();
 
 // use routers
 router.post("/addindex", createIndexConroller.addindex);
-router.post("/correctPiechartValues", createIndexConroller.correctPiechartValues);
+router.post("/correctpiechartvalues", createIndexConroller.correctpiechartvalues);
 router.post("/correctLabTestUpdateBloodGlucose", createIndexConroller.correctLabTestUpdateBloodGlucose);
 router.post("/correctLabEyeTest/", createIndexConroller.correctLabEyeTest);    
 router.post("/correctHemoglobin/", createIndexConroller.correctHemoglobin);    
