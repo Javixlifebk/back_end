@@ -478,7 +478,9 @@ exports.BloodPressureAmberList=[
 									'mobile':'$basic.mobile',
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1
+									severity_bp:1,
+									'bpsys':1,
+									'bpdai':1,
 									
 								   }
 							   },
