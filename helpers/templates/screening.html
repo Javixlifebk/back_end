@@ -481,6 +481,17 @@
 				<div class='lxSize gray' id="lglucosetype">{{this.type}}</div>
 			</td>
 		</tr>
+
+		{{#if this.notes}}
+		<tr>
+			<td colspan="2">
+				<div class='lxlabel'>Notes</div>
+			</td>
+			<td colspan="3">
+				<div class='lxSize gray' id="lglucosetype">{{this.notes}}</div>
+			</td>
+		</tr>
+		{{/if}}
 		<tr> </tr>
 		{{/each}}
 

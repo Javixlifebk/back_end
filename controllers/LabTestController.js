@@ -2534,6 +2534,7 @@ exports.addBloodGlucoseTest = [
 					bloodglucose: req.body.bloodglucose,
 					type: req.body.type,
 					ngoId:req.body.ngoId,
+					notes:req.body.notes,
 				};
 
 				var actionBloodGlucoseTestCase = new LabTestCaseModel.BloodGlucoseTest(recBloodGlucoseTest);

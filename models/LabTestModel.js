@@ -59,6 +59,7 @@ var BloodGlucoseTestSchema = new mongoose.Schema(
     ngoId: { type: String, required: false },
     type: { type: String, required: true },
     severity: { type: Number, default: 0,required: false }, //0-green, 1-amber, 2-red , 3-Default
+    notes: {  type: String,required: false }
   },
   { timestamps: true }
 );
