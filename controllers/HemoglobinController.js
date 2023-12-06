@@ -169,9 +169,7 @@ exports.HemoglobinList=[
 
 
 exports.HemoglobinTestGreenList=[
-    // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
-	// body("severity").isLength().trim().withMessage("Invalid Token!"),
-	//sanitizeBody("caseId").escape(),
+  
 	 sanitizeBody("severity").escape(),
 	 (req, res)=> {
 		const { pageNo, size} = req.body
