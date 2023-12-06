@@ -2748,6 +2748,7 @@ exports.BloodGlucoseTestList = [
 					{
 						'$project': {
 							'caseId': 1,
+							'notes':1,
 							'ngoId':1,
 							'status': 1,
 							'bloodglucose': 1,
