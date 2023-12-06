@@ -671,7 +671,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'https://javixlife.org/api/labtest/getVisualExamList',
+					  url: 'http://18.60.238.252:3010/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
