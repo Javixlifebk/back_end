@@ -671,7 +671,7 @@ exports.createCaseReport = [
 					   } };
 
 					   var options3 = { method: 'POST',
-					  url: 'http://18.60.238.252:3010/api/labtest/getVisualExamList',
+					  url: 'https://18.60.238.252:3010/api/labtest/getVisualExamList',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 

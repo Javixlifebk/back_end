@@ -254,16 +254,16 @@ exports.VisualExamList = [
               "info.state": 1,
               visual_exam_file1: {
                 $concat: [
-                  "http://",
-                  req.headers.host,
+                  "http://18.60.238.252:3010",
+                  // req.headers.host,
                   "/videos/",
                   "$visual_exam_file1",
                 ],
               },
               visual_exam_file2: {
                 $concat: [
-                  "http://",
-                  req.headers.host,
+                  "http://18.60.238.252:3010",
+                  // req.headers.host,
                   "/videos/",
                   "$visual_exam_file2",
                 ],
