@@ -648,16 +648,16 @@ exports.citizenRefersAllReferAndNonPrescribed = [
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
-							'cases': 
-												 {
-							    					'$filter' : {
-							        'input': '$cases',
-							        'as' : 'cases_field',
-							         'cond': { '$and': [
-							            {'$eq': ['$$cases_field.status',1]}
-							        ]}
-							    }
-							},
+							// 'cases': 
+							// 					 {
+							//     					'$filter' : {
+							//         'input': '$cases',
+							//         'as' : 'cases_field',
+							//          'cond': { '$and': [
+							//             {'$eq': ['$$cases_field.status',1]}
+							//         ]}
+							//     }
+							// },
 							'info.dateOfBirth': 1,
 							'info.dateOfOnBoarding': 1,
 							'info.bloodGroup': 1,
