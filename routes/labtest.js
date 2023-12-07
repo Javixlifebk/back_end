@@ -98,7 +98,7 @@ routerLabTestController.post("/getBloodPressureRedList", BloodPressureController
 
 routerLabTestController.post("/getRightEyeAmberList", EyeTestController.RightEyeAmberList);
 routerLabTestController.post("/getRightEyeGreenList", EyeTestController.RightEyeGreenList);
-routerLabTestController.post("/getRightEyeRedList", EyeTestController.ightEyeRedList);
+routerLabTestController.post("/getRightEyeRedList", EyeTestController.RightEyeRedList);
 
 routerLabTestController.post("/getLeftEyeAmberList", EyeTestController.LeftEyeAmberList);
 routerLabTestController.post("/getLeftEyeGreenList", EyeTestController.LeftEyeGreenList);
