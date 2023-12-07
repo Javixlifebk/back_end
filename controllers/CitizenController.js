@@ -450,7 +450,7 @@ exports.citizenList = [
 							'aadhaar': 1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
-							'createdAt': 1,
+							'updatedAt': -1,
 							'info.dateOfBirth': 1,
 							'info.dateOfOnBoarding': 1,
 							'info.bloodGroup': 1,
@@ -492,7 +492,7 @@ exports.citizenList = [
 							let temp = users[i];
 							var ddate = "";
 							users[i].info.dateOfOnBoarding = utility.toDDmmyy(users[i].info.dateOfOnBoarding);
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+							users[i].updatedAt = utility.toDDmmyy(users[i].updatedAt);
 							//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
 
 							if (temp.info.dateOfBirth != null && temp.info.dateOfBirth != undefined && temp.info.dateOfBirth != "") {

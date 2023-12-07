@@ -12,7 +12,7 @@ const config = require('./config');
 const bodyParser = require('body-parser');
 var app = express();
 const ecgtest = require("./models/ECGTestModel");
-
+const CitizenModel = require("./models/CitizenModel");
 
 //All below code is new for AWS
 
@@ -273,6 +273,63 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //Upload Profile pic
 
+app.post('/upload/profile/:citizenId', uploadab.single('photo'), async (req, res) => {
+	const { citizenId } = req.params;
+  
+	try {
+	  const user = await CitizenModel.CitizenDetails.findOne({ citizenId });
+  
+	  if (!user) {
+		return res.status(400).json({
+		  success: 0,
+		  error: 'Invalid citizenId',
+		});
+	  }
+  
+	  if (user.photo) {
+		const oldPhotoPath = user.photo;
+		const relativeOldPhotoPath = oldPhotoPath.replace('http://18.60.238.252:3010/profile/', '');
+		const oldPhotoFilePath = path.join(__dirname, 'uploads', relativeOldPhotoPath);
+  
+		console.log('Old Photo Information:');
+		console.log('Old Photo Path:', oldPhotoPath);
+		console.log('Relative Old Photo Path:', relativeOldPhotoPath);
+		console.log('Old Photo File Path:', oldPhotoFilePath);
+  
+		try {
+		  // Use the asynchronous version of fs.exists
+		  await fs.access(oldPhotoFilePath);
+		  // If the access operation succeeds, the file exists
+		  fs.unlink(oldPhotoFilePath);
+		  console.log('Old photo deleted successfully');
+		} catch (error) {
+		  // If the access operation fails, the file does not exist
+		  console.log('Old photo does not exist');
+		}
+	  }
+  
+	  const newPhotoPath = `http://18.60.238.252:3010/profile/${req.file.filename}`;
+	  console.log('New Photo Information:');
+	  console.log('New Photo Path:', newPhotoPath);
+  
+	  user.photo = newPhotoPath;
+	  await user.save();
+  
+	  return res.json({
+		success: 1,
+		'profile-url': newPhotoPath,
+		citizenId: citizenId,
+	  });
+	} catch (error) {
+	  console.error('Error updating user photo:', error);
+	  return res.status(500).json({
+		success: 0,
+		error: 'Failed to update user photo in the database',
+	  });
+	}
+  });
+
+  
 app.post('/upload/profile', (req, res) => {
     
     let upload = multer({ storage: storage, fileFilter: imageFilter }).single('profile');
