@@ -272,7 +272,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 //Upload Profile pic
-
+const uploadab = multer({ storage });
 app.post('/upload/profile/:citizenId', uploadab.single('photo'), async (req, res) => {
 	const { citizenId } = req.params;
   
@@ -329,7 +329,7 @@ app.post('/upload/profile/:citizenId', uploadab.single('photo'), async (req, res
 	}
   });
 
-  
+
 app.post('/upload/profile', (req, res) => {
     
     let upload = multer({ storage: storage, fileFilter: imageFilter }).single('profile');
