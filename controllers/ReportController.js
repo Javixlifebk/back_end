@@ -1784,7 +1784,7 @@ exports.createMedicalHistoryReport = [
 					   				'Personal':"",
 					  				'Reproductive':"",
 					  				'Medical':"",
-					  				'Drugs':""
+					  				'Allergies':""
 					  				};
 					   request(options1, function (error1, response1, body1) {
 					  		if (error1) return apiResponse.ErrorResponse(res, error1);
@@ -1943,22 +1943,22 @@ exports.createMedicalHistoryReport = [
 					  }
 					  if(status==1){
 					  	var drugstemp=JSON.parse(body).data.data;
-					  	history.Drugs=drugstemp;
+					  	history.Allergies=drugstemp;
 					  	var ctemp=JSON.parse(body).data.data[0].citizen;
 					  				if( ctemp!=null && ctemp!=undefined){
 					  					history.Citizen=JSON.parse(body).data.data[0].citizen[0];
 					  	}
 					  }
-					  if (history.Drugs.length===0  ){
-					  	history.Drugs=mappRes['drugs'];
+					  if (history.Allergies.length===0  ){
+					  	history.Allergies=mappRes['drugs'];
 					  	}
 					  else{
 					  	var tempdrugs=mappRes['drugs'];
-					  	tempdrugs['allergies']=history.Drugs[0]['allergies'];
-					  	tempdrugs['allergyType']=history.Drugs[0]['allergyType'];
-						tempdrugs['allergydate']=history.Drugs[0]['allergydate'].split('T')[0];
-					  	tempdrugs['createdAt']=utility.toDDmmyy(history.Drugs[0]['createdAt'].split('T')[0]);
-					  	history.Drugs=tempdrugs;
+					  	tempdrugs['allergies']=history.Allergies[0]['allergies'];
+					  	tempdrugs['allergyType']=history.Allergies[0]['allergyType'];
+						tempdrugs['allergydate']=history.Allergies[0]['allergydate'].split('T')[0];
+					  	tempdrugs['createdAt']=utility.toDDmmyy(history.Allergies[0]['createdAt'].split('T')[0]);
+					  	history.Allergies=tempdrugs;
 					  }
 						console.dir(history);						 
 					  	var document = {
