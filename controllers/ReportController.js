@@ -936,6 +936,8 @@ exports.createCaseReport = [
 									}
 					  			}
 					  			console.dir(labs.lipid);
+					  			console.log("check this one");
+					  			console.log(labs.lipid);
 					  			
 					  			request(options7, function (error7, response7, body7) {
 					  		if (error7) return apiResponse.ErrorResponse(res, error7);

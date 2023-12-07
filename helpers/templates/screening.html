@@ -111,6 +111,7 @@
 			style="margin-bottom: 10px;" src=http://18.60.238.252:3010/profile/1672897712480.png>
 	</div>
 
+	{{#if users}}
 	{{#each users}}
 	<img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}>
 	<h2>
@@ -269,7 +270,7 @@
 	</table>
 	<div class="pagebreak"></div>
 
-
+	{{#if this.labs.eye}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		{{#each this.labs.eye}}
 		<tr>
@@ -318,7 +319,7 @@
 		{{/if}}
 		<tr> </tr>
 		{{/each}}
-
+		{{/if}}
 
 		<!-- Satish EzeRX Start -->
 		{{#if this.labs.ezerx}}
@@ -347,7 +348,7 @@
 
 		{{#each this.labs.ezerx}}
 
-		
+
 		<tr>
 			<td>
 				<div class='lxSize gray' id="">{{this.name_key}}</div>
@@ -365,7 +366,7 @@
 				<div class='lxSize gray' id="">{{this.unit}}</div>
 			</td>
 		</tr>
-	
+
 
 		<!-- <td><div></div></td> -->
 		</tr>
@@ -374,7 +375,7 @@
 		{{/if}}
 
 		<!-- Satish EzeRX End -->
-
+		{{#if this.labs.hemo}}
 		{{#each this.labs.hemo}}
 
 		<tr>
@@ -405,11 +406,11 @@
 
 		<!-- <td><div></div></td> -->
 		</tr>
-		<tr> </tr>
 		{{/each}}
+		{{/if}}
 
 
-
+		{{#if this.labs.visual}}
 		{{#each this.labs.visual}}
 
 		<tr>
@@ -466,9 +467,11 @@
 		<!-- <tr>
 				<td><div class='lxlabel'>Notes</div> </td><td><div class='lxSize gray' id="leye">{{this.notes}}</div></td>
 			</tr> -->
-		<tr> </tr>
 		{{/each}}
+		{{/if}}
 
+
+		{{#if this.labs.glucose}}
 		{{#each this.labs.glucose}}
 
 		<tr>
@@ -506,7 +509,10 @@
 		{{/if}}
 		<tr> </tr>
 		{{/each}}
+		{{/if}}
 
+
+		{{#if this.labs.lipid}}
 		{{#each this.labs.lipid}}
 		<tr>
 			<td colspan="5">
@@ -576,9 +582,10 @@
 		</tr>
 		{{/each}}
 	</table>
-
+	{{/if}}
 
 	<!-- <div class="pagebreak"></div> -->
+	{{#if this.labs.urine}}
 	<br>
 	{{#each this.labs.urine}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
@@ -673,13 +680,11 @@
 
 	</table>
 	{{/each}}
+	{{/if}}
 
 
-
+	{{#if this.labs.sickle}}
 	<div class="pagebreak"></div>
-
-
-
 	{{#each this.labs.sickle}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -705,7 +710,7 @@
 				<div class='lxSize gray'>{{this.notes}}</div>
 			</td>
 		</tr>
-		{{/if}}	
+		{{/if}}
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Test Date </div>
@@ -717,8 +722,10 @@
 		<tr> </tr>
 	</table>
 	{{/each}}
+	{{/if}}
 
 
+	{{#if this.labs.thalassemia}}
 	{{#each this.labs.thalassemia}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -744,7 +751,7 @@
 				<div class='lxSize gray'>{{this.notes}}</div>
 			</td>
 		</tr>
-		{{/if}}	
+		{{/if}}
 		<tr>
 			<td colspan="2">
 				<div class='lxlabel'>Test Date </div>
@@ -756,7 +763,9 @@
 		<tr></tr>
 	</table>
 	{{/each}}
+	{{/if}}
 
+	{{#if this.labs.lung}}
 	{{#each this.labs.lung}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -846,13 +855,15 @@
 			</td>
 			<td colspan="2"><span class='lxSize gray'>{{this.notes}}</span></td>
 		</tr>
-		{{/if}}	
+		{{/if}}
 
 	</table>
 	{{/each}}
+	{{/if}}
 
 
 
+	{{#if this.labs.symptoms}}
 	{{#each this.labs.symptoms}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -880,13 +891,11 @@
 		{{/each}}
 	</table>
 	{{/each}}
+	{{/if}}
 
+
+	{{#if this.labs.breasttest}}
 	<div class="pagebreak"></div>
-
-
-
-	
-
 	{{#each this.labs.breasttest}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -1031,31 +1040,33 @@
 			</td>
 		</tr>
 		{{/if}}
-	
+
 
 	</table>
 
-	
+
 	<div>
 		<span>
 			{{#if this.note_breast_right }}
 			<span class='lxlabel'><b>Notes Right : </b></span>
 			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_right}}</span></span>
 
-			{{/if}}		
+			{{/if}}
 		</span>
-		
+
 	</div>
 	<div>
 		<span>
 			{{#if this.note_breast_left }}
 			<span class='lxlabel'><b>Notes Left : </b></span>
 			<span colspan="2"><span class='lxSize gray'>{{this.note_breast_left}}</span></span>
-			{{/if}}	
+			{{/if}}
 		</span>
 	</div>
 	{{/each}}
+	{{/if}}
 
+	{{#if this.labs.drug}}
 	{{#each this.labs.drug}}
 
 	<div class="pagebreak"></div>
@@ -1154,7 +1165,9 @@
 
 	</table>
 	{{/each}}
+	{{/if}}
 
+	{{#if this.labs.rapid}}
 	{{#each this.labs.rapid}}
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
@@ -1376,11 +1389,12 @@
 
 	</table>
 	{{/each}}
-
+	{{/if}}
 
 	{{/each}}
+	{{/if}}
 	<div></div>
-	
+
 </body>
 <script>
 
