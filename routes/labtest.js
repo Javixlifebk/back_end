@@ -96,6 +96,15 @@ routerLabTestController.post("/getBloodPressureGreenList", BloodPressureControll
 routerLabTestController.post("/getBloodPressureAmberList", BloodPressureController.BloodPressureAmberList);
 routerLabTestController.post("/getBloodPressureRedList", BloodPressureController.BloodPressureRedList);
 
+routerLabTestController.post("/getRightEyeAmberList", EyeTestController.RightEyeAmberList);
+routerLabTestController.post("/getRightEyeGreenList", EyeTestController.RightEyeGreenList);
+routerLabTestController.post("/getRightEyeRedList", EyeTestController.ightEyeRedList);
+
+routerLabTestController.post("/getLeftEyeAmberList", EyeTestController.LeftEyeAmberList);
+routerLabTestController.post("/getLeftEyeGreenList", EyeTestController.LeftEyeGreenList);
+routerLabTestController.post("/getLeftEyeRedList", EyeTestController.LeftEyeRedList);
+
+
 routerLabTestController.post("/getSPO2GreenList", SPO2Controller.SPO2GreenList);
 routerLabTestController.post("/getSPO2AmberList", SPO2Controller.SPO2AmberList);
 routerLabTestController.post("/getSPO2RedList", SPO2Controller.SPO2RedList);

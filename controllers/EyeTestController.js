@@ -165,3 +165,757 @@ exports.EyeTestList=[
 	}
 
 ];
+
+
+exports.RightEyeGreenList=[
+ 
+	 sanitizeBody("severity").escape(),
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_reye:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			EyeTest.EyeTest.aggregate([
+			   
+							{'$match':{severity_reye:0,"ngoId":req.body.ngoId}},
+							   // {'$match':condition},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'hemoglobin':1,
+									'ngoId':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_reye:1,
+									'reye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'data fatch successfully',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+	
+   
+];
+exports.RightEyeAmberList=[
+   
+	 sanitizeBody("severity").escape(),
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_reye:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			   EyeTest.EyeTest.aggregate([
+				// {$sort:{'createdAt':-1}},
+										 {'$match':{severity_reye:1,ngoId:req.body.ngoId}},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'hemoglobin':1,
+									'ngoId':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_reye:1,
+									'reye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'Hemoglobin Amber test list fetch successfully',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+
+	
+	
+
+];
+exports.RightEyeRedList=[
+   
+	 sanitizeBody("severity").escape(),
+	
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_reye:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			   EyeTest.EyeTest.aggregate([
+			   
+							   {'$match':{severity_reye:2,ngoId:req.body.ngoId}},
+							   // {'$match':condition},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'ngoId':1,
+									'hemoglobin':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_reye:1,
+									'reye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'Hemoglobin Amber test list fetch successfully ',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+
+];
+
+
+
+exports.LeftEyeGreenList=[
+    // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
+	// body("severity").isLength().trim().withMessage("Invalid Token!"),
+	//sanitizeBody("caseId").escape(),
+	 sanitizeBody("severity").escape(),
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_leye:0,"ngoId":req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			EyeTest.EyeTest.aggregate([
+			   
+							{'$match':{severity_leye:0,"ngoId":req.body.ngoId}},
+							   // {'$match':condition},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'hemoglobin':1,
+									'ngoId':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_leye:1,
+									'leye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'data fatch successfully',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+	
+   
+];
+exports.LeftEyeAmberList=[
+    // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
+	// body("severity").isLength().trim().withMessage("Invalid Token!"),
+	//sanitizeBody("caseId").escape(),
+	 sanitizeBody("severity").escape(),
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_leye:1,ngoId:req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			   EyeTest.EyeTest.aggregate([
+				// {$sort:{'createdAt':-1}},
+										 {'$match':{severity_leye:1,ngoId:req.body.ngoId}},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'hemoglobin':1,
+									'ngoId':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_leye:1,
+									'leye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'Hemoglobin Amber test list fetch successfully',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+
+	
+	
+
+];
+exports.LeftEyeRedList=[
+    // body("severity").isLength({ min: 3 }).trim().withMessage("Invalid caseId!"),
+	// body("severity").isLength().trim().withMessage("Invalid Token!"),
+	//sanitizeBody("caseId").escape(),
+	 sanitizeBody("severity").escape(),
+	
+	 (req, res)=> {
+		const { pageNo, size} = req.body
+	   console.log(req.body);
+	   if (pageNo < 0 || pageNo === 0) {
+		 response = {
+		   error: true,
+		   message: 'invalid page number, should start with 1',
+		 }
+		 return res.json(response)
+	   }
+	   const query = {}
+	   query.skip = size * (pageNo - 1)
+	   query.limit = size
+	   console.log(query);
+	   
+	   // Find some documents
+	   EyeTest.EyeTest.count({severity_leye:2,ngoId:req.body.ngoId}, async (err, totalCount) => {
+		 if (err) {
+		   response = { error: true, message: 'Error fetching data' }
+		 }
+		 EyeTest.EyeTest.find({}, {}, query, async (err, data) => {
+		   // Mongo command to fetch all data from collection.
+		   // const post_id = data.post_id
+		   if (err) {
+			 response = { error: true, message: 'Error fetching data' }
+		   } else {
+			   EyeTest.EyeTest.aggregate([
+			   
+							   {'$match':{severity_leye:2,ngoId:req.body.ngoId}},
+							   // {'$match':condition},
+							   // {'$limit':1000},
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizendetails',
+								   'foreignField':'citizenId',
+								   'as':'info'	
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'citizenId',
+								   'from':'citizens',
+								   'foreignField':'citizenId',
+								   'as':'basic'
+								}
+							   },
+							   {'$lookup': {
+								   'localField':'screenerId',
+								   'from':'screeners',
+								   'foreignField':'screenerId',
+								   'as':'screeners'
+								}
+							   },
+							   {"$unwind":"$screeners"},
+							   {'$unwind':'$basic'},
+							   
+							   {'$unwind':'$info'},
+							   {'$project':{
+								   'fullname': {$concat: ["$basic.firstName", " ", "$basic.lastName"]},
+									'screenerId':1,
+									'caseId':1,
+									'citizenId':1,
+									'ngoId':1,
+									'hemoglobin':1,
+									'notes':1,
+									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
+									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
+									'basic.firstName':1,
+									'basic.lastName':1,
+									'basic.email':1,
+									'basic.mobile':1,
+									'basic.sex':1,
+									'basic.javixId':1,
+									'info.dateOfBirth':1,
+									'info.dateOfOnBoarding':1,
+									'info.bloodGroup':1,
+									'info.country':1,
+									'info.state':1,
+									'info.district':1,
+									'info.address':1,
+									'info.pincode':1,
+									'info.rating':1,
+									'info.geolocations':1,
+									'info.photo':1,
+									'address':'$info.address',
+									'email':'$basic.email',
+									'mobile':'$basic.mobile',
+									
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_leye:1,
+									'leye':1,
+									
+								   }
+							   },
+							   {$sort:{'createdAt':-1}},
+							   { $skip: query.skip },
+							   { $limit: query.limit },
+						   ])
+			   .exec((err, likeData) => {
+				 if (err) {
+				   throw err
+				 } else {
+				   var totalPages = Math.ceil(totalCount / size)
+				   response = {
+					 message: 'Hemoglobin Amber test list fetch successfully ',
+					 status: 1,
+					 pages: totalPages,
+					 total: totalCount,
+					 size: size,
+					 data: likeData.reverse(),
+				   }
+				   
+				   res.json(response)
+				 }
+			   })
+		   }
+		 })
+		})
+	   }	
+
+];
+
