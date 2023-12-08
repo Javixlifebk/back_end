@@ -227,12 +227,12 @@ exports.listGraph = [
                                                               }
                                                             );
                                                           });
-                                                      });
 
-                                                      CitizenModel.Citizen.find({ngoId: req.body.ngoId,'isUnrefer': {$in: [1,2]}})
-                                                      .countDocuments()
-                                                      .then((prescription) => {
-                                                        graph.push({ AllAndNonPrescription: prescription });
+                                                          CitizenModel.Citizen.find({ngoId: req.body.ngoId,'isUnrefer': {$in: [1,2]}})
+                                                          .countDocuments()
+                                                          .then((prescription) => {
+                                                            graph.push({ AllAndNonPrescription: prescription });
+                                                      });
                                                   });
 												});
                                               });
