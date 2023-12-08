@@ -71,10 +71,7 @@ exports.listGraph = [
                       .then((prescription) => {
                         graph.push({ Prescription: prescription });
 
-                        CitizenModel.Citizen.find({ngoId: req.body.ngoId,'isUnrefer': {$in: [1,2]}})
-                      .countDocuments()
-                      .then((prescription) => {
-                        graph.push({ AllAndNonPrescription: prescription });
+                    
 
                         tmp_out0
                           .find({ issubscreener: 0,ngoId: req.body.ngoId})
@@ -230,6 +227,12 @@ exports.listGraph = [
                                                               }
                                                             );
                                                           });
+
+                                                          CitizenModel.Citizen.find({ngoId: req.body.ngoId,'isUnrefer': {$in: [1,2]}})
+                                                          .countDocuments()
+                                                          .then((prescription) => {
+                                                            graph.push({ AllAndNonPrescription: prescription });
+                                                            
                                                       });
                                                   });
 												});
