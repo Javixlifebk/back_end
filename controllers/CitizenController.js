@@ -597,7 +597,7 @@ exports.citizenRefersAllReferAndNonPrescribed = [
 
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { $gt: 0}},//isunrefer 1 showing data refer list
+					{ '$match': { '$gt': 0}},//isunrefer 1 showing data refer list
 					{ '$match': {ngoId:req.body.ngoId} },//isunrefer 1 showing data refer list
 
 					{ '$sort': { 'createdAt': -1 } },
