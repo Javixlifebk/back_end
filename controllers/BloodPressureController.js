@@ -458,11 +458,11 @@ exports.BloodPressureRedList=[
 									'address':'$info.address',
 									'email':'$basic.email',
 									'mobile':'$basic.mobile',
-									
-									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
-									severity_bp:1,
 									'bpsys':1,
 									'bpdai':1,
+									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
+									severity_bp:1,
+									
 									
 								   }
 							   },
