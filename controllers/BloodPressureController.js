@@ -88,7 +88,7 @@ exports.BloodPressureGreenList=[
 									'ngoId':1,
 									'notes':1,
 									'bpsys':1,
-									'bpdai':1,
+									'bpdia':1,
 									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 									'basic.firstName':1,
 									'basic.lastName':1,
@@ -125,7 +125,6 @@ exports.BloodPressureGreenList=[
 				 if (err) {
 				   throw err
 				 } else {
-					console.log(likeData);
 				   var totalPages = Math.ceil(totalCount / size)
 				   response = {
 					 message: 'data fatch successfully',
@@ -310,7 +309,7 @@ exports.BloodPressureAmberList=[
 									'ngoId':1,
 									'notes':1,
 									'bpsys':1,
-									'bpdai':1,
+									'bpdia':1,
 									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 									'basic.firstName':1,
 									'basic.lastName':1,
@@ -462,7 +461,7 @@ exports.BloodPressureRedList=[
 									'email':'$basic.email',
 									'mobile':'$basic.mobile',
 									'bpsys':1,
-									'bpdai':1,
+									'bpdia':1,
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									severity_bp:1,
 									
