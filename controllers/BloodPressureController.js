@@ -87,6 +87,8 @@ exports.BloodPressureGreenList=[
 									'hemoglobin':1,
 									'ngoId':1,
 									'notes':1,
+									'bpsys':1,
+									'bpdai':1,
 									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 									'basic.firstName':1,
 									'basic.lastName':1,
@@ -111,8 +113,7 @@ exports.BloodPressureGreenList=[
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									severity_bp:1,
-									'bpsys':1,
-									'bpdai':1,
+									
 									
 								   }
 							   },
@@ -307,6 +308,8 @@ exports.BloodPressureAmberList=[
 									'hemoglobin':1,
 									'ngoId':1,
 									'notes':1,
+									'bpsys':1,
+									'bpdai':1,
 									'createdAt':{ $dateToString: { format: "%d/%m/%Y", date: "$createdAt" } },
 									'basic.firstName':1,
 									'basic.lastName':1,
@@ -331,8 +334,7 @@ exports.BloodPressureAmberList=[
 									'dateOfOnBoarding':{ $dateToString: { format: "%d/%m/%Y", date: "$info.dateOfOnBoarding" } },
 									'screenerfullname':{$concat:["$screeners.firstName"," ","$screeners.lastName"]},
 									severity_bp:1,
-									'bpsys':1,
-									'bpdai':1,
+									
 									
 								   }
 							   },
