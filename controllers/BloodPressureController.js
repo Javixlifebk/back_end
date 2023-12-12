@@ -125,6 +125,7 @@ exports.BloodPressureGreenList=[
 				 if (err) {
 				   throw err
 				 } else {
+					console.log(likeData);
 				   var totalPages = Math.ceil(totalCount / size)
 				   response = {
 					 message: 'data fatch successfully',
