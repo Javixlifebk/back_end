@@ -742,7 +742,7 @@ exports.citizenRefers = [
 
 
 				CitizenModel.Citizen.aggregate([
-					{ '$match': { 'isUnrefer': 1,ngoId:req.body.ngoId} },//isunrefer 1 showing data refer list
+					{ '$match': { 'isUnrefer': {$in: [1,2]} ,ngoId:req.body.ngoId} },//isunrefer 1 showing data refer list
 
 					{ '$sort': { 'createdAt': -1 } },
 					{ '$limit': 100 },
