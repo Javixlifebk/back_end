@@ -790,6 +790,7 @@ exports.citizenRefers = [
 							'javixId': 1,
 							'aadhaar': 1,
 							'ngoId':1,
+							'pstatus':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
