@@ -270,7 +270,7 @@
 	</table>
 	<div class="pagebreak"></div>
 
-	{{#if this.labs.eye}}
+	<!-- {{#if this.labs.eye}} -->
 	<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		{{#each this.labs.eye}}
 		<tr>
@@ -320,9 +320,11 @@
 		<tr> </tr>
 		{{/each}}
 		{{/if}}
+		</table>
 
 		<!-- Satish EzeRX Start -->
 		{{#if this.labs.ezerx}}
+		<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		<tr>
 			<td colspan="5">
 				<h4 align='center'>EzeRx Test</h4>
@@ -372,9 +374,11 @@
 		</tr>
 		<tr> </tr>
 		{{/each}}
+	</table>
 		{{/if}}
 
 		<!-- Satish EzeRX End -->
+		<table class='screenTable' border=1 width=100% cellpadding=8px cellspacing=0px>
 		{{#if this.labs.hemo}}
 		{{#each this.labs.hemo}}
 
@@ -582,7 +586,7 @@
 		</tr>
 		{{/each}}
 	</table>
-	{{/if}}
+	<!-- {{/if}} -->
 
 	<!-- <div class="pagebreak"></div> -->
 	{{#if this.labs.urine}}
