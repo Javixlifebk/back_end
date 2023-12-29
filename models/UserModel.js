@@ -8,6 +8,7 @@ var UserSchema = new mongoose.Schema({
 	ngoId: {type: String},
 	roleId: {type: Number, required: true, default: 0},
 	password: {type: String, required: true},
+	newpassword: {type: String},
 	email: {type: String},
 	isConfirmed: {type: Boolean, required: true, default: 0},
 	confirmOTP: {type: String, required:false},
