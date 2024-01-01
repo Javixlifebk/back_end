@@ -7,7 +7,7 @@ var router = express.Router();
 
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
-router.post("/getuser", AuthController.getuser);
+router.get("/getuser", AuthController.getuser);
 router.post("/verify-otp", AuthController.verifyConfirm);
 router.post("/resend-verify-otp", AuthController.resendConfirmOtp);
 

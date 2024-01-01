@@ -9,8 +9,6 @@ var UserSchema = new mongoose.Schema({
 	roleId: {type: Number, required: true, default: 0},
 	password: {type: String, required: true},
 	newpassword: {type: String},
-	javixid: {type: String},
-	token: {type: String},
 	email: {type: String},
 	isConfirmed: {type: Boolean, required: true, default: 0},
 	confirmOTP: {type: String, required:false},
