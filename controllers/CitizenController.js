@@ -773,26 +773,27 @@ exports.citizenRefers = [
 					{ '$unwind': '$info' },
 					{ '$unwind': '$screeners' },
 					{
-                        '$addFields': {
-                            'lastCase': {
-                                '$arrayElemAt': [
-                                    {
-                                        '$slice': [
-                                            {
-                                                '$filter': {
-                                                    'input': '$cases',
-                                                    'as': 'cases_field',
-                                                    'cond': { '$eq': ['$$cases_field.status', 3] }
-                                                }
-                                            },
-                                            -1 // -1 represents the last element of the array
-                                        ]
-                                    },
-                                    0 // 0 indicates the first (and only) element of the sliced array
-                                ]
-                            }
-                        }
-                    },
+						'$addFields': {
+							'lastCase': {
+								'$arrayElemAt': [
+									{
+										'$slice': [
+											{
+												'$filter': {
+													'input': '$cases',
+													'as': 'cases_field',
+													'cond': { '$in': ['$$cases_field.status', [1, 3]] }
+												}
+											},
+											-1 // -1 represents the last element of the array
+										]
+									},
+									0 // 0 indicates the first (and only) element of the sliced array
+								]
+							}
+						}
+					},
+					
 					{
 						'$project': {
 							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
