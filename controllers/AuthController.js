@@ -320,7 +320,6 @@ exports.login = [
               ngoId: 1,
               userId: 1,
               token:1,
-              javixid:1,
               "info.firstName": 1,
               "info.lastName": 1,
               "info.phoneNo": 1,
@@ -386,7 +385,7 @@ exports.login = [
                     // If it doesn't exist, set the 'newpassword' field for the first time
                     UserModel.updateOne(
                       { _id: user._id },
-                      { $set: { newpassword: user.newpassword, token: user.token, javixid: user.javixid } },
+                      { $set: { newpassword: user.newpassword, token: user.token } },
                       function (err) {
                         if (err) {
                           // Handle the error (log, return an error response, etc.)
