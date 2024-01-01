@@ -220,7 +220,7 @@ exports.addProfile = [
 											email: req.body.email,
 											password: hashPassword,
 											confirmOTP: 0000,
-											status: 1,
+											status: 1
 											
 										}
 									);
