@@ -78,17 +78,17 @@ describe("Auth", () => {
 	/*
 	 *  the /GET route
   */
-	// describe("/GET User", () => {
-	// 	it("it should Send account not confirm notice.", (done) => {
+	describe("/POST User", () => {
+		it("it should Send account not confirm notice.", (done) => {
 		chai.request(server)
-		.get("/getuser") // Update the endpoint to match your router
+		.post("/getuser") // Update the endpoint to match your router
 		.end((err, res) => {
 		  res.should.have.status(401);
 		  res.body.should.have.property("message").eql("Data Not Found.");
 		  done();
 		});
-	// 	});
-	// });
+		});
+	});
 
 	/*
   * Test the /POST route

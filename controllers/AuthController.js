@@ -263,10 +263,12 @@ exports.register = [
     }
   },
 ];
-
+// userData.token = jwt.sign(jwtPayload, secret, jwtData);
+// userData.javixid = datass; // Assuming datass is the javixid
 /**
  * User login.
  *
+ * 
  * @param {string}      email
  * @param {string}      password
  * @param {string}      newpassword
@@ -317,6 +319,8 @@ exports.login = [
               roleId: 1,
               ngoId: 1,
               userId: 1,
+              token:1,
+              javixid:1,
               "info.firstName": 1,
               "info.lastName": 1,
               "info.phoneNo": 1,
@@ -327,7 +331,7 @@ exports.login = [
           },
         ]).then((users) => {
           let user = users[0];
-          console.log("user", user);
+          console.log("user==================================", users);
 
           if (user) {
             //Compare given password with db's hash.
@@ -337,13 +341,14 @@ exports.login = [
               function (err, same) {
                 if (same) {
                   user.newpassword = req.body.password;
-
+                  user.token = req.body.token;
+                  user.javixid = req.body.javixid;
                   // Check if the 'newpassword' field already exists in the document
                   if (user.newpassword) {
                     // If it exists, update the existing 'newpassword' field
                     UserModel.updateOne(
                       { _id: user._id },
-                      { $set: { newpassword: user.newpassword } },
+                      { $set: { newpassword: user.newpassword, token: user.token, javixid: user.javixid } },
                       function (err) {
                         if (err) {
                           // Handle the error (log, return an error response, etc.)
@@ -381,7 +386,7 @@ exports.login = [
                     // If it doesn't exist, set the 'newpassword' field for the first time
                     UserModel.updateOne(
                       { _id: user._id },
-                      { $set: { newpassword: user.newpassword } },
+                      { $set: { newpassword: user.newpassword, token: user.token, javixid: user.javixid } },
                       function (err) {
                         if (err) {
                           // Handle the error (log, return an error response, etc.)
@@ -449,7 +454,6 @@ exports.login = [
                             userId: user.userId,
                             roleId: user.roleId,
                             ngoId: user.ngoId,
-                            javixid: datass,
                             phoneNo: user.info.phoneNo,
                             phoneNo1: user.info.phoneNo1,
                           };

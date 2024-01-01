@@ -648,16 +648,16 @@ exports.citizenRefersAllReferAndNonPrescribed = [
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
-							'cases': 
-												 {
-							    					'$filter' : {
-							        'input': '$cases',
-							        'as' : 'cases_field',
-							         'cond': { '$and': [
-							            {'$eq': ['$$cases_field.status',1]}
-							        ]}
-							    }
-							},
+							// 'cases': 
+							// 					 {
+							//     					'$filter' : {
+							//         'input': '$cases',
+							//         'as' : 'cases_field',
+							//          'cond': { '$and': [
+							//             {'$eq': ['$$cases_field.status',1]}
+							//         ]}
+							//     }
+							// },
 							'info.dateOfBirth': 1,
 							'info.dateOfOnBoarding': 1,
 							'info.bloodGroup': 1,
@@ -773,6 +773,27 @@ exports.citizenRefers = [
 					{ '$unwind': '$info' },
 					{ '$unwind': '$screeners' },
 					{
+                        '$addFields': {
+                            'lastCase': {
+                                '$arrayElemAt': [
+                                    {
+                                        '$slice': [
+                                            {
+                                                '$filter': {
+                                                    'input': '$cases',
+                                                    'as': 'cases_field',
+                                                    'cond': { '$eq': ['$$cases_field.status', 3] }
+                                                }
+                                            },
+                                            -1 // -1 represents the last element of the array
+                                        ]
+                                    },
+                                    0 // 0 indicates the first (and only) element of the sliced array
+                                ]
+                            }
+                        }
+                    },
+					{
 						'$project': {
 							'fullname': { $concat: ["$firstName", " ", "$lastName"] },
 							'screenerId': 1,
@@ -794,16 +815,17 @@ exports.citizenRefers = [
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
-							'cases': 
-												 {
-							    					'$filter' : {
-							        'input': '$cases',
-							        'as' : 'cases_field',
-							         'cond': { '$and': [
-							            {'$eq': ['$$cases_field.status',1]}
-							        ]}
-							    }
-							},
+							'cases': '$lastCase',
+							// 'cases': 
+							// 					 {
+							//     					'$filter' : {
+							//         'input': '$cases',
+							//         'as' : 'cases_field',
+							//          'cond': { '$and': [
+							//             {'$eq': ['$$cases_field.status',1]}
+							//         ]}
+							//     }
+							// },
 							'info.dateOfBirth': 1,
 							'info.dateOfOnBoarding': 1,
 							'info.bloodGroup': 1,
@@ -820,7 +842,10 @@ exports.citizenRefers = [
 
 
 						}
-					}
+					},
+					{
+                        '$unset': 'lastCase' // Remove the temporary field if not needed in the result
+                    }
 				]
 				).then(users => {
 
