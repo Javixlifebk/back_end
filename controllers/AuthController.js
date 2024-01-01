@@ -342,13 +342,13 @@ exports.login = [
                 if (same) {
                   user.newpassword = req.body.password;
                   user.token = req.body.token;
-                  user.javixid = req.body.javixid;
+                  // user.javixid = req.body.javixid;
                   // Check if the 'newpassword' field already exists in the document
                   if (user.newpassword) {
                     // If it exists, update the existing 'newpassword' field
                     UserModel.updateOne(
                       { _id: user._id },
-                      { $set: { newpassword: user.newpassword, token: user.token, javixid: user.javixid } },
+                      { $set: { newpassword: user.newpassword, token: user.token } },
                       function (err) {
                         if (err) {
                           // Handle the error (log, return an error response, etc.)
