@@ -68,11 +68,11 @@ exports.register = [
   body("password")
     .isLength({ min: 6 })
     .trim()
-    .withMessage("Password must be 6 characters or greater."),
-  body("newpassword")
-    .isLength({ min: 6 })
-    .trim()
-    .withMessage("Password must be 6 characters or greater."),
+    .withMessage("Password must be 6 characters or greater.")
+    .custom((value, { req }) => {
+      req.body.newpassword = value; // Set newpassword field to the original password
+      return true;
+    }),
   body("phoneNo").custom((value) => {
     if (value != null && value != "" && value != undefined) {
       if (value.length != 10 || value === "0" || isNaN(value)) {
@@ -123,7 +123,7 @@ exports.register = [
   sanitizeBody("email").escape(),
   sanitizeBody("userName").escape(),
   sanitizeBody("password").escape(),
-  sanitizeBody("newpassword").escape(),
+  // sanitizeBody("newpassword").escape(),
   sanitizeBody("phoneNo").escape(),
   sanitizeBody("phoneNo1").escape(),
   sanitizeBody("roleId").escape(),
@@ -168,7 +168,7 @@ exports.register = [
             userName: req.body.userName,
             email: req.body.email,
             password: hash,
-            newpassword: req.body.newpassword,
+            newpassword: req.body.newpassword, // Save original password
             confirmOTP: otp,
           });
           user.save();
