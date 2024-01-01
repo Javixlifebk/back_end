@@ -1000,7 +1000,7 @@ exports.citizenRefers = [
 							'raadhaar': 1,
 							'citizenLoginId': 1,
 							'createdAt': 1,
-							'cases': '$lastCase',
+							'cases': ['$lastCase'],
 							// 'cases': 
 							// 					 {
 							//     					'$filter' : {
