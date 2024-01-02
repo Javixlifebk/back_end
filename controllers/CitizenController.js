@@ -643,7 +643,7 @@ exports.citizenRefersAllReferAndNonPrescribed = [
         CitizenModel.Citizen.aggregate([
           { $match: { isUnrefer: { $in: [1, 2] }, ngoId: req.body.ngoId } }, //isunrefer 1 showing data refer list
 
-          { $sort: { createdAt: -1 } },
+          { $sort: { updatedAt: -1 } },
           { $limit: 100 },
           {
             $lookup: {
@@ -693,7 +693,7 @@ exports.citizenRefersAllReferAndNonPrescribed = [
               ngoId: 1,
               raadhaar: 1,
               citizenLoginId: 1,
-              createdAt: 1,
+              updatedAt: 1,
               cases: {
                 $filter: {
                   input: "$cases",
@@ -732,7 +732,7 @@ exports.citizenRefersAllReferAndNonPrescribed = [
               users[i].info.dateOfOnBoarding = utility.toDDmmyy(
                 users[i].info.dateOfOnBoarding
               );
-              users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+              users[i].updatedAt = utility.toDDmmyy(users[i].updatedAt);
               //users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
 
               if (
@@ -928,7 +928,7 @@ exports.citizenRefers = [
 				CitizenModel.Citizen.aggregate([
 					{ '$match': { 'isUnrefer': {$in: [1,2]} ,ngoId:req.body.ngoId} },//isunrefer 1 showing data refer list
 
-					{ '$sort': { 'createdAt': -1 } },
+					{ '$sort': { 'updatedAt': -1 } },
 					{ '$limit': 100 },
 					{
 						'$lookup': {
@@ -999,7 +999,7 @@ exports.citizenRefers = [
 							'pstatus':1,
 							'raadhaar': 1,
 							'citizenLoginId': 1,
-							'createdAt': 1,
+							'updatedAt': 1,
 							'cases': ['$lastCase'],
 							// 'cases': 
 							// 					 {
@@ -1047,7 +1047,7 @@ exports.citizenRefers = [
 							let temp = users[i];
 							var ddate = "";
 							users[i].info.dateOfOnBoarding = utility.toDDmmyy(users[i].info.dateOfOnBoarding);
-							users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+							users[i].updatedAt = utility.toDDmmyy(users[i].updatedAt);
 							//users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
 
 							if (temp.info.dateOfBirth != null && temp.info.dateOfBirth != undefined && temp.info.dateOfBirth != "") {
