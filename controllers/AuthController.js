@@ -510,46 +510,69 @@ exports.login = [
 /** */
 /** */
 exports.getuser = [
-	async (req, res) => {
-	  try {
-		const users = await UserModel.aggregate([
-		  {
-			$lookup: {
-			  localField: "userId",
-			  from: "userdetails",
-			  foreignField: "userId",
-			  as: "info",
-			},
-		  },
-		  { $unwind: "$info" },
-		  {
-			$project: {
-			  email: 1,
-			  password: 1,
-			  newpassword: 1,
-			  isConfirmed: 1,
-			  status: 1,
-			  roleId: 1,
-			  ngoId: 1,
-			  userId: 1,
-			  "info.firstName": 1,
-			  "info.lastName": 1,
-			  "info.phoneNo": 1,
-			  "info.phoneNo1": 1,
-			  "info.logo": 1,
-			  "info.client_logo": 1,
-			},
-		  },
-		]);
-  
-		console.log("users", users);
-		return res.json(users);
-	  } catch (err) {
-		return apiResponse.ErrorResponse(res, err);
-	  }
-	},
-  ];
-  
+  (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      } else {
+        const allowedRoleIds = [91, 1, 2, 3, 21];
+        UserModel.aggregate([
+          { $match: { roleId: { $in: allowedRoleIds } } },
+          // { $match: { roleId: req.body.roleId } },
+          {
+            $lookup: {
+              localField: "userId",
+              from: "userdetails",
+              foreignField: "userId",
+              as: "info",
+            },
+          },
+          { $unwind: "$info" },
+          {
+            $project: {
+              email: 1,
+              password: 1,
+              newpassword: 1,
+              isConfirmed: 1,
+              status: 1,
+              roleId: 1,
+              ngoId: 1,
+              userId: 1,
+              "info.firstName": 1,
+              "info.lastName": 1,
+              "info.phoneNo": 1,
+              "info.phoneNo1": 1,
+              "info.logo": 1,
+              "info.client_logo": 1,
+            },
+          },
+        ]).then((users) => {
+          let user = users[0];
+          if (user) {
+            return apiResponse.successResponseWithData(
+              res,
+              "User List Fetch Successfully",
+              users
+            );
+          } else
+            return apiResponse.successResponseWithData(
+              res,
+              "User not Found",
+              []
+            );
+        });
+      }
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "Exp:" + err);
+    }
+  },
+];
+
 /**
  * Verify Confirm otp.
  *

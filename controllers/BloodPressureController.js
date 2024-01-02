@@ -75,7 +75,13 @@ exports.BloodPressureGreenList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
