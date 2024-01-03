@@ -223,7 +223,13 @@ exports.HemoglobinTestGreenList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -441,7 +447,13 @@ exports.HemoglobinTestAmberList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -568,7 +580,13 @@ exports.HemoglobinTestRedList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},

@@ -778,7 +778,13 @@ exports.LipidPanelHDLGreenList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						{
@@ -904,7 +910,13 @@ exports.LipidPanelHDLAmberList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						{
@@ -1028,7 +1040,13 @@ exports.LipidPanelHDLRedList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						// { $match: { severity_hdlcholesterol: 2 } },
@@ -1654,7 +1672,13 @@ exports.LipidPanelCholesterolGreenList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						{
@@ -1886,7 +1910,13 @@ exports.LipidPanelCholesterolAmberList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						{
@@ -2015,7 +2045,13 @@ exports.LipidPanelCholesterolRedList = [
 							}
 						},
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						// { '$match': { severity_cholesterol: 2 } },
@@ -2144,9 +2180,15 @@ exports.LipidPanelTestldlGreenList = [
 								as: "screeners"
 							}
 						},
-
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
+
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 
@@ -2402,7 +2444,13 @@ exports.LipidPanelTestldlAmberList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 						// { '$match': { severity_ldl: 1 } },
@@ -2532,7 +2580,13 @@ exports.LipidPanelTestldlRedList = [
 						},
 
 						{ '$unwind': "$citizendetails" },
-						{ '$unwind': "$screeners" },
+						{
+							'$unwind': {
+							  'path': '$screeners',
+							  'preserveNullAndEmptyArrays': true
+							}
+						  },
+						// { '$unwind': "$screeners" },
 						{ "$unwind": "$screeningcases" },
 						{ "$unwind": "$citizens" },
 

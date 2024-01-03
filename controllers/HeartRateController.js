@@ -75,7 +75,13 @@ exports.HeartRateGreenList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -198,7 +204,13 @@ exports.HeartRateAmberList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -323,7 +335,13 @@ exports.HeartRateRedList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},

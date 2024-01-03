@@ -227,7 +227,13 @@ exports.SPO2GreenList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -445,7 +451,13 @@ exports.SPO2AmberList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -572,7 +584,13 @@ exports.SPO2RedList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},

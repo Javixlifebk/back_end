@@ -225,7 +225,13 @@ exports.TempratureGreenList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -443,7 +449,13 @@ exports.TempratureAmberList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
@@ -570,7 +582,13 @@ exports.TempratureRedList=[
 								   'as':'screeners'
 								}
 							   },
-							   {"$unwind":"$screeners"},
+							   {
+								'$unwind': {
+								  'path': '$screeners',
+								  'preserveNullAndEmptyArrays': true
+								}
+							  },
+							//    {"$unwind":"$screeners"},
 							   {'$unwind':'$basic'},
 							   
 							   {'$unwind':'$info'},
