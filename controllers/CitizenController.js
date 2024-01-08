@@ -470,7 +470,7 @@ exports.citizenList = [
 
         CitizenModel.Citizen.aggregate([
           andcond,
-          { $sort: { createdAt: -1 } },
+          { $sort: { updatedAt: -1 } },
           {
             $lookup: {
               localField: "citizenId",
@@ -2006,7 +2006,7 @@ exports.citizenListSearcher = [
 
         CitizenModel.Citizen.aggregate([
           queryP,
-          { $sort: { createdAt: -1 } },
+          { $sort: { updatedAt: -1 } },
 
           { $limit: 1000 },
           {
@@ -2050,7 +2050,7 @@ exports.citizenListSearcher = [
               aadhaar: 1,
               raadhaar: 1,
               citizenLoginId: 1,
-              createdAt: 1,
+              updatedAt: 1,
               "info.dateOfBirth": 1,
               "info.dateOfOnBoarding": 1,
               "info.bloodGroup": 1,
@@ -2094,7 +2094,7 @@ exports.citizenListSearcher = [
               users[i].info.dateOfOnBoarding = utility.toDDmmyy(
                 users[i].info.dateOfOnBoarding
               );
-              users[i].createdAt = utility.toDDmmyy(users[i].createdAt);
+              users[i].updatedAt = utility.toDDmmyy(users[i].updatedAt);
               //users[i].dateOfRegistration=utility.toDDmmyy(users[i].dateOfRegistration);
 
               if (
