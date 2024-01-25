@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <mate charest="utf-8" />
+    <title>Medical History Report :Javix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Arial";
+        background-color: #ffe6ff;
+      }
+      .divBorder {
+        display: block;
+        border: 1px solid #dadada;
+        padding: 10pt;
+        border-radius: 5pt;
+      }
+      .headData {
+        font-size: 14pt;
+        font-weight: 660;
+        color: #660033;
+      }
+      .label {
+        font-size: 10pt;
+        color: #660033;
+        font-weight: bold;
+      }
+      .labelHead {
+        font-size: 10pt;
+      }
+      .labelData {
+        font-size: 12pt;
+        font-weight: 660;
+      }
+      .lxSize {
+        padding-left: 8px;
+        padding-top: 3px;
+        padding-top: 3px;
+        padding-right: 8px;
+        font-size: 16pt;
+        font-weight: 660;
+        display: inline-block;
+        border: 0px solid #dadada;
+        border-radius: 5px;
+      }
+      .lxlabel {
+        font-size: 14pt;
+        font-weight: 550;
+        padding-bottom: 8px;
+      }
+      .green {
+        color: green;
+      }
+      .amber {
+        color: orange;
+      }
+      .red {
+        color: red;
+      }
+      .gray {
+        color: #101010;
+      }
+      .screenTable tr td {
+        border-bottom: 1px solid #99b599;
+      }
+      .spacingleft {
+        padding-left: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .spacingright {
+        width: 100%;
+        padding-right: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div style="text-align: center">
+      <h5 style="margin-bottom: 10px;">PortaClinic By</h5><img class="center" width=250px height=50px
+      style="margin-bottom: 10px;"
+      src=http://18.60.238.252:3010/profile/1672897712480.png>
+    </div>
+
+    {{#each historymedical}}
+    <!-- {{#each logo}} -->
+    <!-- <img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}> -->
+    <!-- {{/each}} -->
+    <div style="display: flex; justify-content: space-between; width: 100%">
+      <h4 style="text-align: center">
+        Medical History Dated: {{this.createdAt}}
+      </h4>
+    </div>
+    <div class="divBorder">
+      <table border="0" width="100%" cellpadding="8px" cellspacing="0px">
+       <tr width="100%">
+          <td class="spacingleft"><div class="label">Doctor Id:</div></td>
+          <td class="spacingright">
+            {{#if this.doctorId}}
+            <div class="labelData">{{this.doctorId}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Citizen Id:</div></td>
+          <td class="spacingright">
+            {{#if this.citizenId}}
+            <div class="labelData">{{this.citizenId}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Diabetes :</div></td>
+          <td class="spacingright">
+            <div class="labelData">
+              {{#if this.diabetes}} Yes {{else}} No {{/if}}
+            </div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">High Blood Pressure :</div></td>
+          <td class="spacingright">
+            <div class="labelData">
+              {{#if this.high_bp}} Yes {{else}} No {{/if}}
+            </div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">High Cholesterol :</div></td>
+          <td class="spacingright">
+            <div class="labelData"> {{#if this.high_cholestrol}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Goiter :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.goiter}} Yes {{else}} No {{/if}} </div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Cancer :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.cancer}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Leukemia :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.leukemia}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Psoriasis :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.psoriasis}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Angina :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.agina}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Heart Problems :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.heart_problems}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Heart Murmur :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.heart_murmur}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Pneumonia :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.pneumonia}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft">
+            <div class="label">Pulmonary Embolism :</div>
+          </td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.pulmonary_embolism}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+
+        <!-- <tr width="100%">
+          <td class="spacingleft"><div class="label">Type of Cancer :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.type_of_cancer}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr> -->
+
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Asthma :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.asthma}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Emphysema:</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.emphysema}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Epilepsy :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.epilepsy}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Cataracts :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.cataracts}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Kidney Disease :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.kidney_disease}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Kidney Stone :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.kidney_stones}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Chrohns Disease :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.chrohns_disease}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Colitis :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.colitis}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Anemia :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.anemia}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Jaundice :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.jaundice}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Hepatitis :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.hepatitis}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Stomach :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.stomach}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Rheumatic Fever :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.rheumatic_fever}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Tuberculosis :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.tuberculosis}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">HIV/AIDS :</div></td>
+          <td class="spacingright">
+            <div class="labelData">{{#if this.hiv_aids}} Yes {{else}} No {{/if}}</div>
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Other :</div></td>
+            <td class="spacingright">
+              {{#if this.other}}
+              <div class="labelData">{{this.other}}</div>
+            {{else}}
+              <div class="labelData gray">-</div>
+            {{/if}}
+            </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Created At :</div></td>
+          <td class="spacingright">
+            {{#if this.createdAt}}
+            <div class="labelData">{{this.createdAt}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    {{/each}}
+
+    <div style="height: 10px">&nbsp;</div>
+
+    <footer>
+      <h5 align="center">--- End of Report ---</h5>
+      <h3 align="center">DISCLAIMER</h3>
+      <h5 align="center">
+        The Report is only for general health screening and wellness awareness.
+        These tests are not specific to the individual health conditions. Please
+        correlate clinically
+      </h5>
+    </footer>
+  </body>
+</html>

@@ -47,7 +47,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/auth/register?=",
+							"raw": "https://javixlife.org/api/auth/register?=",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -96,7 +96,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/auth/login",
+							"raw": "https://javixlife.org/api/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -139,7 +139,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/auth/verify-otp",
+							"raw": "https://javixlife.org/api/auth/verify-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -177,7 +177,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/auth/resend-verify-otp",
+							"raw": "https://javixlife.org/api/auth/resend-verify-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -235,7 +235,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/book",
+							"raw": "https://javixlife.org/api/book",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -261,7 +261,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/book",
+							"raw": "https://javixlife.org/api/book",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -287,7 +287,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/book/5d43d14a246036209713e667",
+							"raw": "https://javixlife.org/api/book/5d43d14a246036209713e667",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -340,7 +340,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/book/5d43d753cdbdd1264291806c",
+							"raw": "https://javixlife.org/api/book/5d43d753cdbdd1264291806c",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -367,7 +367,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/book/5d43d753cdbdd1264291806c",
+							"raw": "https://javixlife.org/api/book/5d43d753cdbdd1264291806c",
 							"protocol": "http",
 							"host": [
 								"localhost"

@@ -333,7 +333,8 @@ exports.PersonalHistoryList=[
 								 'screener.mobile1':1
 								 
 								}
-							}
+							},
+							{ '$sort': { 'createdAt': -1 } }
 						]
 				).then(users => {
 					

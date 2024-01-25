@@ -358,7 +358,8 @@ exports.FamilyHistoryList=[
 								 'doctors.experience':1,
 								 'doctors.referenceName':1
 								}
-							}
+							},
+							{ '$sort': { 'createdAt': -1 } }
 						]
 				).then(users => {
 					

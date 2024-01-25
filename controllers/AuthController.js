@@ -824,7 +824,7 @@ exports.authListByStatus = [
 async function getId(uid, rid) {
   var options = {
     method: "POST",
-    url: "http://localhost:3000/api/login/getjavixid",
+    url: "https://javixlife.org/api/login/getjavixid",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     form: { roleId: rid, userid: uid },
   };

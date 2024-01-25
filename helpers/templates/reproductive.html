@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <mate charest="utf-8" />
+    <title>Reproductive Report :Javix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Arial";
+        background-color: #eeffe6;
+      }
+      .divBorder {
+        display: block;
+        border: 1px solid #dadada;
+        padding: 10pt;
+        border-radius: 5pt;
+      }
+      .headData {
+        font-size: 14pt;
+        font-weight: 660;
+        color: #000066;
+      }
+      .label {
+        font-size: 10pt;
+        color: #000066;
+        font-weight: bold;
+      }
+      .labelHead {
+        font-size: 10pt;
+      }
+      .labelData {
+        font-size: 12pt;
+        font-weight: 660;
+      }
+      .lxSize {
+        padding-left: 8px;
+        padding-top: 3px;
+        padding-top: 3px;
+        padding-right: 8px;
+        font-size: 16pt;
+        font-weight: 660;
+        display: inline-block;
+        border: 0px solid #dadada;
+        border-radius: 5px;
+      }
+      .lxlabel {
+        font-size: 14pt;
+        font-weight: 550;
+        padding-bottom: 8px;
+      }
+      .green {
+        color: green;
+      }
+      .amber {
+        color: orange;
+      }
+      .red {
+        color: red;
+      }
+      .gray {
+        color: #101010;
+      }
+      .screenTable tr td {
+        border-bottom: 1px solid #99b599;
+      }
+      .spacingleft {
+        padding-left: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .spacingright {
+        width: 100%;
+        padding-right: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h5 style="margin-bottom: 10px;">PortaClinic By</h5><img class="center" width=250px height=50px
+      style="margin-bottom: 10px;"
+      src=http://18.60.238.252:3010/profile/1672897712480.png>
+    </div>
+
+    {{#each historyreproductive}}
+    <!-- {{#each logo}} -->
+    <!-- <img class="center" width=100px height=50px style="padding-top: 10px;" src={{this.client_logo}}> -->
+    <!-- {{/each}} -->
+    <div style="display: flex; justify-content: space-between; width: 100%;">
+        <h4 style="text-align: center;">Reproductive Information Dated: {{this.createdAt}}</h4>
+      </div>
+    <div class="divBorder">
+      <table border="0" width="100%" cellpadding="8px" cellspacing="0px">
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Doctor Id:</div></td>
+          <td class="spacingright">
+            {{#if this.doctorId}}
+            <div class="labelData">{{this.doctorId}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Citizen Id:</div></td>
+          <td class="spacingright">
+            {{#if this.citizenId}}
+            <div class="labelData">{{this.citizenId}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Age of First Period</div></td>
+          <td class="spacingright">
+            {{#if this.ageoffirstperiod}}
+            <div class="labelData">{{this.ageoffirstperiod}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Number of Pregnancies:</div></td>
+          <td class="spacingright">
+            {{#if this.pregnancies}}
+            <div class="labelData">{{this.pregnancies}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+        <tr width="100%">
+            <td class="spacingleft"><div class="label">Number of Miscarriages or Abortions</div></td>
+            <td class="spacingright">
+              {{#if this.miscarriages}}
+            <div class="labelData">{{this.miscarriages}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft">
+              <div class="label">Number of Children</div>
+            </td>
+            <td class="spacingright">
+              {{#if this.children}}
+                <div class="labelData">{{this.children}}</div>
+              {{else}}
+                <div class="labelData gray">-</div>
+              {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Have you reached menopause ? If so what age?</div></td>
+            <td class="spacingright">
+              {{#if this.menopauseage}}
+            <div class="labelData">{{this.menopauseage}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Last menstrual period ?</div></td>
+            <td class="spacingright">
+              {{#if this.lastmenstrualperiod}}
+            <div class="labelData">{{this.lastmenstrualperiod}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Number of days bleeding?</div></td>
+            <td class="spacingright">
+              {{#if this.numberofdaysbleeding}}
+            <div class="labelData">{{this.numberofdaysbleeding}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Interval between periods?</div></td>
+            <td class="spacingright">
+              {{#if this.intervalbetweenperiods}}
+            <div class="labelData">{{this.intervalbetweenperiods}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Regular or irregular ?</div></td>
+            <td class="spacingright">
+                <div class="labelData">{{#if this.isregular}} Yes {{else}} No {{/if}}</div>
+              </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label"> Flow- low/normal/high ?</div></td>
+            <td class="spacingright">
+              {{#if this.flow}}
+            <div class="labelData">{{this.flow}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Pain with menstruation ?</div></td>
+            <td class="spacingright">
+              {{#if this.painwithmenstruation}}
+            <div class="labelData">{{this.painwithmenstruation}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Use of medication for pain ?</div></td>
+            <td class="spacingright">
+              {{#if this.useofmedicationforpain}}
+            <div class="labelData">{{this.useofmedicationforpain}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+          <tr width="100%">
+            <td class="spacingleft"><div class="label">Missed days of school or work due to period ?</div></td>
+            <td class="spacingright">
+              {{#if this.misseddays}}
+            <div class="labelData">{{this.misseddays}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+            </td>
+          </tr>
+
+        <tr width="100%">
+          <td class="spacingleft"><div class="label">Created At:</div></td>
+          <td class="spacingright">
+            {{#if this.createdAt}}
+            <div class="labelData">{{this.createdAt}}</div>
+          {{else}}
+            <div class="labelData gray">-</div>
+          {{/if}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    {{/each}}
+
+    <div style="height: 10px">&nbsp;</div>
+
+    <footer>
+      <h5 align="center">--- End of Report ---</h5>
+      <h3 align="center">DISCLAIMER</h3>
+      <h5 align="center">
+        The Report is only for general health screening and wellness awareness.
+        These tests are not specific to the individual health conditions. Please
+        correlate clinically
+      </h5>
+    </footer>
+  </body>
+</html>

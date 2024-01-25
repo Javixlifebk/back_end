@@ -335,7 +335,8 @@ exports.historyAllergyList=[
 								 'screener.mobile':1,
 								 'screener.mobile1':1
 								}
-							}
+							},
+							{ '$sort': { 'createdAt': -1 } }
 						]
 				).then(users => {
 				
@@ -471,7 +472,8 @@ exports.historyMedicalList=[
 								 'screener.mobile':1,
 								 'screener.mobile1':1
 								}
-							}
+							},
+							{ '$sort': { 'createdAt': -1 } }
 						]
 				).then(users => {
 				

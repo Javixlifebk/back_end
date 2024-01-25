@@ -2402,7 +2402,7 @@ exports.createPrescriptionReport = [
 						// console.log(html);
 
 					var options = { method: 'POST',
-					  url: 'https://javixlife.org/api/doctor/prescriptionlist',
+					  url: 'http://18.60.238.252:3010/api/doctor/prescriptionlist',
 					  headers: 
 					   { 'content-type': 'application/x-www-form-urlencoded' },
 					  form: 
@@ -2498,5 +2498,352 @@ exports.createPrescriptionReport = [
 			
 			return apiResponse.ErrorResponse(res,"EXp:"+err);
 		}
-	}];
+	}];	
+exports.createAllergiesReport= [
+    	
+	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
 
+	sanitizeBody("citizenId").escape(),
+
+	(req, res) => { 
+			
+		try {
+			// console.log("Hello i am creating Prescription report");
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+				var citizenId=req.body.citizenId;
+						// var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
+						var html = fs.readFileSync(process.cwd()+'/helpers/templates/allergies.html', 'utf8');
+
+					var options = { method: 'POST',
+					  url: 'http://18.60.238.252:3010/api/citizen/getHistoryAllergy',
+					  headers: 
+					   { 'content-type': 'application/x-www-form-urlencoded' },
+					  form: 
+					   { citizenId: citizenId,
+						ngoId: ngoId
+					   } };
+
+
+					   var options1 = { method: 'POST',
+					   url: 'http://18.60.238.252:3010/api/citizen/getHistoryPersonal',
+					   headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+					   form: 
+						{ citizenId: citizenId,
+						 ngoId: ngoId
+						} };
+
+					  			
+					  request(options, function (error, response, body) {
+					  if (error) return apiResponse.ErrorResponse(res, error);
+					  console.log(JSON.parse(body).status);
+					  status23=JSON.parse(body).status;
+					  
+					  if(status23==1){
+						console.log(status23, "rogit");
+						allergies=JSON.parse(body).data.data;
+					  	for(var i=0;i<allergies.length;i++){
+							allergies.Citizen=JSON.parse(body).data.data[0].citizen[0];
+							// allergies[i]['dob']=utility.toDDmmyy(allergies[i].citizendetails[0]['dateOfBirth']);
+					  	}
+					  	
+					  	
+					  	
+					  	
+						console.dir(allergies);
+									 
+					  	var document = {
+					    html: html,
+					    data: {
+					        allergies: allergies
+					    },
+					    path: "./uploads/delete_created_files/"+"allergies_report_"+citizenId+".pdf"
+					};
+
+					var options = {
+						phantomPath: binPath,
+					        format: "A3",
+					        orientation: "portrait",
+					        border: "10mm"
+					   
+					};
+					process.env.OPENSSL_CONF = '/dev/null';
+					  	pdf.create(document, options)
+					    .then(val => {
+					        // console.log("Response is : -   "+val.filename);
+					        var temp = val.filename.split("/");
+					        val.filename="http://18.60.238.252:3010/reports/"+"allergies_report_"+citizenId+".pdf"
+					        
+					        return apiResponse.successResponseWithData(res,"Success",val);
+
+					    })
+					    .catch(error => {
+					        return apiResponse.ErrorResponse(res, error);
+					    });
+					  }
+					});
+
+					
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}];
+exports.createMedicalHistReport= [
+	
+	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
+
+	sanitizeBody("citizenId").escape(),
+
+	(req, res) => { 
+			
+		try {
+			// console.log("Hello i am creating Prescription report");
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+				var citizenId=req.body.citizenId;
+						// var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
+						var html = fs.readFileSync(process.cwd()+'/helpers/templates/historymedical.html', 'utf8');
+
+						var options1 = { method: 'POST',
+						url: 'http://18.60.238.252:3010/api/citizen/getHistoryMedical',
+						headers: 
+							{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+							{ citizenId: citizenId,
+							ngoId: ngoId
+							} };
+
+									
+						request(options1, function (error1, response, body1) {
+						if (error1) return apiResponse.ErrorResponse(res, error1);
+						console.log(JSON.parse(body1).status);
+						status23=JSON.parse(body1).status;
+						
+						if(status23==1){
+					
+						historymedical=JSON.parse(body1).data.data;
+							for(var i=0;i<historymedical.length;i++){
+							historymedical.Citizen=JSON.parse(body1).data.data[0].citizen[0];
+							}
+							
+							
+							
+							
+						console.dir(historymedical);
+										
+							var document = {
+						html: html,
+						data: {
+							historymedical: historymedical
+						},
+						path: "./uploads/delete_created_files/"+"historymedical_report_"+citizenId+".pdf"
+					};
+
+					var options = {
+						phantomPath: binPath,
+							format: "A3",
+							orientation: "portrait",
+							border: "10mm"
+						
+					};
+					process.env.OPENSSL_CONF = '/dev/null';
+							pdf.create(document, options)
+						.then(val => {
+							// console.log("Response is : -   "+val.filename);
+							var temp = val.filename.split("/");
+							val.filename="http://18.60.238.252:3010/reports/"+"historymedical_report_"+citizenId+".pdf"
+							
+							return apiResponse.successResponseWithData(res,"Success",val);
+
+						})
+						.catch(error => {
+							return apiResponse.ErrorResponse(res, error);
+						});
+						}
+					});
+
+					
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}];
+exports.createPersonalReport= [
+
+	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
+
+	sanitizeBody("citizenId").escape(),
+
+	(req, res) => { 
+			
+		try {
+			// console.log("Hello i am creating Prescription report");
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+				var citizenId=req.body.citizenId;
+						// var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
+						var html = fs.readFileSync(process.cwd()+'/helpers/templates/historypersonal.html', 'utf8');
+
+						var options4 = { method: 'POST',
+						url: 'http://18.60.238.252:3010/api/citizen/getHistoryPersonal',
+						headers: 
+						{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+						{ citizenId: citizenId,
+							ngoId: ngoId
+						} };
+			
+									
+						request(options4, function (error4, response, body4) {
+						if (error4) return apiResponse.ErrorResponse(res, error4);
+						console.log(JSON.parse(body4).status);
+						status23=JSON.parse(body4).status;
+						
+						if(status23==1){
+					
+						historypersonal=JSON.parse(body4).data.data;
+							for(var i=0;i<historypersonal.length;i++){
+							historypersonal.Citizen=JSON.parse(body4).data.data[0].citizen[0];
+							}
+							
+							
+							
+							
+						console.dir(historypersonal);
+										
+							var document = {
+						html: html,
+						data: {
+							historypersonal: historypersonal
+						},
+						path: "./uploads/delete_created_files/"+"historypersonal_report_"+citizenId+".pdf"
+					};
+
+					var options = {
+						phantomPath: binPath,
+							format: "A3",
+							orientation: "portrait",
+							border: "10mm"
+						
+					};
+					process.env.OPENSSL_CONF = '/dev/null';
+							pdf.create(document, options)
+						.then(val => {
+							// console.log("Response is : -   "+val.filename);
+							var temp = val.filename.split("/");
+							val.filename="http://18.60.238.252:3010/reports/"+"historypersonal_report_"+citizenId+".pdf"
+							
+							return apiResponse.successResponseWithData(res,"Success",val);
+
+						})
+						.catch(error => {
+							return apiResponse.ErrorResponse(res, error);
+						});
+						}
+					});
+
+					
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}];
+exports.createReproductiveReport= [
+
+	body("citizenId").isLength({ min: 1 }).trim().withMessage("Enter citizen ID !"),	
+
+	sanitizeBody("citizenId").escape(),
+
+	(req, res) => { 
+			
+		try {
+			// console.log("Hello i am creating Prescription report");
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+			}else {
+				var citizenId=req.body.citizenId;
+						// var caseId=req.body.caseId;
+						var ngoId=req.body.ngoId;
+						var html = fs.readFileSync(process.cwd()+'/helpers/templates/reproductive.html', 'utf8');
+
+						var options1 = { method: 'POST',
+						url: 'http://18.60.238.252:3010/api/citizen/getHistoryWomen',
+						headers: 
+							{ 'content-type': 'application/x-www-form-urlencoded' },
+						form: 
+							{ citizenId: citizenId,
+							ngoId: ngoId
+							} };
+	
+			
+									
+						request(options1, function (error1, response, body1) {
+						if (error1) return apiResponse.ErrorResponse(res, error1);
+						console.log(JSON.parse(body1).status);
+						status23=JSON.parse(body1).status;
+						
+						if(status23==1){
+					
+						historyreproductive=JSON.parse(body1).data.data;
+							for(var i=0;i<historyreproductive.length;i++){
+							historyreproductive.Citizen=JSON.parse(body1).data.data[0].citizen[0];
+							}
+							
+							
+							
+							
+						console.dir(historyreproductive);
+										
+							var document = {
+						html: html,
+						data: {
+							historyreproductive: historyreproductive
+						},
+						path: "./uploads/delete_created_files/"+"historyreproductive_report_"+citizenId+".pdf"
+					};
+
+					var options = {
+						phantomPath: binPath,
+							format: "A3",
+							orientation: "portrait",
+							border: "10mm"
+						
+					};
+					process.env.OPENSSL_CONF = '/dev/null';
+							pdf.create(document, options)
+						.then(val => {
+							// console.log("Response is : -   "+val.filename);
+							var temp = val.filename.split("/");
+							val.filename="http://18.60.238.252:3010/reports/"+"historyreproductive_report_"+citizenId+".pdf"
+							
+							return apiResponse.successResponseWithData(res,"Success",val);
+
+						})
+						.catch(error => {
+							return apiResponse.ErrorResponse(res, error);
+						});
+						}
+					});
+
+					
+			}
+		} catch (err) {
+			
+			return apiResponse.ErrorResponse(res,"EXp:"+err);
+		}
+	}];

@@ -514,6 +514,7 @@ exports.prescriptionList=[
 								 signature: {$concat: ["http://",req.headers.host,"/profile/","$doctordocs.signature"]},
 								 client_logo: {$concat: ["http://",req.headers.host,"/profile/","$logo.client_logo"]}
 							}},
+							{ '$sort': { 'createdAt': -1 } }
 				]).then(users => {
 					
 					let user=users[0];

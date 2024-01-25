@@ -6,7 +6,14 @@ var routerGraph = express.Router();
 routerGraph.post("/generatereport", ReportController.createProfileReport);
 routerGraph.post("/createCaseReport", ReportController.createCaseReport);
 routerGraph.post("/createHistoryReport", ReportController.createMedicalHistoryReport);
+
 routerGraph.post("/createPrescriptionReport", ReportController.createPrescriptionReport);
+
+routerGraph.post("/createAllergiesReport", ReportController.createAllergiesReport);
+routerGraph.post("/createMedicalHistReport", ReportController.createMedicalHistReport);
+routerGraph.post("/createPersonalReport", ReportController.createPersonalReport);
+routerGraph.post("/createReproductiveReport", ReportController.createReproductiveReport);
+
 
 //csv report
 routerGraph.post("/createCitizenCsv", csvController.module.createCitizencsv);

@@ -95,7 +95,7 @@ exports.addWomenReproductiveHistory = [
 								ageoffirstperiod:req.body.ageoffirstperiod,
 								pregnancies:req.body.pregnancies,
 								miscarriages:req.body.miscarriages,
-								children:req.body.chil,
+								children:req.body.children,
 								menopauseage:req.body.menopauseage,
 								lastmenstrualperiod:req.body.lastmenstrualperiod,
 								numberofdaysbleeding:req.body.numberofdaysbleeding,
@@ -325,7 +325,8 @@ exports.WomenHistoryList=[
 								 'doctors.experience':1,
 								 'doctors.referenceName':1
 								}
-							}
+							},
+							{ '$sort': { 'createdAt': -1 } }
 						]
 				).then(users => {
 					
