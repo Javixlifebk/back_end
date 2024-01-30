@@ -8,7 +8,7 @@
 	<style>
 		body {
 			font-family: 'Arial';
-			background-color: #FFF0F5;
+			background-color: #e8fbfc;
 		}
 
 		.divBorder {
@@ -21,12 +21,12 @@
 		.headData {
 			font-size: 14pt;
 			font-weight: 660;
-			color: #6789FA;
+			color:#993d00;
 		}
 
 		.label {
 			font-size: 10pt;
-			color: #6789FA;
+			color: #993d00;
 			font-weight: bold;
 		}
 
@@ -146,6 +146,11 @@
 					<div class='labelData'>{{this.citizenId}}</div>
 				</td>
 
+				<td>
+					<div class='label'>Date</div>
+					<div class='labelData'>{{this.createdAt}}</div>
+				</td>
+
 			</tr>
 			<tr>
 				<td>
@@ -161,10 +166,7 @@
 						<div class='labelData'>{{this.ScreenerFirstName}}&nbsp;{{this.ScreenerLastName}}</div>
 					</td> -->
 
-				<td>
-					<div class='label'>Date</div>
-					<div class='labelData'>{{this.createdAt}}</div>
-				</td>
+				
 				<td>
 					<div class='label'>Prescription Id</div>
 					<div class='labelData'>{{this.prescriptionId}}</div>
@@ -172,14 +174,7 @@
 
 			</tr>
 
-			<tr>
-				<td>
-					<div class='label'>Cause</div>
-					<div class='labelData'>{{this.cause}}</div>
-				</td>
-
-
-			</tr>
+			
 
 			<tr>
 				<td>
@@ -248,8 +243,8 @@
 
 		</table>
 	</div>
-	<hr class="new5">
-	<div class="pagebreak"> </div>
+	<!-- <hr class="new5">
+	<div class="pagebreak"> </div> -->
 	<div class='divBorder'>
 		<table border=0 width='100%' cellpadding=8px cellspacing=0px>
 
@@ -270,9 +265,22 @@
 					<div class='labelData'>{{this.comments}}</div>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<div class='label'>Cause</div>
+				</td>
+					<td>
+					<div class='labelData'>{{this.cause}}</div>
+				</td>
+
+
+			</tr>
+			
 
 		</table>
 	</div>
+	<!-- <hr class="new5"> -->
+	<div class="pagebreak"> </div>
 	{{/each}}
 	<div style='height:10px'>&nbsp;</div>
 	<!-- <footer>Disclaimer: The Report is only for general health screening and wellness awareness. These tests are not
